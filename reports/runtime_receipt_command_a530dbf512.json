@@ -3,44 +3,44 @@
   "adapter": "command",
   "backend_identity": "command:",
   "artifact": null,
-  "command_template": "/private/tmp/arc-venv312/bin/python3 /private/var/folders/h4/m_y0cjv56t55zhynhytd2q6h0000gn/T/pytest-of-TheRustySpoon/pytest-9/test_command_adapter_supports_0/echo_prompt.py {combined_prompt_file}",
+  "command_template": "/private/tmp/arc-venv312/bin/python3 /private/var/folders/h4/m_y0cjv56t55zhynhytd2q6h0000gn/T/pytest-of-TheRustySpoon/pytest-10/test_command_adapter_supports_0/echo_prompt.py {combined_prompt_file}",
   "prompt_hash": "a530dbf512d5e47182fc5745bb464b71b8c5aeb2cc376d06086022b082e5e8af",
   "system_prompt_hash": "7fe87d40626af8bcc228d86623f3eceed30517e1257f94aecde08892220f3ba3",
-  "started_at": "2026-04-22T16:35:54.489911+00:00",
-  "finished_at": "2026-04-22T16:35:54.684600+00:00",
-  "duration_ms": 193.07,
+  "started_at": "2026-04-22T17:13:09.035018+00:00",
+  "finished_at": "2026-04-22T17:13:09.199001+00:00",
+  "duration_ms": 162.44,
   "finish_reason": "completed",
   "error": null,
   "meta": {
     "command": [
       "/private/tmp/arc-venv312/bin/python3",
-      "/private/var/folders/h4/m_y0cjv56t55zhynhytd2q6h0000gn/T/pytest-of-TheRustySpoon/pytest-9/test_command_adapter_supports_0/echo_prompt.py",
-      "/var/folders/h4/m_y0cjv56t55zhynhytd2q6h0000gn/T/cognition_command_33syple7/combined_prompt.txt"
+      "/private/var/folders/h4/m_y0cjv56t55zhynhytd2q6h0000gn/T/pytest-of-TheRustySpoon/pytest-10/test_command_adapter_supports_0/echo_prompt.py",
+      "/var/folders/h4/m_y0cjv56t55zhynhytd2q6h0000gn/T/cognition_command_nn8r2hzl/combined_prompt.txt"
     ],
     "returncode": 0,
     "stderr": "",
     "state_trace": [
       {
         "state": "BOOTING",
-        "t_ms": 2.66
+        "t_ms": 1.75
       },
       {
         "state": "MODEL_LOADING",
-        "t_ms": 78.92
+        "t_ms": 53.95
       },
       {
         "state": "GENERATING",
-        "t_ms": 79.05
+        "t_ms": 54.01
       },
       {
         "state": "COMPLETED",
-        "t_ms": 192.91,
+        "t_ms": 162.23,
         "output_events": 1
       }
     ],
     "stdout_bytes": 55,
     "stderr_bytes": 0,
-    "first_output_ms": 79.05,
+    "first_output_ms": 54.01,
     "output_preview": "Quoted prompt with spaces and symbols: [x] {y} 'z' \"q\""
   },
   "output_preview": "Quoted prompt with spaces and symbols: [x] {y} 'z' \"q\""

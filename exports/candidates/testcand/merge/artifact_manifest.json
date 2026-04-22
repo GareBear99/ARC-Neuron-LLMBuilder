@@ -1,0 +1,19 @@
+{
+  "artifact_id": "merge_5fc9b976d2e2",
+  "stage": "merge",
+  "candidate": "testcand",
+  "created_at": "2026-04-22T17:13:08.340491+00:00",
+  "status": "scaffold_ready",
+  "base_model": "base/test",
+  "execution_mode": "scaffold",
+  "notes": "Real merge is still optional, but the repo now supports driving an external merge stage and records exact upstream artifacts.",
+  "paths": {
+    "lora_manifest": "exports/candidates/testcand/lora_train/artifact_manifest.json",
+    "preference_manifest": "exports/candidates/testcand/preference_train/artifact_manifest.json",
+    "expected_merged_checkpoint": "/private/tmp/arc-unified-stack/arc-unified-stack-final/exports/candidates/testcand/merge/merged-checkpoint"
+  },
+  "source_manifest": {
+    "lora_present": true,
+    "preference_present": true
+  }
+}

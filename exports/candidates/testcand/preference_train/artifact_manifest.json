@@ -1,0 +1,17 @@
+{
+  "artifact_id": "preference_train_edd33bf8c50e",
+  "stage": "preference_train",
+  "candidate": "testcand",
+  "created_at": "2026-04-22T17:13:08.215297+00:00",
+  "status": "scaffold_ready",
+  "config": "/private/tmp/arc-unified-stack/arc-unified-stack-final/configs/training/preference_dpo.yaml",
+  "execution_mode": "scaffold",
+  "notes": "Preference stage remains scaffold by default, but now supports an external trainer command with deterministic manifests.",
+  "paths": {
+    "dataset": "/private/tmp/arc-unified-stack/arc-unified-stack-final/datasets/distillation_preference/seed_pairs.jsonl",
+    "expected_adapter_dir": "/private/tmp/arc-unified-stack/arc-unified-stack-final/exports/candidates/testcand/preference_train/adapter"
+  },
+  "metrics": {
+    "dataset_records": 45
+  }
+}

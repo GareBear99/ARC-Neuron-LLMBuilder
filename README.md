@@ -278,7 +278,7 @@ ARC-Neuron-LLMBuilder/
 ├── exports/candidates/    # Trained candidate artifacts (per-candidate directories)
 ├── results/               # Benchmark outputs, scored summaries, scoreboard
 ├── tests/                 # 87-test suite covering the full loop
-└── docs/                  # Extended documentation (70+ markdown files)
+└── docs/                  # Extended design documentation (62 markdown files)
 ```
 
 ---
@@ -349,7 +349,7 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 - [CONTRIBUTING.md](./CONTRIBUTING.md) — how to contribute
 - [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) — community standards
 - [SECURITY.md](./SECURITY.md) — security contact and disclosure
-- `docs/` — 70+ extended design docs covering every subsystem
+- [`docs/`](./docs/) — 62 extended design docs covering every subsystem (see [docs/README.md](./docs/README.md) for the topic index)
 
 ## Community
 

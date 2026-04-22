@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "adapter": "exemplar",
+  "backend_identity": "exemplar:darpa_functional",
+  "artifact": "/private/tmp/arc-unified-stack/arc-unified-stack-final/exports/candidates/darpa_functional/exemplar_train/artifact_manifest.json",
+  "command_template": null,
+  "prompt_hash": "ae66b21ddf703a063a0c2b7d78567f4db55ab61bda8007f6a66a4cef1eabb9ed",
+  "system_prompt_hash": "d82b2058e895c20f4807c5a045a826650b48c407c36c8176eabf6b4ca534eee0",
+  "started_at": "2026-04-22T17:13:21.414182+00:00",
+  "finished_at": "2026-04-22T17:13:21.415125+00:00",
+  "duration_ms": 0.66,
+  "finish_reason": null,
+  "error": null,
+  "meta": {
+    "adapter": "exemplar",
+    "artifact": "/private/tmp/arc-unified-stack/arc-unified-stack-final/exports/candidates/darpa_functional/exemplar_train/exemplar_model.json",
+    "matches": [
+      {
+        "score": 0.0531,
+        "source_repo": "language_module",
+        "capability": "calibration",
+        "source_file": "datasets/language_reasoning/language_module_seed_records.jsonl"
+      }
+    ]
+  },
+  "output_preview": "Plan, critique, repair, calibrate. Be bounded and honest.\nState what is known, unknown, and provider-dependent without overclaiming coverage. Derived from arc-language-module-main/docs/BACKEND_ADAPTERS.md: Backend Adapters | Built-in transl"
+}

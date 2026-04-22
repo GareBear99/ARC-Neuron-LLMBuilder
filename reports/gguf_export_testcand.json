@@ -1,10 +1,10 @@
 {
   "ok": true,
   "manifest": "exports/candidates/testcand/gguf_export/artifact_manifest.json",
-  "artifact_id": "gguf_export_d1394b175e60",
+  "artifact_id": "gguf_export_89b87b38a850",
   "stage": "gguf_export",
   "candidate": "testcand",
-  "created_at": "2026-04-22T16:35:53.857950+00:00",
+  "created_at": "2026-04-22T17:13:08.466777+00:00",
   "status": "scaffold_ready",
   "execution_mode": "scaffold",
   "notes": "Real GGUF conversion still needs the selected exporter/runtime, but the artifact contract is explicit and versionable.",

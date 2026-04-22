@@ -1,0 +1,27 @@
+{
+  "artifact_id": "gguf_export_89b87b38a850",
+  "stage": "gguf_export",
+  "candidate": "testcand",
+  "created_at": "2026-04-22T17:13:08.466777+00:00",
+  "status": "scaffold_ready",
+  "execution_mode": "scaffold",
+  "notes": "Real GGUF conversion still needs the selected exporter/runtime, but the artifact contract is explicit and versionable.",
+  "paths": {
+    "merge_manifest": "exports/candidates/testcand/merge/artifact_manifest.json",
+    "expected_variants": [
+      "exports/candidates/testcand/gguf_export/testcand.f16.gguf",
+      "exports/candidates/testcand/gguf_export/testcand.q8_0.gguf",
+      "exports/candidates/testcand/gguf_export/testcand.q6_k.gguf",
+      "exports/candidates/testcand/gguf_export/testcand.q5_k_m.gguf"
+    ]
+  },
+  "source_manifest": {
+    "merge_present": true,
+    "variants": [
+      "f16",
+      "q8_0",
+      "q6_k",
+      "q5_k_m"
+    ]
+  }
+}

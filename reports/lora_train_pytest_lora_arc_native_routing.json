@@ -6,7 +6,7 @@
   "pt": "exports/candidates/pytest_lora_arc_native_routing/lora_train/checkpoint/arc_native_pytest_lora_arc_native_routing.pt",
   "gguf": "exports/candidates/pytest_lora_arc_native_routing/lora_train/checkpoint/arc_native_pytest_lora_arc_native_routing.gguf",
   "exemplar": "exports/candidates/pytest_lora_arc_native_routing/exemplar_train/exemplar_model.json",
-  "val_ppl": 116.7291,
-  "final_loss": 4.783846,
+  "val_ppl": 116.5363,
+  "final_loss": 4.880738,
   "manifest": "exports/candidates/pytest_lora_arc_native_routing/lora_train/artifact_manifest.json"
 }

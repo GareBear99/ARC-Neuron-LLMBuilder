@@ -6,9 +6,9 @@
   "command_template": "/private/tmp/arc-venv312/bin/python3 -c \"import time; time.sleep(1.0)\"",
   "prompt_hash": "8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4",
   "system_prompt_hash": "7fe87d40626af8bcc228d86623f3eceed30517e1257f94aecde08892220f3ba3",
-  "started_at": "2026-04-22T16:36:01.686043+00:00",
-  "finished_at": "2026-04-22T16:36:01.901031+00:00",
-  "duration_ms": 213.83,
+  "started_at": "2026-04-22T17:13:18.076932+00:00",
+  "finished_at": "2026-04-22T17:13:18.305103+00:00",
+  "duration_ms": 226.86,
   "finish_reason": "stalled_tokenization",
   "error": "no generation within 0.2s",
   "meta": {
@@ -22,16 +22,16 @@
     "state_trace": [
       {
         "state": "BOOTING",
-        "t_ms": 1.7
+        "t_ms": 13.36
       },
       {
         "state": "TOKENIZING",
-        "t_ms": 212.32,
+        "t_ms": 225.3,
         "reason": "no_generation_timeout"
       },
       {
         "state": "FAILED",
-        "t_ms": 212.34,
+        "t_ms": 225.33,
         "reason": "first_output_timeout"
       }
     ],

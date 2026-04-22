@@ -1,10 +1,10 @@
 {
   "ok": true,
   "manifest": "exports/candidates/extcand/lora_train/artifact_manifest.json",
-  "artifact_id": "lora_train_4c52a593f6a9",
+  "artifact_id": "lora_train_ffd3ac7abca2",
   "stage": "lora_train",
   "candidate": "extcand",
-  "created_at": "2026-04-22T16:35:54.170015+00:00",
+  "created_at": "2026-04-22T17:13:08.762972+00:00",
   "status": "external_completed",
   "config": "/private/tmp/arc-unified-stack/arc-unified-stack-final/configs/training/sft_lora.yaml",
   "base_model": "base/test",
@@ -22,7 +22,7 @@
     "command": [
       "/private/tmp/arc-venv312/bin/python3",
       "-c",
-      "from pathlib import Path; Path(r'/private/var/folders/h4/m_y0cjv56t55zhynhytd2q6h0000gn/T/pytest-of-TheRustySpoon/pytest-9/test_external_lora_command_wir0/ok.txt').write_text('done', encoding='utf-8')"
+      "from pathlib import Path; Path(r'/private/var/folders/h4/m_y0cjv56t55zhynhytd2q6h0000gn/T/pytest-of-TheRustySpoon/pytest-10/test_external_lora_command_wir0/ok.txt').write_text('done', encoding='utf-8')"
     ],
     "returncode": 0,
     "stdout": "",

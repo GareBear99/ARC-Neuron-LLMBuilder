@@ -1,0 +1,15 @@
+{
+  "artifact_id": "exemplar_train_b50817e33c96",
+  "stage": "exemplar_train",
+  "candidate": "pytest_arc_native_small",
+  "created_at": "2026-04-22T17:13:02.858616+00:00",
+  "status": "completed",
+  "execution_mode": "arc_native_sidecar",
+  "notes": "Exemplar artifact built from SFT corpus for benchmark harness.",
+  "paths": {
+    "artifact": "exports/candidates/pytest_arc_native_small/exemplar_train/exemplar_model.json"
+  },
+  "metrics": {
+    "record_count": 801
+  }
+}

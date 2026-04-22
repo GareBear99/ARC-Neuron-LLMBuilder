@@ -1,10 +1,10 @@
 {
   "source_name": "cleanroom",
-  "source_path": "/private/var/folders/h4/m_y0cjv56t55zhynhytd2q6h0000gn/T/pytest-of-TheRustySpoon/pytest-9/test_supporting_repo_ingestion0/mini.zip",
+  "source_path": "/private/var/folders/h4/m_y0cjv56t55zhynhytd2q6h0000gn/T/pytest-of-TheRustySpoon/pytest-10/test_supporting_repo_ingestion0/mini.zip",
   "output_path": "datasets/runtime_mindshape/cleanroom_seed_records.jsonl",
   "records_written": 2,
   "doc_count": 2,
-  "created_at": "2026-04-22T16:35:53.975385+00:00",
+  "created_at": "2026-04-22T17:13:08.578282+00:00",
   "top_documents": [
     {
       "path": "mini/README.md",

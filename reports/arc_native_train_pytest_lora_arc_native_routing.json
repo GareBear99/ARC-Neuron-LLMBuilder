@@ -4,9 +4,9 @@
   "tier": "small",
   "param_count": 174656,
   "manifest": "exports/candidates/pytest_lora_arc_native_routing/lora_train/artifact_manifest.json",
-  "artifact_id": "lora_train_73272eb37316",
+  "artifact_id": "lora_train_f0497107145e",
   "stage": "lora_train",
-  "created_at": "2026-04-22T16:35:52.546311+00:00",
+  "created_at": "2026-04-22T17:13:07.282163+00:00",
   "status": "completed",
   "execution_mode": "arc_native",
   "notes": "ARC-native small training completed. Real weights produced; no external trainer required.",
@@ -17,13 +17,13 @@
     "seed": 1337,
     "corpus_bytes": 600000,
     "initial_loss": 5.557847,
-    "final_loss": 4.783846,
-    "val_ppl": 116.7291
+    "final_loss": 4.880738,
+    "val_ppl": 116.5363
   },
   "paths": {
     "pt_checkpoint": "exports/candidates/pytest_lora_arc_native_routing/lora_train/checkpoint/arc_native_pytest_lora_arc_native_routing.pt",
     "gguf": "exports/candidates/pytest_lora_arc_native_routing/lora_train/checkpoint/arc_native_pytest_lora_arc_native_routing.gguf",
     "exemplar": "exports/candidates/pytest_lora_arc_native_routing/exemplar_train/exemplar_model.json"
   },
-  "sample": "ARC cognition\u03b2(-o\u001e\u0005owQcvp+\u007fi@Z4x6}?H\u001duZ\u0010@v["
+  "sample": "ARC cognition\u03b2(-o\u001e\u0005ohQcvp+\u007f+@Z4^6}?0uZ\u0010@0["
 }

@@ -1,0 +1,18 @@
+{
+  "artifact_id": "lora_train_f6830e8d697e",
+  "stage": "lora_train",
+  "candidate": "pytest_lora_scaffold",
+  "created_at": "2026-04-22T17:13:07.870389+00:00",
+  "status": "scaffold_ready",
+  "config": "/private/tmp/arc-unified-stack/arc-unified-stack-final/configs/training/sft_lora.yaml",
+  "base_model": "qwen3_coder_480b",
+  "execution_mode": "scaffold",
+  "notes": "Training runner still requires real backend/trainer wiring for external bases. For ARC-native bases (arc_tiny, arc_neuron_small), pass --base-model arc_neuron_small to engage the native training path.",
+  "paths": {
+    "dataset": "/private/tmp/arc-unified-stack/arc-unified-stack-final/datasets/distillation_sft/seed_records.jsonl",
+    "expected_checkpoint_dir": "/private/tmp/arc-unified-stack/arc-unified-stack-final/exports/candidates/pytest_lora_scaffold/lora_train/checkpoint"
+  },
+  "metrics": {
+    "dataset_records": 50
+  }
+}

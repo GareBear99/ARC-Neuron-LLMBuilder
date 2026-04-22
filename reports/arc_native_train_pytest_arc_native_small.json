@@ -4,9 +4,9 @@
   "tier": "small",
   "param_count": 174656,
   "manifest": "exports/candidates/pytest_arc_native_small/lora_train/artifact_manifest.json",
-  "artifact_id": "lora_train_d9d2dc7ce58e",
+  "artifact_id": "lora_train_c14b10940de9",
   "stage": "lora_train",
-  "created_at": "2026-04-22T16:35:46.249542+00:00",
+  "created_at": "2026-04-22T17:13:02.859893+00:00",
   "status": "completed",
   "execution_mode": "arc_native",
   "notes": "ARC-native small training completed. Real weights produced; no external trainer required.",
@@ -16,9 +16,9 @@
     "lr": 0.002,
     "seed": 1337,
     "corpus_bytes": 600000,
-    "initial_loss": 5.546883,
-    "final_loss": 4.772638,
-    "val_ppl": 97.545
+    "initial_loss": 5.53915,
+    "final_loss": 4.781091,
+    "val_ppl": 94.444
   },
   "paths": {
     "pt_checkpoint": "exports/candidates/pytest_arc_native_small/lora_train/checkpoint/arc_native_pytest_arc_native_small.pt",

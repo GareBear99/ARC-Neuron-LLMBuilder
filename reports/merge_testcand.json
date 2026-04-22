@@ -1,10 +1,10 @@
 {
   "ok": true,
   "manifest": "exports/candidates/testcand/merge/artifact_manifest.json",
-  "artifact_id": "merge_329c0e292ce3",
+  "artifact_id": "merge_5fc9b976d2e2",
   "stage": "merge",
   "candidate": "testcand",
-  "created_at": "2026-04-22T16:35:53.733723+00:00",
+  "created_at": "2026-04-22T17:13:08.340491+00:00",
   "status": "scaffold_ready",
   "base_model": "base/test",
   "execution_mode": "scaffold",
