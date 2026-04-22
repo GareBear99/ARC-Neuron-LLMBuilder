@@ -52,6 +52,43 @@ The system ships with a working transformer family (ARC-Neuron Tiny and Small), 
 
 ---
 
+## 🤖 Live implementation — continuous-learning AI operative
+
+LLMBuilder doesn't just train on curated seed data. It is wired to a **live AI worker running in production**: the [ARC GitHub AI Operator](https://github.com/GareBear99/gh-ai-operator). Every real code-review that operator performs becomes a supervised example in this repository's corpus. The loop is automatic, receipted end-to-end, and runs on free tiers.
+
+```mermaid
+flowchart LR
+    A["Portfolio<br/>code-review issue"] --> B["gh-ai-operator<br/>(Cloudflare Workers AI + Actions)"]
+    B -- "verdict comment" --> A
+    B -- "training JSONL<br/>(seed-examples schema)" --> C["llmbuilder-training-export<br/>artifact"]
+    C --> D["this repo<br/>ingest-operator-reviews.yml (daily)"]
+    D --> E["data/critique/operator_reviews.jsonl"]
+    E --> F["next Gate v2 candidate run"]
+    A -. follow-up .-> G["training_export.export_correction<br/>tag: correction"]
+    G --> C
+```
+
+### What this gives you
+
+- **A real AI operative, not a demo.** The operator answers live code-review issues from the Portfolio, runs clone + snapshot + heuristics + Cloudflare Workers AI, and posts a verdict (🟢 ship · 🟡 feedback · 🔴 redesign · 🟡 low-signal) straight onto the issue.
+- **Every production call is a training example.** Each review emits a JSONL record that already matches this repo's `data/critique/seed_examples.jsonl` schema — no translation layer, no glue code.
+- **Continuous ingestion.** `.github/workflows/ingest-operator-reviews.yml` runs **daily at 03:17 UTC**, pulls the last few `llmbuilder-training-export` artifacts, dedupes by `id`, bumps `correction`-tagged records by +0.05 confidence, and commits `data/critique/operator_reviews.jsonl` back to `main`.
+- **Human corrections outweigh auto-labels.** A Portfolio **Follow-up** issue on a prior operator verdict emits a second JSONL record tagged `correction + human-follow-up`, which Gate v2 training can weight higher than the baseline live-deployment stream.
+- **Provenance preserved.** Every ingested record carries `provenance.source = github.com/GareBear99/gh-ai-operator`, `provenance.emitted_at`, and `provenance.target_url`, so you can slice/audit the corpus by time, source, or target at any point.
+- **Separate shard by design.** Ingested data lands in `data/critique/operator_reviews.jsonl` — **not** the curated `seed_examples.jsonl`. Promotion to the canonical seed file stays a human decision.
+
+Full pipeline writeup: **[docs/LIVE_DEPLOYMENT_LEARNING.md](./docs/LIVE_DEPLOYMENT_LEARNING.md)**.
+
+### One secret to activate the loop
+
+`Settings → Secrets and variables → Actions → OPERATOR_READ_TOKEN` — a fine-grained PAT with `Actions: Read` on `GareBear99/gh-ai-operator`. Once set, the nightly workflow starts growing the corpus automatically.
+
+### Why this matters
+
+Most open-source model-training repos stop at "here's a seed dataset". This one is wired to a live deployment that generates its own training signal continuously, with a human correction channel and cryptographic provenance. The **AI operative keeps working while you sleep**, and the brain it feeds gets marginally sharper every day without manual curation — while still respecting the Gate v2 governance doctrine that makes nothing auto-promote into the canonical corpus.
+
+---
+
 ## 🌐 The ARC Ecosystem
 
 ARC-Neuron LLMBuilder is **one of seven repositories** in the ARC governed-AI ecosystem. Each repo owns a single frozen role; together they form a local-first AI operating system with full lineage, receipts, and rollback.
