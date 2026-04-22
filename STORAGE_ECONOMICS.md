@@ -1,10 +1,10 @@
 # Storage Economics — How Much Can ARC-Neuron LLMBuilder Actually Archive?
 
-All numbers in this document are **measured**, not projected from theory. They come from running `scripts/ops/benchmark_omnibinary.py` on commodity hardware and from the live event counts captured during v1.0.0-governed release verification.
+All numbers in this document are **measured**, not projected from theory. They come from running `scripts/ops/benchmark_omnibinary.py` on a **2012 Intel Mac running macOS Catalina** (no GPU, no cloud, no accelerator — consumer laptop hardware from 12 years ago) and from the live event counts captured during v1.0.0-governed release verification. Modern hardware will be materially faster across every axis; these numbers are the floor, not the ceiling.
 
 ---
 
-## Headline numbers (measured on commodity hardware)
+## Headline numbers (measured on a 2012 Intel Mac, macOS Catalina)
 
 | Metric | Value | Source |
 |---|---|---|

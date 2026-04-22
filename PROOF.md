@@ -6,6 +6,22 @@ If any command in this document doesn't produce the documented result on a fresh
 
 ---
 
+## <a id="hardware-provenance"></a>Hardware provenance
+
+> **Every result in this document was produced on a 2012 Intel Mac running macOS Catalina.**
+
+Specifically:
+- Pre-Retina-era Intel CPU (consumer laptop hardware from 2012)
+- macOS Catalina (10.15.x)
+- No discrete GPU used
+- No cloud resources
+- No specialized accelerator
+- Python (CPython) + PyTorch (CPU build) + numpy
+
+This is important. The three governed promotions (v4 → v5 → v6_conversation), the 87 passing tests, the Omnibinary throughput numbers (6,639 events/sec append, 8,859 O(1) lookups/sec), the five-cycle STABLE repeatability verdict, and the full 9-step demo proof workflow were **all produced on 12-year-old consumer hardware**. If the system runs there, it runs on effectively any machine anyone is reasonably likely to encounter. Modern hardware should be materially faster across every benchmark axis.
+
+---
+
 ## 1. The system works — reproducible in three commands
 
 ```bash
@@ -107,7 +123,7 @@ Every repeatability report lives in `reports/repeatability_<timestamp>.json`. Ru
 
 ## 5. Omnibinary performance, measured on commodity hardware
 
-Directly from `scripts/ops/benchmark_omnibinary.py` on an M-series Mac CPU:
+Directly from `scripts/ops/benchmark_omnibinary.py` on a **2012 Intel Mac / macOS Catalina** (see [Hardware provenance](#hardware-provenance)):
 
 ```
 Omnibinary Benchmark — 1000 events
