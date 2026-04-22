@@ -193,17 +193,25 @@ All four Gate v2 decision states have fired lawfully on real runs. Every claim a
 
 ### 1. Install
 
+#### Option A — pip (Python 3.10+)
+
 ```bash
 git clone https://github.com/GareBear99/ARC-Neuron-LLMBuilder.git
 cd ARC-Neuron-LLMBuilder
 
 python3.12 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
-pip install "torch>=2.0" "numpy<2.0"   # torch is only needed for training
-
-# Generate runtime secrets (idempotent)
+pip install -e ".[training]"         # installs core + torch + numpy
 python3 scripts/ops/bootstrap_keys.py
+```
+
+#### Option B — Docker (zero setup)
+
+```bash
+git clone https://github.com/GareBear99/ARC-Neuron-LLMBuilder.git
+cd ARC-Neuron-LLMBuilder
+docker build -t arc-neuron-llmbuilder .
+docker run --rm arc-neuron-llmbuilder python3 scripts/ops/demo_proof_workflow.py
 ```
 
 ### 2. Validate
@@ -215,6 +223,14 @@ python3 scripts/ops/demo_proof_workflow.py    # 9-step end-to-end proof
 ```
 
 ### 3. Use the incumbent model
+
+**Shortest possible — one line:**
+
+```bash
+python3 examples/hello.py "Critique a plan that ships without a rollback path."
+```
+
+**Full CLI equivalent:**
 
 ```bash
 python3 scripts/execution/run_direct_candidate.py \
