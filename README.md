@@ -6,7 +6,27 @@
 
 > 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The three governed promotions, the 87-test suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
 
-<sub>**Topics**: local AI · governed AI · LLM builder · promotion gate · regression floor · indexed ledger · conversation pipeline · reflection loop · terminology absorption · GGUF · llama.cpp wrapper · sovereign AI · private AI · on-prem AI · model registry · model governance · small language models · transformer · PyTorch · agentic AI · MLOps.</sub>
+## 🤖 Live deployment — continuous-learning AI operative
+
+**A real AI operative feeds this corpus every day.** The [ARC GitHub AI Operator](https://github.com/GareBear99/gh-ai-operator) answers code-review issues on the [Portfolio](https://github.com/GareBear99/Portfolio) via [Cloudflare Workers AI](https://github.com/GareBear99/gh-ai-operator/blob/main/cloudflare/README.md), posts a verdict back on the issue, and emits every production review as a supervised training example in this repo's seed-examples schema. The nightly workflow `ingest-operator-reviews.yml` pulls those artifacts into `data/critique/operator_reviews.jsonl`, dedupes by id, and bumps human-correction records (from Portfolio Follow-up issues) by +0.05 confidence so Gate v2 weights them higher.
+
+```mermaid
+flowchart LR
+    P["Portfolio<br/>code-review issue"] --> OP["gh-ai-operator<br/>CF Workers AI + Actions"]
+    OP -- "verdict comment" --> P
+    OP -- "training JSONL" --> A["llmbuilder-training-export<br/>artifact"]
+    A --> IN["this repo<br/>ingest-operator-reviews.yml (daily 03:17 UTC)"]
+    IN --> C["data/critique/operator_reviews.jsonl"]
+    C --> G["next Gate v2 candidate"]
+    P -. follow-up .-> COR["correction JSONL<br/>+0.05 confidence"]
+    COR --> A
+    style OP fill:#0366d6,stroke:#fff,color:#fff
+    style IN fill:#7057ff,stroke:#fff,color:#fff
+```
+
+Nothing auto-promotes to the curated `seed_examples.jsonl` — ingested data stays in a separate shard so a human curator keeps the final call. Full pipeline: [docs/LIVE_DEPLOYMENT_LEARNING.md](./docs/LIVE_DEPLOYMENT_LEARNING.md). Activation is one secret: `OPERATOR_READ_TOKEN` (PAT with `Actions: Read` on `GareBear99/gh-ai-operator`).
+
+<sub>**Topics**: local AI · governed AI · LLM builder · promotion gate · regression floor · indexed ledger · conversation pipeline · reflection loop · terminology absorption · GGUF · llama.cpp wrapper · sovereign AI · private AI · on-prem AI · model registry · model governance · small language models · transformer · PyTorch · agentic AI · MLOps · live AI deployment · continuous learning worker · gh-ai-operator · Cloudflare Workers AI · critique corpus</sub>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -49,43 +69,6 @@ ARC-Neuron LLMBuilder is a local-first cognition lab that treats a language mode
 The system ships with a working transformer family (ARC-Neuron Tiny and Small), a retrieval-based exemplar adapter, a canonical conversation pipeline, draft→critique→revise reflection, automatic terminology absorption from conversation, and a regression-aware promotion gate.
 
 **Doctrine closed in v1.0.0-governed:** conversation grows the brain, not just the memory. Three governed promotions in a row have been recorded, the last one (`arc_governed_v6_conversation`) trained entirely from a corpus the canonical conversation pipeline harvested itself.
-
----
-
-## 🤖 Live implementation — continuous-learning AI operative
-
-LLMBuilder doesn't just train on curated seed data. It is wired to a **live AI worker running in production**: the [ARC GitHub AI Operator](https://github.com/GareBear99/gh-ai-operator). Every real code-review that operator performs becomes a supervised example in this repository's corpus. The loop is automatic, receipted end-to-end, and runs on free tiers.
-
-```mermaid
-flowchart LR
-    A["Portfolio<br/>code-review issue"] --> B["gh-ai-operator<br/>(Cloudflare Workers AI + Actions)"]
-    B -- "verdict comment" --> A
-    B -- "training JSONL<br/>(seed-examples schema)" --> C["llmbuilder-training-export<br/>artifact"]
-    C --> D["this repo<br/>ingest-operator-reviews.yml (daily)"]
-    D --> E["data/critique/operator_reviews.jsonl"]
-    E --> F["next Gate v2 candidate run"]
-    A -. follow-up .-> G["training_export.export_correction<br/>tag: correction"]
-    G --> C
-```
-
-### What this gives you
-
-- **A real AI operative, not a demo.** The operator answers live code-review issues from the Portfolio, runs clone + snapshot + heuristics + Cloudflare Workers AI, and posts a verdict (🟢 ship · 🟡 feedback · 🔴 redesign · 🟡 low-signal) straight onto the issue.
-- **Every production call is a training example.** Each review emits a JSONL record that already matches this repo's `data/critique/seed_examples.jsonl` schema — no translation layer, no glue code.
-- **Continuous ingestion.** `.github/workflows/ingest-operator-reviews.yml` runs **daily at 03:17 UTC**, pulls the last few `llmbuilder-training-export` artifacts, dedupes by `id`, bumps `correction`-tagged records by +0.05 confidence, and commits `data/critique/operator_reviews.jsonl` back to `main`.
-- **Human corrections outweigh auto-labels.** A Portfolio **Follow-up** issue on a prior operator verdict emits a second JSONL record tagged `correction + human-follow-up`, which Gate v2 training can weight higher than the baseline live-deployment stream.
-- **Provenance preserved.** Every ingested record carries `provenance.source = github.com/GareBear99/gh-ai-operator`, `provenance.emitted_at`, and `provenance.target_url`, so you can slice/audit the corpus by time, source, or target at any point.
-- **Separate shard by design.** Ingested data lands in `data/critique/operator_reviews.jsonl` — **not** the curated `seed_examples.jsonl`. Promotion to the canonical seed file stays a human decision.
-
-Full pipeline writeup: **[docs/LIVE_DEPLOYMENT_LEARNING.md](./docs/LIVE_DEPLOYMENT_LEARNING.md)**.
-
-### One secret to activate the loop
-
-`Settings → Secrets and variables → Actions → OPERATOR_READ_TOKEN` — a fine-grained PAT with `Actions: Read` on `GareBear99/gh-ai-operator`. Once set, the nightly workflow starts growing the corpus automatically.
-
-### Why this matters
-
-Most open-source model-training repos stop at "here's a seed dataset". This one is wired to a live deployment that generates its own training signal continuously, with a human correction channel and cryptographic provenance. The **AI operative keeps working while you sleep**, and the brain it feeds gets marginally sharper every day without manual curation — while still respecting the Gate v2 governance doctrine that makes nothing auto-promote into the canonical corpus.
 
 ---
 
