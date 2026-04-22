@@ -6,6 +6,42 @@
 
 > 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The three governed promotions, the 87-test suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
 
+<sub>**Topics**: local AI
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Tests: 87/87](https://img.shields.io/badge/tests-87%2F87%20passing-brightgreen.svg)](./tests)
+[![Gate: v2](https://img.shields.io/badge/governance-Gate%20v2-blue.svg)](./specs/promotion_gate_v2.yaml)
+[![Release: v1.0.0-governed](https://img.shields.io/badge/release-v1.0.0--governed-blueviolet.svg)](./RELEASE_NOTES_v1.0.0.md)
+[![Sponsor](https://img.shields.io/badge/Sponsor-GareBear99-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/GareBear99)
+[![Ecosystem](https://img.shields.io/badge/ARC%20Ecosystem-7%20repos-orange)](./ECOSYSTEM.md)
+[![Discussions](https://img.shields.io/github/discussions/GareBear99/ARC-Neuron-LLMBuilder)](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions)
+[![Runs on a 2012 Intel Mac](https://img.shields.io/badge/runs_on-2012_Intel_Mac-silver?logo=apple)](./PROOF.md#hardware-provenance)
+[![CPU only](https://img.shields.io/badge/CPU-only_required-green)](./STORAGE_ECONOMICS.md)
+
+## Table of contents
+
+- [Live deployment — continuous-learning AI operative](#live-deployment--continuous-learning-ai-operative)
+- [What this is](#what-this-is)
+- [The ARC Ecosystem](#the-arc-ecosystem)
+- [Support this work](#support-this-work)
+- [What it does, in plain English](#what-it-does-in-plain-english)
+- [Current state](#current-state)
+- [Quick start](#quick-start)
+- [Architecture at a glance](#architecture-at-a-glance)
+- [The governance doctrine](#the-governance-doctrine)
+- [Benchmark surface](#benchmark-surface)
+- [Repository layout](#repository-layout)
+- [One-command operations](#one-command-operations)
+- [Proof runners](#proof-runners)
+- [Documentation](#documentation)
+- [Community](#community)
+- [Status and scope](#status-and-scope)
+- [Citation](#citation)
+- [License](#license)
+
+---
+
 ## 🤖 Live deployment — continuous-learning AI operative
 
 **A real AI operative feeds this corpus every day.** The [ARC GitHub AI Operator](https://github.com/GareBear99/gh-ai-operator) answers code-review issues on the [Portfolio](https://github.com/GareBear99/Portfolio) via [Cloudflare Workers AI](https://github.com/GareBear99/gh-ai-operator/blob/main/cloudflare/README.md), posts a verdict back on the issue, and emits every production review as a supervised training example in this repo's seed-examples schema. The nightly workflow `ingest-operator-reviews.yml` pulls those artifacts into `data/critique/operator_reviews.jsonl`, dedupes by id, and bumps human-correction records (from Portfolio Follow-up issues) by +0.05 confidence so Gate v2 weights them higher.
@@ -25,39 +61,6 @@ flowchart LR
 ```
 
 Nothing auto-promotes to the curated `seed_examples.jsonl` — ingested data stays in a separate shard so a human curator keeps the final call. Full pipeline: [docs/LIVE_DEPLOYMENT_LEARNING.md](./docs/LIVE_DEPLOYMENT_LEARNING.md). Activation is one secret: `OPERATOR_READ_TOKEN` (PAT with `Actions: Read` on `GareBear99/gh-ai-operator`).
-
-<sub>**Topics**: local AI · governed AI · LLM builder · promotion gate · regression floor · indexed ledger · conversation pipeline · reflection loop · terminology absorption · GGUF · llama.cpp wrapper · sovereign AI · private AI · on-prem AI · model registry · model governance · small language models · transformer · PyTorch · agentic AI · MLOps · live AI deployment · continuous learning worker · gh-ai-operator · Cloudflare Workers AI · critique corpus</sub>
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Tests: 87/87](https://img.shields.io/badge/tests-87%2F87%20passing-brightgreen.svg)](./tests)
-[![Gate: v2](https://img.shields.io/badge/governance-Gate%20v2-blue.svg)](./specs/promotion_gate_v2.yaml)
-[![Release: v1.0.0-governed](https://img.shields.io/badge/release-v1.0.0--governed-blueviolet.svg)](./RELEASE_NOTES_v1.0.0.md)
-[![Sponsor](https://img.shields.io/badge/Sponsor-GareBear99-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/GareBear99)
-[![Ecosystem](https://img.shields.io/badge/ARC%20Ecosystem-7%20repos-orange)](./ECOSYSTEM.md)
-[![Discussions](https://img.shields.io/github/discussions/GareBear99/ARC-Neuron-LLMBuilder)](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions)
-[![Runs on a 2012 Intel Mac](https://img.shields.io/badge/runs_on-2012_Intel_Mac-silver?logo=apple)](./PROOF.md#hardware-provenance)
-[![CPU only](https://img.shields.io/badge/CPU-only_required-green)](./STORAGE_ECONOMICS.md)
-
-## Table of contents
-
-- [What this is](#what-this-is)
-- [The ARC Ecosystem](#the-arc-ecosystem)
-- [Support this work](#support-this-work)
-- [What it does, in plain English](#what-it-does-in-plain-english)
-- [Current state](#current-state)
-- [Quick start](#quick-start)
-- [Architecture at a glance](#architecture-at-a-glance)
-- [The governance doctrine](#the-governance-doctrine)
-- [Benchmark surface](#benchmark-surface)
-- [Repository layout](#repository-layout)
-- [One-command operations](#one-command-operations)
-- [Proof runners](#proof-runners)
-- [Documentation](#documentation)
-- [Community](#community)
-- [Status and scope](#status-and-scope)
-- [Citation](#citation)
-- [License](#license)
 
 ---
 
