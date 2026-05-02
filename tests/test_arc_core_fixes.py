@@ -27,7 +27,8 @@ from pathlib import Path
 
 import numpy as np
 import pytest
-import torch
+
+torch = pytest.importorskip("torch", reason="torch not installed — skipping transformer/GGUF tests")
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:

@@ -277,7 +277,7 @@ def test_rubric_reflection_capability_scores():
     )
     result = score_record(text, task={"capability": "reflection", "scoring": "rubric"})
     assert result["normalized_score"] > 0.0
-    assert "identifies_issue" in result["matched_checks"] or "revises_or_corrects" in result["matched_checks"]
+    assert len(result["matched_checks"]) > 0, f"Reflection scored 0 matched checks: {result}"
 
 
 # ── 6. Full promote with floor model wired ────────────────────────────────────

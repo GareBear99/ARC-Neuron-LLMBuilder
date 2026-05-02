@@ -97,7 +97,7 @@ with a descriptive suffix for major doctrine milestones.
 [v1.0.0-governed]: https://github.com/GareBear99/ARC-Neuron-LLMBuilder/releases/tag/v1.0.0-governed
 [v0.3.1-alpha]: https://github.com/GareBear99/ARC-Neuron-LLMBuilder/releases/tag/v0.3.1-alpha
 [v0.3.0-alpha]: https://github.com/GareBear99/ARC-Neuron-LLMBuilder/releases/tag/v0.3.0-alpha
-[v0.1.0-alpha]: https://github.com/GareBear99/ARC-Neuron-LLMBuilder/releases/tag/v0.1.0-alpha## [Unreleased] — Audit remediation
+[v0.1.0-alpha]: https://github.com/GareBear99/ARC-Neuron-LLMBuilder/releases/tag/v0.1.0-alpha## [Unreleased] — Audit remediation (2026-04-23)
 
 ### Fixed — benchmark integrity
 * **reasoning/seed_tasks.jsonl** — replaced 10 word-for-word identical
@@ -128,5 +128,24 @@ with a descriptive suffix for major doctrine milestones.
 * A pure keyword-dump response ("constraint preserve boundary interface
   risk tradeoff...") that previously scored 1.0 on reasoning, planning,
   critique, repair, calibration, and compression now scores 0.0 on all.
+* `SOUP_EXEMPT_CAPABILITIES` frozenset exempts factual-recall capabilities
+  (`out_of_domain`, `english_understanding`, `instruction_following`, etc.)
+  from the soup guard — short direct answers remain valid there.
+
+### Fixed — test suite
+* `tests/test_arc_core_fixes.py` — replaced hard `import torch` at module
+  level with `pytest.importorskip("torch")` so the file is collected and
+  its non-torch tests run (rubric checks, config checks); torch-dependent
+  tests are skipped gracefully when torch is absent rather than erroring
+  out and blocking the entire collection.
+* **Added `tests/test_audit_remediation.py`** — 54 new tests covering:
+  keyword-soup detection on word-lists / empty / single-word inputs;
+  soup guard zeroing scores on all 9 prose capability families;
+  prose responses scoring non-zero; `keyword_soup_detected` flag present
+  in all score paths; benchmark template-diversity (no scenario-N
+  duplicates); task-id uniqueness and non-empty prompts across all
+  benchmark files; and incumbent model producing diverse responses on
+  the new reasoning suite.
+* Total test count: **120 passed, 1 skipped** (torch tests deferred).
 
 

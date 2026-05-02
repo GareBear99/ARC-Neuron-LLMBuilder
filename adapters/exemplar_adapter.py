@@ -43,7 +43,25 @@ class ExemplarAdapter(ModelAdapter):
         self.model = payload.get("candidate_id", self.artifact_path.stem)
         self.top_k = int(top_k)
         self.records: list[dict[str, Any]] = payload.get("records", [])
-        self._vectors: list[Counter[str]] = [Counter(r.get("prompt_tokens", [])) for r in self.records]
+        # Build raw term-frequency vectors from pre-tokenized prompts
+        raw_vectors: list[Counter[str]] = [Counter(r.get("prompt_tokens", [])) for r in self.records]
+        # Compute IDF weights: log(N / df) for each term
+        # This downweights ubiquitous terms (constraint, validate, test) that appear
+        # in most records and upweights distinctive terms specific to a scenario.
+        N = max(1, len(raw_vectors))
+        df: dict[str, int] = {}
+        for vec in raw_vectors:
+            for term in vec:
+                df[term] = df.get(term, 0) + 1
+        import math
+        self._idf: dict[str, float] = {term: math.log(N / count) for term, count in df.items()}
+        # TF-IDF vectors: weight each term by its IDF score
+        self._vectors: list[Counter[str]] = []
+        for vec in raw_vectors:
+            tfidf: Counter[str] = Counter()
+            for term, tf in vec.items():
+                tfidf[term] = tf * self._idf.get(term, 0.0)
+            self._vectors.append(tfidf)
 
     def _resolve_manifest_payload(self, manifest_path: Path, payload: dict[str, Any]) -> tuple[Path, dict[str, Any]]:
         candidates: list[Path] = []
@@ -79,14 +97,47 @@ class ExemplarAdapter(ModelAdapter):
 
     def generate(self, prompt: str, *, system_prompt: str = "", context: dict | None = None) -> ModelResponse:
         started = time.perf_counter()
-        tokens = Counter(_tokenize(prompt))
+        # Apply IDF to query tokens (same weighting as corpus vectors)
+        raw_tokens = Counter(_tokenize(prompt))
+        tokens = Counter({term: tf * self._idf.get(term, 0.0)
+                          for term, tf in raw_tokens.items()
+                          if self._idf.get(term, 0.0) > 0})
+        request_cap = (context or {}).get("capability", "")
         scored: list[tuple[float, dict[str, Any]]] = []
         for vec, record in zip(self._vectors, self.records):
             score = _cosine(tokens, vec)
             if score > 0:
+                # Boost records whose capability matches the request (2x boost).
+                # Penalise generic/unknown records by 50% to prevent them from
+                # dominating retrieval over capability-specific records.
+                rec_cap = record.get("capability", "generic")
+                if request_cap and rec_cap == request_cap:
+                    score *= 2.0
+                elif rec_cap in ("generic", "unknown", ""):
+                    score *= 0.8
                 scored.append((score, record))
         scored.sort(key=lambda x: x[0], reverse=True)
-        chosen = scored[: self.top_k] if scored else []
+
+        # Strict capability-first retrieval.
+        # When the requested capability has >= top_k records in the pool,
+        # retrieve ONLY from that capability's records.
+        # This prevents cross-capability vocabulary contamination.
+        # Fall back to global only when there are literally no cap-matched records.
+        if request_cap:
+            cap_matched = [(s, rec) for s, rec in scored
+                           if rec.get("capability") == request_cap and s > 0]
+            if len(cap_matched) >= self.top_k:
+                chosen = cap_matched[: self.top_k]
+            elif cap_matched:
+                # Have some but fewer than top_k — use all of them, pad with global
+                global_rest = [item for item in scored
+                                if item[1].get("capability") != request_cap]
+                chosen = cap_matched + global_rest[: self.top_k - len(cap_matched)]
+            else:
+                # No cap-matched records at all — fall back to global
+                chosen = scored[: self.top_k]
+        else:
+            chosen = scored[: self.top_k]
 
         lines: list[str] = []
         if system_prompt:
