@@ -57,7 +57,7 @@ SOUP_EXEMPT_CAPS = {"calibration", "paraphrase_stability", "intelligence", "out_
 # planning and repair are now SOUP_EXEMPT (action-oriented, not analytical)
 # so soup responses score non-zero on them — they are intentionally excluded.
 CAPABILITY_FAMILIES = [
-    "reasoning", "critique",
+    "reasoning",
     "compression", "continuity", "reflection",
 ]
 

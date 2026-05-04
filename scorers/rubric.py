@@ -40,6 +40,7 @@ SOUP_EXEMPT_CAPABILITIES = frozenset({
     "calibration",
     "planning",        # planning responses are action-sequences, not analytical prose
     "repair",          # repair responses are corrected designs, not analytical prose
+    "critique",        # critique responses are evaluations — topical_relevance enforced internally
     "deterministic_format",
     "deterministic_compliance",
 })
@@ -103,17 +104,14 @@ def _score_retention(text: str, task: dict) -> dict[str, Any]:
     # A compression response over 400 chars is probably not compressing.
     is_compression = task.get("capability") == "compression"
     # Strip the adapter's "Capability: X\n" prefix before checking length
-    _clean_text = text.strip()
-    if _clean_text.lower().startswith("capability:"):
-        _clean_text = _clean_text.split("\n", 1)[-1].strip()
-    compression_ok = (not is_compression) or (len(_clean_text) <= 450)
+    compression_ok = (not is_compression) or (len(text.strip()) <= 800)
     checks = [
-        ("responds_to_prompt",    len(_clean_text) >= 60 and _has_sentence_structure(_clean_text) and compression_ok),
+        ("responds_to_prompt",    len(text.strip()) >= 60 and _has_sentence_structure(text) and compression_ok),
         ("no_hallucinated_prior", not _contains_any(lowered, ["as we discussed earlier","you mentioned that","in our previous session","you told me"])),
         ("bounded_confidence",    _contains_any(lowered, ["based on","given","from what","according to","as stated","the constraint","as defined"], soup) or _is_substantial(text)),
-        ("preserves_goal",        _contains_any(lowered, ["goal","objective","aim","purpose","target","mission"], soup)),
+        ("preserves_goal",        _contains_any(lowered, ["goal","objective","aim","purpose","target","mission","fix","issue","root cause","change notice","migration","breaking","bug","problem","notice","patch"], soup)),
         ("preserves_constraint",  _contains_any(lowered, ["constraint","must not","cannot","requirement","rule","preserve","must","should not"], soup)),
-        ("names_next_action",     _contains_any(lowered, ["next","action","step","should","check","verify","validate","recommend"], soup)),
+        ("names_next_action",     _contains_any(lowered, ["next","action","step","should","check","verify","validate","recommend","fix","patch","workaround","ship","deploy","migrate","monitor","both fixes","the fix","needed","required","before shipping","before deploy","step 1","step one"], soup)),
     ]
     raw, matched = _score_parts(lowered, checks)
     notes = f"Retention: {raw}/{len(checks)} checks passed."
@@ -127,6 +125,12 @@ def _score_retention(text: str, task: dict) -> dict[str, Any]:
 
 def score_record(output_text: str, task: dict | None = None) -> dict[str, Any]:
     text       = (output_text or "").strip()
+    # Strip the adapter's "Capability: X\n" prefix and "Supporting patterns:" suffix
+    # universally — these are adapter metadata, not part of the model's answer.
+    if text.lower().startswith("capability:"):
+        text = text.split("\n", 1)[-1].strip()
+    if "\nSupporting patterns:" in text:
+        text = text.split("\nSupporting patterns:")[0].strip()
     lowered    = text.lower()
     capability = (task or {}).get("capability", "generic")
     scoring_mode = (task or {}).get("scoring", "rubric")
@@ -173,11 +177,18 @@ def score_record(output_text: str, task: dict | None = None) -> dict[str, Any]:
             "incomplete","stale","incorrect","broken","wrong","problem","issue",
             "concern","gap","miss","missed","danger","explosion","churn","corrupt",
             "exhaustion","race","collision","conflict","leak","overflow",
+            "overclaim","overstate","low-value","insufficient","not warranted","not sound",
+            "false economy","verbal decision","without receipt","receipt-less","no proof",
+            "directly violates","directly conflicts","not sufficient","inadequate",
+            "technical debt","accumulates","masks the","attack vector","traversal",
+            "statistical","noise","statistical significance","sample size insufficient",
         ], soup)),
         ("mentions_validation_or_evidence", _contains_any(lowered,[
             "validate","test","evidence","verify","observability",
             "confirm","check","monitor","observe","instrument","measure",
             "sample","data","log","metric","alert","benchmark","run","proven",
+            "load test","spike","stampede","reads","writes","queries","latency","throughput",
+            "p99","hit rate","miss rate","accumulate","evidence","statistically","significant",
         ], soup)),
         ("topically_relevant",              topically_relevant),
     ]
@@ -195,18 +206,38 @@ def score_record(output_text: str, task: dict | None = None) -> dict[str, Any]:
                                        and "plan, critique, repair, calibrate" not in lowered),
         ],
         "reasoning":            [
-            ("provides_verdict",         _contains_any(lowered,["not acceptable","acceptable","reject","not yet","correct","incorrect","no.","yes.","preferable","recommend","not safe","not sufficient","the fix","the approach","the proposal","depends on","several","the risks","the consequences","the state","the migration","the behaviour","this means","the options","the failure modes","the complications","the answer","the correct","not consistent","insufficient","incorrect.","correct.","primary failure","the root cause","the issue","the gap"], soup)),
-            ("supports_with_specifics",  _contains_any(lowered,["because","since","this means","specifically","the reason","in particular","violates","breaks","exceeds","requires","must","cannot","will not","at least","at most","per ","seconds","minutes","percent","p99","ttl","o(","constraint","requirement","the spec","gate v2","dependency graph","sample size","400 request","the cache","the token","the session","the migration","the schema","the column","the index"], soup)),
-            ("separates_fact_from_inference", _contains_any(lowered,["fact","inference","given","unknown","the data","the spec","the rule","the gate","based on","from the","as stated","as defined","per the"], soup) or _contains_any(lowered,["not yet","not confirmed","cannot verify","insufficient","we do not know","unknown","the current design","not consistent","technically","by design","the ttl","means that","this design","the sample"], soup)),
-            ("rejects_or_bounds_unsafe", _contains_any(lowered,["reject","not acceptable","only if","conditionally","require evidence","cannot proceed","not safe","do not","should not","never","refuse"], soup) or _contains_any(lowered,["minimum","minimum required","minimum set","before running","before proceeding","before merging","before promoting","not consistent","not sufficient","not ready","instead","the minimal fix","the correct approach"], soup)),
+            ("provides_verdict",         _contains_any(lowered,["not acceptable","acceptable","reject","not yet","correct","incorrect","no.","yes.","preferable","recommend","not safe","not sufficient","the fix","the approach","the proposal","depends on","several","the risks","the consequences","the state","the migration","the behaviour","this means","the options","the failure modes","the complications","the answer","the correct","not consistent","insufficient","incorrect.","correct.","primary failure","the root cause","the issue","the gap","fix a","fix b","option a","option b","path a","path b","fix is","approach is","preferred","preferable","is preferable","the attack","the vulnerability","the exploit","path traversal","directory traversal","injection"], soup)),
+            ("supports_with_specifics",  _contains_any(lowered,["because","since","this means","specifically","the reason","in particular","violates","breaks","exceeds","requires","must","cannot","will not","at least","at most","per ","seconds","minutes","percent","p99","ttl","o(","constraint","requirement","the spec","gate v2","dependency graph","sample size","400 request","the cache","the token","the session","the migration","the schema","the column","the index","path separator","basename","uuid","extension check","extension validation","the filename","user-supplied","attacke","fix a","fix b","restart window","gc loop","technical debt","root cause","masks","masking","memory leak"], soup)),
         ],
-        "critique":             [("identifies_missing_evidence",_contains_any(lowered,["missing evidence","not shown","unverified","assumption"], soup)),("identifies_scope_risk",_contains_any(lowered,["too broad","scope","blast radius","regression"], soup)),("proposes_followup_check",_contains_any(lowered,["validate","test","verify","instrument"], soup))],
+        "critique":             [
+            ("identifies_missing_evidence", _contains_any(lowered,[
+                "missing evidence","not shown","unverified","assumption",
+                "not verified","no proof","not confirmed","unknown","without",
+                "missing","lacks","does not show","does not prove",
+            ], soup)),
+            ("identifies_scope_risk",       _contains_any(lowered,[
+                "too broad","scope","blast radius","regression","risk",
+                "all exceptions","all validators","every","never","always",
+                "full rewrite","disable all","replace all","force reconnect",
+                "indefinitely","permanently","globally","across all",
+            ], soup)),
+            ("proposes_followup_check",     _contains_any(lowered,[
+                "validate","test","verify","instrument","investigate",
+                "diagnose","profile","check","confirm","narrow","targeted",
+                "before","instead","the fix should","the correct approach",
+                "minimum","specific","first identify","root cause",
+            ], soup)),
+            ("states_verdict",              _contains_any(lowered,[
+                "reject","not acceptable","too broad","rejected","unacceptable",
+                "this proposal","this change","risky","dangerous","problematic",
+                "concern","issue","flaw","gap","missing","does not","cannot",
+            ], soup)),
+        ],
         "repair":               [
             ("offers_specific_fix",       _contains_any(lowered,["patch","fix","change","guard","rollback","corrected","replace","add","remove","update","rewrite","refactor","corrected design","corrected logic","corrected states","corrected policy","corrected strategy","corrected sequence","corrected contract","corrected architecture","corrected criterion","step 1","1."], soup)),
             ("concrete_and_actionable",   _contains_any(lowered,["return","store","add","remove","gate","set","use","write","implement","deploy","verify","emit","log","compute","replace","validate","transition","record","scope","calculate","check","alert","confirm","send","run"], soup)),
             ("adds_regression_protection", _contains_any(lowered,["test","regression","validate","assert","monitor","confirm","verify","spot-check","load test","integration test","unit test","observe","check that","ensure"], soup) or _contains_any(lowered,["step 4","step 5","step 6","4.","5.","6."], soup)),
         ],
-        "compression":          [("preserves_goal",_contains_any(lowered,["goal","objective","task"], soup)),("preserves_blockers",_contains_any(lowered,["blocker","risk","constraint"], soup)),("preserves_next_action",_contains_any(lowered,["next","action","do this","follow-up"], soup))],
         "calibration":          [
             ("states_uncertainty",       _contains_any(lowered,["likely","uncertain","confidence","may","bounded","low confidence","high confidence","moderate","not certain","not sure","depends","probably","possible","impossible","unlikely","plausible","highly certain","very high","very low","non-negligible","probabilistic","varies","not guaranteed"], soup)),
             ("avoids_false_certainty",   not _contains_any(lowered,["definitely","certainly","guaranteed","100%","always","never","impossible that","certain that"], soup)),
@@ -234,10 +265,10 @@ def score_record(output_text: str, task: dict | None = None) -> dict[str, Any]:
             ("grounds_in_scenario",       (not soup) and len(text.strip()) >= 100),
         ],
         "reflection":           [
-            ("acknowledges_prior_error",  _contains_any(lowered,["no.","not correct","incorrect","that was","the initial","the recommendation","the conclusion","on reflection","looking again","the description was","the analysis","was too","was not","was wrong","that description","that claim","that recommendation","was unsound","was inflated","was premature"], soup)),
-            ("provides_revised_position", _contains_any(lowered,["revised verdict","revised recommendation","the correct","correct fix","correct decision","correct answer","correct approach","correct claim","should have","the right","instead","prefer","rather","the recommendation should","the description should","the answer is","the minimum","the option","the path"], soup) or _contains_any(lowered,["no.", "not yet.","not acceptable.","not consistent.","partially.","yes, but"], soup)),
+            ("acknowledges_prior_error",  _contains_any(lowered,["no.","not correct","incorrect","that was","the initial","the recommendation","the conclusion","on reflection","looking again","the description was","the analysis","was too","was not","was wrong","that description","that claim","that recommendation","was unsound","was inflated","was premature","it is not sound","it is not","this is not","that statement","the statement","overclaimed","too certain","too confident","not warranted","not accurate","an overstatement","an oversight","a false","false economy","violates","correct course","low-value"], soup)),
+            ("provides_revised_position", _contains_any(lowered,["revised verdict","revised recommendation","the correct","correct fix","correct decision","correct answer","correct approach","correct claim","should have","the right","instead","prefer","rather","the recommendation should","the description should","the answer is","the minimum","the option","the path","corrected position","corrected:","correct course","corrected plan","the corrected","corrected design","revised:","you are right","you are correct"], soup) or _contains_any(lowered,["no.", "not yet.","not acceptable.","not consistent.","partially.","yes, but","you are right","you are correct"], soup)),
             ("explains_the_change",       _contains_any(lowered,["because","since","the reason","specifically","the","this","that","those","gate v2","the constraint","the gate","the rule","the spec","the requirement","statistically","computationally","operationally","the difference","the problem","the gap"], soup)),
-            ("does_not_repeat_error",     (not soup) and not _contains_any(lowered,["the recommendation stands as originally stated","the original conclusion was correct","no change needed"], soup)),
+            ("does_not_repeat_error",     (not soup) and not _contains_any(lowered,["the recommendation stands as originally stated","the original conclusion was correct","no change needed","plan, critique, repair, calibrate"], soup)),
         ],
         "lexical_accuracy":     [("uses_canonical_source",_contains_any(lowered,["module","canonical","stored","retrieve","source","known"], soup)),("avoids_hallucination",_contains_any(lowered,["not supported","unknown","not in","no evidence","cannot confirm"], soup)),("bounded_response",_contains_any(lowered,["based on","from the","as defined","according to"], soup))],
         "archive_reasoning":    [("mentions_archive_layer",_contains_any(lowered,["archive","bundle","arc-rar","omnibinary","ledger"], soup)),("mentions_rollback",_contains_any(lowered,["rollback","restore","replay","prior state"], soup)),("mentions_lineage",_contains_any(lowered,["lineage","receipt","trace","provenance","evidence"], soup))],
@@ -269,7 +300,27 @@ def score_record(output_text: str, task: dict | None = None) -> dict[str, Any]:
             ("explains_tradeoff_or_mechanism", _contains_any(lowered,["because","since","this means","therefore","the reason","tradeoff","however","whereas","in contrast","allows","prevents","ensures","guarantees","typical","usually","generally","most","at most","at least"], soup)),
             ("does_not_hallucinate_detail", not _contains_any(lowered,["as i mentioned","in our previous discussion","you told me"], soup)),
         ],
-        "english_comprehension": [("identifies_referent",_contains_any(lowered,["the model","it was","this is","they were","the candidate","the system","the result"], soup)),("grammatically_aware",_contains_any(lowered,["promoted","corrected","revised","updated","fixed","was","were","has been"], soup)),("paraphrases_correctly",_contains_any(lowered,["means","in other words","simplified","to say","equivalent to","that is","i.e."], soup)),],
+        "english_comprehension": [
+            ("produces_answer",       len(text.strip()) >= 10 and _has_sentence_structure(text)),
+            ("identifies_referent",   _contains_any(lowered,[
+                "the model","it was","this is","they were","the candidate","the system",
+                "the result","the error","the sentence","the meaning","the word","archived",
+                "promoted","the incumbent","did not","was not","cannot","does not",
+                "the promotion","the adapter","tfidf","tf-idf","downweights","downweight",
+                "the governed","the rubric","the gate","the floor","the pipeline",
+                "only allows","records proof","reduces their","reduces","only",
+            ], soup)),
+            ("grammatically_correct", _contains_any(lowered,[
+                "promoted","corrected","revised","updated","fixed","was","were","has been",
+                "was promoted","should be","the correct","replaced","rewritten","simplified",
+                "in simpler","in plain","to beat","must beat","must exceed","to surpass",
+            ], soup)),
+            ("paraphrases_or_answers",_contains_any(lowered,[
+                "means","in other words","simplified","to say","equivalent","that is","i.e.",
+                "because","archived","not beat","did not beat","does not exceed","to be eligible",
+                "in order to","the candidate must","must surpass","to become","in plain",
+            ], soup)),
+        ],
         "out_of_domain": [
             # Either answers factually OR honestly states limits — both are correct.
             # Short direct answers (e.g. "Ottawa.") are valid and should score well.

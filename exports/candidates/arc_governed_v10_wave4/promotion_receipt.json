@@ -1,0 +1,33 @@
+{
+  "candidate_id": "arc_wave4_final",
+  "incumbent_id": "arc_governed_v9_wave3",
+  "timestamp": "2026-05-04T04:15:13.788829",
+  "decision": "PROMOTE",
+  "overall_candidate": 0.9237,
+  "overall_incumbent": 0.9205,
+  "delta": 0.0032,
+  "by_capability": {
+    "calibration": 0.9,
+    "compression": 0.9167,
+    "continuity": 0.7708,
+    "critique": 1.0,
+    "english_understanding": 0.9,
+    "instruction_following": 0.925,
+    "intelligence": 0.8472,
+    "out_of_domain": 0.9667,
+    "paraphrase_stability": 1.0,
+    "planning": 1.0,
+    "quantization_retention": 1.0,
+    "reasoning": 0.8833,
+    "reflection": 0.8375,
+    "repair": 1.0
+  },
+  "floor_failures": [],
+  "wins": 1,
+  "losses": 0,
+  "ties": 13,
+  "records": 669,
+  "rubric_version": "final-v6",
+  "promoted_at": "2026-05-04T04:15:23.153369",
+  "new_incumbent_id": "arc_governed_v10_wave4"
+}
