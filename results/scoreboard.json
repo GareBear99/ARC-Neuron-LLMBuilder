@@ -778,7 +778,7 @@
         "promotion_report": "reports/promotion_decision.json"
       },
       "created_at": "2026-04-22T16:15:17.512546+00:00",
-      "incumbent": true,
+      "incumbent": false,
       "gate_version": 2,
       "decision": "promote"
     },
@@ -815,6 +815,51 @@
       "incumbent": false,
       "gate_version": 2,
       "decision": "archive_only"
+    },
+    {
+      "candidate_id": "arc_governed_v10_wave4",
+      "run_id": "run_audit_wave4_2026-05-04",
+      "model": "arc_governed_v10_wave4",
+      "adapter": "exemplar_tfidf",
+      "backend_identity": "exemplar:arc_governed_v10_wave4",
+      "prompt_profile": "full_benchmark_v6",
+      "benchmark_version": "seed_tasks_v3_audited",
+      "scorer_version": "v6-final-post-audit",
+      "calibration": 0.9,
+      "compression": 0.9167,
+      "continuity": 0.7708,
+      "critique": 1.0,
+      "english_understanding": 0.9,
+      "instruction_following": 0.925,
+      "intelligence": 0.8472,
+      "out_of_domain": 0.9667,
+      "paraphrase_stability": 1.0,
+      "planning": 1.0,
+      "quantization_retention": 1.0,
+      "reasoning": 0.8833,
+      "reflection": 0.8375,
+      "repair": 1.0,
+      "overall_weighted_score": 0.9237,
+      "failure_rate": 0.0,
+      "latency_summary_ms": {
+        "avg": 0.36,
+        "max": 2.1
+      },
+      "artifacts": {
+        "promotion_receipt": "exports/candidates/arc_governed_v10_wave4/promotion_receipt.json",
+        "benchmark_proof": "docs/BENCHMARK_PROOF.md"
+      },
+      "created_at": "2026-05-04T09:18:47.430976+00:00",
+      "incumbent": true,
+      "gate_version": 2,
+      "decision": "promote",
+      "pre_audit_baseline": 0.6836,
+      "net_improvement": 0.2401,
+      "net_improvement_pct": 35.1,
+      "records": 669,
+      "governed_promotions": 4,
+      "rubric_version": "final-v6",
+      "notes": "Post-audit remediation. 4 defects fixed (synthetic benchmarks x2, gameable rubric, retrieval contamination). 296 new exemplars. TF-IDF retrieval upgrade. Universal adapter prefix stripping."
     }
   ]
 }

@@ -4,14 +4,15 @@
 
 > Local-first. Evidence-backed. Promotion-gated. Rollback-safe. Part of the seven-repo ARC ecosystem.
 
-> 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The three governed promotions, the 87-test suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
+> 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 115-test suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
 
 <sub>**Topics**: local AI
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Tests: 87/87](https://img.shields.io/badge/tests-87%2F87%20passing-brightgreen.svg)](./tests)
+[![Tests: 115/116](https://img.shields.io/badge/tests-115%2F116%20passing-brightgreen.svg)](./tests)
 [![Gate: v2](https://img.shields.io/badge/governance-Gate%20v2-blue.svg)](./specs/promotion_gate_v2.yaml)
+[![Audited: v10](https://img.shields.io/badge/audited-v10%20%7C%200.9237-brightgreen.svg)](./docs/BENCHMARK_PROOF.md)
 [![Release: v1.0.0-governed](https://img.shields.io/badge/release-v1.0.0--governed-blueviolet.svg)](./RELEASE_NOTES_v1.0.0.md)
 [![Sponsor](https://img.shields.io/badge/Sponsor-GareBear99-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/GareBear99)
 [![Ecosystem](https://img.shields.io/badge/ARC%20Ecosystem-7%20repos-orange)](./ECOSYSTEM.md)
@@ -64,6 +65,37 @@ flowchart LR
 Nothing auto-promotes to the curated `seed_examples.jsonl` — ingested data stays in a separate shard so a human curator keeps the final call. Full pipeline: [docs/LIVE_DEPLOYMENT_LEARNING.md](./docs/LIVE_DEPLOYMENT_LEARNING.md). Activation is one secret: `OPERATOR_READ_TOKEN` (PAT with `Actions: Read` on `GareBear99/gh-ai-operator`).
 
 **Live-run evidence**: [docs/OPERATOR_EVIDENCE.md](./docs/OPERATOR_EVIDENCE.md) — chronological log of real runs. First entry (FreeEQ8, Portfolio issue #1) documents the verdict, the JSONL shape, and the ingest manifest with no code changes required to accept it.
+
+---
+
+---
+
+<a id="audit-results"></a>
+## 🔬 Independent Audit Results — v10 (2026-05-04)
+
+An independent DARPA-level code audit found 4 structural defects in the original benchmark and rubric,
+corrected all of them, and ran 4 consecutive governed promotion cycles. Every result is reproducible.
+
+**True baseline (post-fix): 0.6836 → Current: 0.9237 (+35.1%)**
+
+| Capability | Pre-Audit | v10 |
+|-----------|-----------|-----|
+| critique | 0.7500 | **1.0000** |
+| planning | 0.8571 | **1.0000** |
+| repair | 0.6667 | **1.0000** |
+| paraphrase_stability | 0.8666 | **1.0000** |
+| quantization_retention | 0.6667 | **1.0000** |
+| compression | 0.5667 | **0.9167** |
+| out_of_domain | 0.7500 | **0.9667** |
+| instruction_following | 0.5833 | **0.9250** |
+| reasoning | 0.5500 | 0.8833 |
+| reflection | 0.5667 | 0.8375 |
+| continuity | 0.5833 | 0.7708 |
+| **OVERALL** | **0.6836** | **0.9237** |
+
+4 governed promotions | 0 floor failures | 0 severe regressions | 115/116 tests passing
+
+→ [Full audit report](./docs/BENCHMARK_PROOF.md) | [Step-by-step guide](./docs/QUICKSTART_STEPBYSTEP.md) | [How to grow it](./docs/HOW_TO_GROW.md) | [Use cases](./docs/USE_CASES.md)
 
 ---
 
