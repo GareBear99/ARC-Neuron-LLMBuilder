@@ -6,6 +6,22 @@
 
 > 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 115-test suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
 
+### 💫 Thanks to our supporters
+
+<a href="https://github.com/GareBear99/TizWildinEntertainmentHUB/stargazers">
+  <img src="http://reporoster.com/stars/dark/GareBear99/TizWildinEntertainmentHUB" alt="Stargazers" />
+</a>
+
+<a href="https://github.com/GareBear99/TizWildinEntertainmentHUB/network/members">
+  <img src="http://reporoster.com/forks/dark/GareBear99/TizWildinEntertainmentHUB" alt="Forkers" />
+</a>
+
+</div>
+
+<p align="center"><img src="https://i.imgur.com/dBaSKWF.gif" height="40" width="100%"></p>
+
+<div align="center">
+
 <sub>**Topics**: local AI
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
