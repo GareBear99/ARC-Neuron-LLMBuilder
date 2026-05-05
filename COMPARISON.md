@@ -54,7 +54,7 @@ Where ARC-Neuron LLMBuilder sits relative to adjacent tools. This is not a taked
 |---|---|---|
 | LLM app tracing | ✅ best-in-class | basic conversation records |
 | Prompt versioning | ✅ | via prompt profiles |
-| Eval datasets | ✅ | ✅ 165 tasks, 16 capabilities |
+| Eval datasets | ✅ | ✅ 142 tasks, 14 capabilities (rebuilt v2.0.0) |
 | Judge-based scoring | ✅ | keyword rubric (cheap, fast) |
 | Training lane | ❌ | ✅ native + external |
 | Promotion gate | ❌ | ✅ Gate v2 |
@@ -72,7 +72,7 @@ Where ARC-Neuron LLMBuilder sits relative to adjacent tools. This is not a taked
 | Inference performance | ✅ excellent | delegated (via `llama_cpp_http` adapter) |
 | Quantization | ✅ | reads GGUF, doesn't quantize |
 | Training | ❌ | ✅ native transformer |
-| Benchmarks | minimal | 165 tasks, 16 capabilities |
+| Benchmarks | minimal | 142 tasks, 14 capabilities (rebuilt, verified) |
 | Governance | ❌ | ✅ Gate v2 |
 | Archive | ❌ | ✅ Arc-RAR |
 
@@ -113,7 +113,7 @@ Where ARC-Neuron LLMBuilder sits relative to adjacent tools. This is not a taked
 
 1. **Governed promotion loop with attributed regression detection.** Gate v2 produces a receipt explaining which capability regressed by how much, with reference to the incumbent. Very few open-source tools offer this out of the box.
 
-2. **Conversation-driven growth proven end-to-end.** The v5 → v6_conversation promotion was trained from a corpus the canonical pipeline harvested itself. Not a demo — a governed promotion.
+2. **Conversation-driven growth proven end-to-end.** The v5 → v6_conversation promotion was trained from a corpus the canonical pipeline harvested itself. Not a demo — a governed promotion. Post-audit (v2.0.0): four more governed promotions raised the verified score to 0.9237.
 
 3. **Indexed binary ledger with measured performance.** OBIN v2 is a small, fast, SHA-256-verified event log with O(1) lookup by event ID. Measured: 6,600+ ev/s append, 8,900+ lookups/sec.
 

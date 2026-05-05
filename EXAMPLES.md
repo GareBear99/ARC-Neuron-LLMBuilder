@@ -26,7 +26,7 @@ python3.12 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt "torch>=2.0" "numpy<2.0"
 python3 scripts/ops/bootstrap_keys.py
 
-python3 -m pytest tests/ -q                   # 87 passed
+python3 -m pytest tests/ -q                   # 115 passed, 1 skipped
 python3 scripts/ops/demo_proof_workflow.py    # 9/9 green
 ```
 
@@ -35,7 +35,7 @@ python3 scripts/ops/demo_proof_workflow.py    # 9/9 green
 ```bash
 python3 scripts/execution/run_direct_candidate.py \
   --adapter exemplar \
-  --artifact exports/candidates/arc_governed_v6_conversation/exemplar_train/exemplar_model.json \
+  --artifact exports/candidates/arc_governed_v10_wave4/exemplar_train/exemplar_model.json \
   --prompt "Critique a plan that ships without a rollback path."
 ```
 
@@ -138,7 +138,7 @@ from runtime.conversation_pipeline import ConversationPipeline
 from pathlib import Path
 
 base = ExemplarAdapter(
-    artifact="exports/candidates/arc_governed_v6_conversation/exemplar_train/exemplar_model.json",
+    artifact="exports/candidates/arc_governed_v10_wave4/exemplar_train/exemplar_model.json",
     top_k=3,
 )
 adapter = ReflectionLoop(base, skip_on_short=60)

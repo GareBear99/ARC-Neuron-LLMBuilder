@@ -53,7 +53,7 @@ No for the included tiers. The ARC-Neuron Tiny and Small models train on CPU in 
 
 ## <a id="download-model"></a>Do I need to download a model?
 
-No. The repo ships with `arc_governed_v6_conversation` as the current incumbent. Clone, install, and run `scripts/ops/demo_proof_workflow.py` — everything works out of the box.
+No. The repo ships with `arc_governed_v10_wave4` as the current incumbent (overall score 0.9237). Clone, install, and run `scripts/ops/demo_proof_workflow.py` — everything works out of the box.
 
 ## <a id="gate-v2"></a>What is "Gate v2"?
 
@@ -90,7 +90,7 @@ Every governance command now operates against the external model with zero code 
 Yes. Two channels:
 
 - **Live**: the language module absorbs terminology, capability signals, and continuity signals from every conversation turn that passes through the canonical pipeline. This happens immediately.
-- **Periodic**: conversations that auto-tag as training-eligible are exported as SFT corpora. On the next training wave, those corpora feed the candidate. This is how v5 → v6_conversation closed the doctrine loop.
+- **Periodic**: conversations that auto-tag as training-eligible are exported as SFT corpora. On the next training wave, those corpora feed the candidate. This is how v5 → v6_conversation closed the doctrine loop. Post-audit (v2.0.0), four additional cycles raised the verified score to 0.9237.
 
 ## <a id="local"></a>Is my data local?
 

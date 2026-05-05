@@ -106,7 +106,7 @@ ARC-Neuron LLMBuilder is a local-first cognition lab that treats a language mode
 
 The system ships with a working transformer family (ARC-Neuron Tiny and Small), a retrieval-based exemplar adapter, a canonical conversation pipeline, draft→critique→revise reflection, automatic terminology absorption from conversation, and a regression-aware promotion gate.
 
-**Doctrine closed in v1.0.0-governed:** conversation grows the brain, not just the memory. Three governed promotions in a row have been recorded, the last one (`arc_governed_v6_conversation`) trained entirely from a corpus the canonical conversation pipeline harvested itself.
+**Doctrine closed in v1.0.0-governed:** conversation grows the brain, not just the memory. Three governed promotions recorded through v1.0.0. **Post-audit (v2.0.0):** four additional governed promotions (v7→v10) raised the verified score from 0.6836 to 0.9237 (+35.1%) after independent audit corrected 4 structural defects in the benchmark and rubric.
 
 ---
 
@@ -169,7 +169,7 @@ Applies the receipt economy to binaries. Intake + classification + deterministic
 CLI-first archive manager with a native-app control surface (Linux GTK, macOS, Windows WinUI). Bundles are manifest-indexed and SHA-256-verified; the manifest is readable without extracting. Extraction is evidence-producing — every restore leaves a receipt. Automation crate, FFI crate, IPC crate for daemon mode. Any archived state is addressable by SHA-256; rollback is first-class, not a recovery special case.
 
 ### ARC-Neuron-LLMBuilder *(this repo)* — governed build loop
-Assembly of the other six into a working train → benchmark → gate → archive → verify cycle. Canonical conversation pipeline, Gate v2 promotion, floor model, reflection loop, language absorption, OBIN v2 indexed ledger, Arc-RAR bundle packaging. Three governed promotions on record (v4, v5, v6_conversation). 87 tests. 165-task benchmark suite.
+Assembly of the other six into a working train → benchmark → gate → archive → verify cycle. Canonical conversation pipeline, Gate v2 promotion, floor model, reflection loop, language absorption, OBIN v2 indexed ledger, Arc-RAR bundle packaging. **Four post-audit governed promotions on record (v7, v8, v9, v10).** 115 tests. 142-task benchmark suite (rebuilt and verified).
 
 Full per-repo writeups, integration flow, and role contract: **[ECOSYSTEM.md](./ECOSYSTEM.md)**
 
@@ -191,7 +191,7 @@ Sponsorship funds time across all seven ARC ecosystem repos — not just this on
 |---|---|
 | Talk to it | Records the conversation with a signed receipt, mirrors it into the Omnibinary indexed ledger, extracts terminology with provenance |
 | Ask it to train a new model | Mines the accumulated SFT corpus, trains a byte-level transformer, exports `.pt` + `.gguf`, builds a retrieval exemplar artifact |
-| Ask it to compare | Runs the candidate against the full 165-task benchmark, scores with the task-aware rubric, prints per-capability deltas |
+| Ask it to compare | Runs the candidate against the full 142-task benchmark (14 capabilities × 10 tasks each), scores with the task-aware rubric, prints per-capability deltas |
 | Ask it to promote | Applies Gate v2 (hard-reject floor, floor-model protection, regression ceilings), updates the scoreboard, bundles the candidate into an Arc-RAR archive |
 | Ask it to roll back | Restores a prior incumbent from its bundle; the prior state is always addressable by SHA-256 |
 | Ask it to prove itself | Runs `demo_proof_workflow.py` or `run_n_cycles.py` — every step produces a receipt |
@@ -206,9 +206,9 @@ Sponsorship funds time across all seven ARC ecosystem repos — not just this on
 
 ### 🟢 Operational
 
-- **✅ Tests**: 87 / 87 passing
-- **🏆 Incumbent**: `arc_governed_v6_conversation`
-- **📈 Score**: **0.7333** on 165 tasks
+- **✅ Tests**: 115 / 116 passing (1 skipped: torch)
+- **🏆 Incumbent**: `arc_governed_v10_wave4`
+- **📈 Score**: **0.9237** on 142 tasks (post-audit benchmark)
 - **📚 Docs**: 21 root + 62 indexed
 - **📦 Bundles**: 12 restorable
 - **💾 Pipeline**: Canonical, single-path
@@ -220,7 +220,7 @@ Sponsorship funds time across all seven ARC ecosystem repos — not just this on
 
 - **✍️ Append**: **6,639 ev/sec**
 - **🔎 Lookup**: **8,859 O(1) ops/sec**
-- **📐 p99 latency**: **0.22 ms**
+- **📐 p99 latency**: **~0.35 ms** (Omnibinary lookup) · **115/116 tests passing**
 - **💾 Per-event**: **397 bytes**
 - **🗄️ Per TB**: **~2.71 billion events**
 - **📍 Fidelity**: SHA-256 stable ✅
@@ -232,12 +232,16 @@ Sponsorship funds time across all seven ARC ecosystem repos — not just this on
 ### 🎯 Promotion lineage
 
 ```
-v1 (0.6122)  →  v2 (0.6247)  →  v4 (0.7128)  →  v5 (0.7169)  →  v6_conversation (0.7333)  🏆
+v1 (0.6122) → v2 (0.6247) → v4 (0.7128) → v5 (0.7169) → v6 (0.6836†) → v7 (0.8537) → v8 (0.8883) → v9 (0.8911) → **v10 (0.9237)**  🏆
+
+†v6 true baseline after audit remediation. Pre-audit claimed 0.7333 (inflated by synthetic benchmarks).
    promote         promote         promote         promote         promote / INCUMBENT
-                                   +16.4% vs v2 baseline on the same 165-task benchmark
+                                   +35.1% net improvement from true v6 baseline through 4 governed audit cycles
 ```
 
-Plus: **v6 tied ⇒ archive_only** · **v7_regressed caught ⇒ archive_only with attribution** · **5/5 STABLE** at v5 floor.
+Plus: **v6 tied ⇒ archive_only** · **v7_regressed caught ⇒ archive_only** · **5/5 STABLE** at v5 floor.
+
+Post-audit: **4/4 PROMOTE** across waves 1–4 · **0 floor failures** · **0 severe regressions**.
 
 All four Gate v2 decision states have fired lawfully on real runs. Every claim above is individually verifiable:
 
@@ -275,7 +279,7 @@ docker run --rm arc-neuron-llmbuilder python3 scripts/ops/demo_proof_workflow.py
 ### 2. Validate
 
 ```bash
-python3 -m pytest tests/ -q              # 87 tests
+python3 -m pytest tests/ -q              # 115 tests
 python3 scripts/ops/benchmark_omnibinary.py   # measures the ledger
 python3 scripts/ops/demo_proof_workflow.py    # 9-step end-to-end proof
 ```
@@ -293,7 +297,7 @@ python3 examples/hello.py "Critique a plan that ships without a rollback path."
 ```bash
 python3 scripts/execution/run_direct_candidate.py \
   --adapter exemplar \
-  --artifact exports/candidates/arc_governed_v6_conversation/exemplar_train/exemplar_model.json \
+  --artifact exports/candidates/arc_governed_v10_wave4/exemplar_train/exemplar_model.json \
   --prompt "Critique a plan that ships without a rollback path."
 ```
 
@@ -346,7 +350,7 @@ flowchart TD
     Rec --> Train[🛠️ Training-eligibility tag]
     Train --> Corpus[📁 SFT Corpus]
     Corpus --> Cand[🧠 Candidate Model]
-    Cand --> Bench[📊 165-task Benchmark]
+    Cand --> Bench[📊 142-task Benchmark]
     Bench --> Gate{⚖️ Gate v2}
     Gate -->|beat incumbent| Promote[✅ PROMOTE]
     Gate -->|tie or regression| Archive[💾 archive_only]
@@ -381,7 +385,7 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) and [GOVERNANCE_DOCTRINE.md](./GOVERNAN
 Every candidate must clear **Gate v2** before displacing an incumbent:
 
 1. **Hard-reject floor** — `repair_success` ≥ 0.30, `failure_rate` ≤ 0.25
-2. **Floor model check** — core capabilities cannot drop below the locked baseline (currently v6_conversation)
+2. **Floor model check** — core capabilities cannot drop below 95% of the incumbent baseline (currently v10_wave4)
 3. **Regression ceilings** — no guarded capability may drop more than its per-capability allowance vs the incumbent
 4. **Beat the incumbent** on overall weighted score
 5. **Non-promotable adapter filter** — heuristic/echo adapters can never become incumbents
@@ -399,6 +403,7 @@ Live roadmap. Updated as milestones ship. Full detail in [ROADMAP.md](./ROADMAP.
 | Version | Status | Milestone | Key deliverables |
 |---|---|---|---|
 | **v1.0.0-governed** | ✅ **Shipped** *(2026-04-22)* | **Doctrine Closed** | Three governed promotions, Gate v2 all four states, OBIN v2 indexed ledger, 87-test suite, 165-task benchmark, Arc-RAR bundles |
+| **v2.0.0-audited** | ✅ **Shipped** *(2026-05-04)* | **Audit Complete** | 4 defects fixed, 4 governed promotions (v7→v10), 0.6836→0.9237, 115-test suite, 142-task benchmark rebuilt, TF-IDF retrieval, 296 new exemplars |
 | **v1.1.0** | 🚧 **Next** | **Expanded Native Lane** | ARC-Neuron Base tier (GPU), real tokenizer (SentencePiece/BPE), distillation wave v2 driver, `arc` CLI frontend, scorer v3 with per-cap weights, +50 benchmark tasks |
 | **v1.2.0** | 🔮 Planned | **External Backend Integration** | Reference docs for Qwen3-32B / Llama-4 / DeepSeek via `llama_cpp_http`, per-adapter scoreboard namespacing, command-adapter timeout tuning, reflection loop v2 |
 | **v1.3.0** | 🔮 Planned | **Multi-Repo Integration** | OmniBinary ↔ LLMBuilder federation, ARC-Core event attestation (co-signed receipts), Arc-RAR ↔ Cleanroom replay, Language Module canonicalization |
@@ -449,7 +454,7 @@ gantt
 
 ## 📈 Benchmark surface
 
-165 tasks across 16 capability families:
+142 tasks across 14 capability families (rebuilt and verified):
 
 | Family | Tasks | Current v6 score |
 |---|---|---|
@@ -489,7 +494,7 @@ ARC-Neuron-LLMBuilder/
 │   ├── ops/               # Proof workflows, repeatability runners, distillation waves
 │   ├── lab/               # Tiny/Small GGUF smoke and validate
 │   └── operator/          # User-facing shell scripts
-├── benchmarks/            # 165 tasks across 16 capability families
+├── benchmarks/            # 142 tasks across 14 capability families (rebuilt)
 ├── datasets/              # Seed and distilled SFT corpora
 ├── specs/                 # Gate v2, benchmark schema v2, promotion doctrine
 ├── configs/               # Base model candidates, training stages, runtime profiles
@@ -549,6 +554,10 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 - [GOVERNANCE_DOCTRINE.md](./GOVERNANCE_DOCTRINE.md) — Gate v2, floor model, Arc-RAR, Omnibinary explained
 - [ECOSYSTEM.md](./ECOSYSTEM.md) — the seven-repo ARC ecosystem and how LLMBuilder integrates
 - [QUICKSTART.md](./QUICKSTART.md) — 10-minute tour of every major capability
+- [docs/QUICKSTART_STEPBYSTEP.md](./docs/QUICKSTART_STEPBYSTEP.md) — **10-step guide from clone to governed promotion** (new)
+- [docs/BENCHMARK_PROOF.md](./docs/BENCHMARK_PROOF.md) — **full audit proof with reproducible commands** (new)
+- [docs/HOW_TO_GROW.md](./docs/HOW_TO_GROW.md) — **growth path: retrieval → transformer → RLHF → edge** (new)
+- [docs/USE_CASES.md](./docs/USE_CASES.md) — **domain applications: robotics, medical, finance, edge** (new)
 - [USAGE.md](./USAGE.md) — complete command reference
 - [EXAMPLES.md](./EXAMPLES.md) — 10 runnable recipes
 
@@ -559,7 +568,8 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 - [GLOSSARY.md](./GLOSSARY.md) — every ARC-specific term
 - [ROADMAP.md](./ROADMAP.md) — v1.1 → v2.0 milestones
 - [COMPARISON.md](./COMPARISON.md) — vs MLflow, W&B, Langfuse, llama.cpp
-- [MODEL_CARD_v6_conversation.md](./MODEL_CARD_v6_conversation.md) — current incumbent
+- [MODEL_CARD_v10_wave4.md](./MODEL_CARD_v10_wave4.md) — **current incumbent** (v2.0.0-audited)
+- [MODEL_CARD_v6_conversation.md](./MODEL_CARD_v6_conversation.md) — v1.0.0 incumbent (superseded)
 
 ### Release
 - [CHANGELOG.md](./CHANGELOG.md) — full release history

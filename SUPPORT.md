@@ -15,7 +15,7 @@ Most questions are already answered in one of these documents:
 ## First-run diagnostics
 
 ```bash
-python3 -m pytest tests/ -q                   # should report 87 passed
+python3 -m pytest tests/ -q                   # should report 115 passed, 1 skipped
 python3 scripts/ops/benchmark_omnibinary.py   # Omnibinary PASS
 python3 scripts/ops/demo_proof_workflow.py    # 9/9 steps green
 make verify-store                             # Omnibinary live-store integrity

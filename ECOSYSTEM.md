@@ -257,7 +257,7 @@ Every promoted LLMBuilder candidate is packaged via `scripts/ops/bundle_promoted
 
 ### What it does
 
-LLMBuilder is where the whole ecosystem's doctrine becomes **operational for a live governed model-growth loop**. Every other repo contributes primitives; LLMBuilder assembles them into a working build → benchmark → gate → archive → verify cycle with three governed promotions on record. Concretely:
+LLMBuilder is where the whole ecosystem's doctrine becomes **operational for a live governed model-growth loop**. Every other repo contributes primitives; LLMBuilder assembles them into a working build → benchmark → gate → archive → verify cycle with **seven governed promotions on record** (three at v1.0.0, four post-audit at v2.0.0). Concretely:
 
 - **Canonical conversation pipeline** — `runtime/conversation_pipeline.py`. Every user interaction passes through one path that produces a SHA-256-addressable `ConversationRecord`, mirrors it into the Omnibinary ledger, auto-tags training eligibility, and returns the record.
 - **Gate v2 promotion** — `scripts/execution/promote_candidate.py`. Four-layer governance: hard-reject floor, floor model, regression ceilings, beat-the-incumbent. Four lawful decision states: promote, archive_only (tie), archive_only (regression), reject.
@@ -268,13 +268,13 @@ LLMBuilder is where the whole ecosystem's doctrine becomes **operational for a l
 - **OBIN v2 indexed ledger** — `runtime/learning_spine.py`. ~6,600 events/sec append, ~8,900 O(1) lookups/sec, SHA-256 verified, index auto-rebuilds on drift.
 - **Arc-RAR bundle format (Python implementation)** — `scripts/ops/bundle_promoted_candidate.py`. Produces bundles structurally compatible with the Arc-RAR tooling.
 - **Native training lane** — `scripts/training/train_arc_native_candidate.py`. Real PyTorch training, GGUF v3 export, exemplar sidecar for the benchmark harness.
-- **165-task benchmark suite** across 16 capability families.
+- **142-task benchmark suite** across 14 capability families (rebuilt and verified in v2.0.0-audited).
 - **87-test suite** covering the full loop.
 - **Adapter boundary** — `adapters/base.py`. Plug in any model backend (exemplar, llama.cpp, vLLM, TGI, OpenAI-compatible) with zero governance changes.
 
 ### Why it exists
 
-The other six repos each own a role. LLMBuilder owns the **assembly** — the place where "train a candidate → benchmark it → decide if it's better → archive the decision" is actually wired together and proven to work repeatedly. Three governed promotions on record (v4 at 0.7128, v5 at 0.7169, v6_conversation at 0.7333) demonstrate the assembly is real, not theoretical.
+The other six repos each own a role. LLMBuilder owns the **assembly** — the place where "train a candidate → benchmark it → decide if it's better → archive the decision" is actually wired together and proven to work repeatedly. Seven governed promotions on record — v4 (0.7128), v5 (0.7169), v6 (0.6836†), **v7 (0.8537), v8 (0.8883), v9 (0.8911), v10 (0.9237)** — demonstrate the assembly is real. †True post-audit baseline; pre-audit was 0.7333 inflated by synthetic benchmarks.
 
 ### Concrete capabilities
 

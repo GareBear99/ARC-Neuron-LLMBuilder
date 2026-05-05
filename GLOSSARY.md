@@ -22,7 +22,7 @@ The governance principle that each component, capability, and decision must trac
 ## B
 
 **Benchmark suite**
-The 165-task evaluation set organized across 16 capability families: reasoning, planning, compression, paraphrase_stability, calibration, english_understanding, critique, out_of_domain, quantization_retention, repair, arc_neuron_small_v2, arc_neuron_base, instruction_following, intelligence, continuity, reflection.
+The 142-task evaluation set organized across 14 capability families: reasoning, planning, compression, paraphrase_stability, calibration, english_understanding, critique, out_of_domain, quantization_retention, repair, instruction_following, intelligence, continuity, reflection. (Rebuilt in v2.0.0-audited — 4 benchmark files replaced with genuine diverse tasks.)
 
 **Block size**
 The context window length of a transformer tier. Tiny=64, Small=128, Base=256. All measured in tokens (which for the byte-level native models are raw bytes).

@@ -28,7 +28,7 @@ python3 scripts/ops/bootstrap_keys.py
 python3 -m pytest tests/ -q
 ```
 
-**Expected**: `87 passed in ~30s`. If any test fails, stop and investigate before proceeding.
+**Expected**: `115 passed, 1 skipped in ~30s`. The skip is torch (optional). If other tests fail, investigate before proceeding.
 
 ## 2. Measure the Omnibinary ledger (15 seconds)
 
@@ -62,7 +62,7 @@ python3 scripts/ops/demo_proof_workflow.py
 ```bash
 python3 scripts/execution/run_direct_candidate.py \
   --adapter exemplar \
-  --artifact exports/candidates/arc_governed_v6_conversation/exemplar_train/exemplar_model.json \
+  --artifact exports/candidates/arc_governed_v10_wave4/exemplar_train/exemplar_model.json \
   --prompt "Critique a plan that ships without a rollback path."
 ```
 
@@ -87,7 +87,7 @@ python3 scripts/training/train_arc_native_candidate.py \
 ## 6. Benchmark your candidate (1 minute)
 
 ```bash
-# Run the 165-task benchmark suite
+# Run the 142-task benchmark suite
 python3 scripts/execution/run_model_benchmarks.py \
   --adapter exemplar \
   --artifact exports/candidates/my_first_candidate/exemplar_train/exemplar_model.json \
@@ -113,7 +113,7 @@ python3 scripts/execution/promote_candidate.py \
   --candidate my_first_candidate
 ```
 
-**Expected** (unless your candidate beats the v6_conversation incumbent at 0.7333):
+**Expected** (unless your candidate beats the v10_wave4 incumbent at 0.9237):
 ```json
 {
   "ok": true,

@@ -18,6 +18,19 @@ This directory holds **62 internal design docs** that predate or supplement the 
 - [RELEASE_NOTES_v1.0.0](../RELEASE_NOTES_v1.0.0.md)
 - [MODEL_CARD_v6_conversation](../MODEL_CARD_v6_conversation.md)
 
+---
+
+## ✅ New — Post-Audit Documentation (2026-05-04)
+
+These four documents were added during the independent audit. **Start here if you are new.**
+
+- [BENCHMARK_PROOF.md](./BENCHMARK_PROOF.md) — Full reproducible proof of all benchmark results, defects found, remediation applied, and the promotion ledger from v6 → v10. Every claim has a runnable command.
+- [QUICKSTART_STEPBYSTEP.md](./QUICKSTART_STEPBYSTEP.md) — 10 concrete steps from `git clone` to running your first governed promotion cycle. No assumed knowledge.
+- [HOW_TO_GROW.md](./HOW_TO_GROW.md) — The full growth path: Stage 1 (richer exemplars) → Stage 2 (train the transformer) → Stage 3 (RLHF) → Stage 4 (quantise) → Stage 5 (domain specialisation). Includes honest ceilings for each stage.
+- [USE_CASES.md](./USE_CASES.md) — Concrete domain applications: robotics and autonomous systems, website/app control, medical decision support, financial services, DevOps, education, edge/embedded deployment, multi-agent systems. Includes what is NOT a good fit.
+
+---
+
 This folder contains the **historical and topical design record** — acceptance gates, phase reports, model family progression, release checkpoints, and prep/promotion docs. They are preserved for provenance and technical depth, not as the primary entry point for new users.
 
 ---

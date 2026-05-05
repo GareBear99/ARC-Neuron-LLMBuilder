@@ -1,6 +1,10 @@
 # Model Card — `arc_governed_v6_conversation`
 
-Standard ML model card for the current incumbent (as of v1.0.0-governed).
+> **Superseded.** This was the incumbent at v1.0.0-governed. The current incumbent is `arc_governed_v10_wave4`.
+> Post-audit, the true v6 overall score is **0.6836** (not 0.7333 — inflated by synthetic benchmarks).
+> See [MODEL_CARD_v10_wave4.md](./MODEL_CARD_v10_wave4.md) for the current model card.
+
+Standard ML model card for the v1.0.0-governed incumbent (archived for provenance).
 
 ## Summary
 
@@ -68,9 +72,9 @@ Sources:
 
 ## Evaluation
 
-**Benchmark**: 165-task suite across 16 capability families.
+**Benchmark**: 165-task suite across 16 capability families *(pre-audit rubric — synthetic benchmarks inflated scores)*.
 
-**Overall weighted score**: `0.7333` (0 failures out of 165 tasks).
+**Overall weighted score**: `0.7333` pre-audit / **`0.6836` post-audit** (true score after fixing synthetic benchmarks and gameable rubric).
 
 **Per-capability breakdown**:
 
@@ -94,8 +98,8 @@ Sources:
 | arc_neuron_base | 0.4333 | regression from v5 (0.5333), below violation threshold |
 
 **Comparison to baseline**:
-- `arc_governed_v2` rescored on same 165-task set: 0.6121 → v6_conversation: 0.7333 (**+16.5% relative**)
-- `arc_governed_v5`: 0.7169 → v6_conversation: 0.7333 (**+0.0164 absolute**)
+- `arc_governed_v2` rescored: 0.6121 → v6_conversation: 0.7333 pre-audit / 0.6836 post-audit (**+11.9% relative**, true value)
+- `arc_governed_v5`: 0.7169 → v6_conversation: 0.7333 pre-audit / 0.6836 post-audit
 
 **Gate v2 decision receipt**: `reports/promotion_decision.json` at time of promotion — promoted with zero regression violations and zero floor violations.
 
@@ -160,7 +164,7 @@ arc_governed_v1  (0.6122) — first baseline
             └─ arc_governed_v5  (0.7169) — extension pack
                  └─ arc_governed_v6  (0.7169, archive_only) — tie-archive
                  └─ arc_governed_v7_regressed  (0.6190, archive_only) — regression caught
-                 └─ arc_governed_v6_conversation  (0.7333, promote, INCUMBENT) ← you are here
+                 └─ arc_governed_v6_conversation  (0.6836 post-audit, promote, superseded) ← see MODEL_CARD_v10_wave4.md
 ```
 
 ## How to cite this specific model

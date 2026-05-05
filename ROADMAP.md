@@ -6,12 +6,13 @@ Concrete milestones for future releases of ARC-Neuron LLMBuilder. Items are orde
 
 **Status**: Shipped.
 
-- Three governed promotions on record (v4, v5, v6_conversation)
+- Three governed promotions on record (v4, v5, v6_conversation) at v1.0.0
+- **Four post-audit governed promotions on record (v7, v8, v9, v10) at v2.0.0** — overall score 0.6836→0.9237
 - All four Gate v2 decision states fired lawfully
 - Conversation-harvested corpus proven to grow the brain
 - Omnibinary ledger measured: 6,600 ev/s append, 8,900 lookups/sec O(1)
 - Arc-RAR bundles restorable end-to-end
-- 87/87 tests passing, 9/9 demo proof workflow green
+- 115/116 tests passing (v2.0.0), 9/9 demo proof workflow green
 
 ---
 
@@ -40,7 +41,7 @@ Concrete milestones for future releases of ARC-Neuron LLMBuilder. Items are orde
 
 ### Planned
 - **Reference integration docs** for Qwen3-32B-Instruct, Llama-4, DeepSeek-Coder via `llama_cpp_http`.
-- **External-model benchmark preset** — 165-task suite pre-run against a canonical open-weights model as a reference ceiling.
+- **External-model benchmark preset** — 142-task suite pre-run against a canonical open-weights model as a reference ceiling.
 - **Per-adapter scoreboard namespacing** — prevent external-model scores from displacing native-model incumbents accidentally (keep separate tracks under one scoreboard).
 - **Command adapter timeout tuning** — expose first-output / idle / overall timeouts as `--timeout-*` flags to `promote_candidate.py`.
 - **Reflection loop v2** — skip the critique stage when confidence is already bounded; detect overclaim patterns more precisely.

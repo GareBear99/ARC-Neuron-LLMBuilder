@@ -1,3 +1,11 @@
+> **Historical document — v1.0.0-governed.**
+> Scores in this file reflect the pre-audit rubric and synthetic benchmarks.
+> The true v6_conversation baseline is **0.6836** (not 0.7333).
+> Current incumbent is `arc_governed_v10_wave4` at **0.9237**.
+> See [docs/BENCHMARK_PROOF.md](./docs/BENCHMARK_PROOF.md) for the authoritative post-audit record.
+
+---
+
 # Release Notes — v1.0.0-governed
 
 **Released**: 2026-04-22
@@ -182,3 +190,16 @@ python3 scripts/ops/run_n_cycles.py --cycles 3 --tier tiny --steps 30
 ## The verdict
 
 The machine is lawful. The measurement is honest. The loop grows a better brain on demand, preserves the prior one, rejects worse ones with attribution, and does so repeatedly.
+
+
+---
+
+## Post-audit addendum (v2.0.0-audited — 2026-05-04)
+
+An independent audit found 4 structural defects in the v1.0.0 benchmark and rubric. The claims below about benchmark scores reflect the pre-fix rubric. The corrected numbers are:
+
+- True v6_conversation overall score: **0.6836** (not 0.7333)
+- Post-audit, four additional governed promotions raised this to **0.9237**
+- See [docs/BENCHMARK_PROOF.md](./docs/BENCHMARK_PROOF.md) for the complete audit record
+
+The promoted candidates (v4, v5, v6_conversation), the gate decision states, and the receipt chain are real and unchanged. Only the score values were inflated by the synthetic benchmarks.

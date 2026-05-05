@@ -218,7 +218,13 @@ As of v1.0.0-governed, every decision state has fired on a real candidate:
 | promote | `arc_governed_v4` | +0.1007 vs v2 baseline, zero regressions |
 | promote | `arc_governed_v5` | +0.0041 vs v4, zero regressions |
 | promote | `arc_governed_v6_conversation` | +0.0164 vs v5, conversation-derived corpus |
+| promote | `arc_governed_v7_wave1` | +0.1701 vs v6 (post-audit), wave 1 exemplars |
+| promote | `arc_governed_v8_wave2` | +0.0346 vs v7, wave 2 exemplars |
+| promote | `arc_governed_v9_wave3` | +0.0028 vs v8, wave 3 exemplars |
+| promote | `arc_governed_v10_wave4` | +0.0326 vs v9, wave 4 exemplars — **current incumbent** |
 | archive_only (tie) | `arc_governed_v6` | Identical to v5 at 0.7169 |
+
+> **Note:** The post-audit overall score for v6_conversation is 0.6836 (true baseline after fixing synthetic benchmarks and gameable rubric). Pre-audit claimed 0.7333.
 | archive_only (regression) | `arc_governed_v7_regressed` | `reasoning` dropped 0.667, `critique` dropped 0.250 |
 | reject | covered by test suite | hard-reject floor triggered on synthetic candidates |
 

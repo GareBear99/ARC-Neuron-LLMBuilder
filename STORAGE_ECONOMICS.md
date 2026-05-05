@@ -146,7 +146,7 @@ Each OBIN v2 event, decoded from the wire format, is a JSON blob containing (typ
     "backend_identity": "exemplar:arc_governed_v6_conversation",
     "meta": { ... },
     "training_eligible": true,
-    "training_score": 0.7333,
+    "training_score": 0.9237,  // v10_wave4 post-audit
     "preferred": null,
     "correction": null,
     "prompt_sha256": "...",
@@ -258,7 +258,7 @@ The Omnibinary ledger is only one of seven archive layers. Here's what the syste
 | 2 | Omnibinary sidecar `.idx` | **~3.2 KB** per live store | O(1) event_id → byte_offset index |
 | 3 | Terminology JSON store | **~27 KB** (52 terms) | Language module: definitions, aliases, corrections, provenance, trust ranks |
 | 4 | Promotion decision receipt | **~2.4 KB** each | Full Gate v2 decision with inputs, floor check, regression violations |
-| 5 | Scored benchmark outputs | **~478 KB** (165 tasks) | Per-task prompt + response + rubric score + capability attribution |
+| 5 | Scored benchmark outputs | **~420 KB** (142 tasks) | Per-task prompt + response + rubric score + capability attribution |
 | 6 | Training checkpoint `.pt` | **~698 KB** (Small tier) | PyTorch state_dict + config + hyperparameters |
 | 7 | GGUF v3 export | **~752 KB** (Small tier F32) | Deployable model artifact with ARC-prefixed metadata |
 | 8 | Exemplar sidecar JSON | **~935 KB** (762 records) | Cosine-retrieval artifact for benchmark harness |
@@ -290,7 +290,7 @@ One complete governed cycle (`train → benchmark → score → gate → bundle`
 | Training checkpoint `.pt` | ~698 KB |
 | GGUF v3 export | ~752 KB |
 | Exemplar sidecar JSON | ~935 KB |
-| Benchmark outputs JSONL (165 tasks) | ~478 KB |
+| Benchmark outputs JSONL (142 tasks) | ~420 KB |
 | Scored outputs JSON | ~478 KB |
 | Promotion receipt | ~2.4 KB |
 | Training report | ~2 KB |

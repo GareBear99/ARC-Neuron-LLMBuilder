@@ -19,7 +19,7 @@ python3.12 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt "torch>=2.0" "numpy<2.0"
 python3 scripts/ops/bootstrap_keys.py
 
-python3 -m pytest tests/ -q         # must say: 87 passed
+python3 -m pytest tests/ -q         # should say: 115 passed, 1 skipped
 ```
 
 ## Before you open a PR

@@ -93,7 +93,7 @@ alone, without regressing other capabilities.
    corpus **E**.
 3. Train two identical candidates under identical RNG, arch, and compute
    budget. Only the training data differs.
-4. Score both candidates against the 165-task benchmark, recording the
+4. Score both candidates against the 142-task benchmark, recording the
    per-capability slice breakdown.
 5. Compute **Δ_critique = E_score − B_score** on the `critique` slice.
 

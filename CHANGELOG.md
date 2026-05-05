@@ -137,7 +137,7 @@ Four consecutive governed promotion cycles completed. Overall benchmark score: *
 - Dead code removed from `arc_tiny/gguf_io.py` (`if len(payload_parts) == 0: pass` block).
 
 ### Evidence recorded in this release
-- **Tests**: 87/87 passing
+- **Tests**: 87/115 passing
 - **Incumbent**: `arc_governed_v6_conversation` at 0.7333 (165-task benchmark, 0 failures)
 - **Promotion history**: v1 (0.6122) → v2 (0.6247) → v4 (0.7128) → v5 (0.7169) → v6_conversation (0.7333)
 - **Regression gate proven**: v7_regressed correctly archived with attributed violations (`reasoning: 0.667 > 0.05`, `critique: 0.250 > 0.06`)

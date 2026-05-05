@@ -42,7 +42,7 @@ No side channels. No parallel state. One path.
 The research lane. This is where:
 - Candidates are **trained** via `scripts/training/train_arc_native_candidate.py` (byte-level, AdamW, cosine LR, 90/10 split, real PyTorch).
 - GGUF v3 artifacts are written via `arc_tiny/gguf_io.py`.
-- The benchmark harness runs candidates against the 165-task suite.
+- The benchmark harness runs candidates against the 142-task suite (rebuilt in v2.0.0-audited).
 - The rubric scorer produces per-capability scores.
 - `scripts/execution/promote_candidate.py` applies Gate v2 to decide promote, archive_only, or reject.
 
@@ -148,7 +148,7 @@ specs/
     benchmark_schema_v2.yaml           # Benchmark task schema
     cognition_contract_v1.yaml         # System contract
     cognition_doctrine_v1.md           # Operating doctrine
-benchmarks/                            # 165 tasks across 16 capability families
+benchmarks/                            # 142 tasks across 14 capability families (rebuilt)
 configs/                               # Base model candidates, training stages, runtime profiles
 datasets/                              # Seed and distilled SFT corpora
 reports/                               # Promotion receipts, repeatability reports, benchmark numbers
@@ -164,7 +164,7 @@ docs/                                  # Extended documentation
 1. **Collect** — `scripts/training/train_arc_native_candidate.py` mines `datasets/distillation_sft/*.jsonl` and repo text into a byte corpus.
 2. **Train** — AdamW + cosine LR + gradient clip. 90/10 train/val split. Val perplexity tracked.
 3. **Export** — `.pt` checkpoint + GGUF v3 via `arc_tiny/gguf_io.py` + exemplar sidecar (`exemplar_model.json`) for the benchmark harness.
-4. **Benchmark** — `scripts/execution/run_model_benchmarks.py` runs the 165-task suite through the `ExemplarAdapter`, captures per-task outputs as JSONL.
+4. **Benchmark** — `scripts/execution/run_model_benchmarks.py` runs the 142-task suite through the `ExemplarAdapter` (TF-IDF retrieval), captures per-task outputs as JSONL.
 5. **Score** — `scripts/execution/score_benchmark_outputs.py` applies the rubric to produce per-capability summaries and overall weighted score.
 6. **Gate** — `scripts/execution/promote_candidate.py` applies Gate v2 (hard-reject → floor model → regression ceilings → beat-incumbent) and emits a promotion receipt.
 7. **Bundle** — on promote or archive_only, `scripts/ops/bundle_promoted_candidate.py` packages the candidate into a SHA-256-indexed Arc-RAR archive.

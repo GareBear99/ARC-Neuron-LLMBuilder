@@ -87,7 +87,7 @@ python3 scripts/training/prepare_distillation_corpus.py
 ## Benchmark commands
 
 ### `scripts/execution/run_model_benchmarks.py`
-Run the 165-task suite against a candidate's exemplar artifact.
+Run the 142-task suite against a candidate's exemplar artifact (14 capabilities × ~10 tasks each).
 
 ```bash
 python3 scripts/execution/run_model_benchmarks.py \
@@ -132,7 +132,7 @@ Decision output:
   "promoted": false,
   "decision": "archive_only",
   "report": "reports/promotion_decision.json",
-  "overall_weighted_score": 0.7169,
+  "overall_weighted_score": 0.9237,  // v10_wave4 incumbent
   "arc_rar_bundle": null,
   "regression_violations": []
 }
@@ -350,7 +350,7 @@ Copy `.env.direct-runtime.example` to `.env.direct-runtime` and fill in:
 
 ```bash
 COGNITION_RUNTIME_ADAPTER=exemplar
-COGNITION_EXEMPLAR_ARTIFACT=exports/candidates/arc_governed_v6_conversation/exemplar_train/exemplar_model.json
+COGNITION_EXEMPLAR_ARTIFACT=exports/candidates/arc_governed_v10_wave4/exemplar_train/exemplar_model.json
 COGNITION_TIMEOUT_SECONDS=120
 COGNITION_FIRST_OUTPUT_TIMEOUT_SECONDS=30
 COGNITION_IDLE_TIMEOUT_SECONDS=20
