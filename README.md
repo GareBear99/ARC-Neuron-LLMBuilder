@@ -19,7 +19,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Tests: 115/116](https://img.shields.io/badge/tests-115%2F116%20passing-brightgreen.svg)](./tests)
+[![Validator: passing](https://img.shields.io/badge/validator-passing-brightgreen.svg)](./scripts/validate_repo.py)
 [![Gate: v2](https://img.shields.io/badge/governance-Gate%20v2-blue.svg)](./specs/promotion_gate_v2.yaml)
 [![Audited: v10](https://img.shields.io/badge/audited-v10%20%7C%200.9237-brightgreen.svg)](./docs/BENCHMARK_PROOF.md)
 [![Release: v1.0.0-governed](https://img.shields.io/badge/release-v1.0.0--governed-blueviolet.svg)](./RELEASE_NOTES_v1.0.0.md)
@@ -102,7 +102,7 @@ corrected all of them, and ran 4 consecutive governed promotion cycles. Every re
 | continuity | 0.5833 | 0.7708 |
 | **OVERALL** | **0.6836** | **0.9237** |
 
-4 governed promotions | 0 floor failures | 0 severe regressions | 115/116 tests passing
+4 governed promotions | 0 floor failures | 0 severe regressions | repository validator passing
 
 → [Full audit report](./docs/BENCHMARK_PROOF.md) | [Step-by-step guide](./docs/QUICKSTART_STEPBYSTEP.md) | [How to grow it](./docs/HOW_TO_GROW.md) | [Use cases](./docs/USE_CASES.md)
 
@@ -111,11 +111,13 @@ corrected all of them, and ran 4 consecutive governed promotion cycles. Every re
 <a id="what-this-is"></a>
 ## What this is
 
+> **Honest status, patched package:** this repository is best described as a **governed alpha cognition lab / proof-of-loop package**. The governance, receipts, benchmark, native tiny/small model, GGUF export, and promotion machinery are real. The included model tiers are intentionally small reference brains, not frontier-scale replacements for Claude/GPT/Gemini.
+
 ARC-Neuron LLMBuilder is a local-first cognition lab that treats a language model as one artifact inside a **governed lifecycle**. You don't just train a model — you train a candidate, measure it, compare it to the current incumbent, and promote it only if it genuinely improves without regressing on guarded capabilities. Every decision leaves receipts. Every candidate is restorable. Every archive ties back to the source truth through an indexed binary ledger.
 
 The system ships with a working transformer family (ARC-Neuron Tiny and Small), a retrieval-based exemplar adapter, a canonical conversation pipeline, draft→critique→revise reflection, automatic terminology absorption from conversation, and a regression-aware promotion gate.
 
-**Doctrine closed in v1.0.0-governed:** conversation grows the brain, not just the memory. Three governed promotions recorded through v1.0.0. **Post-audit (v2.0.0):** four additional governed promotions (v7→v10) raised the verified score from 0.6836 to 0.9237 (+35.1%) after independent audit corrected 4 structural defects in the benchmark and rubric.
+**Governed proof loop:** conversation data can feed the training/evaluation pipeline; promotion remains gated by evidence and human-curated shards. Three governed promotions recorded through v1.0.0. **Post-audit (v2.0.0):** four additional governed promotions (v7→v10) raised the verified score from 0.6836 to 0.9237 (+35.1%) after independent audit corrected 4 structural defects in the benchmark and rubric.
 
 ---
 
@@ -215,7 +217,8 @@ Sponsorship funds time across all seven ARC ecosystem repos — not just this on
 
 ### 🟢 Operational
 
-- **✅ Tests**: 115 / 116 passing (1 skipped: torch)
+- **✅ Validator**: `python3 scripts/validate_repo.py` passing in this package
+- **🧪 Tests**: PyTorch smoke tests are included; run locally with `python3 -m pytest tests -q`
 - **🏆 Incumbent**: `arc_governed_v10_wave4`
 - **📈 Score**: **0.9237** on 142 tasks (post-audit benchmark)
 - **📚 Docs**: 21 root + 62 indexed
@@ -229,7 +232,7 @@ Sponsorship funds time across all seven ARC ecosystem repos — not just this on
 
 - **✍️ Append**: **6,639 ev/sec**
 - **🔎 Lookup**: **8,859 O(1) ops/sec**
-- **📐 p99 latency**: **~0.35 ms** (Omnibinary lookup) · **115/116 tests passing**
+- **📐 p99 latency**: **~0.35 ms** (Omnibinary lookup) · validator passing
 - **💾 Per-event**: **397 bytes**
 - **🗄️ Per TB**: **~2.71 billion events**
 - **📍 Fidelity**: SHA-256 stable ✅

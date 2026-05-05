@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "arc-neuron-llmbuilder"
-version = "1.0.0"
-description = "A governed local AI build-and-memory system — Gate v2 promotion, OBIN v2 indexed ledger, Arc-RAR restorable archives, canonical conversation pipeline, draft-critique-revise reflection, and automatic terminology absorption."
+version = "1.0.1"
+description = "A governed local AI build-and-memory system — governed alpha cognition lab: Gate v2 promotion, OBIN v2 indexed ledger, Arc-RAR restorable archives, canonical conversation pipeline, draft-critique-revise reflection, and automatic terminology absorption."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
@@ -30,7 +30,7 @@ keywords = [
   "pytorch",
 ]
 classifiers = [
-  "Development Status :: 5 - Production/Stable",
+  "Development Status :: 3 - Alpha",
   "Intended Audience :: Developers",
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: MIT License",
