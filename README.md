@@ -4,13 +4,11 @@
 
 > Local-first. Evidence-backed. Promotion-gated. Rollback-safe. Part of the seven-repo ARC ecosystem.
 
-> 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 115-test suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
+> 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 136-test repository suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
 
 ### 💫 Thanks to our supporters
 
-<a href="https://github.com/GareBear99/ARC-Neuron-LLMBuilder/stargazers">
-  <img src="http://reporoster.com/stars/dark/GareBear99/ARC-Neuron-LLMBuilder" alt="Stargazers" />
-</a>
+[![GitHub stars](https://img.shields.io/github/stars/GareBear99/ARC-Neuron-LLMBuilder?style=social)](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/stargazers)
 
 
 
@@ -415,11 +413,11 @@ Live roadmap. Updated as milestones ship. Full detail in [ROADMAP.md](./ROADMAP.
 | Version | Status | Milestone | Key deliverables |
 |---|---|---|---|
 | **v1.0.0-governed** | ✅ **Shipped** *(2026-04-22)* | **Doctrine Closed** | Three governed promotions, Gate v2 all four states, OBIN v2 indexed ledger, 87-test suite, 165-task benchmark, Arc-RAR bundles |
-| **v2.0.0-audited** | ✅ **Shipped** *(2026-05-04)* | **Audit Complete** | 4 defects fixed, 4 governed promotions (v7→v10), 0.6836→0.9237, 115-test suite, 142-task benchmark rebuilt, TF-IDF retrieval, 296 new exemplars |
+| **v2.0.0-audited** | ✅ **Shipped** *(2026-05-04)* | **Audit Complete** | 4 defects fixed, 4 governed promotions (v7→v10), 0.6836→0.9237, 136-test repository suite, 142-task benchmark rebuilt, TF-IDF retrieval, 296 new exemplars |
 | **v1.1.0** | 🚧 **Next** | **Expanded Native Lane** | ARC-Neuron Base tier (GPU), real tokenizer (SentencePiece/BPE), distillation wave v2 driver, `arc` CLI frontend, scorer v3 with per-cap weights, +50 benchmark tasks |
 | **v1.2.0** | 🔮 Planned | **External Backend Integration** | Reference docs for Qwen3-32B / Llama-4 / DeepSeek via `llama_cpp_http`, per-adapter scoreboard namespacing, command-adapter timeout tuning, reflection loop v2 |
 | **v1.3.0** | 🔮 Planned | **Multi-Repo Integration** | OmniBinary ↔ LLMBuilder federation, ARC-Core event attestation (co-signed receipts), Arc-RAR ↔ Cleanroom replay, Language Module canonicalization |
-| **v2.0.0** | 🎯 Future | **Production Governance** | Formal governance spec (machine-checkable), sandboxed gate execution, audit-trail export, per-org scoreboards, SOC 2 / ISO 27001 hooks |
+| **v2.1.0** | 🎯 Future | **Production Governance** | Formal governance spec (machine-checkable), sandboxed gate execution, audit-trail export, per-org scoreboards, SOC 2 / ISO 27001 hooks |
 
 ### Progress toward each milestone
 
@@ -622,7 +620,7 @@ If you use ARC-Neuron LLMBuilder in research or production, please cite:
   author  = {Doman, Gary},
   title   = {ARC-Neuron LLMBuilder: A Governed Local AI Build-and-Memory System},
   year    = 2026,
-  version = {v1.0.0-governed},
+  version = {v2.0.0-audited},
   url     = {https://github.com/GareBear99/ARC-Neuron-LLMBuilder}
 }
 ```

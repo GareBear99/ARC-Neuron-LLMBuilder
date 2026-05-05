@@ -1,7 +1,7 @@
 {
-  "name_suggestion": "cognition-core",
+  "name_suggestion": "ARC-Neuron-LLMBuilder",
   "description": "Production-hardened alpha cognition lab for building, benchmarking, shaping, and promoting GGUF-oriented local AI cognition candidates.",
-  "homepage_suggestion": "https://github.com/GareBear99/cognition-core",
+  "homepage_suggestion": "https://github.com/GareBear99/ARC-Neuron-LLMBuilder",
   "recommended_topics_file": "repo-metadata/repository_topics.txt",
-  "first_release_tag": "v0.3.0-alpha"
+  "current_release_tag": "v2.0.0-audited"
 }
