@@ -12,8 +12,6 @@
   <img src="http://reporoster.com/stars/dark/GareBear99/ARC-Neuron-LLMBuilder" alt="Stargazers" />
 </a>
 
-  <img src="https://komarev.com/ghpvc/?username=GareBear99&label=Profile%20Views&color=6c7bbd&style=for-the-badge" alt="Profile views" />
-</p>
 
 
 
