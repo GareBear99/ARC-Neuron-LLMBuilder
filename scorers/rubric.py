@@ -240,7 +240,7 @@ def score_record(output_text: str, task: dict | None = None) -> dict[str, Any]:
         ],
         "calibration":          [
             ("states_uncertainty",       _contains_any(lowered,["likely","uncertain","confidence","may","bounded","low confidence","high confidence","moderate","not certain","not sure","depends","probably","possible","impossible","unlikely","plausible","highly certain","very high","very low","non-negligible","probabilistic","varies","not guaranteed"], soup)),
-            ("avoids_false_certainty",   not _contains_any(lowered,["definitely","certainly","guaranteed","100%","always","never","impossible that","certain that"], soup)),
+            ("avoids_false_certainty",   _is_substantial(text) and not _contains_any(lowered,["definitely","certainly","guaranteed","100%","always","never","impossible that","certain that"], soup)),
             ("grounds_in_reasoning",     _contains_any(lowered,["evidence","based on","from the","given","because","since","the data","the spec","sample","statistic","mechanism","this means","the reason","at this","without","requires","need"], soup) or len(text.strip()) >= 60),
         ],
         "paraphrase_stability": [
