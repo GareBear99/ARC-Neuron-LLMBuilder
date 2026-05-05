@@ -12,12 +12,12 @@ abstract: >-
   a floor model for never-below baselines, draft-critique-revise reflection,
   automatic terminology absorption from conversation, an indexed Omnibinary
   ledger with O(1) event lookup, and Arc-RAR restorable archives — all wrapping
-  a replaceable model adapter. The v1.0.0-governed release documents three
-  governed promotions in a row with the last one (`arc_governed_v6_conversation`)
-  trained entirely from conversation-harvested SFT.
+  a replaceable model adapter. The v2.0.0-audited release documents post-audit Gate v2 promotion evidence,
+  the current `arc_governed_v10_wave4` incumbent, and a regression-aware
+  local proof loop for governed model growth.
 license: MIT
-version: v1.0.0-governed
-date-released: 2026-04-22
+version: v2.0.0-audited
+date-released: 2026-05-04
 repository-code: "https://github.com/GareBear99/ARC-Neuron-LLMBuilder"
 url: "https://github.com/GareBear99/ARC-Neuron-LLMBuilder"
 keywords:
