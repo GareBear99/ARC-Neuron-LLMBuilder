@@ -8,7 +8,7 @@ description: "A governed local AI build-and-memory system with Gate v2, Arc-RAR,
 > A governed local AI build-and-memory system that can train small brains, compare them, protect the better one, archive the worse one, and preserve the evidence of why.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![Tests: 115/116](https://img.shields.io/badge/tests-115%2F116%20passing-brightgreen.svg)](./tests)
+[![Tests: 136 collected](https://img.shields.io/badge/tests-136%20collected-blue.svg)](./tests)
 [![Gate: v2](https://img.shields.io/badge/governance-Gate%20v2-blue.svg)](./specs/promotion_gate_v2.yaml)
 [![Release: v1.0.0-governed](https://img.shields.io/badge/release-v1.0.0--governed-blueviolet.svg)](./RELEASE_NOTES_v1.0.0.html)
 [![Sponsor](https://img.shields.io/badge/Sponsor-GareBear99-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/GareBear99)
@@ -62,7 +62,7 @@ description: "A governed local AI build-and-memory system with Gate v2, Arc-RAR,
 
 | What | Value |
 |---|---|
-| Tests | 115 / 116 passing |
+| Tests | 136 collected; CI runs fast subset plus core-fix subset |
 | Incumbent | `arc_governed_v10_wave4` @ 0.9237 |
 | Promotions on record | 9 (v1, v2, v4, v5, v6, v7, v8, v9, v10) — 4 post-audit |
 | Benchmark suite | 165 tasks / 16 capability families |
