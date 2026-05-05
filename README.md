@@ -8,12 +8,12 @@
 
 ### 💫 Thanks to our supporters
 
-<a href="https://github.com/GareBear99/TizWildinEntertainmentHUB/stargazers">
-  <img src="http://reporoster.com/stars/dark/GareBear99/TizWildinEntertainmentHUB" alt="Stargazers" />
+<a href="https://github.com/GareBear99/ARC-Neuron-LLMBuilder/stargazers">
+  <img src="http://reporoster.com/stars/dark/GareBear99/ARC-Neuron-LLMBuilder" alt="Stargazers" />
 </a>
 
-<a href="https://github.com/GareBear99/TizWildinEntertainmentHUB/network/members">
-  <img src="http://reporoster.com/forks/dark/GareBear99/TizWildinEntertainmentHUB" alt="Forkers" />
+<a href="https://github.com/GareBear99/ARC-Neuron-LLMBuilder/network/members">
+  <img src="http://reporoster.com/forks/dark/ARC-Neuron-LLMBuilder" alt="Forkers" />
 </a>
 
 </div>
