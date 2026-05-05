@@ -8,8 +8,9 @@
 
 ### 💫 Thanks to our supporters
 
-[![GitHub stars](https://img.shields.io/github/stars/GareBear99/ARC-Neuron-LLMBuilder?style=social)](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/stargazers)
-
+<a href="https://github.com/GareBear99/ARC-Neuron-LLMBuilder/stargazers">
+  <img src="http://reporoster.com/stars/dark/GareBear99/ARC-Neuron-LLMBuilder" alt="Stargazers" />
+</a>
 
 
 
