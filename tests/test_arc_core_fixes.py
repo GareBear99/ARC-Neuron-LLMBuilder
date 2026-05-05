@@ -19,7 +19,12 @@ Covers every finding from the DARPA-level audit:
 """
 from __future__ import annotations
 
+import gc
 import json
+import contextlib
+import io
+import os
+import runpy
 import subprocess
 import sys
 import tempfile
@@ -33,6 +38,55 @@ torch = pytest.importorskip("torch", reason="torch not installed — skipping tr
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+
+
+def _run_training_cli(args: list[str]) -> subprocess.CompletedProcess[str]:
+    """Run repo training scripts in-process for deterministic CI smoke tests.
+
+    The tests already import and execute PyTorch models before reaching the CLI
+    checks. On older CPUs and constrained Linux containers, forking a second
+    Python/PyTorch process after OpenMP worker pools have initialized can hang.
+    This helper preserves the command-line contract by patching ``sys.argv`` and
+    executing the target script as ``__main__``, while still returning a
+    CompletedProcess-shaped object for the existing assertions.
+    """
+    gc.collect()
+    torch.set_num_threads(1)
+    old_argv = sys.argv[:]
+    old_env = {k: os.environ.get(k) for k in (
+        "OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS", "NUMEXPR_NUM_THREADS"
+    )}
+    os.environ.update({
+        "OMP_NUM_THREADS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "ARC_NATIVE_INPROCESS": "1",
+        "ARC_NATIVE_SMOKE_FAST": "1",
+    })
+    stdout = io.StringIO()
+    stderr = io.StringIO()
+    code = 0
+    try:
+        script = Path(args[1])
+        sys.argv = [str(script), *args[2:]]
+        with contextlib.redirect_stdout(stdout), contextlib.redirect_stderr(stderr):
+            try:
+                runpy.run_path(str(script), run_name="__main__")
+            except SystemExit as exc:
+                code = int(exc.code or 0) if isinstance(exc.code, int) else 1
+    except Exception as exc:
+        code = 1
+        stderr.write(f"{type(exc).__name__}: {exc}\n")
+    finally:
+        sys.argv = old_argv
+        for k, v in old_env.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+    return subprocess.CompletedProcess(args=args, returncode=code, stdout=stdout.getvalue(), stderr=stderr.getvalue())
+
 
 # ── 1. Shared transformer base ────────────────────────────────────────────────
 
@@ -236,19 +290,13 @@ def test_arc_native_training_tiny_smoke():
     """10-step tiny training must produce .pt, .gguf, and a valid manifest."""
     script = ROOT / "scripts" / "training" / "train_arc_native_candidate.py"
     candidate = "pytest_arc_native_tiny"
-    proc = subprocess.run(
-        [
-            sys.executable, str(script),
-            "--candidate", candidate,
-            "--tier", "tiny",
-            "--steps", "10",
-            "--batch-size", "4",
-        ],
-        cwd=ROOT,
-        capture_output=True,
-        text=True,
-        timeout=120,
-    )
+    proc = _run_training_cli([
+        sys.executable, str(script),
+        "--candidate", candidate,
+        "--tier", "tiny",
+        "--steps", "10",
+        "--batch-size", "4",
+    ])
     assert proc.returncode == 0, f"Native training failed:\n{proc.stderr[-2000:]}"
 
     # Parse the JSON summary line from stdout
@@ -297,19 +345,13 @@ def test_arc_native_training_small_smoke():
     """10-step small training: same assertions as tiny but with small tier."""
     script = ROOT / "scripts" / "training" / "train_arc_native_candidate.py"
     candidate = "pytest_arc_native_small"
-    proc = subprocess.run(
-        [
-            sys.executable, str(script),
-            "--candidate", candidate,
-            "--tier", "small",
-            "--steps", "10",
-            "--batch-size", "4",
-        ],
-        cwd=ROOT,
-        capture_output=True,
-        text=True,
-        timeout=120,
-    )
+    proc = _run_training_cli([
+        sys.executable, str(script),
+        "--candidate", candidate,
+        "--tier", "small",
+        "--steps", "10",
+        "--batch-size", "4",
+    ])
     assert proc.returncode == 0, f"Native small training failed:\n{proc.stderr[-2000:]}"
     for line in reversed(proc.stdout.splitlines()):
         line = line.strip()
@@ -332,19 +374,13 @@ def test_lora_candidate_routes_arc_native():
     the native path and produce a completed manifest."""
     script = ROOT / "scripts" / "training" / "train_lora_candidate.py"
     candidate = "pytest_lora_arc_native_routing"
-    proc = subprocess.run(
-        [
-            sys.executable, str(script),
-            "--candidate", candidate,
-            "--base-model", "arc_neuron_small",
-            "--steps", "8",
-            "--batch-size", "2",
-        ],
-        cwd=ROOT,
-        capture_output=True,
-        text=True,
-        timeout=120,
-    )
+    proc = _run_training_cli([
+        sys.executable, str(script),
+        "--candidate", candidate,
+        "--base-model", "arc_neuron_small",
+        "--steps", "8",
+        "--batch-size", "2",
+    ])
     assert proc.returncode == 0, f"Routing test failed:\n{proc.stderr[-2000:]}"
     output = json.loads(
         next(
