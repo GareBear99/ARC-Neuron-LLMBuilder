@@ -92,7 +92,7 @@ When `arc_governed_v7_regressed` was tested with a deliberately reduced corpus, 
 
 v6_conversation scored **0.7333 pre-audit** (true post-audit: **0.6836**) vs v5's 0.7169 on the **same 165-task benchmark** (now rebuilt to 142 tasks). Promoted cleanly through Gate v2 with zero regression violations.
 
-**Per-capability gains (v5 → v6_conversation, same 165-task set)**:
+**Per-capability gains (v5 → v6_conversation, same 165-task set)** *(pre-audit rubric — see addendum at top)*:
 
 | Capability | v5 | v6_conversation | Δ |
 |---|---|---|---|
@@ -101,7 +101,9 @@ v6_conversation scored **0.7333 pre-audit** (true post-audit: **0.6836**) vs v5'
 | reflection | 0.5000 | 0.5667 | **+0.067** |
 | intelligence | 0.5694 | 0.5972 | **+0.028** |
 | english_understanding | 0.7333 | 0.7500 | **+0.017** |
-| arc_neuron_base | 0.5333 | 0.4333 | -0.100 (below violation threshold) |
+| arc_neuron_base | 0.5333 | 0.4333 | -0.100 (below violation threshold) *(legacy benchmark — removed in v2.0.0 audit rebuild)* |
+
+> Note: arc_neuron_base and arc_neuron_small_v2 benchmark rows are legacy from pre-audit benchmark. The rebuilt 14-capability benchmark does not include these rows. See [docs/BENCHMARK_PROOF.md](./docs/BENCHMARK_PROOF.md).
 | **overall_weighted** | **0.7169** | **0.7333** | **+0.0164** |
 
 The gains spread across broader-intelligence capabilities (not cherry-picked for a single metric) — the signature of real learning rather than keyword-farming.

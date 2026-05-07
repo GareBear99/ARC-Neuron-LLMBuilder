@@ -94,8 +94,8 @@ Sources:
 | instruction_following | 0.5833 | |
 | continuity | 0.5833 | |
 | reflection | 0.5667 | gain over v5 (0.500) |
-| arc_neuron_small_v2 | 0.5185 | |
-| arc_neuron_base | 0.4333 | regression from v5 (0.5333), below violation threshold |
+| arc_neuron_small_v2 | 0.5185 | *(legacy benchmark — removed in v2.0.0 rebuild)* |
+| arc_neuron_base | 0.4333 | regression from v5 (0.5333), below violation threshold *(legacy benchmark — removed in v2.0.0 rebuild)* |
 
 **Comparison to baseline**:
 - `arc_governed_v2` rescored: 0.6121 → v6_conversation: 0.7333 pre-audit / 0.6836 post-audit (**+11.9% relative**, true value)

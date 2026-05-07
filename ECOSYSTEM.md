@@ -269,7 +269,7 @@ LLMBuilder is where the whole ecosystem's doctrine becomes **operational for a l
 - **Arc-RAR bundle format (Python implementation)** — `scripts/ops/bundle_promoted_candidate.py`. Produces bundles structurally compatible with the Arc-RAR tooling.
 - **Native training lane** — `scripts/training/train_arc_native_candidate.py`. Real PyTorch training, GGUF v3 export, exemplar sidecar for the benchmark harness.
 - **142-task benchmark suite** across 14 capability families (rebuilt and verified in v2.0.0-audited).
-- **87-test suite** covering the full loop.
+- **115-test suite** covering the full loop (115 passing, 1 skipped).
 - **Adapter boundary** — `adapters/base.py`. Plug in any model backend (exemplar, llama.cpp, vLLM, TGI, OpenAI-compatible) with zero governance changes.
 
 ### Why it exists

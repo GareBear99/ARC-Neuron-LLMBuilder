@@ -155,7 +155,7 @@ reports/                               # Promotion receipts, repeatability repor
 artifacts/                             # GGUF models, Arc-RAR bundles, Omnibinary ledger
 exports/candidates/                    # Trained candidate artifacts
 results/                               # Benchmark outputs, scored summaries, scoreboard
-tests/                                 # 87-test suite
+tests/                                 # 115-test suite
 docs/                                  # Extended documentation
 ```
 

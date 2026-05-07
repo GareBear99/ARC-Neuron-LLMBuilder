@@ -4,7 +4,7 @@
 
 > Local-first. Evidence-backed. Promotion-gated. Rollback-safe. Part of the seven-repo ARC ecosystem.
 
-> 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 136-test repository suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
+> 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 115-test suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
 
 ### 💫 Thanks to our supporters
 
@@ -104,6 +104,8 @@ corrected all of them, and ran 4 consecutive governed promotion cycles. Every re
 4 governed promotions | 0 floor failures | 0 severe regressions | repository validator passing
 
 → [Full audit report](./docs/BENCHMARK_PROOF.md) | [Step-by-step guide](./docs/QUICKSTART_STEPBYSTEP.md) | [How to grow it](./docs/HOW_TO_GROW.md) | [Use cases](./docs/USE_CASES.md)
+
+> **What 0.9237 actually means:** The current model is a TF-IDF retrieval system over 669 stored examples — not a trained neural network. The benchmark tasks are hand-authored engineering prompts; the rubric measures vocabulary patterns that correlate with good answers. These are documented limitations, not hidden ones. The score represents the honest ceiling of the exemplar architecture. The transformer layer (`arc_core/transformer.py`) is the next step. See [docs/BENCHMARK_PROOF.md §8 Known Limitations](./docs/BENCHMARK_PROOF.md) for the full statement.
 
 ---
 
@@ -414,7 +416,7 @@ Live roadmap. Updated as milestones ship. Full detail in [ROADMAP.md](./ROADMAP.
 | Version | Status | Milestone | Key deliverables |
 |---|---|---|---|
 | **v1.0.0-governed** | ✅ **Shipped** *(2026-04-22)* | **Doctrine Closed** | Three governed promotions, Gate v2 all four states, OBIN v2 indexed ledger, 87-test suite, 165-task benchmark, Arc-RAR bundles |
-| **v2.0.0-audited** | ✅ **Shipped** *(2026-05-04)* | **Audit Complete** | 4 defects fixed, 4 governed promotions (v7→v10), 0.6836→0.9237, 136-test repository suite, 142-task benchmark rebuilt, TF-IDF retrieval, 296 new exemplars |
+| **v2.0.0-audited** | ✅ **Shipped** *(2026-05-04)* | **Audit Complete** | 4 defects fixed, 4 governed promotions (v7→v10), 0.6836→0.9237, 115-test suite, 142-task benchmark rebuilt, TF-IDF retrieval, 296 new exemplars |
 | **v1.1.0** | 🚧 **Next** | **Expanded Native Lane** | ARC-Neuron Base tier (GPU), real tokenizer (SentencePiece/BPE), distillation wave v2 driver, `arc` CLI frontend, scorer v3 with per-cap weights, +50 benchmark tasks |
 | **v1.2.0** | 🔮 Planned | **External Backend Integration** | Reference docs for Qwen3-32B / Llama-4 / DeepSeek via `llama_cpp_http`, per-adapter scoreboard namespacing, command-adapter timeout tuning, reflection loop v2 |
 | **v1.3.0** | 🔮 Planned | **Multi-Repo Integration** | OmniBinary ↔ LLMBuilder federation, ARC-Core event attestation (co-signed receipts), Arc-RAR ↔ Cleanroom replay, Language Module canonicalization |
@@ -467,24 +469,22 @@ gantt
 
 142 tasks across 14 capability families (rebuilt and verified):
 
-| Family | Tasks | Current v6 score |
+| Family | Tasks | v10 score |
 |---|---|---|
-| reasoning | 6 | 1.000 |
-| planning | 5 | 1.000 |
-| compression | 5 | 1.000 |
-| paraphrase_stability | 5 | 0.867 |
-| calibration | 5 | 0.833 |
-| english_understanding | 10 | 0.750 |
-| critique | 10 | 0.750 |
-| out_of_domain | 10 | 0.750 |
-| quantization_retention | 5 | 0.833 |
-| repair | 5 | 0.667 |
-| arc_neuron_small_v2 | 18 | 0.519 |
-| arc_neuron_base | 5 | 0.433 |
-| instruction_following | 10 | 0.583 |
-| intelligence | 12 | 0.597 |
-| continuity | 10 | 0.583 |
-| reflection | 10 | 0.567 |
+| reasoning | 10 | 0.8833 |
+| planning | 10 | 1.0000 |
+| compression | 10 | 0.9167 |
+| paraphrase_stability | 10 | 1.0000 |
+| calibration | 10 | 0.9000 |
+| english_understanding | 10 | 0.9000 |
+| critique | 10 | 1.0000 |
+| out_of_domain | 10 | 0.9667 |
+| quantization_retention | 10 | 1.0000 |
+| repair | 10 | 1.0000 |
+| instruction_following | 10 | 0.9250 |
+| intelligence | 12 | 0.8472 |
+| continuity | 10 | 0.7708 |
+| reflection | 10 | 0.8375 |
 
 ---
 
@@ -513,7 +513,7 @@ ARC-Neuron-LLMBuilder/
 ├── artifacts/             # GGUF models, Arc-RAR bundles, Omnibinary ledger
 ├── exports/candidates/    # Trained candidate artifacts (per-candidate directories)
 ├── results/               # Benchmark outputs, scored summaries, scoreboard
-├── tests/                 # 87-test suite covering the full loop
+├── tests/                 # 115-test suite covering the full loop
 └── docs/                  # Extended design documentation (62 markdown files)
 ```
 
@@ -523,7 +523,7 @@ ARC-Neuron-LLMBuilder/
 
 ```bash
 make validate          # validate repo structure and required files
-make test              # run the 87-test suite
+make test              # run the 115-test suite
 make counts            # count datasets and benchmarks
 make candidate-gate    # run the full candidate gate
 make native-tiny       # train an ARC-Tiny candidate (~0.05M params)

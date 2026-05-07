@@ -71,11 +71,11 @@ The growth loop is closed end-to-end: conversation grows the brain, not just the
 | repair | 0.6667 | 0.6667 | = |
 | instruction_following | 0.5833 | 0.5833 | = |
 | continuity | 0.5834 | 0.5833 | = |
-| arc_neuron_small_v2 | 0.5185 | 0.5185 | = |
-| arc_neuron_base | 0.5333 | 0.4333 | -0.100 (below violation threshold) |
+| arc_neuron_small_v2 | 0.5185 | 0.5185 | = | *(legacy benchmark row — removed in v2.0.0)* |
+| arc_neuron_base | 0.5333 | 0.4333 | -0.100 (below violation threshold) | *(legacy benchmark row — removed in v2.0.0)* |
 | **overall_weighted** | **0.7169** | **0.7333** | **+0.0164** |
 
-The gain profile is the signature of real learning: broader intelligence capabilities improved (out_of_domain, quantization_retention, reflection, intelligence, english_understanding) rather than a single cherry-picked metric. One minor regression on arc_neuron_base (-0.100) was caught but did not trigger a violation because that capability is not in the regression ceiling list.
+The gain profile is the signature of real learning: broader intelligence capabilities improved (out_of_domain, quantization_retention, reflection, intelligence, english_understanding) rather than a single cherry-picked metric. One minor regression on arc_neuron_base (-0.100) was caught but did not trigger a violation because that capability is not in the regression ceiling list. *(arc_neuron_base and arc_neuron_small_v2 were legacy benchmark families removed during the v2.0.0 audit; they are not part of the current 14-capability benchmark suite.)*
 
 ---
 
