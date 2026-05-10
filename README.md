@@ -6,7 +6,6 @@
 
 > 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 115-test suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
 
-This repo lets you train or plug in a small local model, test it against a benchmark set, decide whether it improved, archive the evidence, and roll back safely.
 
 ### 💫 Thanks to our supporters
 
@@ -31,6 +30,7 @@ This repo lets you train or plug in a small local model, test it against a bench
 [![StreamMemory](https://img.shields.io/badge/ARC--StreamMemory-add--on-blue.svg)](#arc-streammemory-add-on)
 [![Synth Roadmap](https://img.shields.io/badge/roadmap-3.0%E2%86%927.0-purple.svg)](#long-horizon-synth-roadmap)
 
+This repo lets you train or plug in a small local model, test it against a benchmark set, decide whether it improved, archive the evidence, and roll back safely.
 
 ## Current public update — preserved proof, corrected roadmap
 
