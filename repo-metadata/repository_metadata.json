@@ -1,6 +1,6 @@
 {
   "name_suggestion": "ARC-Neuron-LLMBuilder",
-  "description": "Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, ProtoSynth/Neural Synth, and Synth companion roadmap.",
+  "description": "Governed local AI / offline LLM builder for reproducible model growth, Gate v2 promotion, dataset provenance, ARC Language Module truth-weighting, Omnibinary memory, Arc-RAR rollback, ARC-StreamMemory visual memory add-ons, and the 3.0\u21927.0 Synth companion roadmap.",
   "homepage_suggestion": "https://garebear99.github.io/ARC-Neuron-LLMBuilder/",
   "recommended_topics_file": "repo-metadata/repository_topics.txt",
   "current_public_status": "v10_wave4_reproducible_incumbent__v11_3_candidate_staging__3_0_protected_roadmap",
@@ -62,5 +62,30 @@
     "time-to-space-projection",
     "reproducible-ai"
   ],
-  "clone_conversion_status": "10_of_10_dropin_prepared__requires_manual_github_about_topics_paste_after_push"
+  "clone_conversion_status": "10_of_10_dropin_prepared__requires_manual_github_about_topics_paste_after_push",
+  "topics": [
+    "local-ai",
+    "offline-llm",
+    "gguf",
+    "model-training",
+    "model-evaluation",
+    "ai-provenance",
+    "dataset-governance",
+    "memory-systems",
+    "arc-neuron",
+    "arc-core",
+    "omnibinary",
+    "arc-rar",
+    "arc-streammemory",
+    "visual-memory",
+    "visual-rag",
+    "neural-synth",
+    "protosynth",
+    "agi-assistant",
+    "reproducible-ai",
+    "ai-companion"
+  ],
+  "related_repositories": [
+    "https://github.com/GareBear99/ARC-StreamMemory"
+  ]
 }

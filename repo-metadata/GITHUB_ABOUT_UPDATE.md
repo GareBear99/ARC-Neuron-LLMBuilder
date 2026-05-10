@@ -7,7 +7,7 @@ Use this file to update the public repository chrome after applying README/docs 
 Paste this into **GitHub → About → Description**:
 
 ```text
-Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, ProtoSynth/Neural Synth, and Synth companion roadmap.
+Governed local AI / offline LLM builder for reproducible model growth, Gate v2 promotion, dataset provenance, ARC Language Module truth-weighting, Omnibinary memory, Arc-RAR rollback, ARC-StreamMemory visual memory add-ons, and the 3.0→7.0 Synth companion roadmap.
 ```
 
 ## Website / homepage
@@ -75,3 +75,6 @@ portal-esque-ai-companion
 agi-assistant-lab
 arc-language-module
 ```
+
+
+Add topic: `arc-streammemory`

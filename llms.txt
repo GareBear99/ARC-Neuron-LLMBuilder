@@ -67,3 +67,7 @@ python scripts/production_verify.py
 ## Important boundary
 
 Do not describe this repo as a finished frontier model. It is a governed local AI build-and-memory system with a reproducible incumbent, candidate isolation, dataset acquisition roadmap, and long-horizon Synth companion roadmap.
+
+
+## ARC-StreamMemory add-on
+ARC-StreamMemory is the visual/video/screen/camera memory add-on for all LLMs and ARC-style systems. It produces AI-readable frame indexes, hashes, source spines, digests, ARC receipts, Omnibinary-style pointers, Arc-RAR-style manifests, and module attachments. Repo: https://github.com/GareBear99/ARC-StreamMemory

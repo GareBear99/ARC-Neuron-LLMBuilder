@@ -72,3 +72,8 @@ The repo is not claiming that external datasets are already trained into the inc
 ## Clone-worthy search terms
 
 local AI, offline LLM builder, GGUF model builder, governed AI, AI provenance, model promotion gate, regression-safe training, dataset governance, Omnibinary memory, Arc-RAR rollback, ARC Language Module, device-portable AI communication, time-to-space projection, ProtoSynth, Neural Synth, Synth companion, buildable brain lab.
+
+
+## Add-on: ARC-StreamMemory
+
+Clone ARC-Neuron with [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) when you want governed model growth plus AI-readable visual/video memory. ARC-StreamMemory is being built as a cross-LLM add-on for screen recordings, snapshots, robotics feeds, UI sessions, game footage, DAW/plugin tests, visual RAG, deterministic frame hashing, module attachments, Omnibinary pointers, and Arc-RAR manifests.

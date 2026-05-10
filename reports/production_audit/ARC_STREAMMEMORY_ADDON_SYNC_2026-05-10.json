@@ -1,0 +1,8 @@
+{
+  "status": "complete",
+  "added": [
+    "docs/ARC_STREAMMEMORY_ADDON.md"
+  ],
+  "boundary": "add-on only; not incumbent weights; not hidden dataset",
+  "related_repo": "https://github.com/GareBear99/ARC-StreamMemory"
+}

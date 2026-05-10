@@ -81,3 +81,8 @@ The Synth layer should never become an untraceable wrapper. It must be a visible
 5. Candidate-lane benchmark and promotion evidence.
 
 **Final direction:** 4.0 gives ARC a spatial/visual nervous system, 5.0 gives it a companion shell mockup, and 7.0 turns that shell into a working Synth AI companion and buildable brain lab.
+
+
+## ARC-StreamMemory add-on bridge
+
+[ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is the companion visual-memory add-on for this roadmap. It supplies AI-readable screen/video/camera memory modules that can feed Neural Synth projection, companion mockups, and future brain-lab replay without pretending that visual data has already been promoted into incumbent weights.

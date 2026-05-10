@@ -125,3 +125,8 @@ Later roadmap horizons are split from the 3.0 protected dataset/model release:
 - **7.0:** working Synth AI companion, AGI assistant, and buildable brain lab.
 
 Read: [docs/SYNTH_COMPANION_ROADMAP_4_5_7.md](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md)
+
+
+## ARC-StreamMemory add-on
+
+ARC-Neuron now references [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) as the visual/video memory add-on being built for all LLMs and ARC-style systems. See [docs/ARC_STREAMMEMORY_ADDON.md](./docs/ARC_STREAMMEMORY_ADDON.md).

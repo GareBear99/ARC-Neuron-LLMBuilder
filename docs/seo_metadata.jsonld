@@ -2,7 +2,7 @@
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
   "name": "ARC-Neuron LLMBuilder",
-  "description": "Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, ProtoSynth/Neural Synth, and Synth companion roadmap.",
+  "description": "ARC-Neuron LLMBuilder is a governed local AI / offline LLM builder with dataset provenance, Omnibinary memory, Arc-RAR rollback, ARC-StreamMemory visual/video memory add-ons, and a 3.0 to 7.0 Synth companion roadmap.",
   "codeRepository": "https://github.com/GareBear99/ARC-Neuron-LLMBuilder",
   "programmingLanguage": [
     "Python"
@@ -44,7 +44,12 @@
     "Portal-esque AI companion",
     "AGI assistant lab",
     "Omnibinary memory",
-    "Arc-RAR rollback"
+    "Arc-RAR rollback",
+    "ARC-StreamMemory",
+    "AI visual memory",
+    "video memory for LLMs",
+    "visual RAG",
+    "screen recording for AI"
   ],
   "isPartOf": {
     "@type": "CreativeWork",
@@ -52,7 +57,8 @@
   },
   "url": "https://garebear99.github.io/ARC-Neuron-LLMBuilder/",
   "sameAs": [
-    "https://github.com/GareBear99/ARC-Neuron-LLMBuilder"
+    "https://github.com/GareBear99/ARC-Neuron-LLMBuilder",
+    "https://github.com/GareBear99/ARC-StreamMemory"
   ],
   "targetProductRoadmap": {
     "3.0": "protected base-model, dataset, and licensing integration",

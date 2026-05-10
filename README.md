@@ -33,7 +33,7 @@
 
 ## Search / discovery front door
 
-**ARC-Neuron LLMBuilder** is a **local-first AI model builder**, **offline LLM governance lab**, and **GGUF-oriented candidate promotion system** for developers who need reproducible model growth instead of black-box prompt drift. It combines model training, benchmark scoring, memory/continuity tests, promotion gates, Arc-RAR rollback bundles, Omnibinary receipts, dataset manifests, ARC Language Module truth-weighting, device-portable communication/archive mechanics, time-to-space projection planning, a protected 3.0 roadmap, and later Synth companion horizons for 4.0/5.0/7.0 into one auditable repository.
+**ARC-Neuron LLMBuilder** is a **local-first AI model builder**, **offline LLM governance lab**, and **GGUF-oriented candidate promotion system** for developers who need reproducible model growth instead of black-box prompt drift. It combines model training, benchmark scoring, memory/continuity tests, promotion gates, Arc-RAR rollback bundles, Omnibinary receipts, dataset manifests, ARC Language Module truth-weighting, device-portable communication/archive mechanics, time-to-space projection planning, ARC-StreamMemory visual memory add-ons for LLMs and ARC-style systems, a protected 3.0 roadmap, and later Synth companion horizons for 4.0/5.0/7.0 into one auditable repository.
 
 **Best-fit search terms:** `local AI`, `offline LLM`, `GGUF model builder`, `AI provenance`, `model promotion gate`, `regression-safe training`, `AI memory system`, `LLM benchmark harness`, `dataset governance`, `Arc-RAR`, `Omnibinary`, `ARC Language Module`, `device portable AI`, `time to space projection`, `spatial signal intelligence`, `ARC-Neuron`, `Gary Doman`, `GareBear99`.
 
@@ -50,6 +50,7 @@
 | See governance | [The governance doctrine](#the-governance-doctrine) · [specs/promotion_gate_v2.yaml](./specs/promotion_gate_v2.yaml) · [docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md](./docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md) |
 | Follow the 3.0 roadmap | [docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md) · [docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md](./docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md) |
 | Follow 4.0/5.0/7.0 Synth roadmap | [docs/SYNTH_COMPANION_ROADMAP_4_5_7.md](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md) · [Proto-Synth_Grid_Engine](https://github.com/GareBear99/Proto-Synth_Grid_Engine) |
+| Add visual/video memory for LLMs | [docs/ARC_STREAMMEMORY_ADDON.md](./docs/ARC_STREAMMEMORY_ADDON.md) · [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) |
 | Add datasets safely | [docs/DATASET_ACQUISITION_MATRIX_3_0.md](./docs/DATASET_ACQUISITION_MATRIX_3_0.md) · [configs/datasets/dataset_manifest_template.yaml](./configs/datasets/dataset_manifest_template.yaml) |
 | Protect candidate scoring | [docs/V2_CANDIDATE_ISOLATION_POLICY.md](./docs/V2_CANDIDATE_ISOLATION_POLICY.md) · [configs/candidates/v2_class_policy.yaml](./configs/candidates/v2_class_policy.yaml) |
 | Test memory continuity | [docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md](./docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md) · [benchmarks/v2_memory_continuity_tasks.jsonl](./benchmarks/v2_memory_continuity_tasks.jsonl) |
@@ -72,7 +73,7 @@ python scripts/validate_repo.py
 python scripts/production_verify.py
 ```
 
-**Clone-first proof points:** CPU-first local execution, 136 passing tests, 168 benchmark tasks, Gate v2 promotion logic, ARC Language Module truth spine, Omnibinary receipt memory, Arc-RAR rollback bundles, dataset acquisition manifests, v2 candidate isolation, 3.0 protected roadmap, and 4.0/5.0/7.0 Synth companion horizons.
+**Clone-first proof points:** CPU-first local execution, 136 passing tests, 168 benchmark tasks, Gate v2 promotion logic, ARC Language Module truth spine, Omnibinary receipt memory, Arc-RAR rollback bundles, ARC-StreamMemory visual/video memory add-ons, dataset acquisition manifests, v2 candidate isolation, 3.0 protected roadmap, and 4.0/5.0/7.0 Synth companion horizons.
 
 **SEO validator phrase map:** Governed local AI cognition lab; GGUF-oriented model candidates; receipts, rollback, provenance; regression-safe gates.
 
@@ -240,6 +241,14 @@ corrected all of them, and ran 4 consecutive governed promotion cycles. Every re
 ARC-Neuron LLMBuilder is a local-first cognition lab that treats a language model as one artifact inside a **governed lifecycle**. You don't just train a model — you train a candidate, measure it, compare it to the current incumbent, and promote it only if it genuinely improves without regressing on guarded capabilities. Every decision leaves receipts. Every candidate is restorable. Every archive ties back to the source truth through an indexed binary ledger.
 
 The current public stack is intentionally honest about where the intelligence lives today: the **ARC Language Module carries the live lexical/knowledge weight**, while the included Tiny/Small model tiers and exemplar adapter prove the build → benchmark → promote loop. No external dataset wave has been promoted into the incumbent yet; the 3.0 dataset program is a governed roadmap, not a hidden bundled corpus.
+
+### ARC-StreamMemory add-on for all LLMs and ARC-style systems
+
+[ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is the visual/video memory add-on being built beside ARC-Neuron for **any LLM, local model, agent runtime, robotics loop, UI debugger, or ARC-style system** that needs AI-readable screen/video memory instead of disposable recordings. It turns video files, screen recordings, screenshots, DAW/plugin sessions, game footage, robotics camera feeds, browser work, and app UI states into deterministic memory modules: frame indexes, SHA-256 frame hashes, seeded source spines, AI digests, ARC-Core-style receipts, Omnibinary-style chunk maps, Arc-RAR-style bundle manifests, and local viewer output.
+
+In this roadmap, ARC-Neuron supplies the governed build/promote/score layer, the ARC Language Module carries lexical and source-truth weight, Omnibinary + Arc-RAR preserve portable communication and rollback, and ARC-StreamMemory supplies the **visual second brain**: the screen/camera/frame memory that other LLMs can inspect, cite, replay, and attach as module context. It is an add-on layer, not a hidden training dataset and not a promoted incumbent weight source.
+
+See: [docs/ARC_STREAMMEMORY_ADDON.md](./docs/ARC_STREAMMEMORY_ADDON.md) and [GareBear99/ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory).
 
 Omnibinary and Arc-RAR make the system portable: a device does not need to inherit a vague chat history — it can receive binary-indexed receipts, language deltas, archive bundles, and replayable state. That is the foundation for ARC-style communication across machines, offline systems, old hardware, and future spatial/time-projection modules.
 
@@ -550,6 +559,7 @@ Live roadmap. Updated to keep the public README aligned with the current package
 | **v2 candidate class** | ✅ Policy added | Isolate new weights/data from incumbent scoring | candidate namespace, dataset manifests, memory-continuity benchmark lane |
 | **3.0 roadmap integration** | 🎯 Protected target | Full base-model roadmap with connected datasets and stronger license posture | governed datasets, memory tests, preservation doctrine, transitional license path, commercial protections |
 | **4.0 ProtoSynth / Neural Synth** | 🔮 Roadmap horizon | Connect ARC-Neuron to the Proto-Synth / I/O Synth Grid Engine as the spatial cognition and visual memory projection layer | time-to-space views, receipt/event maps, Neural Synth category navigation, shell geometry, blueprint memory projection |
+| **4.x ARC-StreamMemory add-on** | 🔌 Cross-LLM add-on | Connect visual/video/screen/camera memory modules to ARC-Neuron and other LLM or ARC-style runtimes | visual second brain, frame sampling, AI-readable screen memory, module attachments, ARC receipts, Omnibinary pointers, Arc-RAR manifests |
 | **5.0 Synth companion mockup** | 🔮 Roadmap horizon | Build the full Portal-esque Synth companion mockup on top of the governed ARC spine | companion UI, embodied shell behavior, guided lab interface, voice/visual personality mock, safe non-authoritative assistant shell |
 | **7.0 working Synth AI companion / brain lab** | 🔮 Long-horizon target | Promote the mockup into a working Synth AI companion, AGI assistant, and buildable brain lab | governed assistant loop, portable memory, modular brain-building lab, device-to-device continuation, controlled tool authority |
 | **External/local model adapters** | 🔮 Planned/ongoing | Let stronger local GGUF or HTTP-served models run through the same governance shell | adapter scoreboards, per-backend receipts, no direct incumbent overwrite |
@@ -788,6 +798,7 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 - [ROADMAP.md](./ROADMAP.md) — release trajectory and candidate milestones
 - [docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md](./docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md) — staged path toward stronger assistant behavior
 - [docs/SYNTH_COMPANION_ROADMAP_4_5_7.md](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md) — ProtoSynth / Neural Synth 4.0, Portal-esque Synth companion 5.0, working Synth AI companion brain lab 7.0
+- [docs/ARC_STREAMMEMORY_ADDON.md](./docs/ARC_STREAMMEMORY_ADDON.md) — ARC-StreamMemory visual/video memory add-on for all LLMs and ARC-style systems
 - [docs/TRANSITIONAL_LICENSE_ROADMAP.md](./docs/TRANSITIONAL_LICENSE_ROADMAP.md) — 1.0 → transitional bridge → protected 3.0 plan
 - [docs/SEO_INDEXING_PLAYBOOK.md](./docs/SEO_INDEXING_PLAYBOOK.md) — GitHub/Google discoverability checklist
 - [COMPARISON.md](./COMPARISON.md) — vs MLflow, W&B, Langfuse, llama.cpp
@@ -818,7 +829,7 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 
 **What this is**: a local-first governed cognition lab and control plane for training, promoting, and archiving small language models with full lineage. The included native models (Tiny and Small) are reference tiers designed to prove the pipeline is real, while the ARC Language Module carries the current live lexical/knowledge weight.
 
-**What this is not**: a frontier-scale LLM today. The ARC-Neuron Tiny model is ~0.05M parameters. The Small model is ~0.18M parameters. They are deliberately small because the current public contribution is the **governance loop plus language-truth spine**, not a Claude/Gemini-class raw brain. No external datasets are promoted into the incumbent yet beyond self-curated ARC material. The 3.0 roadmap is where connected datasets, stronger candidate classes, and protected release terms enter; the 4.0/5.0/7.0 roadmap is where ProtoSynth/Neural Synth projection, Synth companion mockups, and the working buildable brain lab enter.
+**What this is not**: a frontier-scale LLM today. The ARC-Neuron Tiny model is ~0.05M parameters. The Small model is ~0.18M parameters. They are deliberately small because the current public contribution is the **governance loop plus language-truth spine**, not a Claude/Gemini-class raw brain. No external datasets are promoted into the incumbent yet beyond self-curated ARC material. The 3.0 roadmap is where connected datasets, stronger candidate classes, and protected release terms enter; the 4.0/5.0/7.0 roadmap is where ProtoSynth/Neural Synth projection, ARC-StreamMemory visual second-brain attachments, Synth companion mockups, and the working buildable brain lab enter.
 
 **The shell is contender-grade. The brain is the research lane.** The adapter boundary is the integration point: you can plug any local GGUF runtime or HTTP-served model into the existing governance machinery via `adapters/command_adapter.py` or `adapters/llama_cpp_http_adapter.py`.
 
