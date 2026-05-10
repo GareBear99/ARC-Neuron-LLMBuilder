@@ -734,6 +734,43 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 
 ---
 
+## 🧭 Warp pairing — agentic terminal execution with ARC governance
+
+ARC-Neuron is designed to pair naturally with agentic terminals such as [Warp](https://github.com/warpdotdev/warp). Warp provides the terminal-native agent execution surface; ARC-Neuron provides the governance layer around model candidates, dataset manifests, benchmark receipts, Gate v2 promotion, rollback evidence, and source-spine continuity.
+
+In this pairing, agents can propose patches, run tests, inspect failures, and automate development workflows while ARC-Neuron prevents unsafe promotion, dataset pollution, lost provenance, and uncontrolled overwrites. [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) can capture terminal/session evidence, [Omnibinary Runtime](https://github.com/GareBear99/omnibinary-runtime) can preserve command and receipt history, and [Arc-RAR](https://github.com/GareBear99/Arc-RAR) can bundle reproducible rollback states.
+
+```mermaid
+flowchart TD
+    WARP[Warp Terminal / Agentic Dev Environment] --> CLI[ARC CLI / Make Targets]
+    WARP --> AGENTS[Claude Code / Codex / Gemini CLI / Warp Agent]
+
+    AGENTS --> PATCH[Code + Docs Patches]
+    CLI --> TESTS[Tests / Benchmarks / Validators]
+
+    TESTS --> GATE[ARC-Neuron Gate v2]
+    PATCH --> GATE
+
+    GATE -->|pass| CAND[Candidate Accepted]
+    GATE -->|fail| REJECT[Candidate Rejected / Quarantined]
+
+    CAND --> OMNI[Omnibinary Runtime Receipts]
+    REJECT --> OMNI
+
+    OMNI --> RAR[Arc-RAR Bundle / Rollback]
+    WARP --> STREAM[ARC-StreamMemory Session Capture]
+    STREAM --> OMNI
+
+    LANG[ARC Language Module] --> AGENTS
+    LANG --> GATE
+```
+
+The goal is not to replace Warp. The goal is to make ARC-Neuron the governance spine around agentic terminal workflows: every patch, benchmark, dataset intake, candidate promotion, and rollback can be run from a modern terminal while still preserving receipts, lineage, and reproducible evidence.
+
+See: [docs/WARP_PAIRING_AGENTIC_TERMINAL.md](./docs/WARP_PAIRING_AGENTIC_TERMINAL.md).
+
+---
+
 ## 📌 Status and scope
 
 **What this is**: a local-first governed cognition lab and control plane for training, promoting, and archiving small language models with full lineage. The included native models (Tiny and Small) are reference tiers designed to prove the pipeline is real, not to compete with frontier LLMs.
