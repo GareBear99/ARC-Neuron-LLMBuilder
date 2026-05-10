@@ -6,6 +6,12 @@
 
 > 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 115-test suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
 
+### 💫 Thanks to our supporters
+
+<a href="https://github.com/GareBear99/ARC-Neuron-LLMBuilder/stargazers">
+  <img src="http://reporoster.com/stars/dark/GareBear99/ARC-Neuron-LLMBuilder" alt="Stargazers" />
+</a>
+
 ## Current public update — preserved proof, corrected roadmap
 
 This README preserves the original high-signal proof sections, graphs, benchmark tables, and runnable workflow. The update is intentionally surgical: it keeps the v10 audit evidence intact while making the current 3.0+ direction explicit.
@@ -19,13 +25,6 @@ This README preserves the original high-signal proof sections, graphs, benchmark
 - **Long horizon:** 3.0 locks protected base-model/dataset/licensing integration; 4.0 connects ProtoSynth / Neural Synth; 5.0 becomes a Portal-style Synth companion mockup; 7.0 targets a working Synth AI companion, AGI assistant, and buildable brain lab.
 
 Bot-readable summary: [`llms.txt`](./llms.txt). Clone rationale: [`docs/WHY_CLONE_ARC_NEURON.md`](./docs/WHY_CLONE_ARC_NEURON.md).
-
-### 💫 Thanks to our supporters
-
-<a href="https://github.com/GareBear99/ARC-Neuron-LLMBuilder/stargazers">
-  <img src="http://reporoster.com/stars/dark/GareBear99/ARC-Neuron-LLMBuilder" alt="Stargazers" />
-</a>
-
 
 
 
