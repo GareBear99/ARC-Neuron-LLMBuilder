@@ -1,0 +1,64 @@
+# ARC-Neuron LLMBuilder
+
+> Governed local AI / offline LLM builder for reproducible model growth, Gate v2 promotion, dataset provenance, Omnibinary memory, Arc-RAR rollback, and Synth companion roadmap horizons.
+
+## Repository
+
+- GitHub: https://github.com/GareBear99/ARC-Neuron-LLMBuilder
+- Pages: https://garebear99.github.io/ARC-Neuron-LLMBuilder/
+- Author: Gary Doman / GareBear99
+
+## Current verified status
+
+- Reproducible incumbent: `arc_governed_v10_wave4` / 0.9237
+- v11.3/wave5: candidate/staging only until promotion evidence regenerates cleanly
+- External datasets: acquisition targets only; not bundled, not ingested, not promoted into incumbent
+- Current live knowledge: self-curated ARC docs, receipts, benchmarks, operator doctrine, and ARC Language Module truth spine
+
+## Core concepts
+
+- Local AI
+- Offline LLM builder
+- GGUF-oriented candidate promotion
+- Gate v2 model governance
+- Regression-safe training
+- Dataset manifests and quarantine
+- ARC Language Module as lexical/knowledge-weight carrier
+- Omnibinary as binary event/receipt memory ledger
+- Arc-RAR as archive/rollback/restore bundle layer
+- Time-to-space projection for receipt/event/state visualization
+- ProtoSynth / Neural Synth roadmap for 4.0
+- Portal-esque Synth companion mockup for 5.0
+- Working Synth AI companion / AGI assistant / buildable brain lab target for 7.0
+
+## Best files to read
+
+- README.md
+- PROOF.md
+- QUICKSTART.md
+- ARCHITECTURE.md
+- docs/WHY_CLONE_ARC_NEURON.md
+- docs/PRODUCTION_RELEASE_HANDOFF.md
+- docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md
+- docs/V2_CANDIDATE_ISOLATION_POLICY.md
+- docs/DATASET_ACQUISITION_MATRIX_3_0.md
+- docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md
+- docs/SYNTH_COMPANION_ROADMAP_4_5_7.md
+- docs/SEO_INDEXING_PLAYBOOK.md
+- repo-metadata/GITHUB_ABOUT_UPDATE.md
+
+## Quick clone
+
+```bash
+git clone https://github.com/GareBear99/ARC-Neuron-LLMBuilder.git
+cd ARC-Neuron-LLMBuilder
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python scripts/validate_repo.py
+python scripts/production_verify.py
+```
+
+## Important boundary
+
+Do not describe this repo as a finished frontier model. It is a governed local AI build-and-memory system with a reproducible incumbent, candidate isolation, dataset acquisition roadmap, and long-horizon Synth companion roadmap.

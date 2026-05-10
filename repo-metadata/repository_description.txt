@@ -1,1 +1,1 @@
-Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and Synth companion roadmap.
+Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, ProtoSynth/Neural Synth, and Synth companion roadmap.

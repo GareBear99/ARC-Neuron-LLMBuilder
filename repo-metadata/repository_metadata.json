@@ -1,6 +1,6 @@
 {
   "name_suggestion": "ARC-Neuron-LLMBuilder",
-  "description": "Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and Synth companion roadmap.",
+  "description": "Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, ProtoSynth/Neural Synth, and Synth companion roadmap.",
   "homepage_suggestion": "https://garebear99.github.io/ARC-Neuron-LLMBuilder/",
   "recommended_topics_file": "repo-metadata/repository_topics.txt",
   "current_public_status": "v10_wave4_reproducible_incumbent__v11_3_candidate_staging__3_0_protected_roadmap",
@@ -13,11 +13,17 @@
     "GitHub Pages homepage URL if not set"
   ],
   "keywords": [
+    "AGI assistant lab",
+    "AI build lab",
+    "ARC Language Module",
+    "Arc-RAR rollback",
     "Neural Synth",
+    "Omnibinary memory",
     "Portal-esque AI companion",
     "ProtoSynth",
     "Synth companion",
     "buildable brain lab",
+    "clone-worthy AI",
     "time-to-space projection"
   ],
   "roadmap_horizons": {
@@ -25,5 +31,13 @@
     "4.0": "ProtoSynth / Neural Synth spatial projection layer",
     "5.0": "Portal-esque Synth companion mockup",
     "7.0": "working Synth AI companion, AGI assistant, and buildable brain lab"
-  }
+  },
+  "clone_hook": "Clone to inspect a reproducible local AI build loop with Gate v2 model promotion, v2 dataset isolation, Omnibinary memory, Arc-RAR rollback, and the 3.0/4.0/5.0/7.0 Synth roadmap.",
+  "bot_index_files": [
+    "README.md",
+    "index.md",
+    "llms.txt",
+    "docs/WHY_CLONE_ARC_NEURON.md",
+    "docs/seo_metadata.jsonld"
+  ]
 }

@@ -2,7 +2,7 @@
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
   "name": "ARC-Neuron LLMBuilder",
-  "description": "Governed local AI / offline LLM builder for ARC-Neuron: GGUF-ready model training, Gate v2 promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and 3.0 roadmap, with later ProtoSynth / Neural Synth and Synth companion roadmap horizons.",
+  "description": "Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, ProtoSynth/Neural Synth, and Synth companion roadmap.",
   "codeRepository": "https://github.com/GareBear99/ARC-Neuron-LLMBuilder",
   "programmingLanguage": [
     "Python"
@@ -38,7 +38,13 @@
     "ProtoSynth",
     "Neural Synth",
     "Synth companion",
-    "buildable brain lab"
+    "buildable brain lab",
+    "clone-worthy AI",
+    "AI build lab",
+    "Portal-esque AI companion",
+    "AGI assistant lab",
+    "Omnibinary memory",
+    "Arc-RAR rollback"
   ],
   "isPartOf": {
     "@type": "CreativeWork",
@@ -47,5 +53,11 @@
   "url": "https://garebear99.github.io/ARC-Neuron-LLMBuilder/",
   "sameAs": [
     "https://github.com/GareBear99/ARC-Neuron-LLMBuilder"
-  ]
+  ],
+  "targetProductRoadmap": {
+    "3.0": "protected base-model, dataset, and licensing integration",
+    "4.0": "ProtoSynth / Neural Synth spatial projection layer",
+    "5.0": "Portal-esque Synth companion mockup",
+    "7.0": "working Synth AI companion, AGI assistant, and buildable brain lab"
+  }
 }

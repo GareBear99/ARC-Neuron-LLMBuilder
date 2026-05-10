@@ -1,5 +1,5 @@
 title: "ARC-Neuron LLMBuilder"
-description: "Governed local AI / offline LLM builder for ARC-Neuron: GGUF-ready model training, Gate v2 promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and 3.0 roadmap."
+description: "Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, ProtoSynth/Neural Synth, and Synth companion roadmap."
 author: Gary Doman
 url: "https://garebear99.github.io"
 baseurl: "/ARC-Neuron-LLMBuilder"
@@ -44,6 +44,10 @@ keywords:
   - arc-neuron
   - dataset-governance
   - ai-memory
+  - agi-assistant-lab
+  - portal-esque-ai-companion
+  - ai-build-lab
+  - clone-worthy-ai
 
 # Social / Open Graph
 github_username: GareBear99
@@ -86,6 +90,10 @@ include:
   - docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md
   - docs/DATASET_ACQUISITION_MATRIX_3_0.md
   - repo-metadata/GITHUB_ABOUT_UPDATE.md
+  - repo-metadata/PUBLIC_CLONE_INDEXING_CHECKLIST.md
+  - docs/SYNTH_COMPANION_ROADMAP_4_5_7.md
+  - docs/WHY_CLONE_ARC_NEURON.md
+  - llms.txt
 
 exclude:
   - .github/

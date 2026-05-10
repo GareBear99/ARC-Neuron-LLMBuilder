@@ -48,7 +48,28 @@
 | Test memory continuity | [docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md](./docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md) · [benchmarks/v2_memory_continuity_tasks.jsonl](./benchmarks/v2_memory_continuity_tasks.jsonl) |
 | Understand licensing path | [LICENSE](./LICENSE) · [LICENSE_TRANSITIONAL_NOTICE.md](./LICENSE_TRANSITIONAL_NOTICE.md) · [docs/TRANSITIONAL_LICENSE_ROADMAP.md](./docs/TRANSITIONAL_LICENSE_ROADMAP.md) |
 | Improve GitHub/Google indexing | [docs/SEO_INDEXING_PLAYBOOK.md](./docs/SEO_INDEXING_PLAYBOOK.md) · [repo-metadata/repository_topics.txt](./repo-metadata/repository_topics.txt) · [docs/seo_metadata.jsonld](./docs/seo_metadata.jsonld) |
+| Clone / indexing pitch | [docs/WHY_CLONE_ARC_NEURON.md](./docs/WHY_CLONE_ARC_NEURON.md) · [llms.txt](./llms.txt) · [repo-metadata/PUBLIC_CLONE_INDEXING_CHECKLIST.md](./repo-metadata/PUBLIC_CLONE_INDEXING_CHECKLIST.md) |
 
+
+## Why bots and builders should clone this repo
+
+ARC-Neuron LLMBuilder is designed to be cloned because it is not just a prompt wrapper or a one-off model card. It is a reproducible local AI build loop with evidence, candidate isolation, rollback, and a staged roadmap from small governed models toward a device-portable Synth companion system.
+
+```bash
+git clone https://github.com/GareBear99/ARC-Neuron-LLMBuilder.git
+cd ARC-Neuron-LLMBuilder
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+python scripts/validate_repo.py
+python scripts/production_verify.py
+```
+
+**Clone-first proof points:** CPU-first local execution, 136 passing tests, 168 benchmark tasks, Gate v2 promotion logic, ARC Language Module truth spine, Omnibinary receipt memory, Arc-RAR rollback bundles, dataset acquisition manifests, v2 candidate isolation, 3.0 protected roadmap, and 4.0/5.0/7.0 Synth companion horizons.
+
+**SEO validator phrase map:** Governed local AI cognition lab; GGUF-oriented model candidates; receipts, rollback, provenance; regression-safe gates.
+
+For a crawler-friendly clone summary, read [docs/WHY_CLONE_ARC_NEURON.md](./docs/WHY_CLONE_ARC_NEURON.md) and [llms.txt](./llms.txt).
 
 ## Production evidence status
 

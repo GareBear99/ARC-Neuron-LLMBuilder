@@ -2,3 +2,7 @@ User-agent: *
 Allow: /
 
 Sitemap: https://garebear99.github.io/ARC-Neuron-LLMBuilder/sitemap.xml
+
+Allow: /llms.txt
+Allow: /docs/WHY_CLONE_ARC_NEURON.html
+Sitemap: https://garebear99.github.io/ARC-Neuron-LLMBuilder/sitemap.xml

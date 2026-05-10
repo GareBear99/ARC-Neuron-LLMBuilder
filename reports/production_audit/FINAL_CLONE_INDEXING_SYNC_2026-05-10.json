@@ -1,0 +1,20 @@
+{
+  "status": "complete",
+  "date": "2026-05-10",
+  "updated": [
+    "README.md",
+    "index.md",
+    "_config.yml",
+    "llms.txt",
+    "docs/WHY_CLONE_ARC_NEURON.md",
+    "docs/seo_metadata.jsonld",
+    "repo-metadata/repository_description.txt",
+    "repo-metadata/repository_topics.txt",
+    "repo-metadata/repository_metadata.json",
+    "repo-metadata/GITHUB_ABOUT_UPDATE.md",
+    "repo-metadata/PUBLIC_CLONE_INDEXING_CHECKLIST.md",
+    "repo-metadata/social_preview_prompt.md",
+    "robots.txt"
+  ],
+  "truth_boundary": "v10 incumbent; v11.3 candidate; external datasets not ingested; Synth roadmap horizon only"
+}

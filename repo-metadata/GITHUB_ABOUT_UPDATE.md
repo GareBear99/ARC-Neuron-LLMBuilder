@@ -7,7 +7,7 @@ Use this file to update the public repository chrome after applying README/docs 
 Paste this into **GitHub → About → Description**:
 
 ```text
-Governed local AI / offline LLM builder for ARC-Neuron: GGUF-ready model training, Gate v2 promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and 3.0 roadmap.
+Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, ProtoSynth/Neural Synth, and Synth companion roadmap.
 ```
 
 ## Website / homepage
@@ -64,3 +64,14 @@ Current reproducible incumbent: arc_governed_v10_wave4 / 0.9237. v11.3/wave5 rem
 The README can explain the system, but GitHub search and link previews heavily use the repository description, topics, homepage, and social preview. Keeping this metadata aligned prevents the public repo from looking stuck at older `v1.0.0-governed` wording while the README correctly explains the 3.0 roadmap.
 
 Additional topics to add: `protosynth`, `neural-synth`, `synth-companion`, `buildable-brain-lab`, `time-to-space-projection`.
+
+
+## Extra clone/search topics
+
+```text
+clone-worthy-ai
+ai-build-lab
+portal-esque-ai-companion
+agi-assistant-lab
+arc-language-module
+```

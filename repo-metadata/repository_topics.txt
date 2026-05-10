@@ -23,3 +23,8 @@ neural-synth
 synth-companion
 buildable-brain-lab
 time-to-space-projection
+clone-worthy-ai
+ai-build-lab
+portal-esque-ai-companion
+agi-assistant-lab
+arc-language-module
