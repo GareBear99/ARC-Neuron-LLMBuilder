@@ -7,18 +7,6 @@
 > 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 136-test public verification suite, the 168-task scorer-expanded benchmark inventory, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
 
 
-## Current public status — scorer-expanded contender
-
-ARC-Neuron LLMBuilder is a contender in a specific, defensible lane: **local-first AI governance, candidate evaluation, model provenance, scorer evolution, and rollback-safe cognition-lab tooling**. It is not presented as a raw frontier-model replacement for Gemma, Llama, Claude, or GPT.
-
-The public proof rule is:
-
-```text
-Candidate score = candidate artifact + benchmark manifest + scorer manifest + adapter + prompt profile
-```
-
-That matters because the scorer surface has expanded. Historic scores remain useful as provenance, but old and new scores are not apples-to-apples unless they share the same locked scorer version, benchmark inventory, capability surface, adapter, prompt profile, and candidate artifact. The current validator inventory is **120 dataset records**, **168 benchmark tasks**, and the public verification runner targets **136 tests**. The reproducible incumbent remains `arc_governed_v10_wave4` at **0.9237** on its locked v10 post-audit generation.
-
 ### 💫 Thanks to our supporters
 
 <a href="https://github.com/GareBear99/ARC-Neuron-LLMBuilder/stargazers">
@@ -177,6 +165,19 @@ Candidate score = candidate artifact + benchmark manifest + scorer manifest + ad
 That means the correct claim is not simply "one model scored X." The stronger claim is: **candidate brains are measured across a versioned capability surface, compared against an incumbent, gated against regressions, and archived with the evidence trail intact.**
 
 For reviewers: ARC-Neuron LLMBuilder should be read as a governed local AI lab that preserves provenance while evolving candidate models. Historic scores remain useful as historical proof, but current public comparisons should be made only within the same locked scorer/benchmark generation.
+
+## Current public status — scorer-expanded contender 05/10/26
+
+ARC-Neuron LLMBuilder is a contender in a specific, defensible lane: **local-first AI governance, candidate evaluation, model provenance, scorer evolution, and rollback-safe cognition-lab tooling**. It is not presented as a raw frontier-model replacement for Gemma, Llama, Claude, or GPT.
+
+The public proof rule is:
+
+```text
+Candidate score = candidate artifact + benchmark manifest + scorer manifest + adapter + prompt profile
+```
+
+That matters because the scorer surface has expanded. Historic scores remain useful as provenance, but old and new scores are not apples-to-apples unless they share the same locked scorer version, benchmark inventory, capability surface, adapter, prompt profile, and candidate artifact. The current validator inventory is **120 dataset records**, **168 benchmark tasks**, and the public verification runner targets **136 tests**. The reproducible incumbent remains `arc_governed_v10_wave4` at **0.9237** on its locked v10 post-audit generation.
+
 
 ---
 
