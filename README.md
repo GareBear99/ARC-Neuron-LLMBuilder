@@ -32,7 +32,20 @@
 
 This repo lets you train or plug in a small local model, test it against a benchmark set, decide whether it improved, archive the evidence, and roll back safely.
 
-## Current public status — scorer-expanded contender
+
+## Current public update — preserved proof, corrected roadmap
+
+This README preserves the original high-signal proof sections, graphs, benchmark tables, and runnable workflow. The update is intentionally surgical: it keeps the v10 audit evidence intact while making the current 3.0+ direction explicit.
+
+- **Current reproducible incumbent:** `arc_governed_v10_wave4` at **0.9237** on the audited v10 benchmark path.
+- **v11.3 / wave5:** candidate/staging only until promotion evidence reproduces cleanly through [Gate v2](./docs/V2_CANDIDATE_ISOLATION_POLICY.md).
+- **Datasets:** external open-source datasets are **acquisition targets only**. They are not bundled, not ingested, and not promoted into incumbent weights yet. See the [3.0 Dataset Acquisition Matrix](./docs/DATASET_ACQUISITION_MATRIX_3_0.md).
+- **Current knowledge weight:** self-curated ARC material plus the [ARC Language Module](https://github.com/GareBear99/arc-language-module) carry the live lexical/provenance spine. Tiny/Small model weights are proof-of-loop reference models, not the full brain.
+- **Portable memory layer:** [Omnibinary Runtime](https://github.com/GareBear99/omnibinary-runtime) + [Arc-RAR](https://github.com/GareBear99/Arc-RAR) provide device-portable communication, replay, restore, and source-spine continuity.
+- **Add-on under active build:** [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is the visual/video memory add-on being built for ARC-style systems and other LLM stacks. See the [ARC-StreamMemory add-on note](./docs/ARC_STREAMMEMORY_ADDON.md).
+- **Long horizon:** 3.0 locks protected base-model/dataset/licensing integration; 4.0 connects [ProtoSynth / Neural Synth](https://github.com/GareBear99/Proto-Synth_Grid_Engine); 5.0 becomes a Portal-style Synth companion mockup; 7.0 targets a working Synth AI companion, AGI assistant, and buildable brain lab. See the [Synth Companion Roadmap 4/5/7](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md) and [Next Integration Graph](./docs/NEXT_INTEGRATION_GRAPH.md).
+
+##  — scorer-expanded contender
 
 ARC-Neuron LLMBuilder is not claiming to be a raw frontier-model replacement for Gemma, Llama, Claude, or GPT. Its public contender lane is more specific and more defensible: **a local-first AI governance, candidate-evaluation, model-provenance, and rollback-safe cognition-lab repo**.
 
@@ -47,19 +60,6 @@ Candidate score = candidate artifact + benchmark manifest + scorer manifest + ad
 That means the correct claim is not simply "one model scored X." The stronger claim is: **candidate brains are measured across a versioned capability surface, compared against an incumbent, gated against regressions, and archived with the evidence trail intact.**
 
 For reviewers: ARC-Neuron LLMBuilder should be read as a governed local AI lab that preserves provenance while evolving candidate models. Historic scores remain useful as historical proof, but current public comparisons should be made only within the same locked scorer/benchmark generation.
-
-## Current public update — preserved proof, corrected roadmap
-
-This README preserves the original high-signal proof sections, graphs, benchmark tables, and runnable workflow. The update is intentionally surgical: it keeps the v10 audit evidence intact while making the current 3.0+ direction explicit.
-
-- **Current reproducible incumbent:** `arc_governed_v10_wave4` at **0.9237** on the audited v10 benchmark path.
-- **v11.3 / wave5:** candidate/staging only until promotion evidence reproduces cleanly through [Gate v2](./docs/V2_CANDIDATE_ISOLATION_POLICY.md).
-- **Datasets:** external open-source datasets are **acquisition targets only**. They are not bundled, not ingested, and not promoted into incumbent weights yet. See the [3.0 Dataset Acquisition Matrix](./docs/DATASET_ACQUISITION_MATRIX_3_0.md).
-- **Current knowledge weight:** self-curated ARC material plus the [ARC Language Module](https://github.com/GareBear99/arc-language-module) carry the live lexical/provenance spine. Tiny/Small model weights are proof-of-loop reference models, not the full brain.
-- **Portable memory layer:** [Omnibinary Runtime](https://github.com/GareBear99/omnibinary-runtime) + [Arc-RAR](https://github.com/GareBear99/Arc-RAR) provide device-portable communication, replay, restore, and source-spine continuity.
-- **Add-on under active build:** [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is the visual/video memory add-on being built for ARC-style systems and other LLM stacks. See the [ARC-StreamMemory add-on note](./docs/ARC_STREAMMEMORY_ADDON.md).
-- **Long horizon:** 3.0 locks protected base-model/dataset/licensing integration; 4.0 connects [ProtoSynth / Neural Synth](https://github.com/GareBear99/Proto-Synth_Grid_Engine); 5.0 becomes a Portal-style Synth companion mockup; 7.0 targets a working Synth AI companion, AGI assistant, and buildable brain lab. See the [Synth Companion Roadmap 4/5/7](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md) and [Next Integration Graph](./docs/NEXT_INTEGRATION_GRAPH.md).
-
 
 
 ### Phase 0/1 audit recovery now landed
