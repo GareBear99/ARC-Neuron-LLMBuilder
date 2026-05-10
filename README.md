@@ -14,7 +14,7 @@
 
 
 
-<sub>**Topics**: local AI • governed AI • GGUF • offline LLM builder • AI provenance • model promotion gate • regression-safe training • Omnibinary • Arc-RAR • knowledge preservation
+<sub>**Topics**: local AI • governed AI • GGUF • offline LLM builder • AI provenance • model promotion gate • regression-safe training • Omnibinary • Arc-RAR • knowledge preservation • ARC-Neuron • offline model governance • reproducible AI</sub>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -28,18 +28,32 @@
 [![Runs on a 2012 Intel Mac](https://img.shields.io/badge/runs_on-2012_Intel_Mac-silver?logo=apple)](./PROOF.md#hardware-provenance)
 [![CPU only](https://img.shields.io/badge/CPU-only_required-green)](./STORAGE_ECONOMICS.md)
 
+## Search / discovery front door
 
-## 🔎 Public search index / fast links
+**ARC-Neuron LLMBuilder** is a **local-first AI model builder**, **offline LLM governance lab**, and **GGUF-oriented candidate promotion system** for developers who need reproducible model growth instead of black-box prompt drift. It combines model training, benchmark scoring, memory/continuity tests, promotion gates, Arc-RAR rollback bundles, Omnibinary receipts, dataset manifests, and a protected 3.0 roadmap into one auditable repository.
 
-ARC-Neuron LLMBuilder is a **local AI model builder**, **offline LLM training lab**, and **governed GGUF-oriented candidate promotion system** by [Gary Doman / GareBear99](https://github.com/GareBear99). It is designed for builders searching for **local-first AI**, **regression-safe model training**, **AI provenance**, **model promotion gates**, **knowledge preservation**, **Arc-RAR archives**, **Omnibinary memory**, and **rollback-safe AI development**.
+**Best-fit search terms:** `local AI`, `offline LLM`, `GGUF model builder`, `AI provenance`, `model promotion gate`, `regression-safe training`, `AI memory system`, `LLM benchmark harness`, `dataset governance`, `Arc-RAR`, `Omnibinary`, `ARC-Neuron`, `Gary Doman`, `GareBear99`.
 
-**Primary search phrases:** local AI model builder, offline LLM builder, governed AI training, GGUF model pipeline, model promotion gate, AI provenance ledger, regression-safe LLM training, ARC-Neuron, ARC Core, Omnibinary memory, Arc-RAR rollback archive, knowledge preservation doctrine, local-first AGI research, CPU-only AI training workflow.
+**Fast links for people and crawlers:**
 
-**Fast proof links:** [production handoff](./docs/PRODUCTION_RELEASE_HANDOFF.md) · [benchmark proof](./docs/BENCHMARK_PROOF.md) · [Gate v2 spec](./specs/promotion_gate_v2.yaml) · [knowledge preservation doctrine](./docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md) · [v2 candidate isolation](./docs/V2_CANDIDATE_ISOLATION_POLICY.md) · [3.0 roadmap](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md) · [dataset acquisition matrix](./docs/DATASET_ACQUISITION_MATRIX_3_0.md) · [memory evaluation protocol](./docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md) · [transitional license roadmap](./docs/TRANSITIONAL_LICENSE_ROADMAP.md) · [SEO indexing playbook](./docs/SEO_INDEXING_PLAYBOOK.md).
+| Need | Start here |
+|---|---|
+| Verify current state | [Production evidence status](#production-evidence-status) · [PROOF.md](./PROOF.md) · [docs/PRODUCTION_RELEASE_HANDOFF.md](./docs/PRODUCTION_RELEASE_HANDOFF.md) |
+| Understand the system | [What this is](#what-this-is) · [Architecture at a glance](#architecture-at-a-glance) · [ARCHITECTURE.md](./ARCHITECTURE.md) |
+| See governance | [The governance doctrine](#the-governance-doctrine) · [specs/promotion_gate_v2.yaml](./specs/promotion_gate_v2.yaml) · [docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md](./docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md) |
+| Follow the 3.0 roadmap | [docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md) · [docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md](./docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md) |
+| Add datasets safely | [docs/DATASET_ACQUISITION_MATRIX_3_0.md](./docs/DATASET_ACQUISITION_MATRIX_3_0.md) · [configs/datasets/dataset_manifest_template.yaml](./configs/datasets/dataset_manifest_template.yaml) |
+| Protect candidate scoring | [docs/V2_CANDIDATE_ISOLATION_POLICY.md](./docs/V2_CANDIDATE_ISOLATION_POLICY.md) · [configs/candidates/v2_class_policy.yaml](./configs/candidates/v2_class_policy.yaml) |
+| Test memory continuity | [docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md](./docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md) · [benchmarks/v2_memory_continuity_tasks.jsonl](./benchmarks/v2_memory_continuity_tasks.jsonl) |
+| Understand licensing path | [LICENSE](./LICENSE) · [LICENSE_TRANSITIONAL_NOTICE.md](./LICENSE_TRANSITIONAL_NOTICE.md) · [docs/TRANSITIONAL_LICENSE_ROADMAP.md](./docs/TRANSITIONAL_LICENSE_ROADMAP.md) |
+| Improve GitHub/Google indexing | [docs/SEO_INDEXING_PLAYBOOK.md](./docs/SEO_INDEXING_PLAYBOOK.md) · [repo-metadata/repository_topics.txt](./repo-metadata/repository_topics.txt) · [docs/seo_metadata.jsonld](./docs/seo_metadata.jsonld) |
+
 
 ## Production evidence status
 
 Current packaged status: `arc_governed_v10_wave4` remains the reproducible incumbent in `results/scoreboard.json`. v11.3 / wave5 materials are treated as a staging candidate until promotion evidence is regenerated from shipped files, Gate v2 passes without protected-floor regression, and the archive bundle/scoreboard are updated.
+
+**Up-to-date rule:** this README intentionally separates verified evidence from roadmap intent. Current proof stays on the reproducible v10 incumbent; new datasets, memory tests, support-language data, and 3.0 licensing changes enter through the v2 candidate lane first so they cannot pollute incumbent scoring.
 
 
 ### Current packaged verification — 2026-05-09
@@ -85,7 +99,9 @@ Recommended description: **Governed local AI cognition lab for building, benchma
 
 ## Table of contents
 
-- [Public search index / fast links](#public-search-index--fast-links)
+- [Search / discovery front door](#search--discovery-front-door)
+- [Production evidence status](#production-evidence-status)
+- [SEO / public indexing status](#seo--public-indexing-status)
 - [Live deployment — continuous-learning AI operative](#live-deployment--continuous-learning-ai-operative)
 - [Operator evidence log](./docs/OPERATOR_EVIDENCE.md)
 - [What this is](#what-this-is)
@@ -96,6 +112,7 @@ Recommended description: **Governed local AI cognition lab for building, benchma
 - [Quick start](#quick-start)
 - [Architecture at a glance](#architecture-at-a-glance)
 - [The governance doctrine](#the-governance-doctrine)
+- [3.0 protected roadmap and dataset lanes](#30-protected-roadmap-and-dataset-lanes)
 - [Benchmark surface](#benchmark-surface)
 - [Repository layout](#repository-layout)
 - [One-command operations](#one-command-operations)
@@ -259,7 +276,7 @@ Sponsorship funds time across all seven ARC ecosystem repos — not just this on
 |---|---|
 | Talk to it | Records the conversation with a signed receipt, mirrors it into the Omnibinary indexed ledger, extracts terminology with provenance |
 | Ask it to train a new model | Mines the accumulated SFT corpus, trains a byte-level transformer, exports `.pt` + `.gguf`, builds a retrieval exemplar artifact |
-| Ask it to compare | Runs the candidate against the full 165-task benchmark (14 capabilities × 10 tasks each), scores with the task-aware rubric, prints per-capability deltas |
+| Ask it to compare | Runs the candidate against the verified benchmark inventory (17 benchmark files / 168 total tasks), scores with the task-aware rubric, and prints per-capability deltas |
 | Ask it to promote | Applies Gate v2 (hard-reject floor, floor-model protection, regression ceilings), updates the scoreboard, bundles the candidate into an Arc-RAR archive |
 | Ask it to roll back | Restores a prior incumbent from its bundle; the prior state is always addressable by SHA-256 |
 | Ask it to prove itself | Runs `demo_proof_workflow.py` or `run_n_cycles.py` — every step produces a receipt |
@@ -277,8 +294,8 @@ Sponsorship funds time across all seven ARC ecosystem repos — not just this on
 - **✅ Validator**: `python3 scripts/validate_repo.py` passing in this package
 - **🧪 Tests**: PyTorch smoke tests are included; run locally with `python3 -m pytest tests -q`
 - **🏆 Incumbent**: `arc_governed_v10_wave4`
-- **📈 Score**: **0.9237** on 165 tasks (post-audit benchmark)
-- **📚 Docs**: 21 root + 62 indexed
+- **📈 Score**: **0.9237** for the reproducible v10 incumbent on the post-audit benchmark surface
+- **📚 Docs**: 26 root markdown files + 80 docs markdown files in this package
 - **📦 Bundles**: 12 restorable
 - **💾 Pipeline**: Canonical, single-path
 
@@ -419,7 +436,7 @@ flowchart TD
     Rec --> Train[🛠️ Training-eligibility tag]
     Train --> Corpus[📁 SFT Corpus]
     Corpus --> Cand[🧠 Candidate Model]
-    Cand --> Bench[📊 142-task Benchmark]
+    Cand --> Bench[📊 17-file / 168-task Benchmark]
     Bench --> Gate{⚖️ Gate v2}
     Gate -->|beat incumbent| Promote[✅ PROMOTE]
     Gate -->|tie or regression| Archive[💾 archive_only]
@@ -467,63 +484,92 @@ Full spec: [specs/promotion_gate_v2.yaml](./specs/promotion_gate_v2.yaml), [spec
 
 ## 🗺️ Roadmap
 
-Live roadmap. Updated as milestones ship. Full detail in [ROADMAP.md](./ROADMAP.md).
+Live roadmap. Updated to keep the public README aligned with the current package state and the protected 3.0 direction. Full detail lives in [ROADMAP.md](./ROADMAP.md), [docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md), and [docs/TRANSITIONAL_LICENSE_ROADMAP.md](./docs/TRANSITIONAL_LICENSE_ROADMAP.md).
 
-| Version | Status | Milestone | Key deliverables |
+| Track | Status | Purpose | Key deliverables |
 |---|---|---|---|
-| **v1.0.0-governed** | ✅ **Shipped** *(2026-04-22)* | **Doctrine Closed** | Three governed promotions, Gate v2 all four states, OBIN v2 indexed ledger, 87-test suite, 165-task benchmark, Arc-RAR bundles |
-| **v2.0.0-audited** | ✅ **Shipped** *(2026-05-04)* | **Audit Complete** | 4 defects fixed, 4 governed promotions (v7→v10), 0.6836→0.9237, historical audit suite established, benchmark rebuilt, TF-IDF retrieval, 296 new exemplars |
-| **v1.1.0** | 🚧 **Next** | **Expanded Native Lane** | ARC-Neuron Base tier (GPU), real tokenizer (SentencePiece/BPE), distillation wave v2 driver, `arc` CLI frontend, scorer v3 with per-cap weights, +50 benchmark tasks |
-| **v1.2.0** | 🔮 Planned | **External Backend Integration** | Reference docs for Qwen3-32B / Llama-4 / DeepSeek via `llama_cpp_http`, per-adapter scoreboard namespacing, command-adapter timeout tuning, reflection loop v2 |
-| **v1.3.0** | 🔮 Planned | **Multi-Repo Integration** | OmniBinary ↔ LLMBuilder federation, ARC-Core event attestation (co-signed receipts), Arc-RAR ↔ Cleanroom replay, Language Module canonicalization |
-| **v2.1.0** | 🎯 Future | **Production Governance** | Formal governance spec (machine-checkable), sandboxed gate execution, audit-trail export, per-org scoreboards, SOC 2 / ISO 27001 hooks |
+| **v1.0 governed** | ✅ Historical shipped release | Original governed proof loop | Gate v2, receipts, OBIN ledger, Arc-RAR bundles, release evidence |
+| **v2.0 audited / v10 incumbent** | ✅ Current reproducible incumbent | Honest post-audit benchmark floor | `arc_governed_v10_wave4`, 0.9237 score, 136 tests, validated production evidence |
+| **v11.3 / wave5** | 🚧 Candidate/staging | Expanded SFT and candidate growth experiments | Must regenerate promotion evidence and pass Gate v2 before becoming incumbent |
+| **v2 candidate class** | ✅ Policy added | Isolate new weights/data from incumbent scoring | candidate namespace, dataset manifests, memory-continuity benchmark lane |
+| **3.0 roadmap integration** | 🎯 Protected target | Full base-model roadmap with connected datasets and stronger license posture | governed datasets, memory tests, preservation doctrine, transitional license path, commercial protections |
+| **External/local model adapters** | 🔮 Planned/ongoing | Let stronger local GGUF or HTTP-served models run through the same governance shell | adapter scoreboards, per-backend receipts, no direct incumbent overwrite |
+| **Ecosystem federation** | 🔮 Planned/ongoing | Bind ARC-Core, Cleanroom Runtime, Language Module, Omnibinary, and Arc-RAR into one auditable loop | co-signed receipts, replay bundles, binary/source truth latching |
 
 ### Progress toward each milestone
 
 ```mermaid
 gantt
-    title ARC-Neuron LLMBuilder Release Trajectory
+    title ARC-Neuron LLMBuilder Roadmap — Honest Evidence to Protected 3.0
     dateFormat YYYY-MM-DD
-    axisFormat %Y Q%q
+    axisFormat %Y-%m
 
-    section v1.0
-    v1.0.0-governed (Doctrine Closed)      :done,    v10, 2026-01-01, 2026-04-22
+    section Verified evidence
+    v1.0 governed proof loop             :done, v10a, 2026-01-01, 2026-04-22
+    v2.0 audited v10 incumbent           :done, v10b, 2026-04-23, 2026-05-09
 
-    section v1.1 Next
-    ARC-Neuron Base tier + GPU path        :active,  v11a, 2026-04-23, 45d
-    Real tokenizer (SentencePiece/BPE)     :         v11b, after v11a, 20d
-    Distillation wave v2 driver            :         v11c, after v11a, 25d
-    `arc` CLI frontend                     :         v11d, after v11b, 20d
+    section Candidate isolation
+    v11.3 wave5 staging                  :active, v113, 2026-05-09, 20d
+    v2 candidate lane hardening          :active, v2c, 2026-05-09, 35d
+    memory continuity benchmark lane     :active, mem, 2026-05-09, 30d
 
-    section v1.2
-    External backends (Qwen3/Llama-4)      :         v12a, after v11d, 30d
-    Per-adapter scoreboard namespacing     :         v12b, after v12a, 15d
-
-    section v1.3
-    OmniBinary federation                  :         v13a, after v12b, 40d
-    ARC-Core co-signed receipts            :         v13b, after v13a, 30d
-
-    section v2.0
-    Formal governance spec                 :         v20a, after v13b, 60d
-    Sandboxed gate execution               :         v20b, after v20a, 45d
+    section 3.0 protected release path
+    dataset manifest enforcement         :crit, ds, after v2c, 45d
+    protected licensing transition       :crit, lic, after v2c, 30d
+    connected dataset training waves     :train, after ds, 60d
+    3.0 release candidate gate           :milestone, m1, after train, 1d
 ```
 
 ### How to influence what ships
 
-- File a [✨ feature request](./.github/ISSUE_TEMPLATE/02_feature_request.yml) tagged with the target version.
+- File a [✨ feature request](./.github/ISSUE_TEMPLATE/02_feature_request.yml) tagged with the target track.
 - Open a PR that preserves all ten [governance invariants](./GOVERNANCE_DOCTRINE.md).
+- Add datasets only through manifest + license + hash + candidate-lane approval.
 - [💖 Sponsor](https://github.com/sponsors/GareBear99) to fund maintenance time across the whole ARC ecosystem.
 - Discuss architectural direction in [💬 GitHub Discussions](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions).
 
-### Explicitly not on the roadmap
+### Explicit boundaries
 
-❌ Alignment / safety filtering (orthogonal concern) · ❌ Hosted cloud service (local-first project) · ❌ Closed-source components (MIT all the way down) · ❌ Role inversion (the seven-repo contract is permanent)
+❌ Not a frontier-scale Claude/Gemini replacement today · ❌ No direct overwrite of the incumbent from new weights · ❌ No unmanifested dataset ingestion · ❌ No hidden promotion without receipts · ❌ No false claim that v11.3 is promoted until reproducible Gate v2 evidence proves it.
 
 ---
 
+## 3.0 protected roadmap and dataset lanes
+
+The 3.0 track is the full roadmap integration release: stronger candidate training, connected datasets, memory-continuity evaluation, provenance preservation, and a more protective licensing posture. It is **not** allowed to overwrite the current incumbent lane directly.
+
+### Candidate isolation law
+
+New weights, new datasets, and new support-language/mental-health-style corpora enter through the **v2 candidate class** first. They are measured separately, compared against the v10 incumbent, and promoted only if Gate v2 shows no protected-floor regression.
+
+- Policy: [docs/V2_CANDIDATE_ISOLATION_POLICY.md](./docs/V2_CANDIDATE_ISOLATION_POLICY.md)
+- Config: [configs/candidates/v2_class_policy.yaml](./configs/candidates/v2_class_policy.yaml)
+- Knowledge doctrine: [docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md](./docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md)
+
+### Dataset roadmap
+
+The dataset roadmap is documented as governed acquisition lanes, not as unreviewed bundled data. Every dataset needs source, license, hash, intended use, risk level, transform record, and approval lane before it can train a candidate.
+
+| Dataset lane | Purpose | First landing zone |
+|---|---|---|
+| ARC-native receipts and docs | Preserve identity, doctrine, rollback, and source-of-truth reasoning | highest-trust curated shard |
+| General instruction following | Improve assistant behavior and task completion | v2 candidate |
+| Reasoning / planning / critique-revise | Improve multi-step usefulness and self-checking | v2 candidate |
+| Lexical simplicity / support-language | Improve plain-English clarity, empathy, and de-escalation without becoming therapy AI | v2 candidate + safety review |
+| Code / tool-use / repo repair | Improve engineering execution, patch planning, and audit behavior | v2 candidate |
+| License / refusal / provenance | Protect 3.0 commercial release and prevent bad ingestion | governance/safety shard |
+| Memory continuity | Test whether repeated questions preserve doctrine and decisions | v2 benchmark lane |
+
+- Dataset matrix: [docs/DATASET_ACQUISITION_MATRIX_3_0.md](./docs/DATASET_ACQUISITION_MATRIX_3_0.md)
+- Manifest template: [configs/datasets/dataset_manifest_template.yaml](./configs/datasets/dataset_manifest_template.yaml)
+- Memory protocol: [docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md](./docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md)
+- DARPA-style climb plan: [docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md](./docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md)
+- 3.0 roadmap: [docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md)
+- License transition: [docs/TRANSITIONAL_LICENSE_ROADMAP.md](./docs/TRANSITIONAL_LICENSE_ROADMAP.md)
+
 ## 📈 Benchmark surface
 
-165 tasks across 17 benchmark files / 168 total tasks (rebuilt and verified):
+17 benchmark files / 168 total tasks in this package. The v10 incumbent score remains the current reproducible public proof point:
 
 | Family | Tasks | v10 score |
 |---|---|---|
@@ -561,7 +607,7 @@ ARC-Neuron-LLMBuilder/
 │   ├── ops/               # Proof workflows, repeatability runners, distillation waves
 │   ├── lab/               # Tiny/Small GGUF smoke and validate
 │   └── operator/          # User-facing shell scripts
-├── benchmarks/            # 165 tasks across 17 benchmark files / 168 total tasks (rebuilt)
+├── benchmarks/            # 17 benchmark files / 168 total tasks, including v2 memory-continuity lane
 ├── datasets/              # Seed and distilled SFT corpora
 ├── specs/                 # Gate v2, benchmark schema v2, promotion doctrine
 ├── configs/               # Base model candidates, training stages, runtime profiles
@@ -624,7 +670,12 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 - [docs/QUICKSTART_STEPBYSTEP.md](./docs/QUICKSTART_STEPBYSTEP.md) — **10-step guide from clone to governed promotion** (new)
 - [docs/BENCHMARK_PROOF.md](./docs/BENCHMARK_PROOF.md) — **full audit proof with reproducible commands** (new)
 - [docs/HOW_TO_GROW.md](./docs/HOW_TO_GROW.md) — **growth path: retrieval → transformer → RLHF → edge** (new)
-- [docs/USE_CASES.md](./docs/USE_CASES.md) — **domain applications: robotics, medical, finance, edge** (new)
+- [docs/USE_CASES.md](./docs/USE_CASES.md) — **domain applications: robotics, medical, finance, edge**
+- [docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md](./docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md) — preserve provenance, lineage, receipts, source paths, and rollback evidence
+- [docs/V2_CANDIDATE_ISOLATION_POLICY.md](./docs/V2_CANDIDATE_ISOLATION_POLICY.md) — keep new weights/datasets out of incumbent scoring until proven
+- [docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md) — protected 3.0 roadmap integration
+- [docs/DATASET_ACQUISITION_MATRIX_3_0.md](./docs/DATASET_ACQUISITION_MATRIX_3_0.md) — governed dataset lanes and risk checks
+- [docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md](./docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md) — repeated-question memory/continuity evaluation
 - [USAGE.md](./USAGE.md) — complete command reference
 - [EXAMPLES.md](./EXAMPLES.md) — 10 runnable recipes
 
@@ -633,7 +684,10 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 - [STORAGE_ECONOMICS.md](./STORAGE_ECONOMICS.md) — measured storage numbers, year-long projections, vs ChatGPT / Claude / Gemini
 - [FAQ.md](./FAQ.md) — 20+ searchable questions
 - [GLOSSARY.md](./GLOSSARY.md) — every ARC-specific term
-- [ROADMAP.md](./ROADMAP.md) — v1.1 → v2.0 milestones
+- [ROADMAP.md](./ROADMAP.md) — release trajectory and candidate milestones
+- [docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md](./docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md) — staged path toward stronger assistant behavior
+- [docs/TRANSITIONAL_LICENSE_ROADMAP.md](./docs/TRANSITIONAL_LICENSE_ROADMAP.md) — 1.0 → transitional bridge → protected 3.0 plan
+- [docs/SEO_INDEXING_PLAYBOOK.md](./docs/SEO_INDEXING_PLAYBOOK.md) — GitHub/Google discoverability checklist
 - [COMPARISON.md](./COMPARISON.md) — vs MLflow, W&B, Langfuse, llama.cpp
 - [MODEL_CARD_v10_wave4.md](./MODEL_CARD_v10_wave4.md) — **current incumbent** (v2.0.0-audited)
 - [MODEL_CARD_v6_conversation.md](./MODEL_CARD_v6_conversation.md) — v1.0.0 incumbent (superseded)
@@ -662,7 +716,7 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 
 **What this is**: a local-first governed cognition lab and control plane for training, promoting, and archiving small language models with full lineage. The included native models (Tiny and Small) are reference tiers designed to prove the pipeline is real, not to compete with frontier LLMs.
 
-**What this is not**: a frontier-scale LLM. The ARC-Neuron Tiny model is ~0.05M parameters. The Small model is ~0.18M parameters. They are deliberately small because the contribution here is the **governance**, not the raw brain.
+**What this is not**: a frontier-scale LLM today. The ARC-Neuron Tiny model is ~0.05M parameters. The Small model is ~0.18M parameters. They are deliberately small because the current public contribution is the **governance loop**, not a Claude/Gemini-class raw brain. The 3.0 roadmap is where connected datasets, stronger candidate classes, and protected release terms enter.
 
 **The shell is contender-grade. The brain is the research lane.** The adapter boundary is the integration point: you can plug any local GGUF runtime or HTTP-served model into the existing governance machinery via `adapters/command_adapter.py` or `adapters/llama_cpp_http_adapter.py`.
 
@@ -688,7 +742,9 @@ Full metadata in [CITATION.cff](./CITATION.cff).
 
 ## 📜 License
 
-MIT — see [LICENSE](./LICENSE).
+Current public source license: MIT — see [LICENSE](./LICENSE).
+
+Roadmap note: 1.0-era releases keep the license they shipped with. The path toward the protected 3.0 full roadmap/base-model release is documented in [LICENSE_TRANSITIONAL_NOTICE.md](./LICENSE_TRANSITIONAL_NOTICE.md) and [docs/TRANSITIONAL_LICENSE_ROADMAP.md](./docs/TRANSITIONAL_LICENSE_ROADMAP.md). Future 3.0+ releases may use a more protective license for trained weights, connected datasets, commercial resale, SaaS wrapping, and derivative model packaging.
 
 ---
 
