@@ -15,3 +15,7 @@ Important current state:
 ## Next integration graph
 
 ARC-Neuron now documents the next integration graph: current v10 incumbent -> 3.0 protected dataset/license/v2-candidate integration -> 4.0 ProtoSynth/Neural Synth spatial projection with ARC-StreamMemory visual memory add-on -> 5.0 Portal-style Synth companion mockup -> 7.0 working Synth AI companion / AGI assistant / buildable brain lab. These future layers are add-ons/interfaces and do not bypass Gate v2 or incumbent protection.
+
+## Warp pairing
+
+ARC-Neuron can pair with Warp as an agentic terminal execution surface. Warp/CLI agents can run commands, propose patches, inspect failures, and automate development tasks; ARC-Neuron remains the governance spine that enforces candidate gates, dataset manifests, rollback evidence, and source-spine continuity. ARC-StreamMemory can capture terminal/session evidence, Omnibinary preserves command/receipt history, and Arc-RAR packages rollback states. See docs/WARP_PAIRING_AGENTIC_TERMINAL.md.
