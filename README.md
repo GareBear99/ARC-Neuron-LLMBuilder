@@ -38,12 +38,11 @@ This README preserves the original high-signal proof sections, graphs, benchmark
 - **v11.3 / wave5:** candidate/staging only until promotion evidence reproduces cleanly through [Gate v2](./docs/V2_CANDIDATE_ISOLATION_POLICY.md).
 - **Datasets:** external open-source datasets are **acquisition targets only**. They are not bundled, not ingested, and not promoted into incumbent weights yet. See the [3.0 Dataset Acquisition Matrix](./docs/DATASET_ACQUISITION_MATRIX_3_0.md).
 - **Current knowledge weight:** self-curated ARC material plus the [ARC Language Module](https://github.com/GareBear99/arc-language-module) carry the live lexical/provenance spine. Tiny/Small model weights are proof-of-loop reference models, not the full brain.
-- **Portable memory layer:** Omnibinary + [Arc-RAR](https://github.com/GareBear99/Arc-RAR) provide device-portable communication, replay, restore, and source-spine continuity.
+- **Portable memory layer:** [Omnibinary Runtime](https://github.com/GareBear99/omnibinary-runtime) + [Arc-RAR](https://github.com/GareBear99/Arc-RAR) provide device-portable communication, replay, restore, and source-spine continuity.
 - **Add-on under active build:** [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is the visual/video memory add-on being built for ARC-style systems and other LLM stacks. See the [ARC-StreamMemory add-on note](./docs/ARC_STREAMMEMORY_ADDON.md).
 - **Long horizon:** 3.0 locks protected base-model/dataset/licensing integration; 4.0 connects [ProtoSynth / Neural Synth](https://github.com/GareBear99/Proto-Synth_Grid_Engine); 5.0 becomes a Portal-style Synth companion mockup; 7.0 targets a working Synth AI companion, AGI assistant, and buildable brain lab. See the [Synth Companion Roadmap 4/5/7](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md) and [Next Integration Graph](./docs/NEXT_INTEGRATION_GRAPH.md).
 
 Bot-readable summary: [`llms.txt`](./llms.txt). Clone rationale: [`docs/WHY_CLONE_ARC_NEURON.md`](./docs/WHY_CLONE_ARC_NEURON.md).
-
 
 ## Table of contents
 
