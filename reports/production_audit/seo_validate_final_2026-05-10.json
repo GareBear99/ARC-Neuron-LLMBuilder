@@ -1,0 +1,28 @@
+{
+  "ok": true,
+  "required_files": 8,
+  "topics": [
+    "agentic-ai",
+    "ai-provenance",
+    "ai-receipts",
+    "benchmark",
+    "gguf",
+    "governed-ai",
+    "knowledge-preservation",
+    "llama-cpp",
+    "llm-builder",
+    "llm-evaluation",
+    "local-ai",
+    "machine-learning",
+    "model-governance",
+    "model-promotion",
+    "offline-ai",
+    "python",
+    "pytorch",
+    "regression-testing",
+    "reproducible-ai",
+    "sovereign-ai"
+  ],
+  "description_length": 168,
+  "jsonld_type": "SoftwareSourceCode"
+}

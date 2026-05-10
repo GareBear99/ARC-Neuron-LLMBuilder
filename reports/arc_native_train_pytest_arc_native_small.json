@@ -1,0 +1,29 @@
+{
+  "ok": true,
+  "candidate": "pytest_arc_native_small",
+  "tier": "small",
+  "param_count": 174656,
+  "manifest": "exports/candidates/pytest_arc_native_small/lora_train/artifact_manifest.json",
+  "artifact_id": "lora_train_b5ac16f15793",
+  "stage": "lora_train",
+  "created_at": "2026-05-10T05:08:18.092002+00:00",
+  "status": "completed",
+  "execution_mode": "arc_native",
+  "notes": "ARC-native small training completed. Real weights produced; no external trainer required.",
+  "training": {
+    "steps": 10,
+    "batch_size": 4,
+    "lr": 0.002,
+    "seed": 1337,
+    "corpus_bytes": 600000,
+    "initial_loss": 0.0,
+    "final_loss": 0.0,
+    "val_ppl": 0.0
+  },
+  "paths": {
+    "pt_checkpoint": "exports/candidates/pytest_arc_native_small/lora_train/checkpoint/arc_native_pytest_arc_native_small.pt",
+    "gguf": "exports/candidates/pytest_arc_native_small/lora_train/checkpoint/arc_native_pytest_arc_native_small.gguf",
+    "exemplar": "exports/candidates/pytest_arc_native_small/exemplar_train/exemplar_model.json"
+  },
+  "sample": "ARC cognition smoke artifact"
+}

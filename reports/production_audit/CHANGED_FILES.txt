@@ -1,0 +1,15 @@
+Changed/new key files:
+.env.direct-runtime.example
+README.md
+CHANGELOG_v2.1.0.md
+LICENSE_TRANSITIONAL_NOTICE.md
+docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md
+docs/V2_CANDIDATE_ISOLATION_POLICY.md
+docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md
+docs/DATASET_ACQUISITION_MATRIX_3_0.md
+configs/candidates/v2_class_policy.yaml
+configs/datasets/dataset_manifest_template.yaml
+scripts/execution/generate_release_bundle.py
+results/validation_current_package.json
+reports/production_audit/PRODUCTION_COMPLETION_REPORT.md
+reports/production_audit/PRODUCTION_COMPLETION_REPORT.json

@@ -1,0 +1,11 @@
+{
+  "ok": true,
+  "jsonl_files_checked": 110,
+  "yaml_files_checked": 47,
+  "json_files_checked": 451,
+  "dataset_files": 6,
+  "benchmark_files": 17,
+  "dataset_total_records": 120,
+  "benchmark_total_tasks": 168,
+  "errors": []
+}

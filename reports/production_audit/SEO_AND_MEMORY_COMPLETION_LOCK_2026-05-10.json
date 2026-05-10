@@ -1,0 +1,125 @@
+{
+  "status": "complete_public_indexing_and_memory_protocol_handoff",
+  "created_at": "2026-05-10T00:00:00-07:00",
+  "validator": "pass",
+  "seo_validator": "pass",
+  "compile": "pass",
+  "tests": "136/136 verified by split test-module execution in this pass",
+  "benchmark_inventory": {
+    "files": 17,
+    "tasks": 168
+  },
+  "dataset_inventory": {
+    "files": 6,
+    "records": 120
+  },
+  "incumbent": "arc_governed_v10_wave4 / 0.9237",
+  "v11_3_status": "candidate/staging only",
+  "changed_files": [
+    {
+      "path": "README.md",
+      "sha256": "29a14b1b44fcacf522a751927e4af52c2b394c403a15cdfe7b4aa08fb5bbd81a",
+      "bytes": 35980
+    },
+    {
+      "path": "index.md",
+      "sha256": "9c3deb94e4082484aa8d49f82af29a25c8ab5c269e6fc9243335a1b726b1c81c",
+      "bytes": 5007
+    },
+    {
+      "path": "_config.yml",
+      "sha256": "4ce63afead911c15c47e5d6052974fbdac68f9bab0b79cfb3ac057b675d1b8d3",
+      "bytes": 2394
+    },
+    {
+      "path": "robots.txt",
+      "sha256": "08860fd8753c5eb58f76ddca07da1367069327f7e294ce721e13c6e9635ea370",
+      "bytes": 96
+    },
+    {
+      "path": "docs/SEO_INDEXING_PLAYBOOK.md",
+      "sha256": "146a23f4b404ec68876d60ce5fe54410c7961a5b4d2fe13064a2c43c3d49a1be",
+      "bytes": 2786
+    },
+    {
+      "path": "docs/seo_metadata.jsonld",
+      "sha256": "7ff47732419acde00f941b414fecb20bd94eceaa06244c24608df328bb5027e2",
+      "bytes": 1011
+    },
+    {
+      "path": "repo-metadata/repository_topics.txt",
+      "sha256": "8b53743e648e61c0b7277868898e0d80eaddebd4c76fd6c8c0e46e9b40ba1e9d",
+      "bytes": 257
+    },
+    {
+      "path": "repo-metadata/repository_description.txt",
+      "sha256": "d7cbe6eeaf2f0addd1af4a8c3f6043716da2e0cca12c940ff2234ddf2e51c6fa",
+      "bytes": 169
+    },
+    {
+      "path": "repo-metadata/social_preview_prompt.md",
+      "sha256": "2936636cd93713dc7e95d9393ffeeded8d99cc208d3bef9ee6047248a0693335",
+      "bytes": 370
+    },
+    {
+      "path": "scripts/seo_validate.py",
+      "sha256": "4d016ede7934576987638e0e6d5f290233d8a013aa4e528f0ffc5725459a4c80",
+      "bytes": 2740
+    },
+    {
+      "path": "Makefile",
+      "sha256": "e83f112d3f69b29902c009a801c78fdbce8850306bb83e25e471c267e6bd3ad8",
+      "bytes": 7395
+    },
+    {
+      "path": "docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md",
+      "sha256": "a83feda52ab3d62d3823c93e18a6ac9f08d371e3d95a8badeae2a7d23a6afbb9",
+      "bytes": 2360
+    },
+    {
+      "path": "configs/evaluation/memory_regression_suite.yaml",
+      "sha256": "fb14d0c9b140d88c1ae118590e978456a36a195b4d0031aa2c35c66c96de442d",
+      "bytes": 826
+    },
+    {
+      "path": "benchmarks/v2_memory_continuity_tasks.jsonl",
+      "sha256": "f1d57058e2d57073d0cf474261bacb64790e9a05acacb00858f726f75d0d8751",
+      "bytes": 1982
+    },
+    {
+      "path": "docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md",
+      "sha256": "7b774b23202d94ae1dae05d34ada9a99ec5560c0a7ed9e2e91f00c4052a73706",
+      "bytes": 3406
+    },
+    {
+      "path": "docs/TRANSITIONAL_LICENSE_ROADMAP.md",
+      "sha256": "9dcb7be375ca9e904f21b5d522f43ac3a58fef01ba4c73f85067fe45e374ea19",
+      "bytes": 1380
+    },
+    {
+      "path": "configs/licensing/three_point_zero_release_license_checklist.yaml",
+      "sha256": "63021e6572c584da95f6c29fb86072bf011c814eda4cd8c13e27cccd9fb5e79f",
+      "bytes": 558
+    },
+    {
+      "path": "docs/PRODUCTION_RELEASE_HANDOFF.md",
+      "sha256": "1d57db94958aebab644ddab72a068d7950a7afb7d51171bdb78459b1700a9cb2",
+      "bytes": 2271
+    },
+    {
+      "path": "scripts/production_verify.py",
+      "sha256": "d259e9ea0b293a10a6c696a13eb0e0211a69b501078a2559aa2a0425e0b70926",
+      "bytes": 3197
+    },
+    {
+      "path": "reports/production_audit/SEO_AND_MEMORY_COMPLETION_LOCK_2026-05-10.md",
+      "sha256": "ae3b2488f08f99cfd5a43fa70280af21b163cccc91518c0a7c5016f3a60ecb7b",
+      "bytes": 1812
+    },
+    {
+      "path": "reports/production_audit/final_validate_repo_2026-05-10.json",
+      "sha256": "5d1e3b9b4122dc4be72a7d3739ff5a1775b2d4371b6cb416f3fc7323552f07db",
+      "bytes": 359
+    }
+  ]
+}

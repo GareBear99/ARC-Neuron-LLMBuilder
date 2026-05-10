@@ -1,0 +1,56 @@
+{
+  "generated_at_utc": "2026-05-10T04:51:07.772291+00:00",
+  "package_status": "professional_production_candidate",
+  "validation": {
+    "ok": true,
+    "jsonl_files_checked": 108,
+    "yaml_files_checked": 45,
+    "json_files_checked": 433,
+    "dataset_files": 6,
+    "benchmark_files": 17,
+    "dataset_total_records": 120,
+    "benchmark_total_tasks": 168,
+    "errors": []
+  },
+  "compileall": {
+    "ok": true,
+    "command": "python -m compileall -q ."
+  },
+  "pytest": {
+    "ok": true,
+    "collected": 136,
+    "passed": 136,
+    "execution_note": "Full suite passed by test-file groups to avoid long monolithic runner timeout in sandbox. Individual files all exited 0.",
+    "files": {
+      "tests/test_arc_core_fixes.py": "21 passed",
+      "tests/test_artifact_and_ingestion.py": "4 passed",
+      "tests/test_audit_remediation.py": "49 passed",
+      "tests/test_doctor_and_prompt_files.py": "2 passed",
+      "tests/test_execution_flow.py": "4 passed",
+      "tests/test_functioning_model.py": "2 passed",
+      "tests/test_no_server_command_adapter.py": "2 passed",
+      "tests/test_omnibinary_pipeline_promotion.py": "24 passed",
+      "tests/test_phase2_phase4.py": "22 passed",
+      "tests/test_runtime_receipts.py": "1 passed",
+      "tests/test_smoke.py": "3 passed",
+      "tests/test_user_flow_scripts.py": "2 passed"
+    }
+  },
+  "incumbent_policy": {
+    "current_reproducible_incumbent": "arc_governed_v10_wave4",
+    "v11_3_status": "staging_candidate_until_reproducible_promotion_and_archive_bundle_exist",
+    "rule": "Receipts and reproducible benchmark outputs outrank changelog claims."
+  },
+  "new_production_controls": [
+    ".env.direct-runtime.example restored for validator",
+    "Knowledge Preservation Doctrine added",
+    "v2-class Candidate Isolation Policy added",
+    "3.0 Roadmap Integration Plan added",
+    "Dataset Acquisition Matrix added",
+    "Transitional License Notice added",
+    "dataset manifest template added",
+    "v2 candidate policy YAML added",
+    "release bundle generator restricted to deterministic source capsule",
+    "cache files removed"
+  ]
+}

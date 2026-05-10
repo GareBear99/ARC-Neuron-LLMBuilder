@@ -1,0 +1,19 @@
+{
+  "source_name": "cleanroom",
+  "source_path": "/tmp/pytest-of-root/pytest-55/test_supporting_repo_ingestion0/mini.zip",
+  "output_path": "datasets/runtime_mindshape/cleanroom_seed_records.jsonl",
+  "records_written": 2,
+  "doc_count": 2,
+  "created_at": "2026-05-10T05:08:31.445501+00:00",
+  "top_documents": [
+    {
+      "path": "mini/README.md",
+      "summary": "Runtime Doctrine"
+    },
+    {
+      "path": "mini/docs/architecture.md",
+      "summary": "Architecture"
+    }
+  ],
+  "notes": "Curated markdown/doc extraction for cognition-core corpus shaping. Review before training."
+}
