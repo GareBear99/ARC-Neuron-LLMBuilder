@@ -28,6 +28,14 @@ keywords:
   - small-language-models
   - transformer
   - pytorch
+  - reproducible-ai
+  - knowledge-preservation
+  - regression-testing
+  - model-promotion
+  - offline-ai
+  - ai-receipts
+  - ai-provenance
+  - model-governance
 
 # Social / Open Graph
 github_username: GareBear99
@@ -60,6 +68,10 @@ include:
   - CHANGELOG.md
   - CONTRIBUTING.md
   - SECURITY.md
+  - docs/TRANSITIONAL_LICENSE_ROADMAP.md
+  - docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md
+  - docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md
+  - docs/SEO_INDEXING_PLAYBOOK.md
 
 exclude:
   - .github/

@@ -148,14 +148,14 @@ specs/
     benchmark_schema_v2.yaml           # Benchmark task schema
     cognition_contract_v1.yaml         # System contract
     cognition_doctrine_v1.md           # Operating doctrine
-benchmarks/                            # 142 tasks across 14 capability families (rebuilt)
+benchmarks/                            # 165 tasks across 16 benchmark files (rebuilt)
 configs/                               # Base model candidates, training stages, runtime profiles
 datasets/                              # Seed and distilled SFT corpora
 reports/                               # Promotion receipts, repeatability reports, benchmark numbers
 artifacts/                             # GGUF models, Arc-RAR bundles, Omnibinary ledger
 exports/candidates/                    # Trained candidate artifacts
 results/                               # Benchmark outputs, scored summaries, scoreboard
-tests/                                 # 115-test suite
+tests/                                 # 136-test suite
 docs/                                  # Extended documentation
 ```
 
