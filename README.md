@@ -522,7 +522,7 @@ Live roadmap. Updated as milestones ship. Full detail in [ROADMAP.md](./ROADMAP.
 
 | Version | Status | Milestone | Key deliverables |
 |---|---|---|---|
-| **v1.0.0-governed** | ✅ **Shipped** *(2026-04-22)* | **Doctrine Closed** | Historical v1 proof: three governed promotions, Gate v2 all four states, OBIN v2 indexed ledger, original 87-test / 165-task proof bundle, Arc-RAR bundles |
+| **v1.0.0-governed** | ✅ **Shipped** *(2026-04-22)* | **Doctrine Closed** | Historical v1 proof: three governed promotions, Gate v2 all four states, OBIN v2 indexed ledger, original historical proof bundle; not directly comparable to the current 168-task scorer-expanded inventory, Arc-RAR bundles |
 | **v2.0.0-audited** | ✅ **Shipped** *(2026-05-04)* | **Audit Complete** | 4 defects fixed, 4 governed promotions (v7→v10), 0.6836→0.9237 on the locked v10 scorer/benchmark generation, TF-IDF retrieval, 296 new exemplars |
 | **v1.1.0** | 🚧 **Next** | **Expanded Native Lane** | ARC-Neuron Base tier (GPU), real tokenizer (SentencePiece/BPE), distillation wave v2 driver, `arc` CLI frontend, scorer v3 with per-cap weights, +50 benchmark tasks |
 | **v1.2.0** | 🔮 Planned | **External Backend Integration** | Reference docs for Qwen3-32B / Llama-4 / DeepSeek via `llama_cpp_http`, per-adapter scoreboard namespacing, command-adapter timeout tuning, reflection loop v2 |

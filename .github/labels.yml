@@ -41,7 +41,7 @@
 
 - name: area/benchmark
   color: 006b75
-  description: 165-task suite, scorer, new lanes.
+  description: 168-task scorer-expanded benchmark inventory and scorer lanes.
 
 - name: area/adapter
   color: fbca04
