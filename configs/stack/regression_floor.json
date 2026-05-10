@@ -1,13 +1,29 @@
 {
-  "locked_at": "2026-04-22T16:15:38.978090+00:00",
-  "note": "Locked from v6_conversation (0.7333) - conversation-derived promotion",
+  "floor_path": "configs/stack/regression_floor.json",
+  "locked_at": "2026-05-09T00:00:00+00:00",
+  "note": "Locked from arc_governed_v11_3_wave5 (0.9465) - governed promotion. Supersedes v10_wave4 floor (0.9237).",
   "scores": {
-    "repair": 0.4,
-    "calibration": 0.5,
-    "planning": 0.9,
-    "compression": 0.9,
-    "paraphrase_stability": 0.7799,
-    "overall_weighted_score": 0.66,
+    "repair": 1.0,
+    "calibration": 0.9333,
+    "planning": 1.0,
+    "compression": 0.9167,
+    "paraphrase_stability": 1.0,
+    "reasoning": 0.8974,
+    "reflection": 0.875,
+    "continuity": 0.9042,
+    "instruction_following": 0.9038,
+    "overall_weighted_score": 0.9465,
     "failure_rate": 0.0
-  }
+  },
+  "capabilities_guarded": [
+    "repair",
+    "calibration",
+    "planning",
+    "compression",
+    "paraphrase_stability",
+    "reasoning",
+    "reflection",
+    "continuity",
+    "instruction_following"
+  ]
 }

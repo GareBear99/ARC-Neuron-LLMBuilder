@@ -1,0 +1,57 @@
+{
+  "ok": true,
+  "candidate": {
+    "model": "arc_governed_v11_3_wave5",
+    "overall_weighted_score": 0.9465,
+    "calibration_error": 0.0667,
+    "calibration": 0.9333,
+    "continuity": 0.9042,
+    "reflection": 0.875,
+    "reasoning": 0.8974,
+    "repair": 1.0,
+    "planning": 1.0,
+    "paraphrase_stability": 1.0,
+    "compression": 0.9167,
+    "critique": 1.0,
+    "instruction_following": 0.9038,
+    "out_of_domain": 0.9744,
+    "english_understanding": 0.9,
+    "quantization_retention": 1.0,
+    "intelligence": 0.8846,
+    "decision": "promote",
+    "incumbent": true,
+    "bundle": "artifacts/archives/arc-rar-arc_governed_v11_3_wave5-5d1c2367.arcrar.zip",
+    "bundle_sha256": "placeholder_run_bundle_script_to_generate",
+    "sft_packs": [
+      "v6_reflection_sft.jsonl",
+      "v6_deterministic_compliance_sft.jsonl",
+      "v6_planning_sft.jsonl",
+      "v11_continuity_sft.jsonl",
+      "v11_intelligence_sft.jsonl",
+      "v11_surgical_sft.jsonl",
+      "v11_precision_sft.jsonl"
+    ],
+    "total_exemplars": 834,
+    "base_exemplars": 669,
+    "new_exemplars": 165
+  },
+  "incumbent_before": {
+    "model": "arc_governed_v10_wave4",
+    "overall_weighted_score": 0.9237,
+    "calibration_error": 0.1,
+    "incumbent": false,
+    "superseded_by": "arc_governed_v11_3_wave5"
+  },
+  "promoted": true,
+  "decision": "promote",
+  "floor_violations": [],
+  "regression_violations": [],
+  "gate_version": "v2",
+  "timestamp": "2026-05-09T00:00:00+00:00",
+  "bugs_fixed_this_cycle": [
+    "BUG-1: calibration_error missing from scoreboard entries",
+    "BUG-2: incumbent selected by max(score) not incumbent flag",
+    "BUG-3: rubric prefix strip missed multi-line system_prompt",
+    "BUG-4: full_benchmark_v6 profile not registered"
+  ]
+}

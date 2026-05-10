@@ -1,0 +1,49 @@
+
+# ── v11 session ephemeral outputs ─────────────────────────────────────────────
+# Intermediate candidates superseded by v11.3
+exports/candidates/arc_governed_v11_wave5/
+exports/candidates/arc_governed_v11_1_wave5/
+exports/candidates/arc_governed_v11_2_wave5/
+
+# Arc-RAR bundles for superseded v11 candidates
+artifacts/archives/arc-rar-arc_governed_v11_wave5-*.arcrar.zip
+artifacts/archives/arc-rar-arc_governed_v11_2_wave5-*.arcrar.zip
+
+# Intermediate benchmark run outputs
+results/v11_benchmark_outputs.jsonl
+results/v11_benchmark_scored.json
+results/v11_1_benchmark_outputs.jsonl
+results/v11_1_benchmark_scored.json
+results/v11_2_benchmark_outputs.jsonl
+results/v11_2_benchmark_scored.json
+
+# CI and absorbed session ephemeral SFT files
+datasets/distillation_sft/absorbed_*.jsonl
+datasets/distillation_sft/ci_*.jsonl
+datasets/distillation_sft/demo_*.jsonl
+
+# Repeatability and cycle run reports (overwritten each run)
+reports/repeatability_*.json
+reports/arc_native_train_cycle_*.json
+reports/cycle_*_promo.json
+
+# Cycle candidate exports (intermediate training cycles)
+exports/candidates/cycle_*/
+
+# CI benchmark outputs (not scored canonical outputs)
+results/ci_benchmark_outputs.jsonl
+results/ci_benchmark_scored.json
+
+# Runtime receipts (ephemeral)
+reports/runtime_receipt_exemplar_*.json
+
+# Latest promotion decision (ephemeral - overwritten each run, lineage in scoreboard)
+reports/promotion_decision.json
+
+# Generated omnibinary index (rebuilt at runtime from .obin file)
+artifacts/omnibinary/*.obin.idx
+
+# Demo run reports
+reports/demo_promo_*.json
+reports/arc_rar_bundle_arc_governed_v11_wave5.json
+reports/arc_rar_bundle_arc_governed_v11_2_wave5.json
