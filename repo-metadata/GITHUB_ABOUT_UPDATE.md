@@ -1,85 +1,28 @@
-# GitHub About / Public Metadata Update
+# GitHub About Update
 
-Use this file to update the public repository chrome after applying README/docs drop-ins.
+## Description
 
-## Repository description
+Governed local AI / offline LLM builder for reproducible model growth, Gate v2 promotion, dataset provenance, Omnibinary memory, Arc-RAR rollback, ARC Language Module truth-weighting, ARC-StreamMemory visual memory, and the 3.0→7.0 Synth companion roadmap.
 
-Paste this into **GitHub → About → Description**:
+## Topics
 
-```text
-Governed local AI / offline LLM builder for reproducible model growth, Gate v2 promotion, dataset provenance, ARC Language Module truth-weighting, Omnibinary memory, Arc-RAR rollback, ARC-StreamMemory visual memory add-ons, and the 3.0→7.0 Synth companion roadmap.
-```
-
-## Website / homepage
-
-Set the website field to:
-
-```text
-https://garebear99.github.io/ARC-Neuron-LLMBuilder/
-```
-
-If GitHub Pages is not enabled yet, use the repo URL until Pages is live:
-
-```text
-https://github.com/GareBear99/ARC-Neuron-LLMBuilder
-```
-
-## GitHub topics
-
-Paste these topics into the **Topics** field. GitHub displays up to 20 topics, so this list is intentionally capped and synced with `repo-metadata/repository_topics.txt`:
-
-```text
 local-ai
 offline-llm
+governed-ai
+model-governance
 gguf
-model-training
-model-evaluation
 ai-provenance
+rollback
 dataset-governance
-memory-systems
-arc-neuron
-arc-core
 omnibinary
 arc-rar
+arc-language-module
 arc-streammemory
 visual-memory
 visual-rag
 neural-synth
 protosynth
 agi-assistant
-reproducible-ai
-ai-companion
-```
-
-## Public status wording
-
-Use this wording anywhere the repo needs a short status line:
-
-```text
-Current reproducible incumbent: arc_governed_v10_wave4 / 0.9237. v11.3/wave5 remains candidate/staging until Gate v2 promotion evidence is regenerated. External datasets are roadmap acquisition targets only and enter v2 candidate isolation first.
-```
-
-## Why this matters
-
-The README can explain the system, but GitHub search and link previews heavily use the repository description, topics, homepage, and social preview. Keeping this metadata aligned prevents the public repo from looking stuck at older `v1.0.0-governed` wording while the README correctly explains the 3.0 roadmap.
-
-The 20-topic set above intentionally includes the Synth roadmap keywords instead of leaving them as optional extras.
-
-
-## Extra clone/search topics
-
-```text
-clone-worthy-ai
-ai-build-lab
-portal-esque-ai-companion
-agi-assistant-lab
-arc-language-module
-```
-
-
-Add topic: `arc-streammemory`
-
-
-## Final 10/10 rule
-
-After applying the files, manually update GitHub About with the description and 20 topics above. File edits update README, Pages, metadata, and bot-readable files; the GitHub sidebar itself must be pasted in GitHub's About panel.
+local-first
+python
+llmops

@@ -1,116 +1,39 @@
-# Dataset Acquisition Matrix for ARC-Neuron 3.0
+# Dataset Acquisition Matrix — ARC-Neuron 3.0
 
-Status: planning matrix. This document does not approve ingestion by itself.
+This file records the external dataset/source candidates discussed for the 3.0 roadmap.
 
-## Ring 0 — ARC-native truth data
+None of these external sources are claimed as already bundled, ingested, trained into the incumbent, or promoted into the live model lane. They are acquisition/evaluation targets only.
 
-Purpose: identity, doctrine, provenance, system behavior.
+## Required intake path
 
-Examples:
+Every external dataset must pass this path before it can affect a candidate:
 
-- ARC docs
-- receipts
-- promotion reports
-- rejected candidate reports
-- benchmark outputs
-- operator corrections
-- architecture notes
-- license notices
-- dataset manifests
+1. source URL recorded;
+2. license and allowed-use reviewed;
+3. dataset manifest created;
+4. raw hash recorded;
+5. quarantine/raw storage used first;
+6. transformed copy receives its own hash;
+7. candidate-v2 lane only;
+8. benchmark comparison against incumbent floors;
+9. promotion only after no protected regression.
 
-Default lane: `candidate_v1` or `candidate_v3` depending on release stage.
+## Candidate sources
 
-Risk: low if internally authored and manifest-backed.
+| Source | Link | Intended role | Status |
+|---|---|---|---|
+| FLAN Collection | https://github.com/google-research/FLAN | instruction tuning and task formatting | roadmap candidate |
+| OpenAssistant OASST1 | https://huggingface.co/datasets/OpenAssistant/oasst1 | assistant dialogue and interaction | roadmap candidate |
+| UltraChat / UltraChat 200k | https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k | multi-turn chat and instruction data | roadmap candidate |
+| MentalChat16K | https://huggingface.co/papers/2503.13509 | support-language, empathy, lexical simplicity research lane only | roadmap candidate |
+| WikiLarge / simplification references | https://huggingface.co/datasets/liweili/c4_200m/tree/main | plain-language rewriting and simplification references | roadmap candidate |
+| GSM8K | https://huggingface.co/datasets/openai/gsm8k | math reasoning references | roadmap candidate |
+| MBPP | https://huggingface.co/datasets/google-research-datasets/mbpp | Python/code task generation and repair | roadmap candidate |
+| HumanEval | https://github.com/openai/human-eval | code generation evaluation | roadmap candidate |
+| BigCode The Stack / The Stack v2 | https://huggingface.co/bigcode | code corpus reference with strict license review | roadmap candidate |
+| ARC-native operator corrections | local repo artifacts | highest-trust self-curated correction/receipt lane | active/self-curated |
+| Memory continuity tasks | local repo benchmarks/configs | repeated-question, doctrine-retention, provenance tests | repo-owned eval lane |
 
-## Ring 1 — general instruction following
+## Boundary
 
-Purpose: chat behavior, task following, formatting, generalization.
-
-Examples:
-
-- public instruction-tuning collections
-- multi-turn assistant dialogues
-- task-oriented Q/A sets
-
-Default lane: `candidate_v2`.
-
-Risk: medium. Requires license and content filtering.
-
-## Ring 2 — reasoning and planning
-
-Purpose: decomposition, repair, code reasoning, multi-step planning.
-
-Preferred format:
-
-```text
-intent -> constraints -> plan -> action -> evidence -> result
-```
-
-Default lane: `candidate_v2`.
-
-Risk: medium. Avoid unverifiable hidden chain-of-thought dumps; prefer structured traces and receipts.
-
-## Ring 3 — lexical simplicity and support-language data
-
-Purpose: simpler wording, empathy, de-escalation, sensitive-topic clarity.
-
-Examples:
-
-- plain-language rewriting
-- supportive dialogue
-- anonymized counseling-style datasets
-- emotional support examples
-
-Default lane: `candidate_v2` only.
-
-Risk: high. Treat mental-health data as language/style/reference data, not as therapy authority. Require PII review, safety review, and medical/sensitive-data flags.
-
-## Ring 4 — technical domain knowledge
-
-Purpose: make ARC useful as a builder.
-
-Examples:
-
-- Python examples
-- C++/JUCE examples
-- FastAPI examples
-- SQLite examples
-- GGUF/llama.cpp documentation
-- build/release engineering docs
-
-Default lane: `candidate_v2` or retrieval-only until licensing is clear.
-
-Risk: medium. License classification required.
-
-## Ring 5 — safety, refusal, license, and provenance behavior
-
-Purpose: protect the product and prevent bad ingestion.
-
-Examples:
-
-- license classification examples
-- dataset approval/rejection examples
-- PII-handling examples
-- unsafe-output refusal examples
-- commercial redistribution edge cases
-
-Default lane: `candidate_v2` then `candidate_v3` after approval.
-
-Risk: medium. Must be reviewed because this directly shapes gatekeeping behavior.
-
-## Recommended 3.0 training mixture
-
-```text
-35% ARC-native doctrine / receipts / repo tasks
-20% general instruction following
-15% code + tool-use + repo repair
-10% reasoning / planning / critique-revise
-10% lexical simplicity / support-language behavior
-5% refusal / safety / license law
-5% adversarial regression tests
-```
-
-## Manifest rule
-
-No manifest, no training.
-
+Mental-health/counseling-style data is not a medical claim and is not a therapy product lane. It is only a candidate support-language lane for clarity, de-escalation, empathy, and plain-English response behavior.
