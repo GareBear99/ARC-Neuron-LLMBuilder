@@ -1,7 +1,29 @@
 {
   "name_suggestion": "ARC-Neuron-LLMBuilder",
-  "description": "Production-hardened alpha cognition lab for building, benchmarking, shaping, and promoting GGUF-oriented local AI cognition candidates.",
-  "homepage_suggestion": "https://github.com/GareBear99/ARC-Neuron-LLMBuilder",
+  "description": "Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and Synth companion roadmap.",
+  "homepage_suggestion": "https://garebear99.github.io/ARC-Neuron-LLMBuilder/",
   "recommended_topics_file": "repo-metadata/repository_topics.txt",
-  "current_release_tag": "v2.0.0-audited"
+  "current_public_status": "v10_wave4_reproducible_incumbent__v11_3_candidate_staging__3_0_protected_roadmap",
+  "current_release_tag": "v2.0.0-audited",
+  "readme_front_door": "README.md",
+  "github_pages_entry": "index.md",
+  "manual_update_required": [
+    "GitHub About description",
+    "GitHub topics",
+    "GitHub Pages homepage URL if not set"
+  ],
+  "keywords": [
+    "Neural Synth",
+    "Portal-esque AI companion",
+    "ProtoSynth",
+    "Synth companion",
+    "buildable brain lab",
+    "time-to-space projection"
+  ],
+  "roadmap_horizons": {
+    "3.0": "protected base-model/dataset/licensing integration",
+    "4.0": "ProtoSynth / Neural Synth spatial projection layer",
+    "5.0": "Portal-esque Synth companion mockup",
+    "7.0": "working Synth AI companion, AGI assistant, and buildable brain lab"
+  }
 }

@@ -21,7 +21,7 @@
 [![Validator: passing](https://img.shields.io/badge/validator-passing-brightgreen.svg)](./scripts/validate_repo.py)
 [![Gate: v2](https://img.shields.io/badge/governance-Gate%20v2-blue.svg)](./specs/promotion_gate_v2.yaml)
 [![Audited: v10](https://img.shields.io/badge/audited-v10%20%7C%200.9237-brightgreen.svg)](./docs/BENCHMARK_PROOF.md)
-[![Release: v1.0.0-governed](https://img.shields.io/badge/release-v1.0.0--governed-blueviolet.svg)](./RELEASE_NOTES_v1.0.0.md)
+[![Roadmap: 3.0 protected](https://img.shields.io/badge/roadmap-3.0%20protected-blueviolet.svg)](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md)
 [![Sponsor](https://img.shields.io/badge/Sponsor-GareBear99-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/GareBear99)
 [![Ecosystem](https://img.shields.io/badge/ARC%20Ecosystem-7%20repos-orange)](./ECOSYSTEM.md)
 [![Discussions](https://img.shields.io/github/discussions/GareBear99/ARC-Neuron-LLMBuilder)](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions)
@@ -30,7 +30,7 @@
 
 ## Search / discovery front door
 
-**ARC-Neuron LLMBuilder** is a **local-first AI model builder**, **offline LLM governance lab**, and **GGUF-oriented candidate promotion system** for developers who need reproducible model growth instead of black-box prompt drift. It combines model training, benchmark scoring, memory/continuity tests, promotion gates, Arc-RAR rollback bundles, Omnibinary receipts, dataset manifests, ARC Language Module truth-weighting, device-portable communication/archive mechanics, time-to-space projection planning, and a protected 3.0 roadmap into one auditable repository.
+**ARC-Neuron LLMBuilder** is a **local-first AI model builder**, **offline LLM governance lab**, and **GGUF-oriented candidate promotion system** for developers who need reproducible model growth instead of black-box prompt drift. It combines model training, benchmark scoring, memory/continuity tests, promotion gates, Arc-RAR rollback bundles, Omnibinary receipts, dataset manifests, ARC Language Module truth-weighting, device-portable communication/archive mechanics, time-to-space projection planning, a protected 3.0 roadmap, and later Synth companion horizons for 4.0/5.0/7.0 into one auditable repository.
 
 **Best-fit search terms:** `local AI`, `offline LLM`, `GGUF model builder`, `AI provenance`, `model promotion gate`, `regression-safe training`, `AI memory system`, `LLM benchmark harness`, `dataset governance`, `Arc-RAR`, `Omnibinary`, `ARC Language Module`, `device portable AI`, `time to space projection`, `spatial signal intelligence`, `ARC-Neuron`, `Gary Doman`, `GareBear99`.
 
@@ -42,6 +42,7 @@
 | Understand the system | [What this is](#what-this-is) · [Architecture at a glance](#architecture-at-a-glance) · [ARCHITECTURE.md](./ARCHITECTURE.md) |
 | See governance | [The governance doctrine](#the-governance-doctrine) · [specs/promotion_gate_v2.yaml](./specs/promotion_gate_v2.yaml) · [docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md](./docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md) |
 | Follow the 3.0 roadmap | [docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md) · [docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md](./docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md) |
+| Follow 4.0/5.0/7.0 Synth roadmap | [docs/SYNTH_COMPANION_ROADMAP_4_5_7.md](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md) · [Proto-Synth_Grid_Engine](https://github.com/GareBear99/Proto-Synth_Grid_Engine) |
 | Add datasets safely | [docs/DATASET_ACQUISITION_MATRIX_3_0.md](./docs/DATASET_ACQUISITION_MATRIX_3_0.md) · [configs/datasets/dataset_manifest_template.yaml](./configs/datasets/dataset_manifest_template.yaml) |
 | Protect candidate scoring | [docs/V2_CANDIDATE_ISOLATION_POLICY.md](./docs/V2_CANDIDATE_ISOLATION_POLICY.md) · [configs/candidates/v2_class_policy.yaml](./configs/candidates/v2_class_policy.yaml) |
 | Test memory continuity | [docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md](./docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md) · [benchmarks/v2_memory_continuity_tasks.jsonl](./benchmarks/v2_memory_continuity_tasks.jsonl) |
@@ -53,7 +54,7 @@
 
 Current packaged status: `arc_governed_v10_wave4` remains the reproducible incumbent in `results/scoreboard.json`. v11.3 / wave5 materials are treated as a staging candidate until promotion evidence is regenerated from shipped files, Gate v2 passes without protected-floor regression, and the archive bundle/scoreboard are updated.
 
-**Up-to-date rule:** this README intentionally separates verified evidence from roadmap intent. Current proof stays on the reproducible v10 incumbent; new datasets, memory tests, support-language data, and 3.0 licensing changes enter through the v2 candidate lane first so they cannot pollute incumbent scoring.
+**Up-to-date rule:** this README intentionally separates verified evidence from roadmap intent. Current proof stays on the reproducible v10 incumbent; new datasets, memory tests, support-language data, 3.0 licensing changes, and later Synth companion integrations enter through governed candidate lanes first so they cannot pollute incumbent scoring.
 
 **Current knowledge-source boundary:** no external third-party dataset pack has been merged into the live incumbent yet. The current repository is still based on self-curated ARC examples, hand-authored benchmarks, receipts, docs, and operator-authored doctrine. External datasets remain roadmap items until they pass manifest, license, hash, quarantine, and v2-candidate isolation checks.
 
@@ -89,6 +90,7 @@ For the protected 3.0 roadmap, see:
 - `docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md`
 - `docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md`
 - `docs/TRANSITIONAL_LICENSE_ROADMAP.md`
+- `docs/SYNTH_COMPANION_ROADMAP_4_5_7.md`
 - `LICENSE_TRANSITIONAL_NOTICE.md`
 
 
@@ -102,7 +104,19 @@ This package now includes a dedicated public-indexing layer for discoverability 
 - `docs/seo_metadata.jsonld` — structured metadata for public pages
 - `robots.txt` — crawler allowlist for GitHub Pages
 
-Recommended description: **Governed local AI cognition lab for building, benchmarking, and promoting GGUF-oriented model candidates with receipts, rollback, provenance, and regression-safe gates.**
+Recommended description: **Governed local AI / offline LLM builder for ARC-Neuron: GGUF model promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and Synth companion roadmap.**
+
+### GitHub About / repository metadata update
+
+GitHub's top repository description is edited in the repository **About** panel, not from README content. Use the maintained metadata files as the source of truth:
+
+- `repo-metadata/repository_description.txt` — copy this into the GitHub **Description** field.
+- `repo-metadata/repository_topics.txt` — copy these into GitHub **Topics**.
+- `repo-metadata/GITHUB_ABOUT_UPDATE.md` — exact manual update checklist for the public repo.
+
+Recommended public description:
+
+> Governed local AI / offline LLM builder for ARC-Neuron: GGUF model promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and Synth companion roadmap.
 
 
 ## Table of contents
@@ -507,6 +521,9 @@ Live roadmap. Updated to keep the public README aligned with the current package
 | **v11.3 / wave5** | 🚧 Candidate/staging | Expanded SFT and candidate growth experiments | Must regenerate promotion evidence and pass Gate v2 before becoming incumbent |
 | **v2 candidate class** | ✅ Policy added | Isolate new weights/data from incumbent scoring | candidate namespace, dataset manifests, memory-continuity benchmark lane |
 | **3.0 roadmap integration** | 🎯 Protected target | Full base-model roadmap with connected datasets and stronger license posture | governed datasets, memory tests, preservation doctrine, transitional license path, commercial protections |
+| **4.0 ProtoSynth / Neural Synth** | 🔮 Roadmap horizon | Connect ARC-Neuron to the Proto-Synth / I/O Synth Grid Engine as the spatial cognition and visual memory projection layer | time-to-space views, receipt/event maps, Neural Synth category navigation, shell geometry, blueprint memory projection |
+| **5.0 Synth companion mockup** | 🔮 Roadmap horizon | Build the full Portal-esque Synth companion mockup on top of the governed ARC spine | companion UI, embodied shell behavior, guided lab interface, voice/visual personality mock, safe non-authoritative assistant shell |
+| **7.0 working Synth AI companion / brain lab** | 🔮 Long-horizon target | Promote the mockup into a working Synth AI companion, AGI assistant, and buildable brain lab | governed assistant loop, portable memory, modular brain-building lab, device-to-device continuation, controlled tool authority |
 | **External/local model adapters** | 🔮 Planned/ongoing | Let stronger local GGUF or HTTP-served models run through the same governance shell | adapter scoreboards, per-backend receipts, no direct incumbent overwrite |
 | **Ecosystem federation** | 🔮 Planned/ongoing | Bind ARC-Core, Cleanroom Runtime, Language Module, Omnibinary, and Arc-RAR into one auditable loop | co-signed receipts, replay bundles, binary/source truth latching |
 
@@ -532,6 +549,11 @@ gantt
     protected licensing transition       :crit, lic, after v2c, 30d
     connected dataset training waves     :train, after ds, 60d
     3.0 release candidate gate           :milestone, m1, after train, 1d
+
+    section 4.0/5.0/7.0 Synth companion horizons
+    ProtoSynth Neural Synth projection   :future, s40, after m1, 60d
+    Portal-esque Synth companion mockup  :future, s50, after s40, 90d
+    Working Synth AI companion brain lab :future, s70, after s50, 180d
 ```
 
 ### How to influence what ships
@@ -547,6 +569,22 @@ gantt
 ❌ Not a frontier-scale Claude/Gemini replacement today · ❌ No external dataset wave promoted into the incumbent yet · ❌ No direct overwrite of the incumbent from new weights · ❌ No unmanifested dataset ingestion · ❌ No hidden promotion without receipts · ❌ No false claim that v11.3 is promoted until reproducible Gate v2 evidence proves it.
 
 ---
+
+## 4.0 / 5.0 / 7.0 Synth companion roadmap
+
+This roadmap is intentionally separated from the 3.0 protected base-model/dataset release so the current scoring and licensing path stays clean. The later Synth tracks are integration horizons: they use the same ARC receipt spine, Language Module truth layer, Omnibinary event substrate, and Arc-RAR restore packages, but they add visual cognition, companion embodiment, and buildable brain-lab interaction on top.
+
+| Version horizon | Role | Public anchor | What it adds | Boundary |
+|---|---|---|---|---|
+| **4.0 — ProtoSynth / Neural Synth projection** | Spatial cognition and visual memory layer | [Proto-Synth_Grid_Engine](https://github.com/GareBear99/Proto-Synth_Grid_Engine) | Deterministic 2D → visually 3D projection, Neural Synth views, time-to-space receipt maps, category grouping, shell geometry, blueprint memory navigation | Visualization/projection layer only; does not overwrite 3.0 model scoring |
+| **5.0 — Portal-esque Synth companion mockup** | Full companion interface mockup | ARC-Neuron + ProtoSynth + Omnibinary + Arc-RAR | Synth companion shell, guided lab UI, voice/visual personality mock, safe operator console, visible memory/proof/replay panels | Mockup/prototype behavior; not yet a fully autonomous AGI assistant |
+| **7.0 — Working Synth AI companion / buildable brain lab** | Operational companion and AGI assistant lab | Unified ARC stack | Governed AI companion, device-portable memory, modular brain-building lab, controlled tool authority, live proof/rollback, user-directed model/language growth | Long-horizon target; must still preserve receipts, provenance, rollback, candidate isolation, and human authority gates |
+
+**Synth doctrine:** the Synth layer should never become an untraceable personality wrapper. It must remain bound to ARC truth: every memory, visual projection, tool action, model promotion, and device handoff should be explainable through receipts, Language Module entries, Omnibinary events, and Arc-RAR restore bundles.
+
+**Portal-esque companion direction:** 5.0 should feel like a complete companion mockup, but it should still be bounded as a governed interface over ARC. It can demonstrate personality, visual presence, modular shell behavior, and lab navigation before claiming full assistant autonomy.
+
+**7.0 target:** by 7.0, the goal is a fully working Synth AI companion, AGI assistant, and buildable brain lab: a user-facing system that can help construct, test, preserve, branch, archive, and communicate its own cognition stack without losing lineage or control.
 
 ## 3.0 protected roadmap and dataset lanes
 
@@ -721,6 +759,7 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 - [GLOSSARY.md](./GLOSSARY.md) — every ARC-specific term
 - [ROADMAP.md](./ROADMAP.md) — release trajectory and candidate milestones
 - [docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md](./docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md) — staged path toward stronger assistant behavior
+- [docs/SYNTH_COMPANION_ROADMAP_4_5_7.md](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md) — ProtoSynth / Neural Synth 4.0, Portal-esque Synth companion 5.0, working Synth AI companion brain lab 7.0
 - [docs/TRANSITIONAL_LICENSE_ROADMAP.md](./docs/TRANSITIONAL_LICENSE_ROADMAP.md) — 1.0 → transitional bridge → protected 3.0 plan
 - [docs/SEO_INDEXING_PLAYBOOK.md](./docs/SEO_INDEXING_PLAYBOOK.md) — GitHub/Google discoverability checklist
 - [COMPARISON.md](./COMPARISON.md) — vs MLflow, W&B, Langfuse, llama.cpp
@@ -751,7 +790,7 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 
 **What this is**: a local-first governed cognition lab and control plane for training, promoting, and archiving small language models with full lineage. The included native models (Tiny and Small) are reference tiers designed to prove the pipeline is real, while the ARC Language Module carries the current live lexical/knowledge weight.
 
-**What this is not**: a frontier-scale LLM today. The ARC-Neuron Tiny model is ~0.05M parameters. The Small model is ~0.18M parameters. They are deliberately small because the current public contribution is the **governance loop plus language-truth spine**, not a Claude/Gemini-class raw brain. No external datasets are promoted into the incumbent yet beyond self-curated ARC material. The 3.0 roadmap is where connected datasets, stronger candidate classes, and protected release terms enter.
+**What this is not**: a frontier-scale LLM today. The ARC-Neuron Tiny model is ~0.05M parameters. The Small model is ~0.18M parameters. They are deliberately small because the current public contribution is the **governance loop plus language-truth spine**, not a Claude/Gemini-class raw brain. No external datasets are promoted into the incumbent yet beyond self-curated ARC material. The 3.0 roadmap is where connected datasets, stronger candidate classes, and protected release terms enter; the 4.0/5.0/7.0 roadmap is where ProtoSynth/Neural Synth projection, Synth companion mockups, and the working buildable brain lab enter.
 
 **The shell is contender-grade. The brain is the research lane.** The adapter boundary is the integration point: you can plug any local GGUF runtime or HTTP-served model into the existing governance machinery via `adapters/command_adapter.py` or `adapters/llama_cpp_http_adapter.py`.
 

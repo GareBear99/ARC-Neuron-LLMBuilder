@@ -2,9 +2,11 @@
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
   "name": "ARC-Neuron LLMBuilder",
-  "description": "Governed local AI cognition lab for building, benchmarking, and promoting GGUF-oriented model candidates with receipts, rollback, provenance, and regression-safe gates.",
+  "description": "Governed local AI / offline LLM builder for ARC-Neuron: GGUF-ready model training, Gate v2 promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and 3.0 roadmap, with later ProtoSynth / Neural Synth and Synth companion roadmap horizons.",
   "codeRepository": "https://github.com/GareBear99/ARC-Neuron-LLMBuilder",
-  "programmingLanguage": ["Python"],
+  "programmingLanguage": [
+    "Python"
+  ],
   "runtimePlatform": "Local CPU / Python",
   "license": "https://github.com/GareBear99/ARC-Neuron-LLMBuilder/blob/main/LICENSE",
   "author": {
@@ -13,19 +15,37 @@
     "url": "https://github.com/GareBear99"
   },
   "keywords": [
-    "local AI model builder",
-    "governed LLM builder",
-    "GGUF model training pipeline",
-    "AI provenance",
-    "model promotion gate",
+    "local AI",
     "offline LLM builder",
-    "sovereign AI",
-    "Arc-RAR",
+    "GGUF model builder",
+    "ARC-Neuron",
+    "governed AI",
+    "Gate v2 promotion",
+    "model governance",
+    "AI provenance",
+    "AI receipts",
     "Omnibinary",
-    "knowledge preservation"
+    "Arc-RAR",
+    "ARC Language Module",
+    "dataset governance",
+    "v2 candidate isolation",
+    "knowledge preservation",
+    "time-to-space projection",
+    "device-portable AI communication",
+    "rollback-safe AI",
+    "reproducible AI",
+    "sovereign AI",
+    "ProtoSynth",
+    "Neural Synth",
+    "Synth companion",
+    "buildable brain lab"
   ],
   "isPartOf": {
     "@type": "CreativeWork",
     "name": "ARC Governed AI Ecosystem"
-  }
+  },
+  "url": "https://garebear99.github.io/ARC-Neuron-LLMBuilder/",
+  "sameAs": [
+    "https://github.com/GareBear99/ARC-Neuron-LLMBuilder"
+  ]
 }

@@ -1,5 +1,5 @@
 title: "ARC-Neuron LLMBuilder"
-description: "A governed local AI build-and-memory system with Gate v2, Arc-RAR, Omnibinary, canonical conversation pipeline, draft-critique-revise reflection, and automatic terminology absorption. Part of the seven-repo ARC ecosystem."
+description: "Governed local AI / offline LLM builder for ARC-Neuron: GGUF-ready model training, Gate v2 promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and 3.0 roadmap."
 author: Gary Doman
 url: "https://garebear99.github.io"
 baseurl: "/ARC-Neuron-LLMBuilder"
@@ -36,6 +36,14 @@ keywords:
   - ai-receipts
   - ai-provenance
   - model-governance
+  - gguf-model-builder
+  - rollback-safe-ai
+  - device-portable-ai
+  - time-to-space-projection
+  - arc-language-module
+  - arc-neuron
+  - dataset-governance
+  - ai-memory
 
 # Social / Open Graph
 github_username: GareBear99
@@ -72,6 +80,12 @@ include:
   - docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md
   - docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md
   - docs/SEO_INDEXING_PLAYBOOK.md
+  - docs/seo_metadata.jsonld
+  - docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md
+  - docs/V2_CANDIDATE_ISOLATION_POLICY.md
+  - docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md
+  - docs/DATASET_ACQUISITION_MATRIX_3_0.md
+  - repo-metadata/GITHUB_ABOUT_UPDATE.md
 
 exclude:
   - .github/
@@ -118,3 +132,11 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-feed
+
+# SEO keyword: protosynth
+
+# SEO keyword: neural-synth
+
+# SEO keyword: synth-companion
+
+# SEO keyword: buildable-brain-lab

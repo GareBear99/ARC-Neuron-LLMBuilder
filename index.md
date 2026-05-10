@@ -1,6 +1,6 @@
 ---
 title: "ARC-Neuron LLMBuilder"
-description: "Governed local AI cognition lab for building, benchmarking, and promoting GGUF-oriented model candidates with receipts, rollback, provenance, and regression-safe gates."
+description: "Governed local AI / offline LLM builder for ARC-Neuron: GGUF-ready model training, Gate v2 promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and 3.0 roadmap."
 ---
 
 # ARC-Neuron LLMBuilder
@@ -10,7 +10,7 @@ description: "Governed local AI cognition lab for building, benchmarking, and pr
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Tests: 136 collected](https://img.shields.io/badge/tests-136%20collected-blue.svg)](./tests)
 [![Gate: v2](https://img.shields.io/badge/governance-Gate%20v2-blue.svg)](./specs/promotion_gate_v2.yaml)
-[![Release: v1.0.0-governed](https://img.shields.io/badge/release-v1.0.0--governed-blueviolet.svg)](./RELEASE_NOTES_v1.0.0.html)
+[![Roadmap: 3.0 protected](https://img.shields.io/badge/roadmap-3.0%20protected-blueviolet.svg)](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.html)
 [![Sponsor](https://img.shields.io/badge/Sponsor-GareBear99-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/GareBear99)
 
 ## Start here
@@ -51,6 +51,15 @@ description: "Governed local AI cognition lab for building, benchmarking, and pr
 | **ARC-Neuron-LLMBuilder** *(you are here)* | Governed build loop |
 
 
+
+## Current public status
+
+- Current reproducible incumbent: `arc_governed_v10_wave4` / 0.9237.
+- v11.3 / wave5 remains candidate/staging until Gate v2 promotion evidence is regenerated.
+- The ARC Language Module currently carries the living lexical/knowledge spine.
+- External open-source datasets are acquisition roadmap targets only; they are not bundled, not ingested, and must enter v2 candidate isolation first.
+- Omnibinary + Arc-RAR provide the portable communication, archive, replay, and rollback layer across devices.
+
 ## Public indexing
 
 - [SEO Indexing Playbook](./docs/SEO_INDEXING_PLAYBOOK.html) — GitHub topics, release wording, GitHub Pages, and external indexing checklist
@@ -63,7 +72,7 @@ description: "Governed local AI cognition lab for building, benchmarking, and pr
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
   "name": "ARC-Neuron LLMBuilder",
-  "description": "Governed local AI cognition lab for building, benchmarking, and promoting GGUF-oriented model candidates with receipts, rollback, provenance, and regression-safe gates.",
+  "description": "Governed local AI / offline LLM builder for ARC-Neuron: GGUF-ready model training, Gate v2 promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and 3.0 roadmap.",
   "codeRepository": "https://github.com/GareBear99/ARC-Neuron-LLMBuilder",
   "programmingLanguage": ["Python"],
   "keywords": "local AI model builder, governed LLM builder, GGUF, AI provenance, model promotion gate, offline LLM builder, sovereign AI"
@@ -85,7 +94,7 @@ description: "Governed local AI cognition lab for building, benchmarking, and pr
 | Tests | 136 collected; CI runs fast subset plus core-fix subset |
 | Incumbent | `arc_governed_v10_wave4` @ 0.9237 |
 | Promotions on record | 9 (v1, v2, v4, v5, v6, v7, v8, v9, v10) — 4 post-audit |
-| Benchmark suite | 165 tasks / 16 capability families |
+| Benchmark suite | 168 tasks / 17 benchmark files |
 | Omnibinary append | ~6,600 events/sec |
 | Omnibinary O(1) lookup | ~8,900 lookups/sec |
 | Archive bundles | 12 restorable |
@@ -96,3 +105,13 @@ description: "Governed local AI cognition lab for building, benchmarking, and pr
 **Source code:** [github.com/GareBear99/ARC-Neuron-LLMBuilder](https://github.com/GareBear99/ARC-Neuron-LLMBuilder)
 **Author:** Gary Doman
 **Ecosystem:** [ARC family — seven repos](./ECOSYSTEM.html)
+
+## Synth Companion Roadmap
+
+Later roadmap horizons are split from the 3.0 protected dataset/model release:
+
+- **4.0:** ProtoSynth / Neural Synth projection layer using [Proto-Synth_Grid_Engine](https://github.com/GareBear99/Proto-Synth_Grid_Engine).
+- **5.0:** full Portal-esque Synth companion mockup.
+- **7.0:** working Synth AI companion, AGI assistant, and buildable brain lab.
+
+Read: [docs/SYNTH_COMPANION_ROADMAP_4_5_7.md](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md)

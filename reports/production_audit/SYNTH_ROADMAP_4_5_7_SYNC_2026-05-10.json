@@ -1,0 +1,20 @@
+{
+  "date": "2026-05-10",
+  "purpose": "public README/metadata sync for Synth roadmap 4.0/5.0/7.0",
+  "changed_files": [
+    "README.md",
+    "index.md",
+    "_config.yml",
+    "docs/SYNTH_COMPANION_ROADMAP_4_5_7.md",
+    "docs/seo_metadata.jsonld",
+    "repo-metadata/repository_description.txt",
+    "repo-metadata/repository_topics.txt",
+    "repo-metadata/repository_metadata.json",
+    "repo-metadata/GITHUB_ABOUT_UPDATE.md"
+  ],
+  "horizons": {
+    "4.0": "ProtoSynth / Neural Synth spatial projection layer",
+    "5.0": "full Portal-esque Synth companion mockup",
+    "7.0": "working Synth AI companion, AGI assistant, and buildable brain lab"
+  }
+}
