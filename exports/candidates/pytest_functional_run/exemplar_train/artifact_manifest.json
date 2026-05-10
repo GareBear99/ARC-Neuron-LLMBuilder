@@ -1,0 +1,15 @@
+{
+  "artifact_id": "exemplar_train_0ae32e5de979",
+  "stage": "exemplar_train",
+  "candidate": "pytest_functional_run",
+  "created_at": "2026-05-10T05:09:05.397264+00:00",
+  "status": "completed",
+  "execution_mode": "native",
+  "notes": "Built a functioning exemplar retrieval model artifact from curated repo datasets.",
+  "paths": {
+    "artifact": "/mnt/data/arc_complete/ARC-Neuron-LLMBuilder-main/exports/candidates/pytest_functional_run/exemplar_train/exemplar_model.json"
+  },
+  "metrics": {
+    "record_count": 834
+  }
+}

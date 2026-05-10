@@ -1,0 +1,29 @@
+{
+  "artifact_id": "lora_train_30dca1adc7eb",
+  "stage": "lora_train",
+  "candidate": "extcand",
+  "created_at": "2026-05-10T05:08:33.742350+00:00",
+  "status": "external_completed",
+  "config": "/mnt/data/arc_complete/ARC-Neuron-LLMBuilder-main/configs/training/sft_lora.yaml",
+  "base_model": "base/test",
+  "execution_mode": "external",
+  "notes": "External SFT/LoRA command completed successfully.",
+  "paths": {
+    "dataset": "/mnt/data/arc_complete/ARC-Neuron-LLMBuilder-main/datasets/distillation_sft/seed_records.jsonl",
+    "expected_checkpoint_dir": "/mnt/data/arc_complete/ARC-Neuron-LLMBuilder-main/exports/candidates/extcand/lora_train/checkpoint"
+  },
+  "metrics": {
+    "dataset_records": 50
+  },
+  "external": {
+    "mode": "external",
+    "command": [
+      "/opt/pyvenv/bin/python",
+      "-c",
+      "from pathlib import Path; Path(r'/tmp/pytest-of-root/pytest-55/test_external_lora_command_wir0/ok.txt').write_text('done', encoding='utf-8')"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}
