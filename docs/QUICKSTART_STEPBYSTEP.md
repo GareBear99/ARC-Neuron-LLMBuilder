@@ -51,7 +51,7 @@ python3 -m pytest tests/ -v
 ```
 
 Expected: **115 passed, 1 skipped**  
-The skip is `torch` (not required for basic operation). All 115 tests run CPU-only.
+The skip is `torch` (not required for basic operation). All 136 tests run CPU-only.
 
 ---
 
@@ -259,5 +259,5 @@ ARC-Neuron-LLMBuilder/
 │   └── training/
 │       └── train_exemplar_candidate.py
 └── tests/
-    └── *.py                    ← 115 tests
+    └── *.py                    ← 136 tests
 ```
