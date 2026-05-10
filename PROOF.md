@@ -90,7 +90,7 @@ When `arc_governed_v7_regressed` was tested with a deliberately reduced corpus, 
 - + prior corpora baked into v5 (648 records)
 - **= 762 exemplar records**, 114 more than v5 (648)
 
-v6_conversation scored **0.7333 pre-audit** (true post-audit: **0.6836**) vs v5's 0.7169 on the **same 165-task benchmark** (now rebuilt to 142 tasks). Promoted cleanly through Gate v2 with zero regression violations.
+v6_conversation scored **0.7333 pre-audit** (true post-audit: **0.6836**) vs v5's 0.7169 on the **same 165-task benchmark** (now rebuilt to 165 tasks). Promoted cleanly through Gate v2 with zero regression violations.
 
 **Per-capability gains (v5 → v6_conversation, same 165-task set)** *(pre-audit rubric — see addendum at top)*:
 
@@ -183,7 +183,7 @@ Each bundle contains: promotion receipt, training manifests, `.pt` checkpoint, G
 
 ## 7. The test suite proves every layer
 
-**115 tests pass on a fresh clone**:
+**136 tests pass on a fresh clone**:
 
 ```
 ........................................................................ [ 82%]
@@ -264,7 +264,7 @@ The system remembered, trained, decided, and preserved.
 
 | Claim | Receipt | Verify with |
 |---|---|---|
-| 115 tests pass | test suite output | `pytest tests/ -q` |
+| 136 tests pass | test suite output | `pytest tests/ -q` |
 | Omnibinary 6,600+ ev/s append | `reports/omnibinary_benchmark.json` | `scripts/ops/benchmark_omnibinary.py` |
 | v6_conversation promoted at 0.7333 | `reports/promotion_decision.json` | inspect scoreboard + scored file |
 | Three governed promotions in a row | `results/scoreboard.json` | read decisions column |

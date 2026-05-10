@@ -1,6 +1,6 @@
 .PHONY: validate test counts candidate-gate backend-check bundle model-card \
         promote full-loop pipeline bootstrap-keys bundle-candidate \
-        native-tiny native-small verify-store
+        native-tiny native-small verify-store production-verify
 
 # ── validation ────────────────────────────────────────────────────────────────
 validate:
@@ -137,3 +137,11 @@ run-day1-stub:
 
 run-day2-stub:
 	bash scripts/operator/run_day2_export_stub.sh
+
+
+# ── production handoff verification ──────────────────────────────────────────
+production-verify:
+	python3 scripts/production_verify.py
+
+seo-validate:
+	python scripts/seo_validate.py

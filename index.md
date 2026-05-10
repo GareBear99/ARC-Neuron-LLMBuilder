@@ -1,6 +1,6 @@
 ---
 title: "ARC-Neuron LLMBuilder"
-description: "A governed local AI build-and-memory system with Gate v2, Arc-RAR, Omnibinary, canonical conversation pipeline, and conversation-driven model growth."
+description: "Governed local AI cognition lab for building, benchmarking, and promoting GGUF-oriented model candidates with receipts, rollback, provenance, and regression-safe gates."
 ---
 
 # ARC-Neuron LLMBuilder
@@ -49,6 +49,26 @@ description: "A governed local AI build-and-memory system with Gate v2, Arc-RAR,
 | [omnibinary-runtime](https://github.com/GareBear99/omnibinary-runtime) | Binary mirror / runtime ledger |
 | [Arc-RAR](https://github.com/GareBear99/Arc-RAR) | Archive / rollback bundles |
 | **ARC-Neuron-LLMBuilder** *(you are here)* | Governed build loop |
+
+
+## Public indexing
+
+- [SEO Indexing Playbook](./docs/SEO_INDEXING_PLAYBOOK.html) — GitHub topics, release wording, GitHub Pages, and external indexing checklist
+- [3.0 Roadmap Integration](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.html) — protected roadmap baseline
+- [Memory Evaluation Protocol](./docs/MODEL_MEMORY_EVALUATION_PROTOCOL.html) — repeated-question continuity and doctrine-retention tests
+- [Transitional License Roadmap](./docs/TRANSITIONAL_LICENSE_ROADMAP.html) — 1.0-to-3.0 licensing path
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "ARC-Neuron LLMBuilder",
+  "description": "Governed local AI cognition lab for building, benchmarking, and promoting GGUF-oriented model candidates with receipts, rollback, provenance, and regression-safe gates.",
+  "codeRepository": "https://github.com/GareBear99/ARC-Neuron-LLMBuilder",
+  "programmingLanguage": ["Python"],
+  "keywords": "local AI model builder, governed LLM builder, GGUF, AI provenance, model promotion gate, offline LLM builder, sovereign AI"
+}
+</script>
 
 ## Community
 

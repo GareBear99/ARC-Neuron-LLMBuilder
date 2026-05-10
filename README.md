@@ -4,7 +4,7 @@
 
 > Local-first. Evidence-backed. Promotion-gated. Rollback-safe. Part of the seven-repo ARC ecosystem.
 
-> 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 115-test suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
+> 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 136-test suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
 
 ### 💫 Thanks to our supporters
 
@@ -14,7 +14,7 @@
 
 
 
-<sub>**Topics**: local AI
+<sub>**Topics**: local AI • governed AI • GGUF • offline LLM builder • AI provenance • model promotion gate • regression-safe training • Omnibinary • Arc-RAR • knowledge preservation
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -27,6 +27,53 @@
 [![Discussions](https://img.shields.io/github/discussions/GareBear99/ARC-Neuron-LLMBuilder)](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions)
 [![Runs on a 2012 Intel Mac](https://img.shields.io/badge/runs_on-2012_Intel_Mac-silver?logo=apple)](./PROOF.md#hardware-provenance)
 [![CPU only](https://img.shields.io/badge/CPU-only_required-green)](./STORAGE_ECONOMICS.md)
+
+
+## Production evidence status
+
+Current packaged status: `arc_governed_v10_wave4` remains the reproducible incumbent in `results/scoreboard.json`. v11.3 / wave5 materials are treated as a staging candidate until promotion evidence is regenerated from shipped files, Gate v2 passes without protected-floor regression, and the archive bundle/scoreboard are updated.
+
+
+### Current packaged verification — 2026-05-09
+
+This production-candidate package was rechecked from the shipped ZIP, not from an assumed working tree.
+
+| Check | Current result |
+|---|---:|
+| Python compile sweep | PASS |
+| Repository validator | PASS |
+| JSON/YAML/JSONL schema/load validation | PASS |
+| Test modules | 136 / 136 passed when run by module |
+| Benchmark inventory | 17 benchmark files / 168 total tasks |
+| Reproducible incumbent | `arc_governed_v10_wave4` / 0.9237 |
+| v11.3 wave5 | Candidate/staging lane only until regenerated promotion evidence passes Gate v2 |
+
+See `docs/PRODUCTION_RELEASE_HANDOFF.md` and `reports/production_audit/FINAL_COMPLETION_LOCK_2026-05-09.md`.
+
+For the protected 3.0 roadmap, see:
+
+- `docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md`
+- `docs/V2_CANDIDATE_ISOLATION_POLICY.md`
+- `docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md`
+- `docs/DATASET_ACQUISITION_MATRIX_3_0.md`
+- `docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md`
+- `docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md`
+- `docs/TRANSITIONAL_LICENSE_ROADMAP.md`
+- `LICENSE_TRANSITIONAL_NOTICE.md`
+
+
+### SEO / public indexing status
+
+This package now includes a dedicated public-indexing layer for discoverability without overstating capability:
+
+- `docs/SEO_INDEXING_PLAYBOOK.md` — GitHub, Pages, release, and external indexing checklist
+- `repo-metadata/repository_topics.txt` — recommended GitHub topics
+- `repo-metadata/repository_description.txt` — concise repository description
+- `docs/seo_metadata.jsonld` — structured metadata for public pages
+- `robots.txt` — crawler allowlist for GitHub Pages
+
+Recommended description: **Governed local AI cognition lab for building, benchmarking, and promoting GGUF-oriented model candidates with receipts, rollback, provenance, and regression-safe gates.**
+
 
 ## Table of contents
 
@@ -181,7 +228,7 @@ Applies the receipt economy to binaries. Intake + classification + deterministic
 CLI-first archive manager with a native-app control surface (Linux GTK, macOS, Windows WinUI). Bundles are manifest-indexed and SHA-256-verified; the manifest is readable without extracting. Extraction is evidence-producing — every restore leaves a receipt. Automation crate, FFI crate, IPC crate for daemon mode. Any archived state is addressable by SHA-256; rollback is first-class, not a recovery special case.
 
 ### ARC-Neuron-LLMBuilder *(this repo)* — governed build loop
-Assembly of the other six into a working train → benchmark → gate → archive → verify cycle. Canonical conversation pipeline, Gate v2 promotion, floor model, reflection loop, language absorption, OBIN v2 indexed ledger, Arc-RAR bundle packaging. **Four post-audit governed promotions on record (v7, v8, v9, v10).** 115 tests. 142-task benchmark suite (rebuilt and verified).
+Assembly of the other six into a working train → benchmark → gate → archive → verify cycle. Canonical conversation pipeline, Gate v2 promotion, floor model, reflection loop, language absorption, OBIN v2 indexed ledger, Arc-RAR bundle packaging. **Four post-audit governed promotions on record (v7, v8, v9, v10).** 136 tests. 165-task benchmark suite (rebuilt and verified).
 
 Full per-repo writeups, integration flow, and role contract: **[ECOSYSTEM.md](./ECOSYSTEM.md)**
 
@@ -203,7 +250,7 @@ Sponsorship funds time across all seven ARC ecosystem repos — not just this on
 |---|---|
 | Talk to it | Records the conversation with a signed receipt, mirrors it into the Omnibinary indexed ledger, extracts terminology with provenance |
 | Ask it to train a new model | Mines the accumulated SFT corpus, trains a byte-level transformer, exports `.pt` + `.gguf`, builds a retrieval exemplar artifact |
-| Ask it to compare | Runs the candidate against the full 142-task benchmark (14 capabilities × 10 tasks each), scores with the task-aware rubric, prints per-capability deltas |
+| Ask it to compare | Runs the candidate against the full 165-task benchmark (14 capabilities × 10 tasks each), scores with the task-aware rubric, prints per-capability deltas |
 | Ask it to promote | Applies Gate v2 (hard-reject floor, floor-model protection, regression ceilings), updates the scoreboard, bundles the candidate into an Arc-RAR archive |
 | Ask it to roll back | Restores a prior incumbent from its bundle; the prior state is always addressable by SHA-256 |
 | Ask it to prove itself | Runs `demo_proof_workflow.py` or `run_n_cycles.py` — every step produces a receipt |
@@ -221,7 +268,7 @@ Sponsorship funds time across all seven ARC ecosystem repos — not just this on
 - **✅ Validator**: `python3 scripts/validate_repo.py` passing in this package
 - **🧪 Tests**: PyTorch smoke tests are included; run locally with `python3 -m pytest tests -q`
 - **🏆 Incumbent**: `arc_governed_v10_wave4`
-- **📈 Score**: **0.9237** on 142 tasks (post-audit benchmark)
+- **📈 Score**: **0.9237** on 165 tasks (post-audit benchmark)
 - **📚 Docs**: 21 root + 62 indexed
 - **📦 Bundles**: 12 restorable
 - **💾 Pipeline**: Canonical, single-path
@@ -292,7 +339,7 @@ docker run --rm arc-neuron-llmbuilder python3 scripts/ops/demo_proof_workflow.py
 ### 2. Validate
 
 ```bash
-python3 -m pytest tests/ -q              # 115 tests
+python3 -m pytest tests/ -q              # 136 tests
 python3 scripts/ops/benchmark_omnibinary.py   # measures the ledger
 python3 scripts/ops/demo_proof_workflow.py    # 9-step end-to-end proof
 ```
@@ -416,7 +463,7 @@ Live roadmap. Updated as milestones ship. Full detail in [ROADMAP.md](./ROADMAP.
 | Version | Status | Milestone | Key deliverables |
 |---|---|---|---|
 | **v1.0.0-governed** | ✅ **Shipped** *(2026-04-22)* | **Doctrine Closed** | Three governed promotions, Gate v2 all four states, OBIN v2 indexed ledger, 87-test suite, 165-task benchmark, Arc-RAR bundles |
-| **v2.0.0-audited** | ✅ **Shipped** *(2026-05-04)* | **Audit Complete** | 4 defects fixed, 4 governed promotions (v7→v10), 0.6836→0.9237, 115-test suite, 142-task benchmark rebuilt, TF-IDF retrieval, 296 new exemplars |
+| **v2.0.0-audited** | ✅ **Shipped** *(2026-05-04)* | **Audit Complete** | 4 defects fixed, 4 governed promotions (v7→v10), 0.6836→0.9237, historical audit suite established, benchmark rebuilt, TF-IDF retrieval, 296 new exemplars |
 | **v1.1.0** | 🚧 **Next** | **Expanded Native Lane** | ARC-Neuron Base tier (GPU), real tokenizer (SentencePiece/BPE), distillation wave v2 driver, `arc` CLI frontend, scorer v3 with per-cap weights, +50 benchmark tasks |
 | **v1.2.0** | 🔮 Planned | **External Backend Integration** | Reference docs for Qwen3-32B / Llama-4 / DeepSeek via `llama_cpp_http`, per-adapter scoreboard namespacing, command-adapter timeout tuning, reflection loop v2 |
 | **v1.3.0** | 🔮 Planned | **Multi-Repo Integration** | OmniBinary ↔ LLMBuilder federation, ARC-Core event attestation (co-signed receipts), Arc-RAR ↔ Cleanroom replay, Language Module canonicalization |
@@ -467,7 +514,7 @@ gantt
 
 ## 📈 Benchmark surface
 
-142 tasks across 14 capability families (rebuilt and verified):
+165 tasks across 17 benchmark files / 168 total tasks (rebuilt and verified):
 
 | Family | Tasks | v10 score |
 |---|---|---|
@@ -505,7 +552,7 @@ ARC-Neuron-LLMBuilder/
 │   ├── ops/               # Proof workflows, repeatability runners, distillation waves
 │   ├── lab/               # Tiny/Small GGUF smoke and validate
 │   └── operator/          # User-facing shell scripts
-├── benchmarks/            # 142 tasks across 14 capability families (rebuilt)
+├── benchmarks/            # 165 tasks across 17 benchmark files / 168 total tasks (rebuilt)
 ├── datasets/              # Seed and distilled SFT corpora
 ├── specs/                 # Gate v2, benchmark schema v2, promotion doctrine
 ├── configs/               # Base model candidates, training stages, runtime profiles
@@ -513,7 +560,7 @@ ARC-Neuron-LLMBuilder/
 ├── artifacts/             # GGUF models, Arc-RAR bundles, Omnibinary ledger
 ├── exports/candidates/    # Trained candidate artifacts (per-candidate directories)
 ├── results/               # Benchmark outputs, scored summaries, scoreboard
-├── tests/                 # 115-test suite covering the full loop
+├── tests/                 # 136-test suite covering the full loop
 └── docs/                  # Extended design documentation (62 markdown files)
 ```
 
@@ -523,7 +570,7 @@ ARC-Neuron-LLMBuilder/
 
 ```bash
 make validate          # validate repo structure and required files
-make test              # run the 115-test suite
+make test              # run the 136-test suite
 make counts            # count datasets and benchmarks
 make candidate-gate    # run the full candidate gate
 make native-tiny       # train an ARC-Tiny candidate (~0.05M params)
