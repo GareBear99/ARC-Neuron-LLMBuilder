@@ -10,3 +10,8 @@ Important current state:
 - Omnibinary + Arc-RAR provide archive, replay, restore, and device-portable communication.
 - ARC-StreamMemory is an add-on for visual/video memory for all LLMs and ARC-style systems.
 - Roadmap: 3.0 protected dataset/model/licensing integration; 4.0 ProtoSynth / Neural Synth projection; 5.0 Portal-style companion mockup; 7.0 working Synth AI companion and buildable brain lab.
+
+
+## Next integration graph
+
+ARC-Neuron now documents the next integration graph: current v10 incumbent -> 3.0 protected dataset/license/v2-candidate integration -> 4.0 ProtoSynth/Neural Synth spatial projection with ARC-StreamMemory visual memory add-on -> 5.0 Portal-style Synth companion mockup -> 7.0 working Synth AI companion / AGI assistant / buildable brain lab. These future layers are add-ons/interfaces and do not bypass Gate v2 or incumbent protection.

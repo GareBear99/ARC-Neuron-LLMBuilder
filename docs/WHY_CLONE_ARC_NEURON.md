@@ -19,3 +19,8 @@ python3 scripts/ops/demo_proof_workflow.py
 - dataset acquisition policy before external data touches weights
 - ARC-StreamMemory add-on path for visual/video memory
 - long-horizon Synth companion roadmap
+
+
+## Next integration graph
+
+The repo now includes a clear public graph for the next stage: ARC-Neuron 3.0 protects datasets/licensing and v2 candidate isolation; 4.0 connects ProtoSynth / Neural Synth and ARC-StreamMemory; 5.0 builds the Portal-style companion mockup; 7.0 targets a working Synth AI companion / AGI assistant / buildable brain lab.

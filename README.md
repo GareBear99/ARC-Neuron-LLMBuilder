@@ -29,7 +29,7 @@ Bot-readable summary: [`llms.txt`](./llms.txt). Clone rationale: [`docs/WHY_CLON
 
 
 
-<sub>**Topics**: local AI · offline LLM · GGUF · model governance · AI provenance · Gate v2 · Omnibinary · Arc-RAR · ARC Language Module · ARC-StreamMemory · Neural Synth
+<sub>**Topics**: local AI · offline LLM · GGUF · model governance · AI provenance · Gate v2 · Omnibinary · Arc-RAR · ARC Language Module · ARC-StreamMemory · visual memory · Neural Synth · ProtoSynth · Synth companion
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -61,6 +61,7 @@ Bot-readable summary: [`llms.txt`](./llms.txt). Clone rationale: [`docs/WHY_CLON
 - [ARC-StreamMemory add-on](#arc-streammemory-add-on)
 - [The governance doctrine](#the-governance-doctrine)
 - [Long-horizon Synth roadmap](#long-horizon-synth-roadmap)
+- [Next integration graph](#next-integration-graph)
 - [Benchmark surface](#benchmark-surface)
 - [Repository layout](#repository-layout)
 - [One-command operations](#one-command-operations)
@@ -500,6 +501,40 @@ The numbered roadmap is staged so current evidence and future interface ambition
 
 Full roadmap: [SYNTH_COMPANION_ROADMAP_4_5_7.md](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md).
 
+### Next integration graph
+
+This graph is the next public-facing system map: it shows how the current governed model-growth loop stays intact while the newer add-ons attach around it. The point is to make the future path clear without claiming those future layers are already trained into the incumbent.
+
+```mermaid
+flowchart LR
+    V10["Current incumbent\narc_governed_v10_wave4\n0.9237 verified"] --> G30["3.0 protected integration\ndatasets + license + v2 candidates"]
+
+    LM["ARC Language Module\nlexical / provenance weight"] --> G30
+    DATA["External datasets\nmanifest + quarantine only"] -.candidate lane.-> G30
+
+    G30 --> G40["4.0 ProtoSynth / Neural Synth\nspatial cognition projection"]
+    SM["ARC-StreamMemory add-on\nvisual/video memory for LLMs"] --> G40
+    OB["Omnibinary + Arc-RAR\nportable replay + restore"] --> G40
+
+    G40 --> G50["5.0 Portal-style Synth companion mockup\noperator shell + modular interface"]
+    G50 --> G70["7.0 Synth AI companion / AGI assistant\nbuildable brain lab"]
+
+    Gate["Gate v2\nno regression promotion"] -.guards.-> G30
+    Gate -.guards.-> G40
+    Gate -.guards.-> G50
+    Gate -.guards.-> G70
+
+    style V10 fill:#0e8a16,stroke:#fff,color:#fff
+    style G30 fill:#7057ff,stroke:#fff,color:#fff
+    style G40 fill:#1d76db,stroke:#fff,color:#fff
+    style G50 fill:#5319e7,stroke:#fff,color:#fff
+    style G70 fill:#b60205,stroke:#fff,color:#fff
+    style SM fill:#fbca04,color:#000
+    style Gate fill:#d73a4a,stroke:#fff,color:#fff
+```
+
+**Boundary:** ARC-StreamMemory, ProtoSynth/Neural Synth, and the Synth companion shell are add-on / interface layers. They do not silently replace the current incumbent, bypass dataset manifests, or override Gate v2.
+
 ### Progress toward each milestone
 
 ```mermaid
@@ -528,6 +563,12 @@ gantt
     section v2.0
     Formal governance spec                 :         v20a, after v13b, 60d
     Sandboxed gate execution               :         v20b, after v20a, 45d
+
+    section 3.0 to 7.0 Horizons
+    Protected dataset + license integration :        v30, after v20b, 90d
+    ProtoSynth / Neural Synth projection    :        v40, after v30, 90d
+    Portal-style Synth companion mockup     :        v50, after v40, 120d
+    Working companion + buildable brain lab :        v70, after v50, 180d
 ```
 
 ### How to influence what ships
