@@ -1,376 +1,372 @@
 # ARC-Neuron LLMBuilder
 
-<p align="center">
-  <strong>Governed local AI model builder for GGUF-oriented candidates, memory receipts, benchmark gates, rollback, and provenance-safe model growth.</strong>
-</p>
+**ARC-Neuron LLMBuilder is a governed local AI model-building and memory-preservation lab for training, benchmarking, promoting, and archiving small language-model candidates with receipts, rollback, provenance, and regression-safe gates.**
 
-<p align="center">
-  <a href="https://github.com/GareBear99/ARC-Neuron-LLMBuilder/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/GareBear99/ARC-Neuron-LLMBuilder?style=social"></a>
-  <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg"></a>
-  <a href="https://www.python.org/downloads/"><img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10+-blue.svg"></a>
-  <a href="./scripts/validate_repo.py"><img alt="Validator passing" src="https://img.shields.io/badge/validator-passing-brightgreen.svg"></a>
-  <a href="./specs/promotion_gate_v2.yaml"><img alt="Gate v2" src="https://img.shields.io/badge/governance-Gate%20v2-blue.svg"></a>
-  <a href="./docs/BENCHMARK_PROOF.md"><img alt="Audited v10 score" src="https://img.shields.io/badge/audited-v10%20%7C%200.9237-brightgreen.svg"></a>
-  <a href="https://github.com/sponsors/GareBear99"><img alt="Sponsor GareBear99" src="https://img.shields.io/badge/Sponsor-GareBear99-ea4aaa?logo=githubsponsors&logoColor=white"></a>
-</p>
+It is designed for builders who care about **offline AI**, **local LLM training**, **GGUF-oriented model development**, **dataset lineage**, **model promotion gates**, **AI memory continuity**, **reproducible evaluation**, and **knowledge preservation**.
 
-<p align="center">
-  <strong>Local-first AI · Offline LLM builder · GGUF model pipeline · Model governance · AI provenance · Regression-safe promotion · Omnibinary memory · Arc-RAR rollback · ARC ecosystem</strong>
-</p>
+> **Core doctrine:** ARC-Neuron should never merely become smarter. It should know how it became smarter, preserve the path, and keep rollback evidence.
 
 ---
 
-## Why this repo matters
+## What this is
 
-**ARC-Neuron LLMBuilder is a local-first cognition lab for building, evaluating, promoting, and archiving small AI model candidates without losing the evidence trail.** It treats every model as a governed artifact: trained from known data, measured against a benchmark, compared to a floor model, promoted only if it improves, archived with receipts, and restorable by hash.
+ARC-Neuron LLMBuilder is the model-growth and evaluation layer of the ARC ecosystem. It focuses on one hard problem:
 
-Most AI projects focus on raw model output. ARC-Neuron focuses on the missing production layer around model growth:
+**How do you grow a local AI system without destroying the truth, evidence, lineage, and benchmark context that produced each improvement?**
 
-- **model lineage** — where a candidate came from and what data shaped it
-- **promotion gates** — whether a candidate is actually better than the incumbent
-- **rollback safety** — how to return to a prior brain without guessing
-- **memory receipts** — how conversations, corrections, and training events become evidence
-- **dataset discipline** — how new training data enters quarantine/candidate lanes before it can affect trusted scores
-- **local-first execution** — runs on normal hardware; no cloud dependency required for the core proof loop
+This repository provides a governed workflow for:
 
-> The goal is not just to make a model smarter. The goal is to prove how it became smarter, preserve the path, and prevent regressions from replacing known-good behavior.
+- building ARC-Neuron model candidates
+- tracking candidate lineage and evidence
+- running local benchmark suites
+- scoring model outputs against protected floors
+- promoting only candidates that pass regression gates
+- preserving receipts, manifests, scoreboards, and rollback paths
+- preparing future GGUF / ANCF-style model artifacts
+- separating experimental v2/v3 candidates from the current reproducible incumbent
+
+It is not just a chatbot repo. It is a **local-first AI cognition workshop** for controlled model growth.
 
 ---
 
-## Current verified status
+## Why it matters
 
-This package is intentionally honest about what is proven and what is still staged.
+Most AI experiments overwrite their own history. ARC-Neuron is built the opposite way.
 
-| Area | Current package status |
+Instead of chasing one-off benchmark wins, the system is designed around:
+
+- **provenance-first training** — every dataset, candidate, score, and promotion needs a traceable path
+- **regression-safe promotion** — new weights must not silently weaken protected capabilities
+- **candidate isolation** — experimental v2/v3 weights do not pollute incumbent measurements
+- **memory continuity** — repeated questions and doctrine checks should stabilize instead of drift
+- **local-first execution** — development is designed to work without cloud dependency
+- **rollback-aware releases** — model history stays recoverable, reviewable, and auditable
+
+This is the roadmap foundation for the protected **ARC-Neuron 3.0 full base-model integration release**.
+
+---
+
+## Current production status
+
+The current package is honest about what is proven and what is still candidate-stage.
+
+| Area | Status |
 |---|---|
-| Reproducible incumbent | `arc_governed_v10_wave4` |
-| Verified incumbent score | `0.9237` |
-| Governance gate | Gate v2 |
-| Tests | 136 tests |
-| Benchmark inventory | 17 benchmark files / 168 total tasks |
-| Dataset inventory | 6 dataset files / 120 records |
-| v11.3 / wave5 | Candidate/staging lane only until promotion evidence is regenerated |
-| 3.0 roadmap | Protected full roadmap integration, dataset manifests, memory protocol, transitional licensing |
+| Current reproducible incumbent | `arc_governed_v10_wave4` |
+| Incumbent score | `0.9237` |
+| v11.3 / wave5 | candidate / staging only |
+| Tests | 136-test suite tracked in repo evidence |
+| Benchmark inventory | 17 benchmark files / 168 tasks in production package reports |
+| Dataset inventory | 6 dataset files / 120 records in production package reports |
+| Promotion model | Gate v2 / protected-floor comparison |
+| 3.0 roadmap | documented, candidate-isolated, license-aware |
 
-See:
-
-- [Production release handoff](./docs/PRODUCTION_RELEASE_HANDOFF.md)
-- [Benchmark proof](./docs/BENCHMARK_PROOF.md)
-- [Knowledge preservation doctrine](./docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md)
-- [v2 candidate isolation policy](./docs/V2_CANDIDATE_ISOLATION_POLICY.md)
-- [3.0 roadmap integration](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md)
-
----
-
-## What it does in plain English
-
-| You do | ARC-Neuron does |
-|---|---|
-| Talk to it | Captures conversation evidence, receipts, terminology, and training eligibility |
-| Add new data | Routes it through dataset manifests, quarantine/candidate lanes, and provenance checks |
-| Train a candidate | Builds a candidate model/artifact without overwriting the incumbent |
-| Benchmark it | Scores the candidate across guarded capabilities |
-| Promote it | Allows promotion only if Gate v2 accepts the candidate without protected-floor regression |
-| Archive it | Bundles lineage and artifacts for rollback and future audit |
-| Ask it to prove itself | Runs validation, benchmark, score, promotion, and proof workflows with receipts |
+**Important:** v11.3 / wave5 materials are intentionally treated as staging until promotion evidence is regenerated from shipped files, Gate v2 passes without protected-floor regression, and the scoreboard/archive bundle are updated.
 
 ---
 
 ## Core capabilities
 
-### Governed model promotion
+### Governed model candidate building
 
-ARC-Neuron uses a **floor-protected promotion gate**. A new candidate cannot replace the incumbent simply because it performs well on one new dataset. It must avoid regressions across protected capabilities.
+ARC-Neuron supports a candidate-based model workflow where new training waves are built, benchmarked, scored, and either promoted or rejected.
 
-Key files:
+Key ideas:
 
-- [Gate v2 spec](./specs/promotion_gate_v2.yaml)
-- [Benchmark schema](./specs/benchmark_schema_v2.yaml)
-- [Promotion scripts](./scripts/execution/promote_candidate.py)
-- [Scoreboard](./results/scoreboard.json)
+- candidate models are not automatically trusted
+- benchmark scores are attached to evidence files
+- old floors must be protected
+- candidate promotions require receipts
+- release claims must match reproducible artifacts
 
-### Local GGUF-oriented model pipeline
+### Regression-safe promotion gates
 
-The project includes Tiny/Small native model tiers, GGUF-oriented paths, adapter boundaries, and a candidate lifecycle intended to grow toward stronger local models without turning governance into an afterthought.
+The promotion system is designed to prevent this failure mode:
 
-Key files:
+```text
+new data improves one capability
+but silently damages planning, continuity, refusal, or ARC doctrine retention
+```
 
-- [ARC Tiny model](./arc_tiny/model.py)
-- [ARC Small model](./arc_neuron_small/model.py)
-- [GGUF path](./docs/ARC_TINY_GGUF_PATH.md)
-- [Production GGUF contract](./docs/PRODUCTION_GGUF_BUILD_CONTRACT_2026-04-14.md)
-- [Real GGUF production path](./docs/REAL_GGUF_PRODUCTION_PATH_2026-04-14.md)
+Instead, candidates are compared against protected floors before promotion.
 
-### Memory, receipts, and provenance
+Relevant files:
 
-The system is designed around the doctrine that model growth must preserve how knowledge was created. New memory and training events should be traceable, reproducible, and rollback-safe.
+- [`specs/promotion_gate_v2.yaml`](./specs/promotion_gate_v2.yaml)
+- [`results/scoreboard.json`](./results/scoreboard.json)
+- [`docs/BENCHMARK_PROOF.md`](./docs/BENCHMARK_PROOF.md)
 
-Key files:
+### v2 candidate isolation
 
-- [Memory evaluation protocol](./docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md)
-- [Knowledge preservation doctrine](./docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md)
-- [Intent receipt engine](./arc_core/intent_receipt_engine.py)
-- [Context window manager](./arc_core/context_window_manager.py)
-- [Omnibinary truth latch](./docs/OMNIBINARY_BIDIRECTIONAL_TRUTH_LATCH.md)
+New weights and new dataset classes belong in a separate candidate lane before they can affect the incumbent.
+
+This protects the current scoring baseline from being polluted by experimental data.
+
+Relevant files:
+
+- [`docs/V2_CANDIDATE_ISOLATION_POLICY.md`](./docs/V2_CANDIDATE_ISOLATION_POLICY.md)
+- [`configs/candidates/v2_class_policy.yaml`](./configs/candidates/v2_class_policy.yaml)
+
+### Knowledge preservation doctrine
+
+ARC-Neuron treats model growth as an evidence chain, not a black box.
+
+The doctrine is simple:
+
+```text
+No training event may destroy, overwrite, hide, or falsely simplify the provenance chain that produced a model behavior.
+```
+
+Relevant file:
+
+- [`docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md`](./docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md)
+
+### Memory and continuity evaluation
+
+The roadmap includes regression tests for repeated questions, doctrine memory, continuity, and answer stability.
+
+Relevant files:
+
+- [`docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md`](./docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md)
+- [`configs/evaluation/memory_regression_suite.yaml`](./configs/evaluation/memory_regression_suite.yaml)
+- [`benchmarks/v2_memory_continuity_tasks.jsonl`](./benchmarks/v2_memory_continuity_tasks.jsonl)
 
 ### Dataset roadmap for 3.0
 
-New datasets are planned as governed inputs, not uncontrolled dumps. The roadmap separates ARC-native doctrine data, instruction-following data, reasoning/planning data, lexical simplicity/empathy data, code/tool-use data, safety/licensing data, and memory-continuity tests.
+The 3.0 dataset plan is governed, staged, and license-aware. External datasets are not blindly bundled. They must pass manifest, license, risk, and candidate-lane checks.
 
-Key files:
+Roadmap dataset classes include:
 
-- [Dataset acquisition matrix](./docs/DATASET_ACQUISITION_MATRIX_3_0.md)
-- [Dataset manifest template](./configs/datasets/dataset_manifest_template.yaml)
-- [v2 candidate isolation policy](./docs/V2_CANDIDATE_ISOLATION_POLICY.md)
-- [DARPA-style next steps toward Gemma/Claude-class behavior](./docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md)
+- ARC-native doctrine, receipts, scoreboards, and operator corrections
+- instruction-following datasets
+- reasoning, planning, and critique/revision datasets
+- lexical simplicity and support-language datasets
+- code, tool-use, and repo-repair datasets
+- refusal, licensing, safety, and provenance datasets
+- memory-continuity regression data
 
-### SEO-ready public indexing layer
+Relevant files:
 
-The repo includes metadata and docs for discoverability across GitHub, GitHub Pages, search engines, AI crawlers, and external references.
+- [`docs/DATASET_ACQUISITION_MATRIX_3_0.md`](./docs/DATASET_ACQUISITION_MATRIX_3_0.md)
+- [`configs/datasets/dataset_manifest_template.yaml`](./configs/datasets/dataset_manifest_template.yaml)
+- [`docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md`](./docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md)
 
-Key files:
+---
 
-- [SEO indexing playbook](./docs/SEO_INDEXING_PLAYBOOK.md)
-- [JSON-LD metadata](./docs/seo_metadata.jsonld)
-- [Repository topics](./repo-metadata/repository_topics.txt)
-- [Repository description](./repo-metadata/repository_description.txt)
-- [Social preview prompt](./repo-metadata/social_preview_prompt.md)
-- [robots.txt](./robots.txt)
+## ARC-Neuron 3.0 roadmap
+
+ARC-Neuron 3.0 is the planned full roadmap integration release.
+
+The 3.0 direction is:
+
+```text
+language truth grows
+→ governed traces are captured
+→ ARC Core validates and receipts
+→ Omnibinary stores learning deltas
+→ Arc-RAR snapshots and archives waves
+→ Cognition Core compiles corpora and runs eval gates
+→ ARC-Neuron retrains/promotes candidates
+→ ANCF/GGUF-style artifacts are exported for local runtime
+```
+
+The goal is not merely to wrap an external model. The goal is to build a governed local model-growth system that preserves its own history.
+
+Relevant files:
+
+- [`docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md`](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md)
+- [`docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md`](./docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md)
+- [`docs/TRANSITIONAL_LICENSE_ROADMAP.md`](./docs/TRANSITIONAL_LICENSE_ROADMAP.md)
+- [`LICENSE_TRANSITIONAL_NOTICE.md`](./LICENSE_TRANSITIONAL_NOTICE.md)
+
+---
+
+## Ecosystem links
+
+ARC-Neuron LLMBuilder is part of the broader ARC / Lucipher local-first AI ecosystem.
+
+| Project | Role |
+|---|---|
+| [`ARC-Core`](https://github.com/GareBear99/ARC-Core) | authority, receipts, state, validation, and promotion control |
+| [`ARC-Neuron-LLMBuilder`](https://github.com/GareBear99/ARC-Neuron-LLMBuilder) | local model candidate building, scoring, promotion, and memory evaluation |
+| [`arc-lucifer-cleanroom-runtime`](https://github.com/GareBear99/arc-lucifer-cleanroom-runtime) | governed local runtime, replay, rollback, and supervised execution |
+| [`arc-language-module`](https://github.com/GareBear99/arc-language-module) | canonical lexical truth spine and language growth layer |
+| [`Arc-RAR`](https://github.com/GareBear99/Arc-RAR) | archival bundles, rollback packages, and reproducible restore paths |
+| [`ARC-Turbo-OS`](https://github.com/GareBear99/ARC-Turbo-OS) | acceleration layer and operating-system direction for ARC workflows |
+
+Together, these projects form a local-first AI architecture focused on **truth preservation**, **model governance**, **offline execution**, **replayable memory**, and **auditable intelligence growth**.
 
 ---
 
 ## Quick start
 
-### Install
+### 1. Clone
 
 ```bash
 git clone https://github.com/GareBear99/ARC-Neuron-LLMBuilder.git
 cd ARC-Neuron-LLMBuilder
+```
 
+### 2. Create environment
+
+```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -e ".[training]"
-python3 scripts/ops/bootstrap_keys.py
+python -m pip install --upgrade pip
+pip install -r requirements.txt
 ```
 
-### Validate the repo
+### 3. Validate the repo
 
 ```bash
-python3 scripts/validate_repo.py
-python3 -m compileall -q .
-python3 -m pytest tests -q
+python scripts/validate_repo.py
 ```
 
-### Run the incumbent exemplar adapter
+### 4. Run production verification
 
 ```bash
-python3 examples/hello.py "Critique a plan that ships without a rollback path."
+python scripts/production_verify.py
 ```
 
-### Run the full benchmark/score/promotion path
+Or:
 
 ```bash
-python3 scripts/execution/run_model_benchmarks.py \
-  --adapter exemplar \
-  --artifact exports/candidates/arc_governed_v10_wave4/exemplar_train/exemplar_model.json \
-  --output results/v10_rerun_outputs.jsonl
-
-python3 scripts/execution/score_benchmark_outputs.py \
-  --input results/v10_rerun_outputs.jsonl \
-  --output results/v10_rerun_scored.json
-
-python3 scripts/execution/promote_candidate.py \
-  --scored results/v10_rerun_scored.json \
-  --model-name arc_governed_v10_wave4_rerun \
-  --skip-bundle
+make production-verify
 ```
 
-### Useful make targets
+### 5. Run SEO validation
 
 ```bash
-make validate          # validate repo structure
-make test              # run tests
-make counts            # count datasets and benchmarks
-make production-verify # staged production verification
-make seo-validate      # SEO metadata validation
-make full-loop         # train → benchmark → score → gate → bundle → verify
+python scripts/seo_validate.py
+```
+
+Or:
+
+```bash
+make seo-validate
 ```
 
 ---
 
-## Architecture at a glance
+## Public SEO description
 
-```mermaid
-flowchart TD
-    U[User prompt / operator input] --> P[Canonical conversation pipeline]
-    P --> R[Candidate response]
-    R --> C[Critique / revise / score]
-    C --> Rec[Receipt + hash]
-    Rec --> OB[Omnibinary memory ledger]
-    Rec --> LM[Language / terminology absorption]
-    Rec --> SFT[Training-eligible corpus]
-    SFT --> Cand[Candidate model]
-    Cand --> Bench[Benchmark suite]
-    Bench --> Gate{Gate v2}
-    Gate -->|passes protected floors| Promote[Promote incumbent]
-    Gate -->|tie / useful but not better| Archive[Archive only]
-    Gate -->|floor breach| Reject[Reject]
-    Promote --> Bundle[Arc-RAR / restorable bundle]
-    Archive --> Bundle
-    Floor[Floor model / incumbent baseline] -. protects .-> Gate
-```
+**ARC-Neuron LLMBuilder is a governed local AI model-building lab for offline LLM training, GGUF-oriented model candidates, benchmark scoring, memory continuity, dataset provenance, rollback-safe promotion, and ARC ecosystem cognition research.**
 
-Four frozen roles:
-
-1. **Language truth** — words, terms, meanings, source provenance, contradiction flags
-2. **Runtime** — conversation pipeline, reflection loop, context handling, receipts
-3. **Cognition core** — candidate training, benchmark scoring, promotion gate
-4. **Archive layer** — Omnibinary ledger, Arc-RAR bundles, rollback, replay, manifests
-
-Read more:
-
-- [Architecture](./ARCHITECTURE.md)
-- [Governance doctrine](./GOVERNANCE_DOCTRINE.md)
-- [Stack interface contracts](./docs/STACK_INTERFACE_CONTRACTS.md)
-- [Integrated stack](./docs/ARC_NEURON_INTEGRATED_STACK.md)
-
----
-
-## ARC ecosystem links
-
-ARC-Neuron LLMBuilder is one layer in a broader local-first ARC ecosystem.
-
-| Repo | Role |
-|---|---|
-| [ARC-Core](https://github.com/GareBear99/ARC-Core) | Authority, event spine, receipts, state provenance |
-| [arc-lucifer-cleanroom-runtime](https://github.com/GareBear99/arc-lucifer-cleanroom-runtime) | Deterministic execution kernel and replay substrate |
-| [arc-cognition-core](https://github.com/GareBear99/arc-cognition-core) | Cognition doctrine, candidate shaping, evaluation control plane |
-| [arc-language-module](https://github.com/GareBear99/arc-language-module) | Governed lexical truth spine and language provenance |
-| [omnibinary-runtime](https://github.com/GareBear99/omnibinary-runtime) | Binary mirror, memory ledger, runtime substrate |
-| [Arc-RAR](https://github.com/GareBear99/Arc-RAR) | Archive, restore, rollback, manifest-indexed bundles |
-| [ARC-Neuron LLMBuilder](https://github.com/GareBear99/ARC-Neuron-LLMBuilder) | Model build loop, benchmark gate, candidate promotion, GGUF path |
-
-Full map: [ECOSYSTEM.md](./ECOSYSTEM.md)
-
----
-
-## Production roadmap
-
-### Current lane: honest production candidate
-
-- keep `arc_governed_v10_wave4` as reproducible incumbent
-- keep v11.3 / wave5 in candidate/staging until evidence regenerates cleanly
-- preserve all 3.0 doctrine, dataset, licensing, and memory-roadmap files
-- validate before public release claims
-
-### 3.0 protected roadmap
-
-3.0 is planned as the full integration release with stronger licensing, connected dataset manifests, v2 candidate isolation, memory continuity tests, and protected base-model release rules.
-
-Read:
-
-- [3.0 roadmap integration](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md)
-- [Transitional license roadmap](./docs/TRANSITIONAL_LICENSE_ROADMAP.md)
-- [License transition notice](./LICENSE_TRANSITIONAL_NOTICE.md)
-- [3.0 license checklist](./configs/licensing/three_point_zero_release_license_checklist.yaml)
-
----
-
-## Recommended GitHub description
-
-> Governed local AI cognition lab for building, benchmarking, and promoting GGUF-oriented model candidates with receipts, rollback, provenance, memory continuity, dataset manifests, and regression-safe gates.
-
-## Recommended GitHub topics
+Recommended GitHub description:
 
 ```text
-local-ai, offline-ai, llm-builder, gguf, model-governance, ai-provenance, ai-memory, benchmark-gate, regression-testing, model-lineage, rollback, dataset-governance, omnbinary, arc-rar, arc-neuron, python, pytorch, machine-learning, artificial-intelligence, open-source-ai
+Governed local AI cognition lab for building, benchmarking, and promoting GGUF-oriented model candidates with receipts, rollback, provenance, and regression-safe gates.
+```
+
+Recommended GitHub topics:
+
+```text
+local-ai, offline-ai, llm, gguf, ai-governance, model-evaluation, benchmark, provenance, ai-memory, rollback, dataset-lineage, model-training, python, arc-neuron, arc-core, omnibinary, arc-rar, reproducible-ai, local-llm, ai-safety
+```
+
+SEO keyword targets:
+
+- local AI model builder
+- offline LLM training
+- GGUF model builder
+- governed AI training
+- AI memory system
+- model promotion gate
+- regression-safe model evaluation
+- dataset provenance for AI
+- rollback-safe AI
+- ARC-Neuron
+- ARC Core
+- Omnibinary
+- Arc-RAR
+- local-first AI cognition
+- open-source AI governance framework
+
+---
+
+## Repository map
+
+```text
+benchmarks/              benchmark tasks and evaluation suites
+configs/                 candidate, dataset, evaluation, and licensing config
+data/                    curated dataset records and critique inputs
+docs/                    production docs, roadmap, SEO, memory, doctrine, proof
+exports/                 candidate outputs and generated model artifacts
+manifests/               file manifests and release evidence
+reports/                 production audit and promotion reports
+results/                 scoreboards, benchmark results, validation outputs
+scripts/                 build, benchmark, scoring, validation, SEO, production tools
+specs/                   promotion gates and governance specifications
+tests/                   regression and unit tests
 ```
 
 ---
 
-## Documentation index
+## Production evidence and reports
 
-### Start here
+Important proof files:
 
-- [Quickstart](./QUICKSTART.md)
-- [Step-by-step quickstart](./docs/QUICKSTART_STEPBYSTEP.md)
-- [Usage](./USAGE.md)
-- [Examples](./EXAMPLES.md)
-- [FAQ](./FAQ.md)
-
-### Proof and governance
-
-- [Proof](./PROOF.md)
-- [Benchmark proof](./docs/BENCHMARK_PROOF.md)
-- [Acceptance gates](./docs/ACCEPTANCE_GATES.md)
-- [Governance doctrine](./GOVERNANCE_DOCTRINE.md)
-- [Production readiness matrix](./docs/PRODUCTION_READINESS_MATRIX.md)
-
-### Model and runtime
-
-- [Model ladder](./docs/MODEL_LADDER.md)
-- [Model runtime boundary spec](./docs/MODEL_RUNTIME_BOUNDARY_SPEC.md)
-- [ARC-Neuron model family](./docs/ARC_NEURON_MODEL_FAMILY.md)
-- [Training stack and GGUF path](./docs/TRAINING_STACK_AND_GGUF_PATH.md)
-- [Local backend setup](./docs/LOCAL_BACKEND_SETUP.md)
-
-### 3.0 roadmap
-
-- [Knowledge preservation doctrine](./docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md)
-- [v2 candidate isolation policy](./docs/V2_CANDIDATE_ISOLATION_POLICY.md)
-- [Dataset acquisition matrix](./docs/DATASET_ACQUISITION_MATRIX_3_0.md)
-- [Memory evaluation protocol](./docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md)
-- [DARPA next steps](./docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md)
-
-### Public launch / SEO
-
-- [SEO indexing playbook](./docs/SEO_INDEXING_PLAYBOOK.md)
-- [GitHub launch checklist](./docs/GITHUB_LAUNCH_CHECKLIST.md)
-- [Repository metadata](./repo-metadata/repository_metadata.json)
+- [`docs/PRODUCTION_RELEASE_HANDOFF.md`](./docs/PRODUCTION_RELEASE_HANDOFF.md)
+- [`reports/production_audit/FINAL_COMPLETION_LOCK_2026-05-09.md`](./reports/production_audit/FINAL_COMPLETION_LOCK_2026-05-09.md)
+- [`reports/production_audit/SEO_AND_MEMORY_COMPLETION_LOCK_2026-05-10.md`](./reports/production_audit/SEO_AND_MEMORY_COMPLETION_LOCK_2026-05-10.md)
+- [`reports/production_audit/seo_validate_final_2026-05-10.json`](./reports/production_audit/seo_validate_final_2026-05-10.json)
+- [`reports/production_audit/final_validate_repo_2026-05-10.json`](./reports/production_audit/final_validate_repo_2026-05-10.json)
 
 ---
 
-## Community and support
+## Licensing roadmap
 
-- [GitHub Discussions](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions)
-- [Issues](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/issues)
-- [Security advisories](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/security/advisories/new)
-- [Releases](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/releases)
-- [Sponsor Gary Doman / GareBear99](https://github.com/sponsors/GareBear99)
+The current licensing direction is staged:
+
+- **1.0** keeps the license it shipped with.
+- **There is no formal public 2.0 release.**
+- **1.0–2.0-era work** is a development bridge.
+- **3.0** is the planned protected full roadmap/base-model release.
+- **3.0+** should use a more suitable license that prevents unrestricted resale, repackaging, or commercial misuse of the full product and model artifacts.
+
+Relevant files:
+
+- [`LICENSE`](./LICENSE)
+- [`LICENSE_TRANSITIONAL_NOTICE.md`](./LICENSE_TRANSITIONAL_NOTICE.md)
+- [`docs/TRANSITIONAL_LICENSE_ROADMAP.md`](./docs/TRANSITIONAL_LICENSE_ROADMAP.md)
+- [`configs/licensing/three_point_zero_release_license_checklist.yaml`](./configs/licensing/three_point_zero_release_license_checklist.yaml)
 
 ---
 
-## Status and scope
+## Project identity
 
-**What this is:** a governed local AI model-building and memory-control plane for candidate training, benchmark scoring, promotion, rollback, and provenance preservation.
+Built by **Gary Doman / GareBear99** as part of the ARC, Lucipher, Omnibinary, Arc-RAR, Cleanroom Runtime, and local-first AI ecosystem.
 
-**What this is not:** a frontier-scale Claude/Gemini/GPT replacement today. The included model tiers are deliberately small reference brains. The major contribution is the governed loop around model growth: dataset discipline, scoring, receipts, lineage, rollback, and promotion safety.
+GitHub:
 
-**Best mental model:** the shell is production-oriented; the brain is the research lane. External GGUF/local backends can plug into the governance machinery while ARC-native candidates continue to grow.
+- [`GareBear99`](https://github.com/GareBear99)
+- [`ARC-Neuron-LLMBuilder`](https://github.com/GareBear99/ARC-Neuron-LLMBuilder)
 
 ---
 
-## Citation
+## Star / sponsor / follow
 
-```bibtex
-@software{arc_neuron_llmbuilder_2026,
-  author  = {Doman, Gary},
-  title   = {ARC-Neuron LLMBuilder: Governed Local AI Model Builder with Receipts, Rollback, and Provenance-Safe Promotion},
-  year    = {2026},
-  url     = {https://github.com/GareBear99/ARC-Neuron-LLMBuilder}
-}
+If this project helps your research into local AI, model governance, offline LLM building, GGUF candidate workflows, reproducible AI, or evidence-preserving model growth:
+
+- star the repo
+- open an issue with benchmark or dataset suggestions
+- follow the ARC ecosystem projects
+- support development through GitHub Sponsors when available
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-GareBear99-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/GareBear99)
+
+---
+
+## Final note
+
+ARC-Neuron LLMBuilder is not trying to fake a finished frontier model.
+
+It is building the infrastructure required to grow one safely:
+
+```text
+candidate → benchmark → score → compare → gate → receipt → archive → promote or reject
 ```
 
-Full metadata: [CITATION.cff](./CITATION.cff)
+The mission is simple:
 
----
-
-## License
-
-Current public release materials are under [MIT](./LICENSE). The roadmap also includes a [transitional license notice](./LICENSE_TRANSITIONAL_NOTICE.md) and [3.0 protected licensing roadmap](./docs/TRANSITIONAL_LICENSE_ROADMAP.md) for future full base-model releases, dataset-connected releases, and commercial derivative restrictions.
-
----
-
-## One-line verdict
-
-**ARC-Neuron LLMBuilder is a local-first AI build system that does not just chase better answers — it preserves the evidence of how every better answer was earned.**
+**Build intelligence without destroying the evidence of how that intelligence came to be.**
