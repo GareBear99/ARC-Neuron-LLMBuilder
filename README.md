@@ -12,22 +12,6 @@
   <img src="http://reporoster.com/stars/dark/GareBear99/ARC-Neuron-LLMBuilder" alt="Stargazers" />
 </a>
 
-## Current public update — preserved proof, corrected roadmap
-
-This README preserves the original high-signal proof sections, graphs, benchmark tables, and runnable workflow. The update is intentionally surgical: it keeps the v10 audit evidence intact while making the current 3.0+ direction explicit.
-
-- **Current reproducible incumbent:** `arc_governed_v10_wave4` at **0.9237** on the audited v10 benchmark path.
-- **v11.3 / wave5:** candidate/staging only until promotion evidence reproduces cleanly through Gate v2.
-- **Datasets:** external open-source datasets are **acquisition targets only**. They are not bundled, not ingested, and not promoted into incumbent weights yet.
-- **Current knowledge weight:** self-curated ARC material plus the [ARC Language Module](https://github.com/GareBear99/arc-language-module) carry the live lexical/provenance spine. Tiny/Small model weights are proof-of-loop reference models, not the full brain.
-- **Portable memory layer:** Omnibinary + Arc-RAR provide device-portable communication, replay, restore, and source-spine continuity.
-- **Add-on under active build:** [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is the visual/video memory add-on being built for ARC-style systems and other LLM stacks.
-- **Long horizon:** 3.0 locks protected base-model/dataset/licensing integration; 4.0 connects ProtoSynth / Neural Synth; 5.0 becomes a Portal-style Synth companion mockup; 7.0 targets a working Synth AI companion, AGI assistant, and buildable brain lab.
-
-Bot-readable summary: [`llms.txt`](./llms.txt). Clone rationale: [`docs/WHY_CLONE_ARC_NEURON.md`](./docs/WHY_CLONE_ARC_NEURON.md).
-
-
-
 <sub>**Topics**: local AI · offline LLM · GGUF · model governance · AI provenance · Gate v2 · Omnibinary · Arc-RAR · ARC Language Module · ARC-StreamMemory · visual memory · Neural Synth · ProtoSynth · Synth companion
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
@@ -44,6 +28,24 @@ Bot-readable summary: [`llms.txt`](./llms.txt). Clone rationale: [`docs/WHY_CLON
 [![Datasets](https://img.shields.io/badge/datasets-roadmap_only-lightgrey.svg)](#dataset-acquisition-roadmap)
 [![StreamMemory](https://img.shields.io/badge/ARC--StreamMemory-add--on-blue.svg)](#arc-streammemory-add-on)
 [![Synth Roadmap](https://img.shields.io/badge/roadmap-3.0%E2%86%927.0-purple.svg)](#long-horizon-synth-roadmap)
+
+
+## Current public update — preserved proof, corrected roadmap
+
+This README preserves the original high-signal proof sections, graphs, benchmark tables, and runnable workflow. The update is intentionally surgical: it keeps the v10 audit evidence intact while making the current 3.0+ direction explicit.
+
+- **Current reproducible incumbent:** `arc_governed_v10_wave4` at **0.9237** on the audited v10 benchmark path.
+- **v11.3 / wave5:** candidate/staging only until promotion evidence reproduces cleanly through Gate v2.
+- **Datasets:** external open-source datasets are **acquisition targets only**. They are not bundled, not ingested, and not promoted into incumbent weights yet.
+- **Current knowledge weight:** self-curated ARC material plus the [ARC Language Module](https://github.com/GareBear99/arc-language-module) carry the live lexical/provenance spine. Tiny/Small model weights are proof-of-loop reference models, not the full brain.
+- **Portable memory layer:** Omnibinary + Arc-RAR provide device-portable communication, replay, restore, and source-spine continuity.
+- **Add-on under active build:** [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is the visual/video memory add-on being built for ARC-style systems and other LLM stacks.
+- **Long horizon:** 3.0 locks protected base-model/dataset/licensing integration; 4.0 connects ProtoSynth / Neural Synth; 5.0 becomes a Portal-style Synth companion mockup; 7.0 targets a working Synth AI companion, AGI assistant, and buildable brain lab.
+
+Bot-readable summary: [`llms.txt`](./llms.txt). Clone rationale: [`docs/WHY_CLONE_ARC_NEURON.md`](./docs/WHY_CLONE_ARC_NEURON.md).
+
+
+
 
 ## Table of contents
 
