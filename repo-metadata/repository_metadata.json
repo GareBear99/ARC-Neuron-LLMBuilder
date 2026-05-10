@@ -39,5 +39,28 @@
     "llms.txt",
     "docs/WHY_CLONE_ARC_NEURON.md",
     "docs/seo_metadata.jsonld"
-  ]
+  ],
+  "recommended_topics": [
+    "local-ai",
+    "offline-ai",
+    "gguf",
+    "llm-builder",
+    "governed-ai",
+    "model-governance",
+    "ai-provenance",
+    "ai-memory",
+    "model-promotion",
+    "dataset-governance",
+    "omnibinary",
+    "arc-rar",
+    "arc-neuron",
+    "arc-language-module",
+    "protosynth",
+    "neural-synth",
+    "synth-companion",
+    "buildable-brain-lab",
+    "time-to-space-projection",
+    "reproducible-ai"
+  ],
+  "clone_conversion_status": "10_of_10_dropin_prepared__requires_manual_github_about_topics_paste_after_push"
 }

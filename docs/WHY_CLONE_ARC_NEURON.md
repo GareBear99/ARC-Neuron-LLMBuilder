@@ -11,6 +11,38 @@ ARC-Neuron LLMBuilder is a local-first AI build lab for people who care about re
 5. **It is an AI memory architecture, not only a model script.** The ARC Language Module, Omnibinary, and Arc-RAR create a portable source spine for lexical knowledge, receipts, replay, and restore.
 6. **It has a visible product path.** 3.0 is the protected model/dataset/licensing milestone; 4.0 connects ProtoSynth / Neural Synth; 5.0 becomes a Portal-esque companion mockup; 7.0 targets a working Synth AI companion and buildable brain lab.
 
+
+## Exact GitHub About description
+
+```text
+Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, ProtoSynth/Neural Synth, and Synth companion roadmap.
+```
+
+## Recommended GitHub topics
+
+```text
+local-ai
+offline-ai
+gguf
+llm-builder
+governed-ai
+model-governance
+ai-provenance
+ai-memory
+model-promotion
+dataset-governance
+omnibinary
+arc-rar
+arc-neuron
+arc-language-module
+protosynth
+neural-synth
+synth-companion
+buildable-brain-lab
+time-to-space-projection
+reproducible-ai
+```
+
 ## What to try first
 
 ```bash

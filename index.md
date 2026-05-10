@@ -21,7 +21,7 @@ ARC-Neuron LLMBuilder is a reproducible local AI build lab, not a black-box chat
 git clone https://github.com/GareBear99/ARC-Neuron-LLMBuilder.git
 ```
 
-Read: [Why Clone ARC-Neuron](./docs/WHY_CLONE_ARC_NEURON.html) · [llms.txt](./llms.txt)
+Read: [Why Clone ARC-Neuron](./docs/WHY_CLONE_ARC_NEURON.html) · [Synth Roadmap](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.html) · [llms.txt](./llms.txt)
 
 ## Start here
 
@@ -82,7 +82,7 @@ Read: [Why Clone ARC-Neuron](./docs/WHY_CLONE_ARC_NEURON.html) · [llms.txt](./l
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
   "name": "ARC-Neuron LLMBuilder",
-  "description": "Governed local AI / offline LLM builder for ARC-Neuron: GGUF-ready model training, Gate v2 promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and 3.0 roadmap.",
+  "description": "Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, ProtoSynth/Neural Synth, and Synth companion roadmap.",
   "codeRepository": "https://github.com/GareBear99/ARC-Neuron-LLMBuilder",
   "programmingLanguage": ["Python"],
   "keywords": "local AI model builder, governed LLM builder, GGUF, AI provenance, model promotion gate, offline LLM builder, sovereign AI"

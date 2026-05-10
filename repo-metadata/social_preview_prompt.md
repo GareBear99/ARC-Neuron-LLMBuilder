@@ -1,3 +1,3 @@
-# GitHub Social Preview Prompt
+# Social Preview Prompt
 
-Dark neon technical diagram: central ARC-Neuron brain/circuit core connected to four bright lanes — Language Module, Omnibinary Memory, Arc-RAR Rollback, and Synth Companion Roadmap. Add smaller labels: "Gate v2", "Dataset Governance", "ProtoSynth / Neural Synth", "Buildable Brain Lab". Use blue/purple/cyan on black, professional open-source AI tooling aesthetic. Text: "ARC-Neuron LLMBuilder — Governed Local AI".
+Create a dark, futuristic GitHub social preview for **ARC-Neuron LLMBuilder**: a local AI build lab with a glowing ARC core, branching receipt lines, Omnibinary binary-memory streams, Arc-RAR archive capsules, and a Neural Synth / ProtoSynth grid projecting time-to-space memory into a Portal-esque Synth companion silhouette. Text: **ARC-Neuron LLMBuilder — Governed Local AI + Synth Brain Lab Roadmap**. Subtext: **GGUF • Gate v2 • Omnibinary • Arc-RAR • ProtoSynth • 3.0→7.0**.

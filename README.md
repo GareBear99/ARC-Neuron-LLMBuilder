@@ -14,7 +14,7 @@
 
 
 
-<sub>**Topics**: local AI • governed AI • GGUF • offline LLM builder • AI provenance • model promotion gate • regression-safe training • ARC Language Module • Omnibinary • Arc-RAR • device-portable AI communication • time-to-space projection • knowledge preservation • ARC-Neuron • offline model governance • reproducible AI</sub>
+<sub>**Topics**: local AI • offline LLM builder • GGUF • governed AI • AI provenance • ARC Language Module • Omnibinary • Arc-RAR • dataset governance • time-to-space projection • ProtoSynth • Neural Synth • Synth companion • Portal-esque AI companion • buildable brain lab • reproducible AI</sub>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -22,6 +22,9 @@
 [![Gate: v2](https://img.shields.io/badge/governance-Gate%20v2-blue.svg)](./specs/promotion_gate_v2.yaml)
 [![Audited: v10](https://img.shields.io/badge/audited-v10%20%7C%200.9237-brightgreen.svg)](./docs/BENCHMARK_PROOF.md)
 [![Roadmap: 3.0 protected](https://img.shields.io/badge/roadmap-3.0%20protected-blueviolet.svg)](./docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md)
+[![Roadmap: 4.0 Neural Synth](https://img.shields.io/badge/roadmap-4.0%20Neural%20Synth-7b2cff.svg)](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md)
+[![Roadmap: 5.0 Synth Companion](https://img.shields.io/badge/roadmap-5.0%20Synth%20Companion-9cf.svg)](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md)
+[![Roadmap: 7.0 Brain Lab](https://img.shields.io/badge/roadmap-7.0%20Brain%20Lab-ff69b4.svg)](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md)
 [![Sponsor](https://img.shields.io/badge/Sponsor-GareBear99-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/GareBear99)
 [![Ecosystem](https://img.shields.io/badge/ARC%20Ecosystem-7%20repos-orange)](./ECOSYSTEM.md)
 [![Discussions](https://img.shields.io/github/discussions/GareBear99/ARC-Neuron-LLMBuilder)](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions)
@@ -33,6 +36,10 @@
 **ARC-Neuron LLMBuilder** is a **local-first AI model builder**, **offline LLM governance lab**, and **GGUF-oriented candidate promotion system** for developers who need reproducible model growth instead of black-box prompt drift. It combines model training, benchmark scoring, memory/continuity tests, promotion gates, Arc-RAR rollback bundles, Omnibinary receipts, dataset manifests, ARC Language Module truth-weighting, device-portable communication/archive mechanics, time-to-space projection planning, a protected 3.0 roadmap, and later Synth companion horizons for 4.0/5.0/7.0 into one auditable repository.
 
 **Best-fit search terms:** `local AI`, `offline LLM`, `GGUF model builder`, `AI provenance`, `model promotion gate`, `regression-safe training`, `AI memory system`, `LLM benchmark harness`, `dataset governance`, `Arc-RAR`, `Omnibinary`, `ARC Language Module`, `device portable AI`, `time to space projection`, `spatial signal intelligence`, `ARC-Neuron`, `Gary Doman`, `GareBear99`.
+
+**GitHub About description to paste:** `Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, ProtoSynth/Neural Synth, and Synth companion roadmap.`
+
+**Clone-indexed roadmap:** `3.0 protected base-model/dataset/licensing` → `4.0 ProtoSynth / Neural Synth projection` → `5.0 Portal-esque Synth companion mockup` → `7.0 working Synth AI companion / AGI assistant / buildable brain lab`.
 
 **Fast links for people and crawlers:**
 

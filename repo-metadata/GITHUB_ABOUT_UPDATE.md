@@ -38,16 +38,16 @@ model-governance
 ai-provenance
 ai-memory
 model-promotion
-regression-testing
 dataset-governance
 omnibinary
 arc-rar
 arc-neuron
-knowledge-preservation
-sovereign-ai
-python
-pytorch
-llama-cpp
+arc-language-module
+protosynth
+neural-synth
+synth-companion
+buildable-brain-lab
+time-to-space-projection
 reproducible-ai
 ```
 
@@ -63,7 +63,7 @@ Current reproducible incumbent: arc_governed_v10_wave4 / 0.9237. v11.3/wave5 rem
 
 The README can explain the system, but GitHub search and link previews heavily use the repository description, topics, homepage, and social preview. Keeping this metadata aligned prevents the public repo from looking stuck at older `v1.0.0-governed` wording while the README correctly explains the 3.0 roadmap.
 
-Additional topics to add: `protosynth`, `neural-synth`, `synth-companion`, `buildable-brain-lab`, `time-to-space-projection`.
+The 20-topic set above intentionally includes the Synth roadmap keywords instead of leaving them as optional extras.
 
 
 ## Extra clone/search topics
