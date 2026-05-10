@@ -1,14 +1,12 @@
 # ARC-Neuron LLMBuilder
 
-ARC-Neuron LLMBuilder is a governed local AI / offline LLM builder focused on reproducible model growth, benchmarked candidate promotion, rollback, provenance, and dataset governance.
+ARC-Neuron LLMBuilder is a local-first governed AI build-and-memory system for training small language-model candidates, benchmarking them, promoting only non-regressing winners, and preserving receipts, lineage, rollback bundles, and dataset provenance.
 
-Current truth:
-- incumbent: arc_governed_v10_wave4, score 0.9237;
-- v11.3/wave5: staging candidate, not public incumbent;
-- external datasets: acquisition targets only, not bundled/promoted;
-- knowledge spine: self-curated ARC material plus ARC Language Module;
-- archive layer: Omnibinary-style index + Arc-RAR-style bundle/restore discipline;
-- add-on: ARC-StreamMemory provides visual/video memory modules for LLMs and ARC-style systems;
-- roadmap: 3.0 protected model/data/licensing foundation, 4.0 ProtoSynth/Neural Synth projection, 5.0 Portal-esque Synth companion mockup, 7.0 working Synth AI companion / AGI assistant / brain lab.
-
-Clone reason: this repo is useful for studying local-first model governance, candidate scoring, no-regression promotion gates, dataset provenance, and rollback-oriented AI development.
+Important current state:
+- Current reproducible incumbent: arc_governed_v10_wave4 at 0.9237 on the audited v10 path.
+- v11.3/wave5 is candidate/staging only.
+- External datasets are acquisition targets only, not bundled or promoted.
+- ARC Language Module carries the current lexical/provenance knowledge spine.
+- Omnibinary + Arc-RAR provide archive, replay, restore, and device-portable communication.
+- ARC-StreamMemory is an add-on for visual/video memory for all LLMs and ARC-style systems.
+- Roadmap: 3.0 protected dataset/model/licensing integration; 4.0 ProtoSynth / Neural Synth projection; 5.0 Portal-style companion mockup; 7.0 working Synth AI companion and buildable brain lab.

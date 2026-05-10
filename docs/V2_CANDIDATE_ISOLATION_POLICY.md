@@ -1,25 +1,15 @@
 # v2 Candidate Isolation Policy
 
-New weights, new datasets, new adapters, and new support-language data must not overwrite the incumbent lane.
+New weights, external datasets, support-language corpora, and experimental merges must enter a v2 candidate class before they can affect incumbent scoring.
 
-## Rule
+## Protected lanes
 
-External or newly mixed data enters a candidate class first. It must remain separate from the public incumbent until it passes benchmark, floor, provenance, and rollback checks.
+- `floor_model`: never overwritten.
+- `incumbent_model`: current promoted model only.
+- `candidate_v1`: same data class as incumbent.
+- `candidate_v2`: new dataset class, new support-language data, new external-source training.
+- `quarantine`: untrusted, license-unclear, PII-risk, or scraped sources.
 
-## Why
+## Promotion rule
 
-A dataset can improve tone while damaging planning. A new adapter can improve speed while damaging refusal correctness. A model can improve benchmark average while breaking a protected capability.
-
-ARC-Neuron treats those as candidate events, not automatic upgrades.
-
-## Required checks
-
-- dataset/source manifest;
-- license record;
-- raw and transformed hashes;
-- candidate namespace;
-- benchmark output;
-- scored report;
-- comparison against incumbent;
-- promotion/rejection receipt;
-- rollback path.
+A v2 candidate must beat the incumbent and preserve protected floors. Improvement in empathy, lexical simplicity, or style does not justify regressions in planning, paraphrase stability, repair, continuity, refusal correctness, provenance reasoning, or ARC doctrine.

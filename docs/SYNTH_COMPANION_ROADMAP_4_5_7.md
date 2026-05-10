@@ -1,11 +1,21 @@
-# Synth Companion Roadmap — 4.0 / 5.0 / 7.0
+# Synth Companion Roadmap: 4.0, 5.0, 7.0
 
-ARC-Neuron 3.0 is the model/data/provenance foundation. The Synth roadmap starts after that foundation is protected.
+This roadmap separates the current ARC-Neuron model-governance work from later visual/companion layers.
 
-| Horizon | Focus | Description |
-|---|---|---|
-| 4.0 | ProtoSynth / Neural Synth | Spatial projection and visual cognition layer. Connects ARC-Neuron to Proto-Synth Grid Engine style time-to-space views, receipt maps, and knowledge navigation. |
-| 5.0 | Portal-esque Synth companion mockup | Full companion shell mockup with visible state, memory, interaction, and controlled tool/knowledge surfaces. |
-| 7.0 | Working Synth AI companion / AGI assistant / buildable brain lab | Integrated assistant and brain-lab interface built on governed memory, candidate promotion, visual memory, and rollback discipline. |
+## 3.0 — Protected base-model integration
 
-Proto-Synth / Neural Synth repo: https://github.com/GareBear99/Proto-Synth_Grid_Engine
+Dataset manifests, v2 candidate isolation, licensing transition, memory regression tests, and provenance-first promotion.
+
+## 4.0 — ProtoSynth / Neural Synth projection
+
+Connect ARC-Neuron to Proto-Synth / I/O Synth Grid Engine as a spatial projection and visual cognition layer.
+
+Repo: https://github.com/GareBear99/Proto-Synth_Grid_Engine
+
+## 5.0 — Portal-style Synth companion mockup
+
+A full companion-shell mockup: modular interface, visible state, memory panels, voice/visual personality direction, and operator-facing controls.
+
+## 7.0 — Working Synth AI companion / AGI assistant / buildable brain lab
+
+Long-horizon target: an inspectable Synth AI companion, AGI assistant, and brain-lab interface where memory, model candidates, receipts, and visual cognition can be inspected and built.

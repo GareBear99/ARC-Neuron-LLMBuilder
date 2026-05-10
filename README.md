@@ -1,333 +1,632 @@
 # ARC-Neuron LLMBuilder
 
-**A governed local AI build-and-memory system for training, measuring, promoting, archiving, and restoring small language-model candidates with evidence instead of guesswork.**
+**A governed local AI build-and-memory system — train small language models, measure them, promote the better ones through a regression-aware gate, and keep every decision restorable.**
 
-> Local-first. CPU-friendly. Evidence-backed. Promotion-gated. Rollback-safe. Built as part of the ARC ecosystem.
+> Local-first. Evidence-backed. Promotion-gated. Rollback-safe. Part of the seven-repo ARC ecosystem.
 
-> 🖥️ **Built and verified on a 2012 Intel Mac running macOS Catalina.** The original governed promotions, proof workflow, Omnibinary measurements, and audit loop were produced on old consumer hardware: no GPU, no cloud requirement, no accelerator. The point is not to claim frontier-scale intelligence from a tiny model; the point is to prove a reproducible model-growth loop that can run almost anywhere.
+> 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 115-test suite, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
 
-### Supporters
+## Current public update — preserved proof, corrected roadmap
+
+This README preserves the original high-signal proof sections, graphs, benchmark tables, and runnable workflow. The update is intentionally surgical: it keeps the v10 audit evidence intact while making the current 3.0+ direction explicit.
+
+- **Current reproducible incumbent:** `arc_governed_v10_wave4` at **0.9237** on the audited v10 benchmark path.
+- **v11.3 / wave5:** candidate/staging only until promotion evidence reproduces cleanly through Gate v2.
+- **Datasets:** external open-source datasets are **acquisition targets only**. They are not bundled, not ingested, and not promoted into incumbent weights yet.
+- **Current knowledge weight:** self-curated ARC material plus the [ARC Language Module](https://github.com/GareBear99/arc-language-module) carry the live lexical/provenance spine. Tiny/Small model weights are proof-of-loop reference models, not the full brain.
+- **Portable memory layer:** Omnibinary + Arc-RAR provide device-portable communication, replay, restore, and source-spine continuity.
+- **Add-on under active build:** [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is the visual/video memory add-on being built for ARC-style systems and other LLM stacks.
+- **Long horizon:** 3.0 locks protected base-model/dataset/licensing integration; 4.0 connects ProtoSynth / Neural Synth; 5.0 becomes a Portal-style Synth companion mockup; 7.0 targets a working Synth AI companion, AGI assistant, and buildable brain lab.
+
+Bot-readable summary: [`llms.txt`](./llms.txt). Clone rationale: [`docs/WHY_CLONE_ARC_NEURON.md`](./docs/WHY_CLONE_ARC_NEURON.md).
+
+### 💫 Thanks to our supporters
 
 <a href="https://github.com/GareBear99/ARC-Neuron-LLMBuilder/stargazers">
   <img src="http://reporoster.com/stars/dark/GareBear99/ARC-Neuron-LLMBuilder" alt="Stargazers" />
 </a>
 
-<sub>**Topics**: local-ai · offline-llm · governed-ai · model-governance · gguf · provenance · rollback · omnibinary · arc-rar · arc-language-module · arc-streammemory · visual-memory · neural-synth · protosynth · agi-assistant</sub>
+
+
+
+<sub>**Topics**: local AI · offline LLM · GGUF · model governance · AI provenance · Gate v2 · Omnibinary · Arc-RAR · ARC Language Module · ARC-StreamMemory · Neural Synth
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Tests: 136/136](https://img.shields.io/badge/tests-136%2F136%20passing-brightgreen.svg)](./tests)
+[![Tests: 115/116](https://img.shields.io/badge/tests-115%2F116%20passing-brightgreen.svg)](./tests)
 [![Gate: v2](https://img.shields.io/badge/governance-Gate%20v2-blue.svg)](./specs/promotion_gate_v2.yaml)
-[![Incumbent: v10 wave4](https://img.shields.io/badge/incumbent-v10_wave4%20%7C%200.9237-brightgreen.svg)](./MODEL_CARD_v10_wave4.md)
-[![v11.3: staging](https://img.shields.io/badge/v11.3-staging%20candidate-orange.svg)](./CHANGELOG.md)
-[![CPU only](https://img.shields.io/badge/CPU-only_required-green)](./STORAGE_ECONOMICS.md)
-[![Runs on a 2012 Intel Mac](https://img.shields.io/badge/runs_on-2012_Intel_Mac-silver?logo=apple)](./PROOF.md#hardware-provenance)
+[![Audited: v10](https://img.shields.io/badge/audited-v10%20%7C%200.9237-brightgreen.svg)](./docs/BENCHMARK_PROOF.md)
+[![Release: v1.0.0-governed](https://img.shields.io/badge/release-v1.0.0--governed-blueviolet.svg)](./RELEASE_NOTES_v1.0.0.md)
 [![Sponsor](https://img.shields.io/badge/Sponsor-GareBear99-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/GareBear99)
+[![Ecosystem](https://img.shields.io/badge/ARC%20Ecosystem-7%20repos-orange)](./ECOSYSTEM.md)
 [![Discussions](https://img.shields.io/github/discussions/GareBear99/ARC-Neuron-LLMBuilder)](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions)
-
----
-
-## Fast path
-
-```bash
-git clone https://github.com/GareBear99/ARC-Neuron-LLMBuilder.git
-cd ARC-Neuron-LLMBuilder
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-python scripts/validate_repo.py
-python -m pytest tests/ -q
-```
-
-Run the proof loop:
-
-```bash
-python3 scripts/ops/demo_proof_workflow.py
-python3 scripts/ops/benchmark_omnibinary.py
-```
-
-Run the incumbent benchmark path:
-
-```bash
-python3 scripts/execution/run_model_benchmarks.py \
-  --adapter exemplar \
-  --artifact exports/candidates/arc_governed_v10_wave4/exemplar_train/exemplar_model.json \
-  --prompt-profile full_benchmark_v6 \
-  --output results/v10_wave4_rerun_outputs.jsonl
-
-python3 scripts/execution/score_benchmark_outputs.py \
-  --input results/v10_wave4_rerun_outputs.jsonl \
-  --output results/v10_wave4_rerun_scored.json
-```
-
----
+[![Runs on a 2012 Intel Mac](https://img.shields.io/badge/runs_on-2012_Intel_Mac-silver?logo=apple)](./PROOF.md#hardware-provenance)
+[![CPU only](https://img.shields.io/badge/CPU-only_required-green)](./STORAGE_ECONOMICS.md)
+[![Datasets](https://img.shields.io/badge/datasets-roadmap_only-lightgrey.svg)](#dataset-acquisition-roadmap)
+[![StreamMemory](https://img.shields.io/badge/ARC--StreamMemory-add--on-blue.svg)](#arc-streammemory-add-on)
+[![Synth Roadmap](https://img.shields.io/badge/roadmap-3.0%E2%86%927.0-purple.svg)](#long-horizon-synth-roadmap)
 
 ## Table of contents
 
+- [Live deployment — continuous-learning AI operative](#live-deployment--continuous-learning-ai-operative)
+- [Operator evidence log](./docs/OPERATOR_EVIDENCE.md)
 - [What this is](#what-this-is)
-- [Current truth](#current-truth)
-- [Why clone it](#why-clone-it)
-- [ARC ecosystem role](#arc-ecosystem-role)
-- [Architecture](#architecture)
-- [Governance doctrine](#governance-doctrine)
+- [The ARC Ecosystem](#the-arc-ecosystem)
+- [Support this work](#support-this-work)
+- [What it does, in plain English](#what-it-does-in-plain-english)
+- [Current state](#current-state)
 - [Dataset acquisition roadmap](#dataset-acquisition-roadmap)
+- [Quick start](#quick-start)
+- [Architecture at a glance](#architecture-at-a-glance)
 - [ARC-StreamMemory add-on](#arc-streammemory-add-on)
-- [Roadmap: 3.0 to 7.0](#roadmap-30-to-70)
+- [The governance doctrine](#the-governance-doctrine)
+- [Long-horizon Synth roadmap](#long-horizon-synth-roadmap)
 - [Benchmark surface](#benchmark-surface)
 - [Repository layout](#repository-layout)
 - [One-command operations](#one-command-operations)
 - [Proof runners](#proof-runners)
 - [Documentation](#documentation)
+- [Community](#community)
 - [Status and scope](#status-and-scope)
 - [Citation](#citation)
 - [License](#license)
 
 ---
 
+## 🤖 Live deployment — continuous-learning AI operative
+
+**A real AI operative feeds this corpus every day.** The [ARC GitHub AI Operator](https://github.com/GareBear99/gh-ai-operator) answers code-review issues on the [Portfolio](https://github.com/GareBear99/Portfolio) via [Cloudflare Workers AI](https://github.com/GareBear99/gh-ai-operator/blob/main/cloudflare/README.md), posts a verdict back on the issue, and emits every production review as a supervised training example in this repo's seed-examples schema. The nightly workflow `ingest-operator-reviews.yml` pulls those artifacts into `data/critique/operator_reviews.jsonl`, dedupes by id, and bumps human-correction records (from Portfolio Follow-up issues) by +0.05 confidence so Gate v2 weights them higher.
+
+```mermaid
+flowchart LR
+    P["Portfolio<br/>code-review issue"] --> OP["gh-ai-operator<br/>CF Workers AI + Actions"]
+    OP -- "verdict comment" --> P
+    OP -- "training JSONL" --> A["llmbuilder-training-export<br/>artifact"]
+    A --> IN["this repo<br/>ingest-operator-reviews.yml (daily 03:17 UTC)"]
+    IN --> C["data/critique/operator_reviews.jsonl"]
+    C --> G["next Gate v2 candidate"]
+    P -. follow-up .-> COR["correction JSONL<br/>+0.05 confidence"]
+    COR --> A
+    style OP fill:#0366d6,stroke:#fff,color:#fff
+    style IN fill:#7057ff,stroke:#fff,color:#fff
+```
+
+Nothing auto-promotes to the curated `seed_examples.jsonl` — ingested data stays in a separate shard so a human curator keeps the final call. Full pipeline: [docs/LIVE_DEPLOYMENT_LEARNING.md](./docs/LIVE_DEPLOYMENT_LEARNING.md). Activation is one secret: `OPERATOR_READ_TOKEN` (PAT with `Actions: Read` on `GareBear99/gh-ai-operator`).
+
+**Live-run evidence**: [docs/OPERATOR_EVIDENCE.md](./docs/OPERATOR_EVIDENCE.md) — chronological log of real runs. First entry (FreeEQ8, Portfolio issue #1) documents the verdict, the JSONL shape, and the ingest manifest with no code changes required to accept it.
+
+---
+
+---
+
+<a id="audit-results"></a>
+## 🔬 Independent Audit Results — v10 (2026-05-04)
+
+An independent DARPA-level code audit found 4 structural defects in the original benchmark and rubric,
+corrected all of them, and ran 4 consecutive governed promotion cycles. Every result is reproducible.
+
+**True baseline (post-fix): 0.6836 → Current: 0.9237 (+35.1%)**
+
+| Capability | Pre-Audit | v10 |
+|-----------|-----------|-----|
+| critique | 0.7500 | **1.0000** |
+| planning | 0.8571 | **1.0000** |
+| repair | 0.6667 | **1.0000** |
+| paraphrase_stability | 0.8666 | **1.0000** |
+| quantization_retention | 0.6667 | **1.0000** |
+| compression | 0.5667 | **0.9167** |
+| out_of_domain | 0.7500 | **0.9667** |
+| instruction_following | 0.5833 | **0.9250** |
+| reasoning | 0.5500 | 0.8833 |
+| reflection | 0.5667 | 0.8375 |
+| continuity | 0.5833 | 0.7708 |
+| **OVERALL** | **0.6836** | **0.9237** |
+
+4 governed promotions | 0 floor failures | 0 severe regressions | 115/116 tests passing
+
+→ [Full audit report](./docs/BENCHMARK_PROOF.md) | [Step-by-step guide](./docs/QUICKSTART_STEPBYSTEP.md) | [How to grow it](./docs/HOW_TO_GROW.md) | [Use cases](./docs/USE_CASES.md)
+
+---
+
+<a id="what-this-is"></a>
 ## What this is
 
-ARC-Neuron LLMBuilder is a local-first cognition lab that treats a model as one artifact inside a governed lifecycle.
+ARC-Neuron LLMBuilder is a local-first cognition lab that treats a language model as one artifact inside a **governed lifecycle**. You don't just train a model — you train a candidate, measure it, compare it to the current incumbent, and promote it only if it genuinely improves without regressing on guarded capabilities. Every decision leaves receipts. Every candidate is restorable. Every archive ties back to the source truth through an indexed binary ledger.
 
-A candidate does not become the incumbent because it looks better once. It has to be built, benchmarked, scored, compared, checked against protected floors, and archived with receipts. If it improves without breaking protected capabilities, it can be promoted. If it regresses, it stays a candidate and the previous model remains recoverable.
+The system ships with a working transformer family (ARC-Neuron Tiny and Small), a retrieval-based exemplar adapter, a canonical conversation pipeline, draft→critique→revise reflection, automatic terminology absorption from conversation, and a regression-aware promotion gate.
 
-The repo currently proves the loop with small native models, exemplar adapters, benchmark runners, promotion gates, Omnibinary-style indexing, Arc-RAR-style bundle discipline, and human-readable reports.
-
-This is not presented as a frontier model. It is presented as the control system around model growth: provenance, regression checks, promotion gates, rollback, and a path for adding stronger model backends without destroying the evidence chain.
+**Doctrine closed in v1.0.0-governed:** conversation grows the brain, not just the memory. Three governed promotions recorded through v1.0.0. **Post-audit (v2.0.0):** four additional governed promotions (v7→v10) raised the verified score from 0.6836 to 0.9237 (+35.1%) after independent audit corrected 4 structural defects in the benchmark and rubric.
 
 ---
 
-## Current truth
+## 🌐 The ARC Ecosystem
 
-| Area | Current status |
-|---|---|
-| Reproducible incumbent | `arc_governed_v10_wave4` |
-| Incumbent score | `0.9237` |
-| v11.3 / wave5 | Candidate/staging, not the public incumbent |
-| Tests | 136/136 in the current production-candidate evidence path |
-| External datasets | Roadmap/acquisition targets only; not promoted into incumbent weights |
-| Live knowledge source | Self-curated ARC material plus ARC Language Module lexical/knowledge spine |
-| Model weights | Tiny/Small proof-of-loop reference tiers, not the final brain |
-| Governance | Gate v2, floor checks, score reports, candidate receipts, rollback discipline |
-| Archive layer | Omnibinary-style event/index substrate + Arc-RAR-style restorable bundle layer |
-| Add-on memory layer | ARC-StreamMemory as an external visual/video memory add-on for LLMs and ARC-style systems |
+ARC-Neuron LLMBuilder is **one of seven repositories** in the ARC governed-AI ecosystem. Each repo owns a single frozen role; together they form a local-first AI operating system with full lineage, receipts, and rollback.
 
-**Important correction:** future dataset additions do not overwrite the incumbent lane. New data enters a candidate class first, with manifest, license check, hash, quarantine/raw staging, evaluation, benchmark comparison, and no-regression promotion.
-
----
-
-## Why clone it
-
-Clone this repo if you care about any of the following:
-
-- running a local AI/model-growth loop without requiring cloud infrastructure;
-- measuring candidate models against a repeatable benchmark instead of vibes;
-- preserving old models when new ones fail;
-- keeping receipts for why a model was promoted or rejected;
-- connecting small native models, GGUF-style backends, and external adapters under one governance layer;
-- building toward ARC-style memory, archive, rollback, and cross-device communication;
-- studying how a small CPU-friendly lab can enforce provenance before scaling model size.
-
-The repo's value is the **governed growth loop**. Bigger models can be attached later; the point is that they should be measured and promoted through the same evidence path.
-
----
-
-## ARC ecosystem role
-
-ARC-Neuron LLMBuilder is the model-growth and promotion lab inside the ARC stack.
-
-| Repo / layer | Role |
-|---|---|
-| [ARC-Core](https://github.com/GareBear99/ARC-Core) | authority, receipts, proposals, canonical events |
-| [arc-lucifer-cleanroom-runtime](https://github.com/GareBear99/arc-lucifer-cleanroom-runtime) | deterministic runtime / execution shell |
-| [arc-cognition-core](https://github.com/GareBear99/arc-cognition-core) | upstream cognition doctrine and evaluation concepts |
-| [arc-language-module](https://github.com/GareBear99/arc-language-module) | current lexical and knowledge-weight carrier |
-| [Omnibinary](./STORAGE_ECONOMICS.md) | binary/event/index memory substrate concept |
-| [Arc-RAR](https://github.com/GareBear99/Arc-RAR) | archive, bundle, replay, restore discipline |
-| [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) | visual/video memory add-on for LLMs and ARC-style systems |
-| [Proto-Synth Grid Engine](https://github.com/GareBear99/Proto-Synth_Grid_Engine) | 4.0 visual cognition / spatial projection interface target |
-
----
-
-## Architecture
+The seven-repo contract stays intact. Newer companion modules such as [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) are treated as add-ons, not silent core replacements: they attach visual/video memory to the same receipt, hash, archive, and rollback doctrine.
 
 ```mermaid
 flowchart TB
-    subgraph knowledge["Knowledge and language"]
-        LM[ARC Language Module\nlexical and concept spine]
-        DATA[Candidate datasets\nmanifested, hashed, isolated]
+    subgraph authority ["🏛️ Authority"]
+        AC[ARC-Core<br/>event + receipt spine]
+    end
+    subgraph ops ["⚙️ Operational"]
+        CR[Cleanroom Runtime<br/>deterministic kernel]
+        CC[Cognition Core<br/>model-growth lab]
+    end
+    subgraph assembly ["🏭 Assembly"]
+        LLM[🏆 ARC-Neuron-LLMBuilder<br/>governed build loop]
+    end
+    subgraph substrate ["🧱 Substrate"]
+        LM[Language Module<br/>lexical truth]
+        OB[OmniBinary<br/>binary mirror]
+        AR[Arc-RAR<br/>archives + rollback]
     end
 
-    subgraph build["Model build loop"]
-        TRAIN[Train / adapt candidate]
-        BENCH[Benchmark]
-        SCORE[Score]
-        GATE[Gate v2]
-    end
+    AC -.signs.-> LLM
+    CR -->|kernel host| LLM
+    CC -->|doctrine| LLM
+    LLM --> LM
+    LLM --> OB
+    LLM --> AR
 
-    subgraph memory["Memory and recovery"]
-        OB[Omnibinary-style index\nevents + chunks]
-        AR[Arc-RAR-style bundle\narchive + restore]
-        SM[ARC-StreamMemory\nvisual/video memory add-on]
-    end
-
-    subgraph interface["Future interface"]
-        NS[ProtoSynth / Neural Synth\ntime-to-space projection]
-        COMP[Synth companion shell]
-    end
-
-    LM --> TRAIN
-    DATA --> TRAIN
-    TRAIN --> BENCH --> SCORE --> GATE
-    GATE -->|promote| OB
-    GATE -->|reject + archive| AR
-    SM --> OB
-    OB --> NS --> COMP
+    style LLM fill:#7057ff,stroke:#fff,color:#fff
+    style AC fill:#b60205,stroke:#fff,color:#fff
+    style CR fill:#0e8a16,stroke:#fff,color:#fff
+    style CC fill:#1d76db,stroke:#fff,color:#fff
+    style LM fill:#0075ca,stroke:#fff,color:#fff
+    style OB fill:#5319e7,stroke:#fff,color:#fff
+    style AR fill:#fbca04,color:#000
 ```
 
-The current system separates four concerns:
+Brief tour of each (full writeups in [ECOSYSTEM.md](./ECOSYSTEM.md)):
 
-1. **Language and knowledge spine** — the ARC Language Module carries the live lexical/conceptual weight until external datasets are formally acquired and promoted.
-2. **Model candidate loop** — candidates are trained/adapted, benchmarked, scored, compared, and either promoted or rejected.
-3. **Archive and communication layer** — Omnibinary + Arc-RAR preserve event/index/bundle continuity so states can be replayed, moved, and restored across devices.
-4. **Projection and companion layer** — ProtoSynth/Neural Synth and ARC-StreamMemory become the visual/spatial interface layer after the governed model base is stable.
+### [ARC-Core](https://github.com/GareBear99/ARC-Core) — authoritative event-and-receipt engine
+The root authority. Every state change across the system is modeled as an event with a proposal, evidence, an authority, a receipt, and a SHA-256 hash. This is how the ecosystem proves *something actually happened*. It also carries the signal-intelligence event-graph primitives (cases, watchlists, risk scoring) that give operators a structured way to organize investigations over the event stream.
+
+### [arc-lucifer-cleanroom-runtime](https://github.com/GareBear99/arc-lucifer-cleanroom-runtime) — deterministic execution kernel
+The deterministic shell the rest of the system eventually runs inside. Event-sourced `KernelEngine` with an append-only log, policy evaluation, branch planning, point-in-time `state_at(event_id)` replay, SQLite backup, directive continuity across restarts. LLMs are stochastic; Cleanroom is the deterministic substrate that makes the rest of the system reproducible.
+
+### [arc-cognition-core](https://github.com/GareBear99/arc-cognition-core) — cognition build-and-benchmark lab
+The upstream home of the cognition doctrine: candidate shaping (SFT / preference / merge / export), GGUF-oriented evaluation, promotion gate v1 (what LLMBuilder's Gate v2 evolved from), MCP-style tool descriptors, run manifests, experiment tracking, release bundle generation. Defines what "a cognition candidate" means.
+
+### [arc-language-module](https://github.com/GareBear99/arc-language-module) — governed multilingual language backend
+The authoritative store for what a word means, how it is spelled, what it maps to across languages, and where each of those facts came from. Governed ingestion with provenance + trust rank, readiness/gap states, self-fill orchestration with approval gates, contradiction arbitration, release pipelines with replayable snapshots. 40+ internal services. Treats words as first-class governed records, not strings.
+
+**Current 3.0 clarification:** before external datasets are ingested into model weights, the Language Module is the main lexical/provenance carrier. It is the place where meaning, spelling, lineage, contradiction state, trust rank, and source history are protected instead of being flattened into anonymous weights.
+
+### [omnibinary-runtime](https://github.com/GareBear99/omnibinary-runtime) — native-first binary intake and runtime ledger
+Applies the receipt economy to binaries. Intake + classification + deterministic decoding of executables, libraries, GGUF weights, ANCF artifacts. Federated execution lanes (managed / native / DBT) each with their own policy and receipts. JIT via Cranelift and LLVM. Cache-integrity-before-speed policy. Rust crates: `obi-core`, `obi-cache`, `obi-intake`, `obi-jit-*`, `obi-lane-*`, `obi-receipts`, and more.
+
+### [Arc-RAR](https://github.com/GareBear99/Arc-RAR) — governed archive and rollback
+CLI-first archive manager with a native-app control surface (Linux GTK, macOS, Windows WinUI). Bundles are manifest-indexed and SHA-256-verified; the manifest is readable without extracting. Extraction is evidence-producing — every restore leaves a receipt. Automation crate, FFI crate, IPC crate for daemon mode. Any archived state is addressable by SHA-256; rollback is first-class, not a recovery special case.
+
+### ARC-Neuron-LLMBuilder *(this repo)* — governed build loop
+Assembly of the other six into a working train → benchmark → gate → archive → verify cycle. Canonical conversation pipeline, Gate v2 promotion, floor model, reflection loop, language absorption, OBIN v2 indexed ledger, Arc-RAR bundle packaging. **Four post-audit governed promotions on record (v7, v8, v9, v10).** 115 tests. 142-task benchmark suite (rebuilt and verified).
+
+Full per-repo writeups, integration flow, and role contract: **[ECOSYSTEM.md](./ECOSYSTEM.md)**
 
 ---
 
-## Governance doctrine
+## 💖 Support this work
 
-The core rule:
+If the governance doctrine, the conversation-driven growth loop, or the evidence-backed promotion pipeline is useful to you or your organization, please consider becoming a sponsor:
 
-> ARC-Neuron should not merely become smarter. It should preserve how it became smarter.
+[**github.com/sponsors/GareBear99**](https://github.com/sponsors/GareBear99)
 
-A promotion requires:
+Sponsorship funds time across all seven ARC ecosystem repos — not just this one.
 
-- a named candidate;
-- a benchmark output file;
-- a scored report;
-- comparison against incumbent floors;
-- no protected capability breach;
-- an archive/receipt path;
-- a clear reason for promotion or rejection.
+---
 
-New weights, new datasets, and new adapters must not silently overwrite the incumbent lane. They must enter an isolated candidate class first.
+## 💡 What it does, in plain English
+
+| You do | The system does |
+|---|---|
+| Talk to it | Records the conversation with a signed receipt, mirrors it into the Omnibinary indexed ledger, extracts terminology with provenance |
+| Ask it to train a new model | Mines the accumulated SFT corpus, trains a byte-level transformer, exports `.pt` + `.gguf`, builds a retrieval exemplar artifact |
+| Ask it to compare | Runs the candidate against the full 142-task benchmark (14 capabilities × 10 tasks each), scores with the task-aware rubric, prints per-capability deltas |
+| Ask it to promote | Applies Gate v2 (hard-reject floor, floor-model protection, regression ceilings), updates the scoreboard, bundles the candidate into an Arc-RAR archive |
+| Ask it to roll back | Restores a prior incumbent from its bundle; the prior state is always addressable by SHA-256 |
+| Ask it to prove itself | Runs `demo_proof_workflow.py` or `run_n_cycles.py` — every step produces a receipt |
+
+---
+
+## 📊 Current state
+
+<table>
+<tr>
+<td width="50%">
+
+### 🟢 Operational
+
+- **✅ Tests**: 115 / 116 passing (1 skipped: torch)
+- **🏆 Incumbent**: `arc_governed_v10_wave4`
+- **📈 Score**: **0.9237** on 142 tasks (post-audit benchmark)
+- **📚 Docs**: 21 root + 62 indexed
+- **📦 Bundles**: 12 restorable
+- **💾 Pipeline**: Canonical, single-path
+
+</td>
+<td width="50%">
+
+### ⚡ Performance (measured)
+
+- **✍️ Append**: **6,639 ev/sec**
+- **🔎 Lookup**: **8,859 O(1) ops/sec**
+- **📐 p99 latency**: **~0.35 ms** (Omnibinary lookup) · **115/116 tests passing**
+- **💾 Per-event**: **397 bytes**
+- **🗄️ Per TB**: **~2.71 billion events**
+- **📍 Fidelity**: SHA-256 stable ✅
+
+</td>
+</tr>
+</table>
+
+### 🎯 Promotion lineage
+
+```
+v1 (0.6122) → v2 (0.6247) → v4 (0.7128) → v5 (0.7169) → v6 (0.6836†) → v7 (0.8537) → v8 (0.8883) → v9 (0.8911) → **v10 (0.9237)**  🏆
+
+†v6 true baseline after audit remediation. Pre-audit claimed 0.7333 (inflated by synthetic benchmarks).
+   promote         promote         promote         promote         promote / INCUMBENT
+                                   +35.1% net improvement from true v6 baseline through 4 governed audit cycles
+```
+
+Plus: **v6 tied ⇒ archive_only** · **v7_regressed caught ⇒ archive_only** · **5/5 STABLE** at v5 floor.
+
+Post-audit: **4/4 PROMOTE** across waves 1–4 · **0 floor failures** · **0 severe regressions**.
+
+All four Gate v2 decision states have fired lawfully on real runs. Every claim above is individually verifiable:
+
+- 🔬 [PROOF.md](./PROOF.md) — every number with its receipt and verification command
+- 💾 [STORAGE_ECONOMICS.md](./STORAGE_ECONOMICS.md) — year-long projections + ChatGPT / Claude / Gemini comparison
+- 📜 [RELEASE_NOTES_v1.0.0.md](./RELEASE_NOTES_v1.0.0.md) — full release dossier
+
+**Versioning note:** the v10 audit numbers above are preserved as historical proof. The later 3.0 preparation work adds candidate isolation, dataset-manifest policy, memory continuity testing, and public-indexing docs without pretending those external datasets are already trained into the incumbent.
 
 ---
 
 ## Dataset acquisition roadmap
 
-No external third-party dataset listed here is claimed as currently ingested or promoted into the incumbent. These are acquisition/evaluation targets for the 3.0 roadmap. Each must pass license review, manifest creation, hashing, quarantine/raw staging, transformation logging, v2 candidate isolation, and no-regression benchmark proof.
+No external third-party dataset below is currently bundled, ingested, or promoted into the incumbent. These are roadmap acquisition targets for the v2 candidate lane and the 3.0 integration path. Every source must pass manifest, license, hash, quarantine, benchmark, and no-regression checks before it can influence promoted weights.
 
-| Dataset / source | Intended use | Current status |
+| Dataset/source candidate | Intended use | Status |
 |---|---|---|
-| [FLAN Collection](https://github.com/google-research/FLAN) | broad instruction-following and task-format coverage | roadmap candidate |
-| [OpenAssistant OASST1](https://huggingface.co/datasets/OpenAssistant/oasst1) | assistant dialogue and preference-style interaction examples | roadmap candidate |
-| [UltraChat / UltraChat 200k](https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k) | multi-turn instruction/chat data | roadmap candidate |
-| [MentalChat16K](https://huggingface.co/papers/2503.13509) | empathy, support-language, and lexical simplicity research lane only | roadmap candidate |
-| [WikiLarge](https://huggingface.co/datasets/liweili/c4_200m/tree/main) / text simplification references | plain-language rewriting and lexical simplification | roadmap candidate |
-| [GSM8K](https://huggingface.co/datasets/openai/gsm8k) | math reasoning evaluation/training references | roadmap candidate |
-| [MBPP](https://huggingface.co/datasets/google-research-datasets/mbpp) | Python/code task generation and repair | roadmap candidate |
-| [HumanEval](https://github.com/openai/human-eval) | code generation evaluation | roadmap candidate |
-| [BigCode The Stack / The Stack v2](https://huggingface.co/bigcode) | code corpus reference with strict license review | roadmap candidate |
-| ARC-native operator corrections | highest-trust self-curated corrections, review logs, and receipts | active/self-curated lane |
-| Memory continuity tasks | repeated-question, provenance, and doctrine-retention tests | repo-owned evaluation lane |
+| [FLAN Collection](https://github.com/google-research/FLAN) / FLAN-style instruction data | instruction following and task generalization | acquisition target only |
+| [OpenAssistant OASST1](https://huggingface.co/datasets/OpenAssistant/oasst1) | open assistant dialogue patterns | acquisition target only |
+| [UltraChat / UltraChat 200k](https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k) | multi-turn conversation | acquisition target only |
+| [MentalChat16K](https://huggingface.co/papers/2503.13509) and related counseling/support-language data | lexical simplicity, empathy, de-escalation, support wording; **not therapy authority** | candidate-v2 only |
+| WikiLarge / text simplification corpora | plain-language rewriting and readability | acquisition target only |
+| [GSM8K](https://github.com/openai/grade-school-math) | arithmetic reasoning benchmarks/training references | acquisition target only |
+| [MBPP](https://github.com/google-research/google-research/tree/master/mbpp) | Python/code task solving | acquisition target only |
+| [HumanEval](https://github.com/openai/human-eval) | code evaluation and repair benchmarking | acquisition target only |
+| [BigCode The Stack](https://huggingface.co/datasets/bigcode/the-stack) / Stack v2-style code data | code and tool-use reference data, subject to license review | acquisition target only |
+| ARC-native operator corrections and production review logs | highest-trust self-curated learning data | local curated lane |
+| Memory / continuity regression tasks | test whether repeated questions preserve doctrine and decisions | benchmark lane |
 
-Mental-health/counseling-style datasets are not used to turn this into a therapy system. They belong to a candidate-only support-language lane for clarity, de-escalation, empathy, and plain-English response quality.
+The rule is simple: **new data never overwrites the incumbent directly.** It enters a v2 candidate class, receives receipts, and must beat the incumbent without violating protected floors.
+
+Full docs: [DATASET_ACQUISITION_MATRIX_3_0.md](./docs/DATASET_ACQUISITION_MATRIX_3_0.md), [V2_CANDIDATE_ISOLATION_POLICY.md](./docs/V2_CANDIDATE_ISOLATION_POLICY.md).
+
+---
+
+## 🚀 Quick start
+
+### 1. Install
+
+#### Option A — pip (Python 3.10+)
+
+```bash
+git clone https://github.com/GareBear99/ARC-Neuron-LLMBuilder.git
+cd ARC-Neuron-LLMBuilder
+
+python3.12 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[training]"         # installs core + torch + numpy
+python3 scripts/ops/bootstrap_keys.py
+```
+
+#### Option B — Docker (zero setup)
+
+```bash
+git clone https://github.com/GareBear99/ARC-Neuron-LLMBuilder.git
+cd ARC-Neuron-LLMBuilder
+docker build -t arc-neuron-llmbuilder .
+docker run --rm arc-neuron-llmbuilder python3 scripts/ops/demo_proof_workflow.py
+```
+
+### 2. Validate
+
+```bash
+python3 -m pytest tests/ -q              # 115 tests
+python3 scripts/ops/benchmark_omnibinary.py   # measures the ledger
+python3 scripts/ops/demo_proof_workflow.py    # 9-step end-to-end proof
+```
+
+### 3. Use the incumbent model
+
+**Shortest possible — one line:**
+
+```bash
+python3 examples/hello.py "Critique a plan that ships without a rollback path."
+```
+
+**Full CLI equivalent:**
+
+```bash
+python3 scripts/execution/run_direct_candidate.py \
+  --adapter exemplar \
+  --artifact exports/candidates/arc_governed_v10_wave4/exemplar_train/exemplar_model.json \
+  --prompt "Critique a plan that ships without a rollback path."
+```
+
+### 4. Train your own candidate
+
+```bash
+# Train a new candidate against the current corpus
+python3 scripts/training/train_arc_native_candidate.py \
+  --candidate my_candidate_v1 --tier small --steps 300
+
+# Benchmark it
+python3 scripts/execution/run_model_benchmarks.py \
+  --adapter exemplar \
+  --artifact exports/candidates/my_candidate_v1/exemplar_train/exemplar_model.json \
+  --output results/my_candidate_v1_outputs.jsonl
+
+# Score it
+python3 scripts/execution/score_benchmark_outputs.py \
+  --input results/my_candidate_v1_outputs.jsonl \
+  --output results/my_candidate_v1_scored.json
+
+# Submit to Gate v2 — promote, archive-only, or reject with reasons
+python3 scripts/execution/promote_candidate.py \
+  --scored results/my_candidate_v1_scored.json \
+  --model-name my_candidate_v1 \
+  --candidate my_candidate_v1
+```
+
+### 5. Run the full governed loop
+
+```bash
+make full-loop       # train → benchmark → score → gate → bundle → verify
+make pipeline        # run one conversation through the canonical path
+make verify-store    # check Omnibinary integrity
+```
+
+---
+
+## 🏗️ Architecture at a glance
+
+```mermaid
+flowchart TD
+    U([👤 User prompt]) --> P[💬 Canonical Conversation Pipeline]
+    P --> A{Adapter}
+    A -->|exemplar / command / llama_cpp_http / openai| R[🧾 Response]
+    R --> Rec[🔐 Receipt<br/>SHA-256]
+    Rec --> OB[(⛓️ Omnibinary Ledger<br/>OBIN v2 indexed)]
+    Rec --> LA[📖 Language Absorption]
+    LA --> LM[(📚 Language Module<br/>terms + provenance + trust rank)]
+    Rec --> Train[🛠️ Training-eligibility tag]
+    Train --> Corpus[📁 SFT Corpus]
+    Corpus --> Cand[🧠 Candidate Model]
+    Cand --> Bench[📊 142-task Benchmark]
+    Bench --> Gate{⚖️ Gate v2}
+    Gate -->|beat incumbent| Promote[✅ PROMOTE]
+    Gate -->|tie or regression| Archive[💾 archive_only]
+    Gate -->|hard-reject / floor breach| Reject[❌ REJECT]
+    Promote --> Bundle[(📦 Arc-RAR Bundle<br/>SHA-256 restorable)]
+    Archive --> Bundle
+    Floor[(🚫 Floor Model<br/>never-below baseline)] -.guards.-> Gate
+
+    style Gate fill:#b60205,stroke:#fff,color:#fff
+    style Promote fill:#0e8a16,stroke:#fff,color:#fff
+    style Reject fill:#d73a4a,stroke:#fff,color:#fff
+    style Archive fill:#fbca04,color:#000
+    style OB fill:#5319e7,stroke:#fff,color:#fff
+    style LM fill:#1d76db,stroke:#fff,color:#fff
+    style Bundle fill:#5319e7,stroke:#fff,color:#fff
+    style Floor fill:#e99695,color:#000
+```
+
+**Four layers, frozen roles**:
+
+- **Language Module** — living truth spine. Stores terms with provenance, trust ranks, and contradiction flags. Grows from every conversation.
+- **Runtime** — persistent operator shell. Canonical conversation pipeline, reflection loop, language absorption, continuity state.
+- **Cognition Core** — build-and-benchmark lab. Native training, exemplar adapter, benchmark harness, scoring rubric, promotion gate.
+- **Archive** — Arc-RAR bundles for restorable lineage. Omnibinary ledger for O(1) indexed event history. ANCF for canonical model artifacts.
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) and [GOVERNANCE_DOCTRINE.md](./GOVERNANCE_DOCTRINE.md) for the full map.
 
 ---
 
 ## ARC-StreamMemory add-on
 
-[ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is documented as an add-on being built for **all LLMs and ARC-style systems**, not as hidden current ARC-Neuron weights.
+[ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is a companion add-on being built for ARC-style systems and general LLM stacks. Its role is visual and temporal memory: videos, screenshots, UI states, DAW/plugin sessions, game footage, robotics feeds, and camera streams become deterministic, AI-readable memory modules.
 
-Its role is to turn visual input into AI-readable memory modules:
+ARC-StreamMemory is not a hidden dataset and does not replace ARC-Neuron's incumbent model. It attaches to the same doctrine:
 
-- screen recordings;
-- screenshots;
-- robotics camera feeds;
-- DAW/plugin sessions;
-- UI state footage;
-- game/dev footage;
-- visual RAG frame retrieval;
-- deterministic frame hashes and source spines;
-- digest JSON that can attach to model or ARC memory modules.
+- deterministic frame/source hashing
+- AI digest files for retrieval and module attachment
+- Omnibinary-style chunk maps
+- Arc-RAR-style bundle manifests
+- ARC-Core-style receipts
+- optional robotics, screen, and visual-RAG adapters
 
-In the ARC-Neuron roadmap, StreamMemory supplies a visual memory input path. ARC-Neuron remains the governed model-growth loop; StreamMemory is the visual/video memory layer that can feed future candidates through receipts and manifests.
+In plain terms: ARC-Neuron governs model growth; ARC-StreamMemory gives any LLM or ARC-style agent a way to remember what it saw without losing the source spine.
+
+Full add-on note: [ARC_STREAMMEMORY_ADDON.md](./docs/ARC_STREAMMEMORY_ADDON.md).
 
 ---
 
-## Roadmap: 3.0 to 7.0
+## ⚖️ The governance doctrine
 
-| Version horizon | Focus | Boundary |
+Every candidate must clear **Gate v2** before displacing an incumbent:
+
+1. **Hard-reject floor** — `repair_success` ≥ 0.30, `failure_rate` ≤ 0.25
+2. **Floor model check** — core capabilities cannot drop below 95% of the incumbent baseline (currently v10_wave4)
+3. **Regression ceilings** — no guarded capability may drop more than its per-capability allowance vs the incumbent
+4. **Beat the incumbent** on overall weighted score
+5. **Non-promotable adapter filter** — heuristic/echo adapters can never become incumbents
+
+Outcomes are one of: **promote**, **archive_only**, or **reject**. Every outcome produces a receipt. `archive_only` and `reject` never displace the current incumbent. `promote` bundles the winning candidate via Arc-RAR, preserving the full lineage.
+
+Full spec: [specs/promotion_gate_v2.yaml](./specs/promotion_gate_v2.yaml), [specs/benchmark_schema_v2.yaml](./specs/benchmark_schema_v2.yaml)
+
+---
+
+## 🗺️ Roadmap
+
+Live roadmap. Updated as milestones ship. Full detail in [ROADMAP.md](./ROADMAP.md).
+
+| Version | Status | Milestone | Key deliverables |
+|---|---|---|---|
+| **v1.0.0-governed** | ✅ **Shipped** *(2026-04-22)* | **Doctrine Closed** | Three governed promotions, Gate v2 all four states, OBIN v2 indexed ledger, 87-test suite, 165-task benchmark, Arc-RAR bundles |
+| **v2.0.0-audited** | ✅ **Shipped** *(2026-05-04)* | **Audit Complete** | 4 defects fixed, 4 governed promotions (v7→v10), 0.6836→0.9237, 115-test suite, 142-task benchmark rebuilt, TF-IDF retrieval, 296 new exemplars |
+| **v1.1.0** | 🚧 **Next** | **Expanded Native Lane** | ARC-Neuron Base tier (GPU), real tokenizer (SentencePiece/BPE), distillation wave v2 driver, `arc` CLI frontend, scorer v3 with per-cap weights, +50 benchmark tasks |
+| **v1.2.0** | 🔮 Planned | **External Backend Integration** | Reference docs for Qwen3-32B / Llama-4 / DeepSeek via `llama_cpp_http`, per-adapter scoreboard namespacing, command-adapter timeout tuning, reflection loop v2 |
+| **v1.3.0** | 🔮 Planned | **Multi-Repo Integration** | OmniBinary ↔ LLMBuilder federation, ARC-Core event attestation (co-signed receipts), Arc-RAR ↔ Cleanroom replay, Language Module canonicalization |
+| **v2.0.0** | 🎯 Future | **Production Governance** | Formal governance spec (machine-checkable), sandboxed gate execution, audit-trail export, per-org scoreboards, SOC 2 / ISO 27001 hooks |
+
+### Long-horizon Synth roadmap
+
+The numbered roadmap is staged so current evidence and future interface ambitions do not blur together.
+
+| Horizon | Role | Boundary |
 |---|---|---|
-| **3.0** | protected base-model roadmap integration, dataset governance, candidate isolation, licensing transition | model/data/legal foundation |
-| **4.0** | ProtoSynth / Neural Synth spatial projection layer | visual cognition and time-to-space projection |
-| **5.0** | full Portal-esque Synth companion mockup | companion shell prototype and interaction model |
-| **7.0** | working Synth AI companion, AGI assistant, and buildable brain lab | integrated assistant + lab interface |
+| **3.0** | Protected base-model / dataset / licensing integration | Locks dataset manifests, v2 candidate isolation, transitional licensing, memory continuity testing, and provenance-first promotion. |
+| **4.0** | [ProtoSynth / Neural Synth](https://github.com/GareBear99/Proto-Synth_Grid_Engine) projection layer | Connects receipts, categories, memory, and state into spatial/visual cognition views. |
+| **5.0** | Portal-style Synth companion mockup | Builds the modular companion shell and operator-facing prototype without claiming full autonomy. |
+| **7.0** | Working Synth AI companion / AGI assistant / buildable brain lab | Long-horizon target for an inspectable companion, assistant, and cognition-lab interface. |
 
-This roadmap is intentionally staged. 3.0 must protect the model/data/provenance base before 4.0+ turns it into a spatial interface and companion system.
+Full roadmap: [SYNTH_COMPANION_ROADMAP_4_5_7.md](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md).
+
+### Progress toward each milestone
+
+```mermaid
+gantt
+    title ARC-Neuron LLMBuilder Release Trajectory
+    dateFormat YYYY-MM-DD
+    axisFormat %Y Q%q
+
+    section v1.0
+    v1.0.0-governed (Doctrine Closed)      :done,    v10, 2026-01-01, 2026-04-22
+
+    section v1.1 Next
+    ARC-Neuron Base tier + GPU path        :active,  v11a, 2026-04-23, 45d
+    Real tokenizer (SentencePiece/BPE)     :         v11b, after v11a, 20d
+    Distillation wave v2 driver            :         v11c, after v11a, 25d
+    `arc` CLI frontend                     :         v11d, after v11b, 20d
+
+    section v1.2
+    External backends (Qwen3/Llama-4)      :         v12a, after v11d, 30d
+    Per-adapter scoreboard namespacing     :         v12b, after v12a, 15d
+
+    section v1.3
+    OmniBinary federation                  :         v13a, after v12b, 40d
+    ARC-Core co-signed receipts            :         v13b, after v13a, 30d
+
+    section v2.0
+    Formal governance spec                 :         v20a, after v13b, 60d
+    Sandboxed gate execution               :         v20b, after v20a, 45d
+```
+
+### How to influence what ships
+
+- File a [✨ feature request](./.github/ISSUE_TEMPLATE/02_feature_request.yml) tagged with the target version.
+- Open a PR that preserves all ten [governance invariants](./GOVERNANCE_DOCTRINE.md).
+- [💖 Sponsor](https://github.com/sponsors/GareBear99) to fund maintenance time across the whole ARC ecosystem.
+- Discuss architectural direction in [💬 GitHub Discussions](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions).
+
+### Explicitly not on the roadmap
+
+❌ Alignment / safety filtering (orthogonal concern) · ❌ Hosted cloud service (local-first project) · ❌ Closed-source components (MIT all the way down) · ❌ Role inversion (the seven-repo contract is permanent)
 
 ---
 
-## Benchmark surface
+## 📈 Benchmark surface
 
-The current production-candidate path tracks 17 benchmark files / 168 total tasks across ARC reasoning, planning, reflection, continuity, instruction following, state evidence, native operation planning, runtime reasoning, refusal correctness, lexical accuracy, and memory/continuity regression.
+142 tasks across 14 capability families (rebuilt and verified):
 
-The current public incumbent remains `arc_governed_v10_wave4` at `0.9237`. v11.3/wave5 is kept as candidate/staging until its promotion evidence is reproducible against Gate v2.
+| Family | Tasks | Current v6 score |
+|---|---|---|
+| reasoning | 6 | 1.000 |
+| planning | 5 | 1.000 |
+| compression | 5 | 1.000 |
+| paraphrase_stability | 5 | 0.867 |
+| calibration | 5 | 0.833 |
+| english_understanding | 10 | 0.750 |
+| critique | 10 | 0.750 |
+| out_of_domain | 10 | 0.750 |
+| quantization_retention | 5 | 0.833 |
+| repair | 5 | 0.667 |
+| arc_neuron_small_v2 | 18 | 0.519 |
+| arc_neuron_base | 5 | 0.433 |
+| instruction_following | 10 | 0.583 |
+| intelligence | 12 | 0.597 |
+| continuity | 10 | 0.583 |
+| reflection | 10 | 0.567 |
 
 ---
 
-## Repository layout
+## 📂 Repository layout
 
-```text
+```
 ARC-Neuron-LLMBuilder/
-├── arc_core/              # core model/runtime utilities
-├── arc_tiny/              # Tiny reference tier
-├── arc_neuron_small/      # Small reference tier
-├── arc_neuron_tokenizer/  # tokenizer tools
-├── adapters/              # exemplar, command, llama.cpp HTTP, OpenAI-style boundaries
-├── runtime/               # canonical pipeline, reflection, absorption, terminology, floor model
-├── scorers/               # task-aware rubric scoring
-├── scripts/               # training, execution, ops, proof runners, lab helpers
-├── benchmarks/            # governed benchmark tasks
-├── datasets/              # self-curated seed and SFT material
-├── specs/                 # Gate v2, schemas, promotion doctrine
-├── configs/               # candidate and runtime configs
-├── reports/               # audit and promotion evidence
-├── artifacts/             # bundles, ledgers, model artifacts
-├── exports/candidates/    # candidate artifacts
-├── results/               # benchmark outputs, scored summaries, scoreboard
-├── tests/                 # validation and regression tests
-└── docs/                  # design, proof, roadmap, and operator docs
+├── arc_core/              # Single canonical transformer implementation
+├── arc_tiny/              # Tiny tier (~0.05M params) + GGUF v3 I/O
+├── arc_neuron_small/      # Small tier (~0.18M params)
+├── arc_neuron_tokenizer/  # Hybrid byte + wordpiece tokenizer builder
+├── adapters/              # Model backend abstraction (exemplar, command, llama_cpp_http, openai)
+├── runtime/               # Canonical pipeline, reflection, absorption, terminology, floor model
+├── scorers/               # Task-aware rubric scorer with 23 capability buckets
+├── scripts/
+│   ├── training/          # Native training, LoRA routing, corpus prep
+│   ├── execution/         # Benchmark, score, promote, candidate gate
+│   ├── ops/               # Proof workflows, repeatability runners, distillation waves
+│   ├── lab/               # Tiny/Small GGUF smoke and validate
+│   └── operator/          # User-facing shell scripts
+├── benchmarks/            # 142 tasks across 14 capability families (rebuilt)
+├── datasets/              # Seed and distilled SFT corpora
+├── specs/                 # Gate v2, benchmark schema v2, promotion doctrine
+├── configs/               # Base model candidates, training stages, runtime profiles
+├── reports/               # Promotion receipts, repeatability reports, benchmark numbers
+├── artifacts/             # GGUF models, Arc-RAR bundles, Omnibinary ledger
+├── exports/candidates/    # Trained candidate artifacts (per-candidate directories)
+├── results/               # Benchmark outputs, scored summaries, scoreboard
+├── tests/                 # 87-test suite covering the full loop
+└── docs/                  # Extended design documentation (62 markdown files)
 ```
 
 ---
 
-## One-command operations
+## ⚙️ One-command operations
 
 ```bash
 make validate          # validate repo structure and required files
-make test              # run the test suite
+make test              # run the 87-test suite
 make counts            # count datasets and benchmarks
-make candidate-gate    # run candidate gate
-make native-tiny       # train ARC-Tiny reference candidate
-make native-small      # train ARC-Small reference candidate
+make candidate-gate    # run the full candidate gate
+make native-tiny       # train an ARC-Tiny candidate (~0.05M params)
+make native-small      # train an ARC-Small candidate (~0.18M params)
 make full-loop         # train → benchmark → score → gate → bundle → verify
 make pipeline          # run one conversation through the canonical path
+make bootstrap-keys    # generate runtime secrets (idempotent)
+make bundle-candidate CANDIDATE=<name>   # Arc-RAR bundle a promoted candidate
 make verify-store      # verify Omnibinary ledger integrity
 ```
 
 ---
 
-## Proof runners
+## 🔬 Proof runners
 
 ```bash
-# End-to-end proof: term → conversation → train → benchmark → gate → archive
+# 9-step end-to-end proof: term → conversation → train → benchmark → gate → archive
 python3 scripts/ops/demo_proof_workflow.py
 
 # Measure Omnibinary throughput, latency, and fidelity
 python3 scripts/ops/benchmark_omnibinary.py
 
-# Run governed promotion cycles and emit a repeatability verdict
+# Run N governed promotion cycles and emit a repeatability verdict
 python3 scripts/ops/run_n_cycles.py --cycles 3 --tier small --steps 300
 
 # Generate draft→critique→revise SFT pairs from the incumbent
@@ -339,78 +638,84 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 
 ---
 
-## Documentation
+## 📚 Documentation
 
-### Core
+### Core docs
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — the full system map; four frozen roles
+- [GOVERNANCE_DOCTRINE.md](./GOVERNANCE_DOCTRINE.md) — Gate v2, floor model, Arc-RAR, Omnibinary explained
+- [ECOSYSTEM.md](./ECOSYSTEM.md) — the seven-repo ARC ecosystem and how LLMBuilder integrates
+- [QUICKSTART.md](./QUICKSTART.md) — 10-minute tour of every major capability
+- [docs/QUICKSTART_STEPBYSTEP.md](./docs/QUICKSTART_STEPBYSTEP.md) — **10-step guide from clone to governed promotion** (new)
+- [docs/BENCHMARK_PROOF.md](./docs/BENCHMARK_PROOF.md) — **full audit proof with reproducible commands** (new)
+- [docs/HOW_TO_GROW.md](./docs/HOW_TO_GROW.md) — **growth path: retrieval → transformer → RLHF → edge** (new)
+- [docs/USE_CASES.md](./docs/USE_CASES.md) — **domain applications: robotics, medical, finance, edge** (new)
+- [USAGE.md](./USAGE.md) — complete command reference
+- [EXAMPLES.md](./EXAMPLES.md) — 10 runnable recipes
 
-- [ARCHITECTURE.md](./ARCHITECTURE.md) — system map and frozen roles
-- [GOVERNANCE_DOCTRINE.md](./GOVERNANCE_DOCTRINE.md) — Gate v2, floor model, archive doctrine
-- [ECOSYSTEM.md](./ECOSYSTEM.md) — ARC repo roles and integration boundaries
-- [QUICKSTART.md](./QUICKSTART.md) — quick usage path
-- [PROOF.md](./PROOF.md) — claim → receipt → verification command
-- [MODEL_CARD_v10_wave4.md](./MODEL_CARD_v10_wave4.md) — current reproducible incumbent
-- [docs/BENCHMARK_PROOF.md](./docs/BENCHMARK_PROOF.md) — audit proof and reproducible benchmark commands
+### Reference
+- [PROOF.md](./PROOF.md) — every claim with its receipt and verification command
+- [STORAGE_ECONOMICS.md](./STORAGE_ECONOMICS.md) — measured storage numbers, year-long projections, vs ChatGPT / Claude / Gemini
+- [FAQ.md](./FAQ.md) — 20+ searchable questions
+- [GLOSSARY.md](./GLOSSARY.md) — every ARC-specific term
+- [ROADMAP.md](./ROADMAP.md) — v1.1 → v2.0 milestones
+- [COMPARISON.md](./COMPARISON.md) — vs MLflow, W&B, Langfuse, llama.cpp
+- [MODEL_CARD_v10_wave4.md](./MODEL_CARD_v10_wave4.md) — **current incumbent** (v2.0.0-audited)
+- [MODEL_CARD_v6_conversation.md](./MODEL_CARD_v6_conversation.md) — v1.0.0 incumbent (superseded)
 
-### Roadmap additions
-
-- [docs/DATASET_ACQUISITION_MATRIX_3_0.md](./docs/DATASET_ACQUISITION_MATRIX_3_0.md) — exact dataset acquisition roadmap and status boundaries
-- [docs/V2_CANDIDATE_ISOLATION_POLICY.md](./docs/V2_CANDIDATE_ISOLATION_POLICY.md) — why new weights/datasets do not overwrite incumbent scoring
-- [docs/ARC_STREAMMEMORY_ADDON.md](./docs/ARC_STREAMMEMORY_ADDON.md) — visual/video memory add-on role
-- [docs/SYNTH_COMPANION_ROADMAP_4_5_7.md](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md) — 4.0/5.0/7.0 Synth roadmap
-- [llms.txt](./llms.txt) — short bot-readable project summary
+### Release
+- [CHANGELOG.md](./CHANGELOG.md) — full release history
+- [RELEASE_NOTES_v1.0.0.md](./RELEASE_NOTES_v1.0.0.md) — v1.0.0-governed evidence dossier
 
 ### Community
+- [CONTRIBUTING.md](./CONTRIBUTING.md) — how to contribute
+- [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) — community standards
+- [SECURITY.md](./SECURITY.md) — security contact and disclosure
+- [`docs/`](./docs/) — 62 extended design docs covering every subsystem (see [docs/README.md](./docs/README.md) for the topic index)
 
-- [CONTRIBUTING.md](./CONTRIBUTING.md) — contribution guide
-- [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) — community standard
-- [SECURITY.md](./SECURITY.md) — security/disclosure path
-- [GitHub Discussions](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions) — questions and roadmap discussion
-- [GitHub Issues](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/issues) — bugs, benchmark issues, feature requests
-- [GitHub Sponsors](https://github.com/sponsors/GareBear99) — support the ARC ecosystem
+## 👥 Community
 
----
-
-## Status and scope
-
-**What this is:** a local-first governed cognition lab and control plane for training, promoting, rejecting, archiving, and restoring language-model candidates with full lineage.
-
-**What this is not:** a claim that the included Tiny/Small reference models are frontier LLMs. The included native models are intentionally small proof-of-loop tiers. The contribution is the governed lifecycle: measurement, promotion, rollback, manifests, and reproducible evidence.
-
-**The shell is the product foundation. The brain is the research lane.** Stronger models, GGUF adapters, language modules, external datasets, and visual memory systems can plug into the same governed path once they are isolated and measured.
+- 💬 [GitHub Discussions](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions) — ask questions, share runs, propose directions
+- 🐛 [Issues](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/issues) — bug reports, feature requests, gate behavior reports, benchmark contributions
+- 🔒 [Security advisories](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/security/advisories/new) — private disclosure
+- 💖 [Sponsor](https://github.com/sponsors/GareBear99) — support the ecosystem
+- 📦 [Releases](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/releases) — all versions with evidence bundles
 
 ---
 
-## GitHub About description
+## 📌 Status and scope
 
-Recommended repository description:
+**What this is**: a local-first governed cognition lab and control plane for training, promoting, and archiving small language models with full lineage. The included native models (Tiny and Small) are reference tiers designed to prove the pipeline is real, not to compete with frontier LLMs.
 
-```text
-Governed local AI / offline LLM builder for reproducible model growth, Gate v2 promotion, dataset provenance, Omnibinary memory, Arc-RAR rollback, ARC Language Module truth-weighting, ARC-StreamMemory visual memory, and the 3.0→7.0 Synth companion roadmap.
-```
+**What this is not**: a frontier-scale LLM. The ARC-Neuron Tiny model is ~0.05M parameters. The Small model is ~0.18M parameters. They are deliberately small because the contribution here is the **governance**, not the raw brain.
 
-Recommended topics are in [repo-metadata/GITHUB_ABOUT_UPDATE.md](./repo-metadata/GITHUB_ABOUT_UPDATE.md).
+**The shell is contender-grade. The brain is the research lane.** The adapter boundary is the integration point: you can plug any local GGUF runtime or HTTP-served model into the existing governance machinery via `adapters/command_adapter.py` or `adapters/llama_cpp_http_adapter.py`.
 
 ---
 
-## Citation
+## 📝 Citation
+
+If you use ARC-Neuron LLMBuilder in research or production, please cite:
 
 ```bibtex
 @software{arc_neuron_llmbuilder_2026,
   author  = {Doman, Gary},
   title   = {ARC-Neuron LLMBuilder: A Governed Local AI Build-and-Memory System},
   year    = 2026,
+  version = {v1.0.0-governed},
   url     = {https://github.com/GareBear99/ARC-Neuron-LLMBuilder}
 }
 ```
 
----
-
-## License
-
-MIT for currently released source unless superseded by a future release file. The 3.0 roadmap includes a licensing transition for protected model/data releases; existing historical releases keep their original license terms.
+Full metadata in [CITATION.cff](./CITATION.cff).
 
 ---
 
-## One-line verdict
+## 📜 License
 
-**ARC-Neuron LLMBuilder is a local-first model-growth lab that keeps the evidence chain intact: train candidates, measure them, promote only when the gate allows it, and preserve the path that made the system smarter.**
+MIT — see [LICENSE](./LICENSE).
+
+---
+
+## 🎯 One-line verdict
+
+**The machine is lawful. The measurement is honest. The loop grows a better brain on demand, preserves the prior one, rejects worse ones with attribution, and does so repeatedly.**
