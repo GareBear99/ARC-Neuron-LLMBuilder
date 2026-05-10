@@ -22,3 +22,5 @@ Phase 0/1 targeted data recovery:
 - Added 150 v2-candidate-only targeted examples across instruction_following, continuity, and reflection.
 - These are corpus improvements only until a future candidate is trained, benchmarked, and promoted through Gate v2.
 - See docs/PHASE_0_1_TARGETED_DATA_RECOVERY.md.
+
+- Next public update roadmap phases: docs/NEXT_PUBLIC_UPDATE_ROADMAP_PHASES.md
