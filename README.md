@@ -42,6 +42,19 @@ This README preserves the original high-signal proof sections, graphs, benchmark
 - **Add-on under active build:** [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is the visual/video memory add-on being built for ARC-style systems and other LLM stacks. See the [ARC-StreamMemory add-on note](./docs/ARC_STREAMMEMORY_ADDON.md).
 - **Long horizon:** 3.0 locks protected base-model/dataset/licensing integration; 4.0 connects [ProtoSynth / Neural Synth](https://github.com/GareBear99/Proto-Synth_Grid_Engine); 5.0 becomes a Portal-style Synth companion mockup; 7.0 targets a working Synth AI companion, AGI assistant, and buildable brain lab. See the [Synth Companion Roadmap 4/5/7](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md) and [Next Integration Graph](./docs/NEXT_INTEGRATION_GRAPH.md).
 
+
+
+### Phase 0/1 audit recovery now landed
+
+A pending audit note identified that the governance loop was working but several public and dataset maintenance updates had not fully landed. This package now applies those updates surgically:
+
+- `.env.direct-runtime.example` is restored for validator compatibility.
+- Obvious placeholder distillation stubs are removed from the live SFT seed file and archived in `reports/production_audit/phase0_removed_stub_records.jsonl`.
+- 150 targeted v2-candidate-only examples were added for the weak capability lanes called out by the audit: instruction following, continuity, and reflection.
+- The current public status remains honest: `arc_governed_v10_wave4` is still the reproducible incumbent; these new examples are not incumbent weights until a new candidate is trained, benchmarked, and accepted through Gate v2.
+
+See [`docs/PHASE_0_1_TARGETED_DATA_RECOVERY.md`](./docs/PHASE_0_1_TARGETED_DATA_RECOVERY.md).
+
 Bot-readable summary: [`llms.txt`](./llms.txt). Clone rationale: [`docs/WHY_CLONE_ARC_NEURON.md`](./docs/WHY_CLONE_ARC_NEURON.md).
 
 ## Table of contents
@@ -688,7 +701,6 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 - [docs/BENCHMARK_PROOF.md](./docs/BENCHMARK_PROOF.md) — **full audit proof with reproducible commands** (new)
 - [docs/HOW_TO_GROW.md](./docs/HOW_TO_GROW.md) — **growth path: retrieval → transformer → RLHF → edge** (new)
 - [docs/USE_CASES.md](./docs/USE_CASES.md) — **domain applications: robotics, medical, finance, edge** (new)
-- [docs/WARP_PAIRING_AGENTIC_TERMINAL.md](./docs/WARP_PAIRING_AGENTIC_TERMINAL.md) — Warp/agentic terminal pairing: agents execute, ARC governs, Omnibinary/Arc-RAR preserve receipts
 - [USAGE.md](./USAGE.md) — complete command reference
 - [EXAMPLES.md](./EXAMPLES.md) — 10 runnable recipes
 
@@ -719,43 +731,6 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 - 🔒 [Security advisories](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/security/advisories/new) — private disclosure
 - 💖 [Sponsor](https://github.com/sponsors/GareBear99) — support the ecosystem
 - 📦 [Releases](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/releases) — all versions with evidence bundles
-
----
-
-## 🧭 Warp pairing — agentic terminal execution with ARC governance
-
-ARC-Neuron is designed to pair naturally with agentic terminals such as [Warp](https://github.com/warpdotdev/warp). Warp provides the terminal-native agent execution surface; ARC-Neuron provides the governance layer around model candidates, dataset manifests, benchmark receipts, Gate v2 promotion, rollback evidence, and source-spine continuity.
-
-In this pairing, agents can propose patches, run tests, inspect failures, and automate development workflows while ARC-Neuron prevents unsafe promotion, dataset pollution, lost provenance, and uncontrolled overwrites. [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) can capture terminal/session evidence, [Omnibinary Runtime](https://github.com/GareBear99/omnibinary-runtime) can preserve command and receipt history, and [Arc-RAR](https://github.com/GareBear99/Arc-RAR) can bundle reproducible rollback states.
-
-```mermaid
-flowchart TD
-    WARP[Warp Terminal / Agentic Dev Environment] --> CLI[ARC CLI / Make Targets]
-    WARP --> AGENTS[Claude Code / Codex / Gemini CLI / Warp Agent]
-
-    AGENTS --> PATCH[Code + Docs Patches]
-    CLI --> TESTS[Tests / Benchmarks / Validators]
-
-    TESTS --> GATE[ARC-Neuron Gate v2]
-    PATCH --> GATE
-
-    GATE -->|pass| CAND[Candidate Accepted]
-    GATE -->|fail| REJECT[Candidate Rejected / Quarantined]
-
-    CAND --> OMNI[Omnibinary Runtime Receipts]
-    REJECT --> OMNI
-
-    OMNI --> RAR[Arc-RAR Bundle / Rollback]
-    WARP --> STREAM[ARC-StreamMemory Session Capture]
-    STREAM --> OMNI
-
-    LANG[ARC Language Module] --> AGENTS
-    LANG --> GATE
-```
-
-The goal is not to replace Warp. The goal is to make ARC-Neuron the governance spine around agentic terminal workflows: every patch, benchmark, dataset intake, candidate promotion, and rollback can be run from a modern terminal while still preserving receipts, lineage, and reproducible evidence.
-
-See: [docs/WARP_PAIRING_AGENTIC_TERMINAL.md](./docs/WARP_PAIRING_AGENTIC_TERMINAL.md).
 
 ---
 

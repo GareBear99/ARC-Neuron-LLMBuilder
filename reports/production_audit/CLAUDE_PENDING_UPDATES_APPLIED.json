@@ -1,0 +1,8 @@
+{
+  "removed_stub_records": 30,
+  "phase1_added_records": {
+    "instruction_following": 50,
+    "continuity": 50,
+    "reflection": 50
+  }
+}

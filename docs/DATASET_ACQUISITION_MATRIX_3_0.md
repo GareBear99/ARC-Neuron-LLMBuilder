@@ -19,3 +19,14 @@ External datasets are acquisition targets only. They are not bundled, not ingest
 ## Rule
 
 No dataset enters the incumbent directly. Every new data source must preserve provenance and must be able to be removed, replayed, or rolled back.
+
+## Landed Phase 1 internal targeted data
+
+The repo now includes internal v2-candidate-only Phase 1 records generated from audit findings:
+
+- `datasets/distillation_sft/phase1_instruction_following.jsonl` — 50 records
+- `datasets/distillation_sft/phase1_continuity.jsonl` — 50 records
+- `datasets/distillation_sft/phase1_reflection.jsonl` — 50 records
+
+These are self-curated ARC records, not external datasets. They are staged for future candidate training only and do not change the current incumbent until a trained candidate passes benchmark and Gate v2.
+
