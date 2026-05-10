@@ -28,7 +28,7 @@ python3 scripts/validate_repo.py
 ```
 
 ### `tests/`
-Full 115-test suite (115 passing, 1 skipped).
+Full 136-test suite (136 passing).
 
 ```bash
 python3 -m pytest tests/ -q
