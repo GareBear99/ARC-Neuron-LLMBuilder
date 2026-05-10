@@ -42,6 +42,19 @@ This README preserves the original high-signal proof sections, graphs, benchmark
 - **Add-on under active build:** [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is the visual/video memory add-on being built for ARC-style systems and other LLM stacks. See the [ARC-StreamMemory add-on note](./docs/ARC_STREAMMEMORY_ADDON.md).
 - **Long horizon:** 3.0 locks protected base-model/dataset/licensing integration; 4.0 connects [ProtoSynth / Neural Synth](https://github.com/GareBear99/Proto-Synth_Grid_Engine); 5.0 becomes a Portal-style Synth companion mockup; 7.0 targets a working Synth AI companion, AGI assistant, and buildable brain lab. See the [Synth Companion Roadmap 4/5/7](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md) and [Next Integration Graph](./docs/NEXT_INTEGRATION_GRAPH.md).
 
+
+
+### Phase 0/1 audit recovery now landed
+
+A pending audit note identified that the governance loop was working but several public and dataset maintenance updates had not fully landed. This package now applies those updates surgically:
+
+- `.env.direct-runtime.example` is restored for validator compatibility.
+- Obvious placeholder distillation stubs are removed from the live SFT seed file and archived in `reports/production_audit/phase0_removed_stub_records.jsonl`.
+- 150 targeted v2-candidate-only examples were added for the weak capability lanes called out by the audit: instruction following, continuity, and reflection.
+- The current public status remains honest: `arc_governed_v10_wave4` is still the reproducible incumbent; these new examples are not incumbent weights until a new candidate is trained, benchmarked, and accepted through Gate v2.
+
+See [`docs/PHASE_0_1_TARGETED_DATA_RECOVERY.md`](./docs/PHASE_0_1_TARGETED_DATA_RECOVERY.md).
+
 Bot-readable summary: [`llms.txt`](./llms.txt). Clone rationale: [`docs/WHY_CLONE_ARC_NEURON.md`](./docs/WHY_CLONE_ARC_NEURON.md).
 
 ## Table of contents
@@ -499,39 +512,77 @@ The numbered roadmap is staged so current evidence and future interface ambition
 
 Full roadmap: [SYNTH_COMPANION_ROADMAP_4_5_7.md](./docs/SYNTH_COMPANION_ROADMAP_4_5_7.md).
 
-### Next integration graph
+### Next public update roadmap phases
 
-This graph is the next public-facing system map: it shows how the current governed model-growth loop stays intact while the newer add-ons attach around it. The point is to make the future path clear without claiming those future layers are already trained into the incumbent.
+This graph is the next public-facing roadmap map. It keeps the current v10 proof base intact, then labels the next public update phases from credibility cleanup through targeted data, external backend proof, protected 3.0 integration, and the later Synth horizons. These are roadmap phases, not claims that future layers are already trained into the incumbent.
 
 ```mermaid
-flowchart LR
-    V10["Current incumbent\narc_governed_v10_wave4\n0.9237 verified"] --> G30["3.0 protected integration\ndatasets + license + v2 candidates"]
+flowchart TD
+    V10["Current reproducible incumbent<br/>arc_governed_v10_wave4<br/>0.9237 audited score"] --> P0["Phase 0 — Credibility cleanup<br/>README truth sync<br/>.env example<br/>stub-record evidence"]
 
-    LM["ARC Language Module\nlexical / provenance weight"] --> G30
-    DATA["External datasets\nmanifest + quarantine only"] -.candidate lane.-> G30
+    P0 --> P1["Phase 1 — Targeted v2 candidate data<br/>instruction_following<br/>continuity<br/>reflection"]
 
-    G30 --> G40["4.0 ProtoSynth / Neural Synth\nspatial cognition projection"]
-    SM["ARC-StreamMemory add-on\nvisual/video memory for LLMs"] --> G40
-    OB["Omnibinary + Arc-RAR\nportable replay + restore"] --> G40
+    P1 --> P2["Phase 2 — External GGUF backend proof<br/>llama_cpp_http / 1–3B model<br/>Gate v2 backend-agnostic validation"]
 
-    G40 --> G50["5.0 Portal-style Synth companion mockup\noperator shell + modular interface"]
-    G50 --> G70["7.0 Synth AI companion / AGI assistant\nbuildable brain lab"]
+    P2 --> P3["Phase 3 / ARC-Neuron 3.0<br/>protected base-model roadmap<br/>dataset manifests<br/>license transition<br/>Language Module → corpus loop"]
 
-    Gate["Gate v2\nno regression promotion"] -.guards.-> G30
-    Gate -.guards.-> G40
-    Gate -.guards.-> G50
-    Gate -.guards.-> G70
+    P3 --> P4["ARC-Neuron 4.0<br/>ProtoSynth / Neural Synth<br/>spatial projection<br/>time-to-space memory views"]
+
+    P4 --> P5["ARC-Neuron 5.0<br/>Portal-style Synth companion mockup<br/>modular shell<br/>interactive operator interface"]
+
+    P5 --> P7["ARC-Neuron 7.0<br/>working Synth AI companion<br/>AGI assistant<br/>buildable brain lab"]
+
+    STREAM["ARC-StreamMemory<br/>visual/video memory add-on<br/>for all LLMs + ARC-style systems"] --> P2
+    STREAM --> P3
+    STREAM --> P4
+
+    WARP["Warp pairing<br/>agentic terminal execution"] --> P1
+    WARP --> P2
+    WARP --> P3
+
+    LANG["ARC Language Module<br/>lexical/provenance spine"] --> P1
+    LANG --> P3
+    LANG --> P4
+
+    OMNI["Omnibinary Runtime<br/>event receipts + memory substrate"] --> P0
+    OMNI --> P3
+
+    RAR["Arc-RAR<br/>rollback/archive bundles"] --> P0
+    RAR --> P3
+
+    GATE["Gate v2<br/>no-regression promotion law"] -.guards.-> P1
+    GATE -.guards.-> P2
+    GATE -.guards.-> P3
+    GATE -.guards.-> P4
+    GATE -.guards.-> P5
+    GATE -.guards.-> P7
 
     style V10 fill:#0e8a16,stroke:#fff,color:#fff
-    style G30 fill:#7057ff,stroke:#fff,color:#fff
-    style G40 fill:#1d76db,stroke:#fff,color:#fff
-    style G50 fill:#5319e7,stroke:#fff,color:#fff
-    style G70 fill:#b60205,stroke:#fff,color:#fff
-    style SM fill:#fbca04,color:#000
-    style Gate fill:#d73a4a,stroke:#fff,color:#fff
+    style P0 fill:#57606a,stroke:#fff,color:#fff
+    style P1 fill:#0969da,stroke:#fff,color:#fff
+    style P2 fill:#8250df,stroke:#fff,color:#fff
+    style P3 fill:#6f42c1,stroke:#fff,color:#fff
+    style P4 fill:#1f6feb,stroke:#fff,color:#fff
+    style P5 fill:#5319e7,stroke:#fff,color:#fff
+    style P7 fill:#b60205,stroke:#fff,color:#fff
+    style STREAM fill:#fbca04,color:#000
+    style GATE fill:#d73a4a,stroke:#fff,color:#fff
 ```
 
-**Boundary:** ARC-StreamMemory, ProtoSynth/Neural Synth, and the Synth companion shell are add-on / interface layers. They do not silently replace the current incumbent, bypass dataset manifests, or override Gate v2.
+| Phase | Public label | Purpose |
+|---|---|---|
+| Current | v10 audited incumbent | Preserve the reproducible proof base before new changes. |
+| Phase 0 | Credibility cleanup | Fix stale README facts, missing env example, and stub-record evidence. |
+| Phase 1 | Targeted v2 candidate data | Add surgical examples for weak lanes without polluting incumbent scoring. |
+| Phase 2 | External GGUF backend proof | Prove Gate v2 works with a real 1–3B GGUF backend through `llama_cpp_http`. |
+| Phase 3 / 3.0 | Protected base-model integration | Dataset manifests, license transition, v2 isolation, and Language Module → corpus loop. |
+| 4.0 | ProtoSynth / Neural Synth projection | Spatial/visual cognition layer and time-to-space memory projection. |
+| 5.0 | Portal-style Synth companion mockup | Full modular companion shell and operator-facing mockup. |
+| 7.0 | Working Synth AI / brain lab | Synth AI companion, AGI assistant, and buildable brain lab target. |
+
+Boundary: these phases are roadmap labels. They do not bypass Gate v2, dataset manifests, rollback evidence, or incumbent protection. ARC-StreamMemory, Warp pairing, ProtoSynth/Neural Synth, and the Synth companion shell attach around the governed ARC-Neuron loop; they do not silently replace the current incumbent.
+
+Standalone roadmap doc: [NEXT_PUBLIC_UPDATE_ROADMAP_PHASES.md](./docs/NEXT_PUBLIC_UPDATE_ROADMAP_PHASES.md).
 
 ### Progress toward each milestone
 
@@ -688,7 +739,6 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 - [docs/BENCHMARK_PROOF.md](./docs/BENCHMARK_PROOF.md) — **full audit proof with reproducible commands** (new)
 - [docs/HOW_TO_GROW.md](./docs/HOW_TO_GROW.md) — **growth path: retrieval → transformer → RLHF → edge** (new)
 - [docs/USE_CASES.md](./docs/USE_CASES.md) — **domain applications: robotics, medical, finance, edge** (new)
-- [docs/WARP_PAIRING_AGENTIC_TERMINAL.md](./docs/WARP_PAIRING_AGENTIC_TERMINAL.md) — Warp/agentic terminal pairing: agents execute, ARC governs, Omnibinary/Arc-RAR preserve receipts
 - [USAGE.md](./USAGE.md) — complete command reference
 - [EXAMPLES.md](./EXAMPLES.md) — 10 runnable recipes
 
@@ -719,43 +769,6 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 - 🔒 [Security advisories](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/security/advisories/new) — private disclosure
 - 💖 [Sponsor](https://github.com/sponsors/GareBear99) — support the ecosystem
 - 📦 [Releases](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/releases) — all versions with evidence bundles
-
----
-
-## 🧭 Warp pairing — agentic terminal execution with ARC governance
-
-ARC-Neuron is designed to pair naturally with agentic terminals such as [Warp](https://github.com/warpdotdev/warp). Warp provides the terminal-native agent execution surface; ARC-Neuron provides the governance layer around model candidates, dataset manifests, benchmark receipts, Gate v2 promotion, rollback evidence, and source-spine continuity.
-
-In this pairing, agents can propose patches, run tests, inspect failures, and automate development workflows while ARC-Neuron prevents unsafe promotion, dataset pollution, lost provenance, and uncontrolled overwrites. [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) can capture terminal/session evidence, [Omnibinary Runtime](https://github.com/GareBear99/omnibinary-runtime) can preserve command and receipt history, and [Arc-RAR](https://github.com/GareBear99/Arc-RAR) can bundle reproducible rollback states.
-
-```mermaid
-flowchart TD
-    WARP[Warp Terminal / Agentic Dev Environment] --> CLI[ARC CLI / Make Targets]
-    WARP --> AGENTS[Claude Code / Codex / Gemini CLI / Warp Agent]
-
-    AGENTS --> PATCH[Code + Docs Patches]
-    CLI --> TESTS[Tests / Benchmarks / Validators]
-
-    TESTS --> GATE[ARC-Neuron Gate v2]
-    PATCH --> GATE
-
-    GATE -->|pass| CAND[Candidate Accepted]
-    GATE -->|fail| REJECT[Candidate Rejected / Quarantined]
-
-    CAND --> OMNI[Omnibinary Runtime Receipts]
-    REJECT --> OMNI
-
-    OMNI --> RAR[Arc-RAR Bundle / Rollback]
-    WARP --> STREAM[ARC-StreamMemory Session Capture]
-    STREAM --> OMNI
-
-    LANG[ARC Language Module] --> AGENTS
-    LANG --> GATE
-```
-
-The goal is not to replace Warp. The goal is to make ARC-Neuron the governance spine around agentic terminal workflows: every patch, benchmark, dataset intake, candidate promotion, and rollback can be run from a modern terminal while still preserving receipts, lineage, and reproducible evidence.
-
-See: [docs/WARP_PAIRING_AGENTIC_TERMINAL.md](./docs/WARP_PAIRING_AGENTIC_TERMINAL.md).
 
 ---
 
