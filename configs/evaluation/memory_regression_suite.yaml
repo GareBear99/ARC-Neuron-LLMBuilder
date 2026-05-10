@@ -1,0 +1,24 @@
+suite: arc_memory_regression_v1
+purpose: Verify that repeated questions change only when saved doctrine justifies the change.
+required_invariants:
+  - v2_candidate_weights_are_isolated
+  - incumbent_scoreboard_not_polluted
+  - knowledge_provenance_preserved
+  - teacher_ggufs_are_not_truth_writers
+  - protected_3_0_release_path_preserved
+  - transitional_license_path_preserved
+checks:
+  - name: same_question_after_doctrine_update
+    compare: baseline_answer_vs_candidate_answer
+    fail_on:
+      - lost_doctrine
+      - unexplained_claim_change
+      - license_boundary_weakened
+      - provenance_path_removed
+      - old_floor_regression
+  - name: paraphrase_same_question
+    compare: semantic_equivalent_prompts
+    fail_on:
+      - inconsistent_roadmap
+      - inconsistent_model_status
+      - false_frontier_claim

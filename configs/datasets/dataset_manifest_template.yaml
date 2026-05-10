@@ -1,0 +1,19 @@
+version: 1
+dataset_name: CHANGE_ME
+source_uri_or_reference: CHANGE_ME
+source_type: internal|public|synthetic|operator_review|quarantine
+license: unknown
+allowed_use: reference_only|evaluation_only|candidate_training|rejected
+risk_level: low|medium|high
+contains_sensitive_data: false
+contains_medical_or_mental_health_data: false
+pii_status: unknown|none_detected|removed|synthetic|requires_review
+ingestion_hash: CHANGE_ME
+transform_hash: CHANGE_ME
+approved_lanes:
+  - candidate_v2
+blocked_lanes:
+  - incumbent_model
+  - floor_model
+review_required: true
+review_notes: "No manifest, no training. Fill this before ingestion."

@@ -1,3 +1,13 @@
+# Production Evidence Correction — v11.3 Staging Status
+
+Status: v11.3 is treated as a candidate/staging lane unless promotion evidence is regenerated from the shipped files.
+
+A production audit found that the packaged repository did not contain the referenced Arc-RAR bundle and that the v11.3 promotion claim should not be treated as canonical without a reproducible rerun. The protected incumbent remains `arc_governed_v10_wave4` until a new candidate passes Gate v2 without protected-floor regressions and updates `results/scoreboard.json` with reproducible evidence.
+
+This correction follows the Knowledge Preservation Doctrine: receipts and reproducible benchmark outputs outrank narrative changelog claims.
+
+---
+
 ## [v2.1.0-governed] — 2026-05-09
 
 ### Summary

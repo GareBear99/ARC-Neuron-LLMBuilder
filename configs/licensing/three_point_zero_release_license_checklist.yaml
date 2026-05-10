@@ -1,0 +1,17 @@
+checklist: arc_neuron_3_0_license_readiness
+status: draft_requires_legal_review
+must_cover:
+  - source_code_terms
+  - trained_weight_terms
+  - dataset_manifest_terms
+  - generated_candidate_derivative_terms
+  - benchmark_report_usage
+  - model_name_and_brand_usage
+  - commercial_redistribution
+  - saas_wrapping
+  - support_and_warranty_disclaimer
+release_rules:
+  historical_1_0_license_remains_unchanged: true
+  no_formal_public_2_0_release: true
+  transitional_bridge_until_3_0: true
+  protected_3_0_license_required_before_full_base_model_release: true

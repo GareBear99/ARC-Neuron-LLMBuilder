@@ -1,0 +1,41 @@
+version: 1
+status: required_for_dataset_expansion
+lanes:
+  floor_model:
+    mutable: false
+    purpose: known-safe protected baseline
+  incumbent_model:
+    mutable: false
+    purpose: current promoted model
+  candidate_v1:
+    mutable: true
+    purpose: same dataset family as incumbent
+  candidate_v2:
+    mutable: true
+    purpose: new dataset family or objective class
+  candidate_v3:
+    mutable: true
+    purpose: protected 3.0 integration candidates
+  quarantine:
+    mutable: true
+    purpose: untrusted, unclear, rejected, or license-uncertain material
+protected_floors:
+  - planning
+  - paraphrase_stability
+  - instruction_following
+  - continuity
+  - state_evidence
+  - runtime_reasoning
+  - refusal_correctness
+  - license_awareness
+  - provenance_awareness
+  - arc_doctrine_retention
+default_for_new_dataset_families: candidate_v2
+promotion_requires:
+  - schema_validation
+  - complete_dataset_manifests
+  - license_classification
+  - target_capability_improvement
+  - no_protected_floor_breach
+  - promotion_or_rejection_receipt
+  - rollback_pointer
