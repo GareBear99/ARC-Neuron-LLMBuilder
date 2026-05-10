@@ -237,13 +237,13 @@ python3 scripts/validate_repo.py
 ```json
 {
   "ok": true,
-  "jsonl_files_checked": 103,
+  "jsonl_files_checked": 114,
   "yaml_files_checked": 43,
-  "json_files_checked": 441,
+  "json_files_checked": 459,
   "dataset_files": 6,
-  "benchmark_files": 16,
+  "benchmark_files": 17,
   "dataset_total_records": 120,
-  "benchmark_total_tasks": 165,
+  "benchmark_total_tasks": 168,
   "errors": []
 }
 ```

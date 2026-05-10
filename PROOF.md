@@ -7,6 +7,8 @@
 > See [docs/BENCHMARK_PROOF.md](./docs/BENCHMARK_PROOF.md) for the full post-audit proof.
 > Everything below is preserved for provenance — the promotion chain and gate decisions were real,
 > but the benchmark scores reflect the pre-fix rubric and synthetic benchmark tasks.
+>
+> **Scorer expansion note:** newer public verification uses a 168-task validator inventory and 136-test staged verification runner. Historical scores in this document remain valid only for their original scorer/benchmark generation and should not be compared directly to newer runs without matching scorer, benchmark, adapter, prompt profile, and candidate artifact manifests.
 
 ---
 
@@ -28,7 +30,7 @@ Specifically:
 - No specialized accelerator
 - Python (CPython) + PyTorch (CPU build) + numpy
 
-This is important. The three governed promotions (v4 → v5 → v6_conversation), the 115 passing tests, the Omnibinary throughput numbers (6,639 events/sec append, 8,859 O(1) lookups/sec), the five-cycle STABLE repeatability verdict, and the full 9-step demo proof workflow were **all produced on 12-year-old consumer hardware**. If the system runs there, it runs on effectively any machine anyone is reasonably likely to encounter. Modern hardware should be materially faster across every benchmark axis.
+This is important. The three governed promotions (v4 → v5 → v6_conversation), the original historical test suite, the Omnibinary throughput numbers (6,639 events/sec append, 8,859 O(1) lookups/sec), the five-cycle STABLE repeatability verdict, and the full 9-step demo proof workflow were **all produced on 12-year-old consumer hardware**. If the system runs there, it runs on effectively any machine anyone is reasonably likely to encounter. Modern hardware should be materially faster across every benchmark axis.
 
 ---
 
@@ -215,7 +217,7 @@ Step 2: Retrieve the term from the store                ✓
 Step 3: Conversation through canonical pipeline         ✓
 Step 4: Export conversation as training SFT             ✓
 Step 5: Train a tiny candidate model                    ✓
-Step 6: Benchmark against 142-task suite (rebuilt)      ✓
+Step 6: Benchmark against locked scorer/benchmark suite      ✓
 Step 7: Gate v2 decision (archive_only — incumbent wins) ✓
 Step 8: Omnibinary store integrity verified             ✓
 Step 9: 12 prior Arc-RAR bundles readable               ✓

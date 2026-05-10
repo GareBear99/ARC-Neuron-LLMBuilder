@@ -9,6 +9,8 @@ scoreboard.
 from __future__ import annotations
 
 import json
+import os
+import signal
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -33,41 +35,69 @@ TEST_MODULES = [
 
 
 def run_stage(name: str, cmd: list[str], timeout: int = 120) -> dict:
-    print(f"[arc-verify] {name}: {' '.join(cmd)}")
+    print(f"[arc-verify] {name}: {' '.join(cmd)}", flush=True)
+    proc = subprocess.Popen(
+        cmd,
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        start_new_session=True,
+    )
     try:
-        proc = subprocess.run(
-            cmd,
-            cwd=ROOT,
-            text=True,
-            capture_output=True,
-            timeout=timeout,
-        )
-        ok = proc.returncode == 0
-        if proc.stdout:
-            print(proc.stdout, end="" if proc.stdout.endswith("\n") else "\n")
-        if proc.stderr:
-            print(proc.stderr, file=sys.stderr, end="" if proc.stderr.endswith("\n") else "\n")
-        return {
-            "name": name,
-            "ok": ok,
-            "returncode": proc.returncode,
-            "stdout_tail": proc.stdout[-2000:],
-            "stderr_tail": proc.stderr[-2000:],
-        }
-    except subprocess.TimeoutExpired as exc:
-        print(f"[arc-verify] TIMEOUT: {name} after {timeout}s", file=sys.stderr)
+        stdout, stderr = proc.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        # Kill the whole process group so a timed-out pytest/training helper
+        # cannot keep running after public verification reports the failure.
+        try:
+            os.killpg(proc.pid, signal.SIGKILL)
+        except Exception:
+            proc.kill()
+        stdout, stderr = proc.communicate()
+        print(f"[arc-verify] TIMEOUT: {name} after {timeout}s", file=sys.stderr, flush=True)
         return {
             "name": name,
             "ok": False,
             "timeout_seconds": timeout,
-            "stdout_tail": (exc.stdout or "")[-2000:] if isinstance(exc.stdout, str) else "",
-            "stderr_tail": (exc.stderr or "")[-2000:] if isinstance(exc.stderr, str) else "",
+            "stdout_tail": (stdout or "")[-2000:],
+            "stderr_tail": (stderr or "")[-2000:],
         }
+
+    ok = proc.returncode == 0
+    if stdout:
+        print(stdout, end="" if stdout.endswith("\n") else "\n")
+    if stderr:
+        print(stderr, file=sys.stderr, end="" if stderr.endswith("\n") else "\n")
+    return {
+        "name": name,
+        "ok": ok,
+        "returncode": proc.returncode,
+        "stdout_tail": (stdout or "")[-2000:],
+        "stderr_tail": (stderr or "")[-2000:],
+    }
 
 
 def main() -> int:
     stages = []
-    stages.append(run_stage("compile", [sys.executable, "-m", "compileall", "-q", "."], 180))
+    compile_targets = [
+        "adapters",
+        "arc_core",
+        "arc_neuron_small",
+        "arc_neuron_tokenizer",
+        "arc_tiny",
+        "runtime",
+        "scripts",
+        "scorers",
+        "tests",
+        "cognition_lab.py",
+        "rubric.py",
+    ]
+    # Compile the source/test surface instead of the entire checkout. Full-tree
+    # compile can be noisy or slow when generated bundles, caches, embedded
+    # ecosystem snapshots, or release artifacts are present. This public verify
+    # target intentionally validates the source that reviewers are expected to
+    # run.
+    stages.append(run_stage("compile", [sys.executable, "-m", "compileall", "-q", *compile_targets], 180))
     stages.append(run_stage("validator", [sys.executable, "scripts/validate_repo.py"], 180))
     for module in TEST_MODULES:
         stages.append(run_stage(f"pytest:{module}", [sys.executable, "-m", "pytest", module, "-q"], 180))

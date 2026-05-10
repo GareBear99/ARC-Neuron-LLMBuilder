@@ -1,6 +1,6 @@
 .PHONY: validate test counts candidate-gate backend-check bundle model-card \
         promote full-loop pipeline bootstrap-keys bundle-candidate \
-        native-tiny native-small verify-store production-verify
+        native-tiny native-small verify-store production-verify public-verify reviewer-pack
 
 # ── validation ────────────────────────────────────────────────────────────────
 validate:
@@ -8,6 +8,15 @@ validate:
 
 test:
 	python3 -m pytest tests -q
+
+public-verify:
+	python3 scripts/production_verify.py
+
+reviewer-pack:
+	python3 scripts/validate_repo.py
+	python3 scripts/run_benchmarks.py
+	python3 scripts/production_verify.py
+	python3 scripts/execution/generate_release_bundle.py
 
 counts:
 	python3 cognition_lab.py count-data

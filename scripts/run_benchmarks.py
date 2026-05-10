@@ -19,11 +19,25 @@ def load_tasks(folder: Path) -> int:
 
 def main() -> None:
     bench_root = ROOT / "benchmarks"
-    summary = {}
+    summary: dict[str, int] = {}
+
+    # Count root-level benchmark shards as well as capability folders.
+    # Earlier versions only counted child directories, which hid root JSONL
+    # lanes such as memory-continuity tasks from this public inventory while
+    # scripts/validate_repo.py correctly counted them.
+    root_total = load_tasks(bench_root)
+    nested_total = 0
     for child in sorted(bench_root.iterdir()):
         if child.is_dir():
-            summary[child.name] = load_tasks(child)
-    print(json.dumps({"benchmark_task_counts": summary, "benchmark_total_tasks": sum(summary.values())}, indent=2))
+            count = load_tasks(child)
+            summary[child.name] = count
+            nested_total += count
+
+    root_shard_count = root_total - nested_total
+    if root_shard_count:
+        summary["_root_jsonl_shards"] = root_shard_count
+
+    print(json.dumps({"benchmark_task_counts": summary, "benchmark_total_tasks": root_total}, indent=2))
 
 
 if __name__ == "__main__":

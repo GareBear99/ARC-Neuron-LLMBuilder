@@ -74,7 +74,6 @@ INCLUDE_ROOT_FILES = {
     "build_v11_3_exemplar.py",
     "cognition_lab.py",
     "docker-compose.local-backends.yml",
-    "env.direct-runtime.example",
     "index.md",
     "pyproject.toml",
     "requirements.txt",
