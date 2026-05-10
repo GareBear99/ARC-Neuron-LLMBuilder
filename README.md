@@ -139,22 +139,6 @@ corrected all of them, and ran 4 consecutive governed promotion cycles. Every re
 
 → [Full audit report](./docs/BENCHMARK_PROOF.md) | [Step-by-step guide](./docs/QUICKSTART_STEPBYSTEP.md) | [How to grow it](./docs/HOW_TO_GROW.md) | [Use cases](./docs/USE_CASES.md)
 
-##  — scorer-expanded contender
-
-ARC-Neuron LLMBuilder is not claiming to be a raw frontier-model replacement for Gemma, Llama, Claude, or GPT. Its public contender lane is more specific and more defensible: **a local-first AI governance, candidate-evaluation, model-provenance, and rollback-safe cognition-lab repo**.
-
-The important update is that the scoring surface has expanded. Older proof numbers and newer proof numbers should not be treated as direct apples-to-apples measurements unless they share the same scorer version, benchmark manifest, capability surface, adapter, prompt profile, and candidate artifact. The added scorers make the system stronger because they evaluate more than a single headline score: reasoning, planning, critique, repair, continuity, reflection, instruction following, calibration, compression, out-of-domain behavior, paraphrase stability, quantization retention, archive/runtime/state evidence, deterministic compliance, and memory continuity.
-
-Public interpretation rule:
-
-```text
-Candidate score = candidate artifact + benchmark manifest + scorer manifest + adapter + prompt profile
-```
-
-That means the correct claim is not simply "one model scored X." The stronger claim is: **candidate brains are measured across a versioned capability surface, compared against an incumbent, gated against regressions, and archived with the evidence trail intact.**
-
-For reviewers: ARC-Neuron LLMBuilder should be read as a governed local AI lab that preserves provenance while evolving candidate models. Historic scores remain useful as historical proof, but current public comparisons should be made only within the same locked scorer/benchmark generation.
-
 
 
 ---
@@ -167,6 +151,20 @@ ARC-Neuron LLMBuilder is a local-first cognition lab that treats a language mode
 The system ships with a working transformer family (ARC-Neuron Tiny and Small), a retrieval-based exemplar adapter, a canonical conversation pipeline, draft→critique→revise reflection, automatic terminology absorption from conversation, and a regression-aware promotion gate.
 
 **Doctrine closed in v1.0.0-governed:** conversation grows the brain, not just the memory. Three governed promotions recorded through v1.0.0. **Post-audit (v2.0.0):** four additional governed promotions (v7→v10) raised the verified score from 0.6836 to 0.9237 (+35.1%) after independent audit corrected 4 structural defects in the benchmark and rubric.
+
+**scorer-expanded contender:** ARC-Neuron LLMBuilder is not claiming to be a raw frontier-model replacement for Gemma, Llama, Claude, or GPT. Its public contender lane is more specific and more defensible: **a local-first AI governance, candidate-evaluation, model-provenance, and rollback-safe cognition-lab repo**.
+
+The important update is that the scoring surface has expanded. Older proof numbers and newer proof numbers should not be treated as direct apples-to-apples measurements unless they share the same scorer version, benchmark manifest, capability surface, adapter, prompt profile, and candidate artifact. The added scorers make the system stronger because they evaluate more than a single headline score: reasoning, planning, critique, repair, continuity, reflection, instruction following, calibration, compression, out-of-domain behavior, paraphrase stability, quantization retention, archive/runtime/state evidence, deterministic compliance, and memory continuity.
+
+Public interpretation rule:
+
+```text
+Candidate score = candidate artifact + benchmark manifest + scorer manifest + adapter + prompt profile
+```
+
+That means the correct claim is not simply "one model scored X." The stronger claim is: **candidate brains are measured across a versioned capability surface, compared against an incumbent, gated against regressions, and archived with the evidence trail intact.**
+
+For reviewers: ARC-Neuron LLMBuilder should be read as a governed local AI lab that preserves provenance while evolving candidate models. Historic scores remain useful as historical proof, but current public comparisons should be made only within the same locked scorer/benchmark generation.
 
 ---
 
