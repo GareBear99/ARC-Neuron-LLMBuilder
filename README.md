@@ -32,6 +32,22 @@
 
 This repo lets you train or plug in a small local model, test it against a benchmark set, decide whether it improved, archive the evidence, and roll back safely.
 
+## Current public status — scorer-expanded contender
+
+ARC-Neuron LLMBuilder is not claiming to be a raw frontier-model replacement for Gemma, Llama, Claude, or GPT. Its public contender lane is more specific and more defensible: **a local-first AI governance, candidate-evaluation, model-provenance, and rollback-safe cognition-lab repo**.
+
+The important update is that the scoring surface has expanded. Older proof numbers and newer proof numbers should not be treated as direct apples-to-apples measurements unless they share the same scorer version, benchmark manifest, capability surface, adapter, prompt profile, and candidate artifact. The added scorers make the system stronger because they evaluate more than a single headline score: reasoning, planning, critique, repair, continuity, reflection, instruction following, calibration, compression, out-of-domain behavior, paraphrase stability, quantization retention, archive/runtime/state evidence, deterministic compliance, and memory continuity.
+
+Public interpretation rule:
+
+```text
+Candidate score = candidate artifact + benchmark manifest + scorer manifest + adapter + prompt profile
+```
+
+That means the correct claim is not simply "one model scored X." The stronger claim is: **candidate brains are measured across a versioned capability surface, compared against an incumbent, gated against regressions, and archived with the evidence trail intact.**
+
+For reviewers: ARC-Neuron LLMBuilder should be read as a governed local AI lab that preserves provenance while evolving candidate models. Historic scores remain useful as historical proof, but current public comparisons should be made only within the same locked scorer/benchmark generation.
+
 ## Current public update — preserved proof, corrected roadmap
 
 This README preserves the original high-signal proof sections, graphs, benchmark tables, and runnable workflow. The update is intentionally surgical: it keeps the v10 audit evidence intact while making the current 3.0+ direction explicit.
