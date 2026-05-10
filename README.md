@@ -14,7 +14,7 @@
 
 
 
-<sub>**Topics**: local AI • governed AI • GGUF • offline LLM builder • AI provenance • model promotion gate • regression-safe training • Omnibinary • Arc-RAR • knowledge preservation • ARC-Neuron • offline model governance • reproducible AI</sub>
+<sub>**Topics**: local AI • governed AI • GGUF • offline LLM builder • AI provenance • model promotion gate • regression-safe training • ARC Language Module • Omnibinary • Arc-RAR • device-portable AI communication • time-to-space projection • knowledge preservation • ARC-Neuron • offline model governance • reproducible AI</sub>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -30,9 +30,9 @@
 
 ## Search / discovery front door
 
-**ARC-Neuron LLMBuilder** is a **local-first AI model builder**, **offline LLM governance lab**, and **GGUF-oriented candidate promotion system** for developers who need reproducible model growth instead of black-box prompt drift. It combines model training, benchmark scoring, memory/continuity tests, promotion gates, Arc-RAR rollback bundles, Omnibinary receipts, dataset manifests, and a protected 3.0 roadmap into one auditable repository.
+**ARC-Neuron LLMBuilder** is a **local-first AI model builder**, **offline LLM governance lab**, and **GGUF-oriented candidate promotion system** for developers who need reproducible model growth instead of black-box prompt drift. It combines model training, benchmark scoring, memory/continuity tests, promotion gates, Arc-RAR rollback bundles, Omnibinary receipts, dataset manifests, ARC Language Module truth-weighting, device-portable communication/archive mechanics, time-to-space projection planning, and a protected 3.0 roadmap into one auditable repository.
 
-**Best-fit search terms:** `local AI`, `offline LLM`, `GGUF model builder`, `AI provenance`, `model promotion gate`, `regression-safe training`, `AI memory system`, `LLM benchmark harness`, `dataset governance`, `Arc-RAR`, `Omnibinary`, `ARC-Neuron`, `Gary Doman`, `GareBear99`.
+**Best-fit search terms:** `local AI`, `offline LLM`, `GGUF model builder`, `AI provenance`, `model promotion gate`, `regression-safe training`, `AI memory system`, `LLM benchmark harness`, `dataset governance`, `Arc-RAR`, `Omnibinary`, `ARC Language Module`, `device portable AI`, `time to space projection`, `spatial signal intelligence`, `ARC-Neuron`, `Gary Doman`, `GareBear99`.
 
 **Fast links for people and crawlers:**
 
@@ -54,6 +54,14 @@
 Current packaged status: `arc_governed_v10_wave4` remains the reproducible incumbent in `results/scoreboard.json`. v11.3 / wave5 materials are treated as a staging candidate until promotion evidence is regenerated from shipped files, Gate v2 passes without protected-floor regression, and the archive bundle/scoreboard are updated.
 
 **Up-to-date rule:** this README intentionally separates verified evidence from roadmap intent. Current proof stays on the reproducible v10 incumbent; new datasets, memory tests, support-language data, and 3.0 licensing changes enter through the v2 candidate lane first so they cannot pollute incumbent scoring.
+
+**Current knowledge-source boundary:** no external third-party dataset pack has been merged into the live incumbent yet. The current repository is still based on self-curated ARC examples, hand-authored benchmarks, receipts, docs, and operator-authored doctrine. External datasets remain roadmap items until they pass manifest, license, hash, quarantine, and v2-candidate isolation checks.
+
+**Language-weight boundary:** the ARC Language Module is the current knowledge/lexical-weight carrier for the stack. It holds terms, provenance, trust ranks, contradiction flags, and source-path continuity. The tiny/small native models prove the governed training loop; the language module carries the growing truth spine until larger v2/v3 candidate weights are trained and promoted with evidence.
+
+**Portable communication boundary:** Omnibinary and Arc-RAR are the cross-device communication and restore layer. Omnibinary mirrors events, receipts, language deltas, and projected state into a compact binary ledger; Arc-RAR packages the same state into restorable archives so another device can receive, replay, verify, and continue from the same source spine.
+
+**Time-to-space projection boundary:** ARC treats time-ordered receipts, observations, prompts, benchmark changes, and spatial/signal references as projectable state. The roadmap keeps time → event → coordinate/space projection as an auditable memory pattern rather than an unverified black-box claim.
 
 
 ### Current packaged verification — 2026-05-09
@@ -189,6 +197,10 @@ corrected all of them, and ran 4 consecutive governed promotion cycles. Every re
 
 ARC-Neuron LLMBuilder is a local-first cognition lab that treats a language model as one artifact inside a **governed lifecycle**. You don't just train a model — you train a candidate, measure it, compare it to the current incumbent, and promote it only if it genuinely improves without regressing on guarded capabilities. Every decision leaves receipts. Every candidate is restorable. Every archive ties back to the source truth through an indexed binary ledger.
 
+The current public stack is intentionally honest about where the intelligence lives today: the **ARC Language Module carries the live lexical/knowledge weight**, while the included Tiny/Small model tiers and exemplar adapter prove the build → benchmark → promote loop. No external dataset wave has been promoted into the incumbent yet; the 3.0 dataset program is a governed roadmap, not a hidden bundled corpus.
+
+Omnibinary and Arc-RAR make the system portable: a device does not need to inherit a vague chat history — it can receive binary-indexed receipts, language deltas, archive bundles, and replayable state. That is the foundation for ARC-style communication across machines, offline systems, old hardware, and future spatial/time-projection modules.
+
 The system ships with a working transformer family (ARC-Neuron Tiny and Small), a retrieval-based exemplar adapter, a canonical conversation pipeline, draft→critique→revise reflection, automatic terminology absorption from conversation, and a regression-aware promotion gate.
 
 **Governed proof loop:** conversation data can feed the training/evaluation pipeline; promotion remains gated by evidence and human-curated shards. Three governed promotions recorded through v1.0.0. **Post-audit (v2.0.0):** four additional governed promotions (v7→v10) raised the verified score from 0.6836 to 0.9237 (+35.1%) after independent audit corrected 4 structural defects in the benchmark and rubric.
@@ -212,7 +224,7 @@ flowchart TB
         LLM[🏆 ARC-Neuron-LLMBuilder<br/>governed build loop]
     end
     subgraph substrate ["🧱 Substrate"]
-        LM[Language Module<br/>lexical truth]
+        LM[Language Module<br/>lexical truth + knowledge weight]
         OB[OmniBinary<br/>binary mirror]
         AR[Arc-RAR<br/>archives + rollback]
     end
@@ -432,7 +444,7 @@ flowchart TD
     R --> Rec[🔐 Receipt<br/>SHA-256]
     Rec --> OB[(⛓️ Omnibinary Ledger<br/>OBIN v2 indexed)]
     Rec --> LA[📖 Language Absorption]
-    LA --> LM[(📚 Language Module<br/>terms + provenance + trust rank)]
+    LA --> LM[(📚 Language Module<br/>terms + provenance + trust rank<br/>current knowledge-weight carrier)]
     Rec --> Train[🛠️ Training-eligibility tag]
     Train --> Corpus[📁 SFT Corpus]
     Corpus --> Cand[🧠 Candidate Model]
@@ -457,10 +469,12 @@ flowchart TD
 
 **Four layers, frozen roles**:
 
-- **Language Module** — living truth spine. Stores terms with provenance, trust ranks, and contradiction flags. Grows from every conversation.
+- **Language Module** — living truth spine and current knowledge-weight carrier. Stores terms with provenance, trust ranks, contradiction flags, source paths, and lexical continuity. Today this layer carries the meaningful parameter/knowledge weight because external datasets have not yet been promoted into live model weights.
 - **Runtime** — persistent operator shell. Canonical conversation pipeline, reflection loop, language absorption, continuity state.
 - **Cognition Core** — build-and-benchmark lab. Native training, exemplar adapter, benchmark harness, scoring rubric, promotion gate.
-- **Archive** — Arc-RAR bundles for restorable lineage. Omnibinary ledger for O(1) indexed event history. ANCF for canonical model artifacts.
+- **Archive / communication layer** — Arc-RAR bundles for restorable lineage; Omnibinary ledger for O(1) indexed event history, language deltas, receipts, and compact cross-device replay. This is the device-portable layer that lets another machine verify and continue the same source spine.
+
+**Time-to-space projection note:** ARC's roadmap treats chronological receipts as more than logs. Events can be projected into spatial coordinates, signal maps, frame snapshots, robotics/perception memories, or blueprint-style state views. Omnibinary preserves the ordered event substrate; Arc-RAR preserves the restorable package; the Language Module preserves the meaning layer that explains what each projected state represents.
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md) and [GOVERNANCE_DOCTRINE.md](./GOVERNANCE_DOCTRINE.md) for the full map.
 
@@ -530,7 +544,7 @@ gantt
 
 ### Explicit boundaries
 
-❌ Not a frontier-scale Claude/Gemini replacement today · ❌ No direct overwrite of the incumbent from new weights · ❌ No unmanifested dataset ingestion · ❌ No hidden promotion without receipts · ❌ No false claim that v11.3 is promoted until reproducible Gate v2 evidence proves it.
+❌ Not a frontier-scale Claude/Gemini replacement today · ❌ No external dataset wave promoted into the incumbent yet · ❌ No direct overwrite of the incumbent from new weights · ❌ No unmanifested dataset ingestion · ❌ No hidden promotion without receipts · ❌ No false claim that v11.3 is promoted until reproducible Gate v2 evidence proves it.
 
 ---
 
@@ -548,11 +562,12 @@ New weights, new datasets, and new support-language/mental-health-style corpora 
 
 ### Dataset roadmap
 
-The dataset roadmap is documented as governed acquisition lanes, not as unreviewed bundled data. Every dataset needs source, license, hash, intended use, risk level, transform record, and approval lane before it can train a candidate.
+The dataset roadmap is documented as governed acquisition lanes, not as unreviewed bundled data. **No external dataset wave is currently promoted into the incumbent.** Current live knowledge is self-curated ARC material: docs, hand-authored examples, benchmark prompts, receipts, and operator-authored doctrine. Every future dataset needs source, license, hash, intended use, risk level, transform record, quarantine status, and approval lane before it can train a candidate.
 
 | Dataset lane | Purpose | First landing zone |
 |---|---|---|
 | ARC-native receipts and docs | Preserve identity, doctrine, rollback, and source-of-truth reasoning | highest-trust curated shard |
+| ARC Language Module expansions | Carry lexical truth, parameter/knowledge weight, provenance, trust ranks, contradiction flags, and source-path continuity | self-curated truth spine first; v2 candidate only when converted into training data |
 | General instruction following | Improve assistant behavior and task completion | v2 candidate |
 | Reasoning / planning / critique-revise | Improve multi-step usefulness and self-checking | v2 candidate |
 | Lexical simplicity / support-language | Improve plain-English clarity, empathy, and de-escalation without becoming therapy AI | v2 candidate + safety review |
@@ -714,11 +729,21 @@ python3 scripts/ops/absorb_session.py --text "..." --session-id my_session
 
 ## 📌 Status and scope
 
-**What this is**: a local-first governed cognition lab and control plane for training, promoting, and archiving small language models with full lineage. The included native models (Tiny and Small) are reference tiers designed to prove the pipeline is real, not to compete with frontier LLMs.
+**What this is**: a local-first governed cognition lab and control plane for training, promoting, and archiving small language models with full lineage. The included native models (Tiny and Small) are reference tiers designed to prove the pipeline is real, while the ARC Language Module carries the current live lexical/knowledge weight.
 
-**What this is not**: a frontier-scale LLM today. The ARC-Neuron Tiny model is ~0.05M parameters. The Small model is ~0.18M parameters. They are deliberately small because the current public contribution is the **governance loop**, not a Claude/Gemini-class raw brain. The 3.0 roadmap is where connected datasets, stronger candidate classes, and protected release terms enter.
+**What this is not**: a frontier-scale LLM today. The ARC-Neuron Tiny model is ~0.05M parameters. The Small model is ~0.18M parameters. They are deliberately small because the current public contribution is the **governance loop plus language-truth spine**, not a Claude/Gemini-class raw brain. No external datasets are promoted into the incumbent yet beyond self-curated ARC material. The 3.0 roadmap is where connected datasets, stronger candidate classes, and protected release terms enter.
 
 **The shell is contender-grade. The brain is the research lane.** The adapter boundary is the integration point: you can plug any local GGUF runtime or HTTP-served model into the existing governance machinery via `adapters/command_adapter.py` or `adapters/llama_cpp_http_adapter.py`.
+
+---
+
+## 🔭 Language weight, portable memory, and time-to-space projection
+
+ARC-Neuron should be read as a governed stack, not just a tiny model checkpoint. Today, the **Language Module carries the live knowledge weight**: terminology, source paths, trust ranks, contradiction records, and the evidence chain behind each learned concept. The current native weights are proof-of-loop reference models; larger v2/v3 candidate weights are not allowed to claim that language knowledge until they are trained, benchmarked, and promoted with receipts.
+
+**Omnibinary + Arc-RAR enable device-portable communication.** Omnibinary stores the event stream, language deltas, benchmark history, and receipts in a compact binary/indexed form. Arc-RAR packages those states into restorable bundles. Together, they let an ARC-aware device transfer or recover meaning, memory, and proof across machines instead of relying on fragile chat logs.
+
+**Time-to-space projection is part of the roadmap.** The same event spine can represent more than text: timestamped observations, perception frames, coordinates, signal events, blueprint locations, robotics snapshots, and state transitions can be projected into spatial memory views. The goal is not uncontrolled surveillance; the goal is reproducible memory that can say when something happened, what evidence produced it, where it maps in a modeled space, and how another device can replay it.
 
 ---
 
