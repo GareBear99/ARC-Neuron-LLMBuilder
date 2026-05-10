@@ -26,29 +26,29 @@ https://github.com/GareBear99/ARC-Neuron-LLMBuilder
 
 ## GitHub topics
 
-Paste these topics into the **Topics** field. GitHub displays up to 20 topics, so this list is intentionally capped:
+Paste these topics into the **Topics** field. GitHub displays up to 20 topics, so this list is intentionally capped and synced with `repo-metadata/repository_topics.txt`:
 
 ```text
 local-ai
-offline-ai
+offline-llm
 gguf
-llm-builder
-governed-ai
-model-governance
+model-training
+model-evaluation
 ai-provenance
-ai-memory
-model-promotion
 dataset-governance
+memory-systems
+arc-neuron
+arc-core
 omnibinary
 arc-rar
-arc-neuron
-arc-language-module
-protosynth
+arc-streammemory
+visual-memory
+visual-rag
 neural-synth
-synth-companion
-buildable-brain-lab
-time-to-space-projection
+protosynth
+agi-assistant
 reproducible-ai
+ai-companion
 ```
 
 ## Public status wording
@@ -78,3 +78,8 @@ arc-language-module
 
 
 Add topic: `arc-streammemory`
+
+
+## Final 10/10 rule
+
+After applying the files, manually update GitHub About with the description and 20 topics above. File edits update README, Pages, metadata, and bot-readable files; the GitHub sidebar itself must be pasted in GitHub's About panel.

@@ -37,7 +37,7 @@
 
 **Best-fit search terms:** `local AI`, `offline LLM`, `GGUF model builder`, `AI provenance`, `model promotion gate`, `regression-safe training`, `AI memory system`, `LLM benchmark harness`, `dataset governance`, `Arc-RAR`, `Omnibinary`, `ARC Language Module`, `device portable AI`, `time to space projection`, `spatial signal intelligence`, `ARC-Neuron`, `Gary Doman`, `GareBear99`.
 
-**GitHub About description to paste:** `Governed local AI / offline LLM builder for ARC-Neuron: GGUF promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, ProtoSynth/Neural Synth, and Synth companion roadmap.`
+**GitHub About description to paste:** `Governed local AI / offline LLM builder for reproducible model growth, Gate v2 promotion, dataset provenance, ARC Language Module truth-weighting, Omnibinary memory, Arc-RAR rollback, ARC-StreamMemory visual memory add-ons, and the 3.0→7.0 Synth companion roadmap.`
 
 **Clone-indexed roadmap:** `3.0 protected base-model/dataset/licensing` → `4.0 ProtoSynth / Neural Synth projection` → `5.0 Portal-esque Synth companion mockup` → `7.0 working Synth AI companion / AGI assistant / buildable brain lab`.
 
@@ -78,6 +78,23 @@ python scripts/production_verify.py
 **SEO validator phrase map:** Governed local AI cognition lab; GGUF-oriented model candidates; receipts, rollback, provenance; regression-safe gates.
 
 For a crawler-friendly clone summary, read [docs/WHY_CLONE_ARC_NEURON.md](./docs/WHY_CLONE_ARC_NEURON.md) and [llms.txt](./llms.txt).
+
+### 10/10 clone-indexing checklist
+
+This repository is now structured so humans, crawlers, and LLM agents can quickly understand why it is worth cloning:
+
+| Clone signal | Where it is visible |
+|---|---|
+| Reproducible local AI build loop | README, PROOF.md, production reports |
+| Gate v2 promotion / no-regression governance | specs/promotion_gate_v2.yaml, README, docs |
+| Dataset roadmap without hidden ingestion | README, DATASET_ACQUISITION_MATRIX_3_0.md |
+| ARC Language Module as current knowledge-weight carrier | README architecture/status sections |
+| Omnibinary + Arc-RAR portable communication/rollback | README, ECOSYSTEM.md, metadata |
+| ARC-StreamMemory visual/video memory add-on for all LLMs | README, docs/ARC_STREAMMEMORY_ADDON.md, llms.txt |
+| 3.0→7.0 long-horizon roadmap | README, docs/SYNTH_COMPANION_ROADMAP_4_5_7.md |
+| Bot-readable clone summary | llms.txt |
+| GitHub About/topics instructions | repo-metadata/GITHUB_ABOUT_UPDATE.md |
+
 
 ## Production evidence status
 
@@ -133,7 +150,7 @@ This package now includes a dedicated public-indexing layer for discoverability 
 - `docs/seo_metadata.jsonld` — structured metadata for public pages
 - `robots.txt` — crawler allowlist for GitHub Pages
 
-Recommended description: **Governed local AI / offline LLM builder for ARC-Neuron: GGUF model promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and Synth companion roadmap.**
+Recommended description: **Governed local AI / offline LLM builder for reproducible model growth, Gate v2 promotion, dataset provenance, ARC Language Module truth-weighting, Omnibinary memory, Arc-RAR rollback, ARC-StreamMemory visual memory add-ons, and the 3.0→7.0 Synth companion roadmap.**
 
 ### GitHub About / repository metadata update
 
@@ -145,7 +162,7 @@ GitHub's top repository description is edited in the repository **About** panel,
 
 Recommended public description:
 
-> Governed local AI / offline LLM builder for ARC-Neuron: GGUF model promotion, Omnibinary memory, Arc-RAR rollback, dataset governance, and Synth companion roadmap.
+> Governed local AI / offline LLM builder for reproducible model growth, Gate v2 promotion, dataset provenance, ARC Language Module truth-weighting, Omnibinary memory, Arc-RAR rollback, ARC-StreamMemory visual memory add-ons, and the 3.0→7.0 Synth companion roadmap.
 
 
 ## Table of contents

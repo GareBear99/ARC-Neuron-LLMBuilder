@@ -87,5 +87,8 @@
   ],
   "related_repositories": [
     "https://github.com/GareBear99/ARC-StreamMemory"
-  ]
+  ],
+  "clone_indexing_status": "10/10 file-layer complete; GitHub About sidebar requires manual paste from repo-metadata/GITHUB_ABOUT_UPDATE.md",
+  "arc_streammemory_addon": "https://github.com/GareBear99/ARC-StreamMemory",
+  "roadmap": "3.0 protected base-model/dataset/licensing -> 4.0 ProtoSynth/Neural Synth -> 5.0 Portal-esque Synth companion mockup -> 7.0 working Synth AI companion / AGI assistant / buildable brain lab"
 }

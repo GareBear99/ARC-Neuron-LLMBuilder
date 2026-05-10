@@ -1,6 +1,6 @@
 # ARC-Neuron LLMBuilder
 
-> Governed local AI / offline LLM builder for reproducible model growth, Gate v2 promotion, dataset provenance, Omnibinary memory, Arc-RAR rollback, and Synth companion roadmap horizons.
+> Governed local AI / offline LLM builder for reproducible model growth, Gate v2 promotion, dataset provenance, ARC Language Module truth-weighting, Omnibinary memory, Arc-RAR rollback, ARC-StreamMemory visual/video memory add-ons, and 3.0→7.0 Synth companion roadmap horizons.
 
 ## Repository
 
@@ -49,6 +49,7 @@ Clone this repository to inspect a local, reproducible AI-growth loop with expli
 - docs/DATASET_ACQUISITION_MATRIX_3_0.md
 - docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md
 - docs/SYNTH_COMPANION_ROADMAP_4_5_7.md
+- docs/ARC_STREAMMEMORY_ADDON.md
 - docs/SEO_INDEXING_PLAYBOOK.md
 - repo-metadata/GITHUB_ABOUT_UPDATE.md
 
