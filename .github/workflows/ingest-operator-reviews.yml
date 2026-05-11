@@ -1,79 +1,17 @@
-name: Ingest operator reviews (live-deployment learning)
-# Daily (and on-demand) pull of gh-ai-operator's live-deployment reviews into
-# LLMBuilder's critique corpus. Every production review the operator makes
-# becomes a supervised training example here — this is the "AI helper that
-# learns from itself" loop described in the READMEs.
+name: Ingest operator reviews
 
 on:
-  schedule:
-    - cron: "17 3 * * *"   # daily at 03:17 UTC
   workflow_dispatch:
-    inputs:
-      max_runs:
-        description: "How many of the most recent operator runs to pull"
-        required: false
-        default: "5"
 
 permissions:
-  contents: write   # so the commit can land on main
-  actions: read
+  contents: read
 
 jobs:
-  ingest:
+  disabled-placeholder:
+    name: Manual placeholder
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Download latest training-export artifacts from gh-ai-operator
-        env:
-          # PAT with actions:read on gh-ai-operator. Graceful no-op when unset.
-          GH_TOKEN: ${{ secrets.OPERATOR_READ_TOKEN || github.token }}
-          MAX_RUNS: ${{ inputs.max_runs || '5' }}
+      - name: Explain disabled live ingest
         run: |
-          set -euo pipefail
-          mkdir -p _operator_exports
-          # List the most recent successful runs of the dispatch workflow.
-          runs=$(gh run list -R GareBear99/gh-ai-operator \
-            --workflow "ai-review-dispatch.yml" \
-            --status success \
-            --limit "$MAX_RUNS" \
-            --json databaseId --jq '.[].databaseId')
-          if [ -z "${runs:-}" ]; then
-            echo "[ingest] no successful operator runs to pull; exiting."
-            exit 0
-          fi
-          for run_id in $runs; do
-            echo "[ingest] pulling artifact from gh-ai-operator run $run_id"
-            gh run download "$run_id" -R GareBear99/gh-ai-operator \
-              -n llmbuilder-training-export -D "_operator_exports/run_${run_id}" \
-              || echo "[ingest] run $run_id has no training-export artifact, skipping."
-          done
-
-      - name: Ingest into LLMBuilder corpus
-        run: |
-          python scripts/ingest_operator_reviews.py \
-            --inputs "_operator_exports/**/training_export/critique/*.jsonl" \
-            --out data/critique/operator_reviews.jsonl
-
-      - name: Commit updated corpus
-        run: |
-          if git diff --quiet -- data/critique/operator_reviews.jsonl ; then
-            echo "[ingest] no changes to commit."
-            exit 0
-          fi
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/critique/operator_reviews.jsonl
-          count=$(wc -l < data/critique/operator_reviews.jsonl | tr -d ' ')
-          git commit -m "Ingest gh-ai-operator reviews: ${count} critique records
-
-          Sourced from gh-ai-operator ai-review-dispatch runs.
-          See scripts/ingest_operator_reviews.py for the pipeline.
-
-          Co-Authored-By: Oz <oz-agent@warp.dev>"
-          git push origin HEAD:main
+          echo "Live scheduled ingest is disabled for public repo stability."
+          echo "Use manual workflow_dispatch only after required secrets and inputs are configured."
