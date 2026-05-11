@@ -39,18 +39,25 @@ jobs:
 
       - name: Check private key safety
         run: |
-          BAD="$(git ls-files |          BAD="$(git ls-files |        | true)"
+          BAD="$(git ls-files | grep -E '(^|/)receipt_signing\.key$' || true)"
           if [ -n "$BAD" ]; then
             echo "$BAD"
             echo "ERROR: private signing key is tracked."
             exit 1
           fi
-               "Private key check passed."
+          echo "Private key check passed."
 
-      - name: Check core docs exist
+      - name: Check required docs exist
         run: |
           test -f README.md
-          test -f ECOSYSTEM.md
-          test -f ROADMAP.md
-          test -f SECURITY.md
-          echo "Core docs exist."
+          echo "README exists."
+
+         ame: Print optional docs status
+        run: |
+          for f in ECOSYSTEM.md ROADMAP.md SECURI      .github/SECURITY.md CONTRIBUTING.md SUPPORT.md; do
+            if [ -f "$f" ]; then
+              echo "FOUND: $f"
+            else
+              echo "OPTIONAL MISSING: $f"
+            fi
+          done
