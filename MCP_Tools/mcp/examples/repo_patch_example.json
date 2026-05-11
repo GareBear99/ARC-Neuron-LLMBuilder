@@ -1,0 +1,5 @@
+{
+  "tool": "repo.create_patch",
+  "target_path": "README.md",
+  "patch_intent": "add governed MCP support section"
+}

@@ -1,0 +1,39 @@
+allowed_read_paths:
+  - "."
+  - "datasets/**"
+  - "data/**"
+  - "benchmarks/**"
+  - "configs/**"
+  - "docs/**"
+  - "reports/**"
+  - "artifacts/**"
+  - "mcp/**"
+
+allowed_write_paths:
+  - "mcp/sandboxes/**"
+  - "mcp/receipts/**"
+  - "reports/**"
+  - "artifacts/manifests/**"
+  - "artifacts/lineage/**"
+  - "release/**"
+
+restricted_write_paths:
+  - ".git/**"
+  - ".github/**"
+  - "README.md"
+  - "cognition_lab.py"
+  - "configs/**"
+  - "data/train/**"
+  - "data/eval/**"
+  - "artifacts/models/**"
+  - "artifacts/gguf/**"
+
+human_approval_required_paths:
+  - "README.md"
+  - ".github/**"
+  - "cognition_lab.py"
+  - "configs/**"
+  - "data/train/**"
+  - "data/eval/**"
+  - "artifacts/models/**"
+  - "artifacts/gguf/**"

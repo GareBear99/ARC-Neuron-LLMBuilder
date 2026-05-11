@@ -1,0 +1,4 @@
+network:
+  default: disabled
+  allowed_domains: []
+  note: "Network access must remain disabled until a specific approved use case is added."

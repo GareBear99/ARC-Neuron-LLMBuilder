@@ -1,0 +1,6 @@
+{
+  "tool": "dataset.normalize",
+  "source_path": "datasets/incoming/support.jsonl",
+  "output_path": "mcp/sandboxes/datasets/support.normalized.jsonl",
+  "format": "instruction_response"
+}

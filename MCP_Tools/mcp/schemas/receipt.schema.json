@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ARC MCP Receipt",
+  "type": "object",
+  "required": [
+    "receipt_id",
+    "timestamp_utc",
+    "action",
+    "tool",
+    "risk_class",
+    "policy_result",
+    "status",
+    "input_hash",
+    "output_hash",
+    "evidence"
+  ],
+  "properties": {
+    "receipt_id": {"type": "string"},
+    "timestamp_utc": {"type": "string"},
+    "action": {"type": "string"},
+    "tool": {"type": "string"},
+    "risk_class": {"type": "string"},
+    "policy_result": {"type": "string", "enum": ["allowed", "blocked", "requires_approval"]},
+    "human_approval": {
+      "type": "object",
+      "properties": {
+        "required": {"type": "boolean"},
+        "approved": {"type": "boolean"},
+        "approver": {"type": "string"}
+      }
+    },
+    "status": {"type": "string", "enum": ["success", "failed", "blocked", "pending_approval"]},
+    "input_hash": {"type": "string"},
+    "output_hash": {"type": "string"},
+    "input_summary": {"type": "string"},
+    "output_summary": {"type": "string"},
+    "evidence": {"type": "array", "items": {"type": "string"}},
+    "rollback_path": {"type": "string"},
+    "related_receipts": {"type": "array", "items": {"type": "string"}},
+    "notes": {"type": "string"}
+  }
+}

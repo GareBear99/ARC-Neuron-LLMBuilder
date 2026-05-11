@@ -1,0 +1,45 @@
+tools:
+  dataset.scan: {risk_class: read_only, enabled: true}
+  dataset.validate_jsonl: {risk_class: read_only, enabled: true}
+  dataset.normalize: {risk_class: sandbox_write, enabled: true}
+  dataset.deduplicate: {risk_class: sandbox_write, enabled: true}
+  dataset.quality_score: {risk_class: read_only, enabled: true}
+  dataset.license_check: {risk_class: read_only, enabled: true}
+  dataset.pii_scan: {risk_class: read_only, enabled: true}
+  dataset.split_train_eval: {risk_class: training_mutation, enabled: true, approval_required: true}
+
+  repo.read_tree: {risk_class: read_only, enabled: true}
+  repo.search: {risk_class: read_only, enabled: true}
+  repo.read_file: {risk_class: read_only, enabled: true}
+  repo.create_patch: {risk_class: sandbox_write, enabled: true}
+  repo.apply_patch_sandbox: {risk_class: sandbox_write, enabled: true}
+  repo.run_tests: {risk_class: sandbox_execute, enabled: true}
+  repo.generate_diff_receipt: {risk_class: sandbox_write, enabled: true}
+  repo.commit_prepare: {risk_class: repo_write, enabled: true, approval_required: true}
+
+  eval.run_benchmark: {risk_class: read_only, enabled: true}
+  eval.compare_candidates: {risk_class: read_only, enabled: true}
+  eval.score_regression: {risk_class: read_only, enabled: true}
+  eval.score_grounding: {risk_class: read_only, enabled: true}
+  eval.generate_report: {risk_class: sandbox_write, enabled: true}
+
+  model.train_smoke: {risk_class: training_mutation, enabled: true, approval_required: true}
+  model.train_candidate: {risk_class: training_mutation, enabled: true, approval_required: true}
+  model.export_gguf: {risk_class: training_mutation, enabled: true, approval_required: true}
+  model.write_manifest: {risk_class: sandbox_write, enabled: true}
+  model.promote_candidate: {risk_class: model_promotion, enabled: true, approval_required: true}
+  model.rollback: {risk_class: model_promotion, enabled: true, approval_required: true}
+
+  memory.write_receipt: {risk_class: sandbox_write, enabled: true}
+  memory.search_receipts: {risk_class: read_only, enabled: true}
+  memory.link_artifact: {risk_class: sandbox_write, enabled: true}
+  memory.export_audit_bundle: {risk_class: artifact_write, enabled: true, approval_required: true}
+
+  business.ingest_docs: {risk_class: sandbox_write, enabled: true}
+  business.extract_sop: {risk_class: read_only, enabled: true}
+  business.generate_ticket_response: {risk_class: business_draft, enabled: true}
+  business.create_report: {risk_class: sandbox_write, enabled: true}
+
+  artifact.package_model: {risk_class: artifact_write, enabled: true, approval_required: true}
+  artifact.verify_hashes: {risk_class: read_only, enabled: true}
+  artifact.release_notes: {risk_class: sandbox_write, enabled: true}

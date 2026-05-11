@@ -1,0 +1,9 @@
+cd ~/ARC-Neuron-LLMBuilder
+
+# Copy/drop the package contents into this folder first.
+
+python -m pytest tests/test_mcp_policy_gate.py tests/test_mcp_receipts.py tests/test_mcp_dataset_tools.py tests/test_mcp_eval_tools.py tests/test_mcp_business_tools.py
+
+git add docs/MCP_*.md mcp tests/test_mcp_*.py README_MCP_DROPIN.md COMMIT_COMMANDS.txt
+git commit -m "Add governed MCP integration scaffold"
+git push origin main

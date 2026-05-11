@@ -1,0 +1,5 @@
+{
+  "workflow": "customer_support_draft",
+  "steps": ["business.ingest_docs", "business.extract_sop", "business.generate_ticket_response", "memory.write_receipt"],
+  "external_send_allowed": false
+}

@@ -1,0 +1,52 @@
+risk_classes:
+  read_only:
+    description: "Can inspect files, reports, datasets, or metadata. Cannot mutate state."
+    can_mutate: false
+    approval_required: false
+
+  sandbox_write:
+    description: "Can write only inside approved sandbox paths."
+    can_mutate: true
+    allowed_targets:
+      - "mcp/sandboxes/**"
+      - "mcp/receipts/**"
+      - "reports/**"
+    approval_required: false
+
+  sandbox_execute:
+    description: "Can execute approved commands inside sandbox with timeout limits."
+    can_mutate: true
+    sandbox_required: true
+    approval_required: false
+
+  repo_write:
+    description: "Can prepare repository changes. Human approval required before final application."
+    can_mutate: true
+    approval_required: true
+
+  training_mutation:
+    description: "Can change datasets, training outputs, model checkpoints, or GGUF artifacts."
+    can_mutate: true
+    approval_required: true
+
+  model_promotion:
+    description: "Can change active incumbent model or rollback target."
+    can_mutate: true
+    approval_required: true
+
+  business_draft:
+    description: "Can generate business drafts but cannot send externally."
+    can_mutate: false
+    approval_required: false
+    external_send_allowed: false
+
+  external_action:
+    description: "Can affect systems outside the repo. Disabled by default."
+    can_mutate: true
+    approval_required: true
+    disabled_by_default: true
+
+  artifact_write:
+    description: "Can create release or audit artifacts."
+    can_mutate: true
+    approval_required: true

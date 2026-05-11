@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ARC Model Promotion Decision",
+  "type": "object",
+  "required": ["candidate", "incumbent", "decision", "benchmark_summary", "rollback_target", "receipts"],
+  "properties": {
+    "candidate": {"type": "string"},
+    "incumbent": {"type": "string"},
+    "decision": {"type": "string", "enum": ["promote", "reject", "hold_for_review"]},
+    "benchmark_summary": {
+      "type": "object",
+      "properties": {
+        "candidate_score": {"type": "number"},
+        "incumbent_score": {"type": "number"},
+        "delta": {"type": "number"},
+        "regressions": {"type": "integer"}
+      }
+    },
+    "required_conditions": {"type": "array", "items": {"type": "string"}},
+    "passed_conditions": {"type": "array", "items": {"type": "string"}},
+    "failed_conditions": {"type": "array", "items": {"type": "string"}},
+    "rollback_target": {"type": "string"},
+    "receipts": {"type": "array", "items": {"type": "string"}},
+    "human_approval_required": {"type": "boolean"},
+    "notes": {"type": "string"}
+  }
+}

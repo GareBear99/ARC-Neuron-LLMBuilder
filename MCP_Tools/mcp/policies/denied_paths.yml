@@ -1,0 +1,19 @@
+denied_paths:
+  - ".env"
+  - ".env.*"
+  - "**/*secret*"
+  - "**/*token*"
+  - "**/*password*"
+  - "**/id_rsa"
+  - "**/id_ed25519"
+  - "**/.ssh/**"
+  - "**/credentials.json"
+  - "**/service-account*.json"
+  - "**/private_key*"
+
+deny_output_patterns:
+  - "BEGIN PRIVATE KEY"
+  - "ghp_"
+  - "github_pat_"
+  - "sk-"
+  - "AKIA"

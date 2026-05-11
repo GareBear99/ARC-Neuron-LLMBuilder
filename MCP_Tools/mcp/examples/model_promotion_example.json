@@ -1,0 +1,6 @@
+{
+  "candidate": "arc_base_candidate_v3",
+  "incumbent": "arc_governed_v10_wave4",
+  "decision": "hold_for_review",
+  "rollback_target": "arc_governed_v10_wave4"
+}

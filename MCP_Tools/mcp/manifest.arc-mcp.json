@@ -1,0 +1,17 @@
+{
+  "name": "arc-neuron-llmbuilder-mcp",
+  "version": "0.1.0",
+  "description": "Governed MCP tool layer for ARC-Neuron LLMBuilder dataset, repo, eval, model, memory, business workflow, and artifact operations.",
+  "authority_model": "ARC-governed, deny-by-default, receipt-backed, rollback-aware",
+  "servers": [
+    {"name": "arc_dataset_server", "path": "mcp/servers/arc_dataset_server.py", "tools": ["dataset.scan", "dataset.validate_jsonl", "dataset.normalize", "dataset.deduplicate", "dataset.quality_score", "dataset.license_check", "dataset.pii_scan", "dataset.split_train_eval"]},
+    {"name": "arc_repo_server", "path": "mcp/servers/arc_repo_server.py", "tools": ["repo.read_tree", "repo.search", "repo.read_file", "repo.create_patch", "repo.apply_patch_sandbox", "repo.run_tests", "repo.generate_diff_receipt", "repo.commit_prepare"]},
+    {"name": "arc_eval_server", "path": "mcp/servers/arc_eval_server.py", "tools": ["eval.run_benchmark", "eval.compare_candidates", "eval.score_regression", "eval.score_grounding", "eval.generate_report"]},
+    {"name": "arc_model_server", "path": "mcp/servers/arc_model_server.py", "tools": ["model.train_smoke", "model.train_candidate", "model.export_gguf", "model.write_manifest", "model.promote_candidate", "model.rollback"]},
+    {"name": "arc_memory_server", "path": "mcp/servers/arc_memory_server.py", "tools": ["memory.write_receipt", "memory.search_receipts", "memory.link_artifact", "memory.export_audit_bundle"]},
+    {"name": "arc_business_server", "path": "mcp/servers/arc_business_server.py", "tools": ["business.ingest_docs", "business.extract_sop", "business.generate_ticket_response", "business.create_report"]},
+    {"name": "arc_artifact_server", "path": "mcp/servers/arc_artifact_server.py", "tools": ["artifact.package_model", "artifact.verify_hashes", "artifact.release_notes"]}
+  ],
+  "policies": ["mcp/policies/tool_permissions.yml", "mcp/policies/risk_classes.yml", "mcp/policies/allowed_paths.yml", "mcp/policies/denied_paths.yml"],
+  "schemas": ["mcp/schemas/receipt.schema.json", "mcp/schemas/promotion_decision.schema.json"]
+}
