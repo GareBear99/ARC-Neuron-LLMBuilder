@@ -2,11 +2,11 @@
 
 **A governed local AI build-and-memory system — train small language models, measure them, promote the better ones through a regression-aware gate, and keep every decision restorable.**
 
-It is not just another LLM training repo — it is an evidence-preserving build loop for developing better local AI systems.
-
 > Local-first. Evidence-backed. Promotion-gated. Rollback-safe. Part of the seven-repo ARC ecosystem.
 
 > 🖥️ **Built, tested, and verified on a 2012 Intel Mac running macOS Catalina.** If it runs there, it runs anywhere. The four governed promotions, the 136-test public verification suite, the 168-task scorer-expanded benchmark inventory, the Omnibinary throughput numbers, and the 9-step proof workflow were all produced on 12-year-old consumer hardware with a pre-Retina Intel CPU. No GPU. No cloud. No accelerator. Just Python and a lot of discipline.
+
+It is not just another LLM training repo — it is an evidence-preserving build loop for developing better local AI systems.
 
 
 ### 💫 Thanks to our supporters
