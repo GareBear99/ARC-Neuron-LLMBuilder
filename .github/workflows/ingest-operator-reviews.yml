@@ -14,4 +14,4 @@ jobs:
       - name: Explain disabled live ingest
         run: |
           echo "Live scheduled ingest is disabled for public repo stability."
-          echo "Use manual workflow_dispatch only after required secrets and inputs are configured."
+          echo "Use workflow_dispatch manually after required secrets and runtime inputs are configured."
