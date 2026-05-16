@@ -65,3 +65,10 @@ If in doubt, file in this repo and we will route.
 ## Dependencies
 
 The runtime core depends on: `PyYAML`, `jsonschema`, `requests`, and (for training) `torch` + `numpy`. Vulnerabilities in upstream packages are tracked via GitHub's Dependabot alerts on this repo.
+
+
+## Dependency Alert / Sponsor Trust Response
+
+GitHub Dependabot alerts are handled as sponsor-trust issues. Moderate-or-higher dependency alerts should be resolved or documented before the project is pitched as enterprise-hardened.
+
+See: `docs/SECURITY_VULNERABILITY_RESPONSE.md`

@@ -26,6 +26,7 @@ It is not just another LLM training repo — it is an evidence-preserving build 
 [![Audited: v10](https://img.shields.io/badge/audited-v10%20%7C%200.9237-brightgreen.svg)](./docs/BENCHMARK_PROOF.md)
 [![Release: v1.0.0-governed](https://img.shields.io/badge/release-v1.0.0--governed-blueviolet.svg)](./RELEASE_NOTES_v1.0.0.md)
 [![Sponsor](https://img.shields.io/badge/Sponsor-GareBear99-ea4aaa?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/GareBear99)
+[![Public verification](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/actions/workflows/ci.yml/badge.svg)](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/actions/workflows/ci.yml)
 [![Ecosystem](https://img.shields.io/badge/ARC%20Ecosystem-7%20repos-orange)](./ECOSYSTEM.md)
 [![Discussions](https://img.shields.io/github/discussions/GareBear99/ARC-Neuron-LLMBuilder)](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions)
 [![Runs on a 2012 Intel Mac](https://img.shields.io/badge/runs_on-2012_Intel_Mac-silver?logo=apple)](./PROOF.md#hardware-provenance)
@@ -58,6 +59,19 @@ Sponsors fund development time, documentation, templates, runtime validation, pa
 **Primary sponsor link:** https://github.com/sponsors/GareBear99
 
 Detailed sponsor docs: [`SUPPORT.md`](./SUPPORT.md) · [`docs/GITHUB_SPONSORS_PLATFORM_SETUP.md`](./docs/GITHUB_SPONSORS_PLATFORM_SETUP.md) · [`sponsor_templates/SPONSOR_TIERS.md`](./sponsor_templates/SPONSOR_TIERS.md)
+
+### Sponsor Trust / Proof Surface
+
+This sponsor program is tied to a public verification surface, not just marketing copy:
+
+- CI/public verification workflow: [`.github/workflows/ci.yml`](./.github/workflows/ci.yml)
+- Sponsor proof brief: [`docs/SPONSOR_PROOF_BRIEF.md`](./docs/SPONSOR_PROOF_BRIEF.md)
+- Enterprise readiness notes: [`docs/ENTERPRISE_SPONSOR_READINESS.md`](./docs/ENTERPRISE_SPONSOR_READINESS.md)
+- Security/dependency response policy: [`docs/SECURITY_VULNERABILITY_RESPONSE.md`](./docs/SECURITY_VULNERABILITY_RESPONSE.md)
+- AI/crawler sponsor summary: [`docs/AI_CRAWLER_SPONSOR_SUMMARY.md`](./docs/AI_CRAWLER_SPONSOR_SUMMARY.md)
+
+Sponsor-grade branches are expected to run repository validation, tests, production verification, and SEO/sponsor-surface checks before merge.
+
 
 ---
 

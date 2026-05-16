@@ -13,3 +13,6 @@ Sponsor value proposition: support open-source local AI infrastructure that redu
 Sponsor tiers: Supporter, Builder, Pro Builder, Studio / Small Team, Enterprise / Custom Repository Sponsor.
 
 Important boundary: sponsors are not buying guaranteed AGI, investment returns, or guaranteed custom software delivery. Custom software delivery requires a separate written agreement.
+
+
+Verification surface: `.github/workflows/ci.yml`, `docs/SPONSOR_PROOF_BRIEF.md`, `docs/ENTERPRISE_SPONSOR_READINESS.md`, and `docs/SECURITY_VULNERABILITY_RESPONSE.md` define the sponsor trust surface. Sponsor-grade branches should run validation, tests, production verification, and SEO/sponsor checks before merge.

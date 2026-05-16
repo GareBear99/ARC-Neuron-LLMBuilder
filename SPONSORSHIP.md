@@ -21,3 +21,16 @@ Sponsors help turn the open-source foundation into a professional, documented, r
 ## Boundaries
 
 Sponsorship supports development and documentation. It does not guarantee AGI, investment returns, or custom software delivery. Custom delivery requires a separate written agreement.
+
+
+## Verification Surface
+
+The sponsorship program is supported by:
+
+- public CI: `.github/workflows/ci.yml`
+- sponsor proof brief: `docs/SPONSOR_PROOF_BRIEF.md`
+- security/dependency response: `docs/SECURITY_VULNERABILITY_RESPONSE.md`
+- enterprise readiness notes: `docs/ENTERPRISE_SPONSOR_READINESS.md`
+- AI/crawler summary: `docs/AI_CRAWLER_SPONSOR_SUMMARY.md`
+
+Before pitching enterprise/custom-repository sponsorship as hardened, CI should be green and moderate-or-higher dependency alerts should be resolved or explicitly documented.

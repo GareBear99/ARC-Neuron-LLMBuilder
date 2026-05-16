@@ -17,6 +17,10 @@ https://github.com/sponsors/GareBear99
 - `docs/GITHUB_SPONSORS_PLATFORM_SETUP.md` — full sponsor strategy
 - `sponsor_templates/SPONSOR_TIERS.md` — GitHub Sponsors tier copy
 - `docs/seo_metadata.jsonld` — structured metadata with sponsor URLs
+- `docs/SPONSOR_PROOF_BRIEF.md` — compact sponsor trust/proof brief
+- `docs/ENTERPRISE_SPONSOR_READINESS.md` — enterprise sponsor readiness and boundaries
+- `docs/SECURITY_VULNERABILITY_RESPONSE.md` — dependency/security alert triage policy
+- `.github/workflows/ci.yml` — public verification workflow
 
 ## Crawlable Keywords
 

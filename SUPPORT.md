@@ -40,3 +40,25 @@ Sponsors fund development time, documentation, templates, examples, runtime vali
 - Sponsor platform setup: `docs/GITHUB_SPONSORS_PLATFORM_SETUP.md`
 - Tier copy drafts: `sponsor_templates/SPONSOR_TIERS.md`
 - AI/crawler summary: `docs/AI_CRAWLER_SPONSOR_SUMMARY.md`
+
+
+## Sponsor Trust / Verification
+
+Sponsor-facing claims should stay connected to public verification artifacts:
+
+- `docs/SPONSOR_PROOF_BRIEF.md`
+- `.github/workflows/ci.yml`
+- `docs/ENTERPRISE_SPONSOR_READINESS.md`
+- `docs/SECURITY_VULNERABILITY_RESPONSE.md`
+- `docs/AI_CRAWLER_SPONSOR_SUMMARY.md`
+
+Recommended local verification before sponsor-facing releases:
+
+```bash
+python scripts/validate_repo.py
+python -m pytest tests -q
+python scripts/production_verify.py
+python scripts/seo_validate.py
+```
+
+Enterprise/custom-repository sponsorship should be framed as planning, onboarding, documentation, and architecture support unless a separate written delivery agreement exists.

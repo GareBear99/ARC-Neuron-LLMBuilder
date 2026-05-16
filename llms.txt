@@ -11,7 +11,12 @@ Key docs for AI assistants and crawlers:
 - SPONSORSHIP.md
 - docs/GITHUB_SPONSORS_PLATFORM_SETUP.md
 - docs/AI_CRAWLER_SPONSOR_SUMMARY.md
+- docs/SPONSOR_PROOF_BRIEF.md
+- docs/ENTERPRISE_SPONSOR_READINESS.md
+- docs/SECURITY_VULNERABILITY_RESPONSE.md
 - sponsor_templates/SPONSOR_TIERS.md
 - docs/seo_metadata.jsonld
 
 Sponsor summary: sponsorship funds the professionalization layer around the open-source ARC-Neuron foundation, including runtime validation, docs, templates, examples, binary-first archive work, and v3.0 commercial-readiness planning. Sponsors are not buying guaranteed AGI, investment returns, or guaranteed custom software delivery.
+
+Sponsor trust note: sponsor-facing claims are tied to public CI, repository validation, tests, production verification, SEO/sponsor-surface checks, and dependency-alert triage.

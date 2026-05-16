@@ -110,3 +110,27 @@ Avoid:
 ## 60–90 Day Funding Reality
 
 GitHub Sponsors can be activated quickly, but practical financial momentum should be planned as a 60–90 day runway. The fastest path is not merely adding a sponsor button; it is making the value proposition visible, credible, and crawlable across the repo surface.
+
+
+---
+
+## Sponsor Trust Gate
+
+Sponsor acquisition should be backed by verification, not hype.
+
+Before major sponsor pushes, run:
+
+```bash
+python scripts/validate_repo.py
+python -m pytest tests -q
+python scripts/production_verify.py
+python scripts/seo_validate.py
+```
+
+The public GitHub Actions workflow `.github/workflows/ci.yml` should remain green on main. Moderate-or-higher dependency alerts should be resolved or documented in `docs/SECURITY_VULNERABILITY_RESPONSE.md` before pitching Enterprise / Custom Repository sponsorship as hardened.
+
+Trust docs:
+
+- `docs/SPONSOR_PROOF_BRIEF.md`
+- `docs/ENTERPRISE_SPONSOR_READINESS.md`
+- `docs/SECURITY_VULNERABILITY_RESPONSE.md`
