@@ -1,17 +1,8 @@
 # GitHub Sponsors funding configuration
-# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
-
-# Primary: GitHub Sponsors (requires Sponsors enabled on the account profile)
+# Primary: GitHub Sponsors
 github: [GareBear99]
 
-# Secondary platforms — add handles here when/if accounts are created.
-# patreon:              # e.g. arc_neuron
-# open_collective:      # e.g. arc-neuron-llmbuilder
-# ko_fi:                # e.g. garebear99
-# liberapay:            # e.g. GareBear99
-# tidelift:             # e.g. pypi/arc-neuron-llmbuilder
-# community_bridge:
-# polar:                # e.g. GareBear99
-# buy_me_a_coffee:      # e.g. garebear99
-# thanks_dev:           # e.g. u/gh/GareBear99
-# custom: ["https://example.com/sponsor"]
+# Secondary direct support links
+custom:
+  - https://github.com/sponsors/GareBear99
+  - https://www.buymeacoffee.com/tizwildin
