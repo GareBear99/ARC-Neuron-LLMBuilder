@@ -1,26 +1,31 @@
 # Sponsor Platform Update Notes
 
-This package includes the merged GitHub Sponsors platform setup plus repo-wide routing updates.
+This update strengthens the public sponsor surface for ARC-Neuron LLMBuilder.
 
-## Already merged sponsor platform files
+## Goal
+
+Make the sponsor program visible, credible, and crawlable for:
+
+- human readers scanning the README
+- GitHub Sponsors users
+- GitHub search
+- Google/Bing-style search crawlers
+- AI assistants and summarizers
+- potential studio/team/enterprise sponsors
+
+## Changed Files
 
 - `.github/FUNDING.yml`
 - `README.md`
 - `SUPPORT.md`
+- `SPONSORSHIP.md`
+- `llms.txt`
 - `docs/GITHUB_SPONSORS_PLATFORM_SETUP.md`
+- `docs/AI_CRAWLER_SPONSOR_SUMMARY.md`
+- `docs/SPONSOR_ROUTING_INDEX.md`
+- `docs/seo_metadata.jsonld`
 - `sponsor_templates/SPONSOR_TIERS.md`
 
-## Additional routing updates in this package
-
-- `docs/SPONSOR_ROUTING_INDEX.md`
-- `COMMERCIALIZATION_SPEC.md`
-- `ECOSYSTEM.md`
-- `ARC_NEURON_SUBMISSION_ROUTES.md`
-- `LLMBUILDER_DEVTO_POST.md`
-- `docs/GITHUB_LAUNCH_CHECKLIST.md`
-- `docs/SEO_INDEXING_PLAYBOOK.md`
-- `docs/README.md`
-
-## Primary sponsor link
+## Primary Sponsor Link
 
 https://github.com/sponsors/GareBear99

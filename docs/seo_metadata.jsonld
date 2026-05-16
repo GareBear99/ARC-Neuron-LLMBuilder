@@ -15,41 +15,50 @@
     "url": "https://github.com/GareBear99"
   },
   "keywords": [
-    "local AI",
-    "offline LLM builder",
-    "GGUF model builder",
-    "ARC-Neuron",
-    "governed AI",
-    "Gate v2 promotion",
-    "model governance",
-    "AI provenance",
-    "AI receipts",
-    "Omnibinary",
-    "Arc-RAR",
-    "ARC Language Module",
-    "dataset governance",
-    "v2 candidate isolation",
-    "knowledge preservation",
-    "time-to-space projection",
-    "device-portable AI communication",
-    "rollback-safe AI",
-    "reproducible AI",
-    "sovereign AI",
-    "ProtoSynth",
-    "Neural Synth",
-    "Synth companion",
-    "buildable brain lab",
-    "clone-worthy AI",
-    "AI build lab",
-    "Portal-esque AI companion",
-    "AGI assistant lab",
-    "Omnibinary memory",
-    "Arc-RAR rollback",
-    "ARC-StreamMemory",
-    "AI visual memory",
+    "CPU-first GGUF runtime",
     "video memory for LLMs",
+    "AI provenance",
+    "Omnibinary memory",
+    "time-to-space projection",
+    "v2 candidate isolation",
+    "llamafile runtime testing",
+    "custom repository platform",
+    "Arc-RAR",
+    "screen recording for AI",
+    "model governance",
+    "AI receipts",
+    "Gate v2 promotion",
+    "local-first AI infrastructure sponsor",
+    "AGI assistant lab",
+    "token-level generation tracking",
+    "timeout-safe local inference",
+    "ARC-StreamMemory",
+    "GitHub Sponsors",
+    "device-portable AI communication",
+    "knowledge preservation",
+    "local AI",
+    "sovereign AI",
     "visual RAG",
-    "screen recording for AI"
+    "dataset governance",
+    "GGUF model builder",
+    "AI sponsorship program",
+    "Portal-esque AI companion",
+    "reproducible AI",
+    "ARC-Neuron",
+    "rollback-safe AI",
+    "ProtoSynth",
+    "AI visual memory",
+    "ARC Language Module",
+    "offline LLM builder",
+    "governed AI",
+    "Neural Synth",
+    "clone-worthy AI",
+    "sponsor-backed custom repository templates",
+    "Synth companion",
+    "AI build lab",
+    "Arc-RAR rollback",
+    "Omnibinary",
+    "buildable brain lab"
   ],
   "isPartOf": {
     "@type": "CreativeWork",
@@ -65,5 +74,36 @@
     "4.0": "ProtoSynth / Neural Synth spatial projection layer",
     "5.0": "Portal-esque Synth companion mockup",
     "7.0": "working Synth AI companion, AGI assistant, and buildable brain lab"
+  },
+  "funding": [
+    "https://github.com/sponsors/GareBear99",
+    "https://www.buymeacoffee.com/tizwildin"
+  ],
+  "offers": {
+    "@type": "OfferCatalog",
+    "name": "ARC-Neuron LLMBuilder Sponsorship Program",
+    "url": "https://github.com/sponsors/GareBear99",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "name": "Supporter sponsorship"
+      },
+      {
+        "@type": "Offer",
+        "name": "Builder sponsorship"
+      },
+      {
+        "@type": "Offer",
+        "name": "Pro Builder sponsorship"
+      },
+      {
+        "@type": "Offer",
+        "name": "Studio / Small Team sponsorship"
+      },
+      {
+        "@type": "Offer",
+        "name": "Enterprise / Custom Repository Sponsor"
+      }
+    ]
   }
 }

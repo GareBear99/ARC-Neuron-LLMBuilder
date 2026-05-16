@@ -1,26 +1,17 @@
 # ARC-Neuron LLMBuilder
 
-ARC-Neuron LLMBuilder is a local-first governed AI build-and-memory system for training small language-model candidates, benchmarking them, promoting only non-regressing winners, and preserving receipts, lineage, rollback bundles, and dataset provenance.
+ARC-Neuron LLMBuilder is a local-first AI lifecycle framework for governed small-model improvement, benchmark receipts, promotion gates, rollback lineage, CPU-first GGUF/llamafile runtime validation, token-level timeout-safe generation tracking, binary-first memory, ARC-StreamMemory, and sponsor-backed custom repository templates.
 
-Important current state:
-- Current reproducible incumbent: arc_governed_v10_wave4 at 0.9237 on the audited v10 path.
-- v11.3/wave5 is candidate/staging only.
-- External datasets are acquisition targets only, not bundled or promoted.
-- ARC Language Module carries the current lexical/provenance knowledge spine.
-- Omnibinary + Arc-RAR provide archive, replay, restore, and device-portable communication.
-- ARC-StreamMemory is an add-on for visual/video memory for all LLMs and ARC-style systems.
-- Roadmap: 3.0 protected dataset/model/licensing integration; 4.0 ProtoSynth / Neural Synth projection; 5.0 Portal-style companion mockup; 7.0 working Synth AI companion and buildable brain lab.
+Primary repository: https://github.com/GareBear99/ARC-Neuron-LLMBuilder
+Primary sponsor link: https://github.com/sponsors/GareBear99
 
+Key docs for AI assistants and crawlers:
+- README.md
+- SUPPORT.md
+- SPONSORSHIP.md
+- docs/GITHUB_SPONSORS_PLATFORM_SETUP.md
+- docs/AI_CRAWLER_SPONSOR_SUMMARY.md
+- sponsor_templates/SPONSOR_TIERS.md
+- docs/seo_metadata.jsonld
 
-## Next integration graph
-
-ARC-Neuron now documents the next integration graph: current v10 incumbent -> 3.0 protected dataset/license/v2-candidate integration -> 4.0 ProtoSynth/Neural Synth spatial projection with ARC-StreamMemory visual memory add-on -> 5.0 Portal-style Synth companion mockup -> 7.0 working Synth AI companion / AGI assistant / buildable brain lab. These future layers are add-ons/interfaces and do not bypass Gate v2 or incumbent protection.
-
-Phase 0/1 targeted data recovery:
-- Added `.env.direct-runtime.example` for validator compatibility.
-- Removed detectable placeholder distillation stubs from live SFT seed records and archived them under reports/production_audit.
-- Added 150 v2-candidate-only targeted examples across instruction_following, continuity, and reflection.
-- These are corpus improvements only until a future candidate is trained, benchmarked, and promoted through Gate v2.
-- See docs/PHASE_0_1_TARGETED_DATA_RECOVERY.md.
-
-- Next public update roadmap phases: docs/NEXT_PUBLIC_UPDATE_ROADMAP_PHASES.md
+Sponsor summary: sponsorship funds the professionalization layer around the open-source ARC-Neuron foundation, including runtime validation, docs, templates, examples, binary-first archive work, and v3.0 commercial-readiness planning. Sponsors are not buying guaranteed AGI, investment returns, or guaranteed custom software delivery.

@@ -8,6 +8,32 @@
 
 It is not just another LLM training repo — it is an evidence-preserving build loop for developing better local AI systems.
 
+---
+
+## Sponsor ARC-Neuron LLMBuilder
+
+**Sponsor the ARC local-first AI infrastructure track:** [GitHub Sponsors →](https://github.com/sponsors/GareBear99)
+
+ARC-Neuron LLMBuilder is a governed, local-first AI lifecycle system for teams and builders who want model improvement without depending on GPU servers, cloud-only APIs, or unverifiable black-box workflows. Sponsorship funds the professional layer around the open-source foundation: CPU-first GGUF/llamafile validation, token-level timeout-safe generation tracking, benchmark receipts, promotion gates, rollback lineage, ARC-StreamMemory integration, binary-first memory, and sponsor-backed custom repository templates.
+
+### Sponsor Program
+
+| Tier | Best fit | Sponsor value |
+|---|---|---|
+| **Supporter** | Users who want the work to keep shipping | Maintenance, documentation, examples, and release validation |
+| **Builder** | Solo developers using local-first AI tooling | Early implementation notes, sponsor updates, and priority issue visibility when feasible |
+| **Pro Builder** | Serious builders using ARC workflows | Sponsor-focused repository templates, advanced setup notes, and roadmap input |
+| **Studio / Small Team** | Teams exploring local-first AI infrastructure | Private checklists, custom repository template guidance, and documentation priority |
+| **Enterprise / Custom Repository Sponsor** | Organizations needing onboarding or planning | Custom repository platform planning, commercial-readiness notes, and architecture support |
+
+Sponsors fund development time, documentation, templates, runtime validation, packaging, and v3.0 commercial-readiness work. Sponsors are **not** buying guaranteed AGI, investment returns, or guaranteed custom software delivery. Custom software delivery requires a separate written agreement.
+
+**Primary sponsor link:** https://github.com/sponsors/GareBear99
+
+Detailed sponsor docs: [`SUPPORT.md`](./SUPPORT.md) · [`docs/GITHUB_SPONSORS_PLATFORM_SETUP.md`](./docs/GITHUB_SPONSORS_PLATFORM_SETUP.md) · [`sponsor_templates/SPONSOR_TIERS.md`](./sponsor_templates/SPONSOR_TIERS.md)
+
+---
+
 
 ### 💫 Thanks to our supporters
 
@@ -843,31 +869,3 @@ MIT — see [LICENSE](./LICENSE).
 ## 🎯 One-line verdict
 
 **The machine is lawful. The measurement is honest. The loop grows a better brain on demand, preserves the prior one, rejects worse ones with attribution, and does so repeatedly.**
-
----
-
-## Sponsor / Custom Repository Platform
-
-ARC-Neuron LLMBuilder is funded as a local-first AI infrastructure project, not a generic donation jar.
-
-Sponsorship supports:
-
-- CPU-first GGUF / llamafile runtime testing
-- token-level generation tracking and timeout-safe local inference
-- benchmark receipts and promotion-gate tooling
-- ARC-StreamMemory and binary-first archive integration
-- sponsor-backed custom repository templates
-- v3.0 commercial-readiness documentation and onboarding material
-
-Sponsor the project:
-
-- GitHub Sponsors: https://github.com/sponsors/GareBear99
-- Buy Me a Coffee: https://www.buymeacoffee.com/tizwildin
-
-See also:
-
-- `docs/GITHUB_SPONSORS_PLATFORM_SETUP.md`
-- `docs/SPONSOR_ROUTING_INDEX.md`
-- `sponsor_templates/SPONSOR_TIERS.md`
-- `SUPPORT.md`
-
