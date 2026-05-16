@@ -843,3 +843,30 @@ MIT — see [LICENSE](./LICENSE).
 ## 🎯 One-line verdict
 
 **The machine is lawful. The measurement is honest. The loop grows a better brain on demand, preserves the prior one, rejects worse ones with attribution, and does so repeatedly.**
+
+---
+
+## Sponsor / Custom Repository Platform
+
+ARC-Neuron LLMBuilder is funded as a local-first AI infrastructure project, not a generic donation jar.
+
+Sponsorship supports:
+
+- CPU-first GGUF / llamafile runtime testing
+- token-level generation tracking and timeout-safe local inference
+- benchmark receipts and promotion-gate tooling
+- ARC-StreamMemory and binary-first archive integration
+- sponsor-backed custom repository templates
+- v3.0 commercial-readiness documentation and onboarding material
+
+Sponsor the project:
+
+- GitHub Sponsors: https://github.com/sponsors/GareBear99
+- Buy Me a Coffee: https://www.buymeacoffee.com/tizwildin
+
+See also:
+
+- `docs/GITHUB_SPONSORS_PLATFORM_SETUP.md`
+- `sponsor_templates/SPONSOR_TIERS.md`
+- `SUPPORT.md`
+
