@@ -37,6 +37,14 @@ This folder contains the **historical and topical design record** — acceptance
 
 ## Index by topic
 
+
+### Sponsorship, commercialization, and public routing
+
+- [GITHUB_SPONSORS_PLATFORM_SETUP.md](./GITHUB_SPONSORS_PLATFORM_SETUP.md) — GitHub Sponsors platform setup, tier model, sponsor funnel, and v3.0 support framing
+- [SPONSOR_ROUTING_INDEX.md](./SPONSOR_ROUTING_INDEX.md) — cross-repo sponsor routing map and safe sponsor wording
+- [SEO_INDEXING_PLAYBOOK.md](./SEO_INDEXING_PLAYBOOK.md) — search/indexing playbook including sponsor platform SEO targets
+- [GITHUB_LAUNCH_CHECKLIST.md](./GITHUB_LAUNCH_CHECKLIST.md) — launch checklist including sponsor routing checks
+
 ### ARC-Neuron model family — prep, promotion, training path
 
 - [ARC_NEURON_MODEL_FAMILY.md](./ARC_NEURON_MODEL_FAMILY.md) — model family overview

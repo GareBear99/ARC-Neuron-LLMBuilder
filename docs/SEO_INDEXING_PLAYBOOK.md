@@ -79,3 +79,23 @@ Do not claim:
 Correct wording:
 
 > production-candidate governance loop for local model growth, benchmarked candidates, provenance, and rollback-safe promotion.
+
+---
+
+## Sponsor Platform SEO Targets
+
+Sponsor-related indexing phrases to use naturally in README, releases, and posts:
+
+- local-first AI infrastructure sponsor
+- CPU-first GGUF runtime testing
+- benchmark receipts for local AI models
+- sponsor-backed custom repository templates
+- local AI model lifecycle platform
+- deterministic local AI governance
+- rollback lineage for AI model promotion
+
+Primary support URL:
+
+https://github.com/sponsors/GareBear99
+
+Keep sponsor language factual. Do not imply guaranteed AGI, guaranteed revenue, or unlimited custom software delivery.

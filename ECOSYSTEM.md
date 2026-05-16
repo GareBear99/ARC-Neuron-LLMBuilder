@@ -4,6 +4,23 @@ ARC-Neuron LLMBuilder is **one of seven repositories** in the ARC governed-AI ec
 
 This document explains what each repository actually does, in depth — not just its one-line tagline.
 
+
+## Funding and Sponsor Rail
+
+The ARC ecosystem now routes support through GitHub Sponsors:
+
+```text
+https://github.com/sponsors/GareBear99
+```
+
+Sponsorship supports the shared professionalization layer across the ARC stack: documentation, release validation, local runtime testing, sponsor-backed templates, custom repository onboarding material, and v3.0 commercialization planning.
+
+For the LLMBuilder-specific sponsor package, see:
+
+- [GitHub Sponsors Platform Setup](docs/GITHUB_SPONSORS_PLATFORM_SETUP.md)
+- [Sponsor Routing Index](docs/SPONSOR_ROUTING_INDEX.md)
+- [Sponsor Tier Drafts](sponsor_templates/SPONSOR_TIERS.md)
+
 ---
 
 ## Quick index

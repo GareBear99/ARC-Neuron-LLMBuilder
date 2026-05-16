@@ -10,6 +10,33 @@
 
 ## 1. Executive Summary
 
+## Sponsor Platform Activation
+
+GitHub Sponsors is now the first live funding rail for the ARC-Neuron v3.0 commercialization path.
+
+Primary sponsor endpoint:
+
+```text
+https://github.com/sponsors/GareBear99
+```
+
+Sponsor-backed commercial surfaces:
+
+- custom repository template planning
+- implementation notes and onboarding docs
+- local-first GGUF / llamafile validation work
+- benchmark receipt and promotion-gate tooling
+- ARC-StreamMemory and binary-first memory integration
+- v3.0 commercial-readiness documentation
+
+Commercial boundary:
+
+- existing open-source releases keep their existing license terms
+- v3.0 can introduce clearer commercial boundaries going forward
+- sponsors receive early notes, templates, roadmap input, and onboarding material
+- custom software delivery requires a separately scoped agreement
+
+
 ARC-Neuron 3.0 should be commercialized as a **governed local AI lifecycle platform**, not as a chatbot, not as an Ollama replacement, and not as a generic LLM runner.
 
 The core commercial question ARC-Neuron answers:

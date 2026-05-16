@@ -32,3 +32,16 @@ Apply the recommended topics from `repo-metadata/repository_topics.txt`.
 - Add topics.
 - Pin the first release.
 - Add the repository to the profile pinned repositories if this is a flagship project.
+
+---
+
+## Sponsor Platform Launch Checklist
+
+- [ ] Confirm `.github/FUNDING.yml` includes `github: [GareBear99]`
+- [ ] Confirm README sponsor badge links to `https://github.com/sponsors/GareBear99`
+- [ ] Confirm `SUPPORT.md` explains sponsor scope and boundaries
+- [ ] Confirm `docs/GITHUB_SPONSORS_PLATFORM_SETUP.md` is linked from README
+- [ ] Confirm `docs/SPONSOR_ROUTING_INDEX.md` is linked from docs index
+- [ ] Confirm release notes include a non-spammy sponsor CTA
+- [ ] Confirm GitHub profile and HUB site route to Sponsors
+- [ ] Confirm custom software is not promised without separate agreement

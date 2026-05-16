@@ -867,6 +867,7 @@ Sponsor the project:
 See also:
 
 - `docs/GITHUB_SPONSORS_PLATFORM_SETUP.md`
+- `docs/SPONSOR_ROUTING_INDEX.md`
 - `sponsor_templates/SPONSOR_TIERS.md`
 - `SUPPORT.md`
 

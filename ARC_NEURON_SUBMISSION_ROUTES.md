@@ -45,6 +45,19 @@ This is now a strong discovery wave across both prestige MLOps/LLMOps lists and 
 
 ## Core project links
 
+
+## Sponsor / Support Routing
+
+Use this support link in submission descriptions only when appropriate and non-spammy:
+
+```text
+https://github.com/sponsors/GareBear99
+```
+
+Preferred wording:
+
+> Sponsorship supports local-first AI infrastructure work around CPU-first GGUF runtime testing, benchmark receipts, rollback lineage, and sponsor-backed custom repository templates.
+
 - **Main repo:** https://github.com/GareBear99/ARC-Neuron-LLMBuilder
 - **Protected v1.0.0 release baseline:** https://github.com/GareBear99/arc-neuron-llmbuilder-v1.0.0
 

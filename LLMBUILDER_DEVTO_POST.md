@@ -160,3 +160,22 @@ dataset ingestion
 ```
 
 I’m building ARC-Neuron LLMBuilder in public as a local-first AI model growth framework.
+
+---
+
+## Sponsor / Support CTA
+
+Sponsor ARC-Neuron LLMBuilder if you want to support local-first AI infrastructure that does not depend on cloud APIs, GPU servers, or closed runtime systems.
+
+Sponsorship supports:
+
+- CPU-first GGUF / llamafile runtime testing
+- token-level generation tracking and timeout-safe local inference
+- benchmark receipts and promotion-gate tooling
+- ARC-StreamMemory and binary-first archive integration
+- sponsor-backed custom repository templates
+- v3.0 commercial-readiness documentation
+
+GitHub Sponsors:
+
+https://github.com/sponsors/GareBear99
