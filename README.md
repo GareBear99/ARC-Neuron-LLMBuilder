@@ -31,7 +31,7 @@ It is not just another LLM training repo — it is an evidence-preserving build 
 [![Discussions](https://img.shields.io/github/discussions/GareBear99/ARC-Neuron-LLMBuilder)](https://github.com/GareBear99/ARC-Neuron-LLMBuilder/discussions)
 [![Runs on a 2012 Intel Mac](https://img.shields.io/badge/runs_on-2012_Intel_Mac-silver?logo=apple)](./PROOF.md#hardware-provenance)
 [![CPU only](https://img.shields.io/badge/CPU-only_required-green)](./STORAGE_ECONOMICS.md)
-[![Datasets](https://img.shields.io/badge/datasets-roadmap_only-lightgrey.svg)](#dataset-acquisition-roadmap)
+[![Datasets](https://img.shields.io/badge/datasets-gsm8k_acquired_the--stack_held-yellow.svg)](#dataset-acquisition-roadmap)
 [![StreamMemory](https://img.shields.io/badge/ARC--StreamMemory-add--on-blue.svg)](#arc-streammemory-add-on)
 [![Synth Roadmap](https://img.shields.io/badge/roadmap-3.0%E2%86%927.0-purple.svg)](#long-horizon-synth-roadmap)
 
@@ -79,9 +79,13 @@ Sponsor-grade branches are expected to run repository validation, tests, product
 
 This README preserves the original high-signal proof sections, graphs, benchmark tables, and runnable workflow. The update is intentionally surgical: it keeps the v10 audit evidence intact while making the current 3.0+ direction explicit.
 
-- **Current reproducible incumbent:** `arc_governed_v10_wave4` at **0.9237** on the audited v10 benchmark path.
+- **Current reproducible incumbent:** `arc_governed_v10_wave4` at **0.9237** on the audited v10 benchmark path. The incumbent is **exemplar retrieval (TF-IDF over 669 Q&A records), not a neural network** — there is no GGUF for it, and the neural transformer is untrained.
+- **Commercialization 3.0 — current phase (2026-11-07):** this repo's documentation is kept up to date in this repo as the work moves into Commercialization 3.0. Status as of 2026-11-07 is recorded below; nothing here claims a deploy, a training run, or a promotion that has not happened.
+- **Training-data rule (hard rule, 2026-11-07):** the actual training must **never** be polluted by external datasets. GSM8K, The Stack, and any other external dataset are **evaluation/benchmark references only** and never enter the training data. The training uses **only our own data** (the "us" corpus — general knowledge about our stuff and system). Testing is offloaded to the **continuous live running system** instead: benchmark (Gate v2, 168 tasks) first, then live continuous testing in the running system. See [DATASET_ACQUISITION_MATRIX_3_0.md](./docs/DATASET_ACQUISITION_MATRIX_3_0.md).
+- **1B training — in progress (2026-11-07):** LoRA/QLoRA fine-tune of the pretrained Llama 3.2 1B on the "us" corpus, judged by Gate v2 and A/B-tested against the stock 1B. The trainer is built to extend to **any model**, not just the 1B. No fine-tune exists yet; the stock 1B baseline through the 168-task benchmark has not been run yet. Serving the fine-tune is open — Workers AI free tier cannot serve custom models; the llama.cpp proxy needs a GPU box. Full plan: `~/workspace/llmbuilder-1b-training-plan.md` (outside this repo).
+- **Ping server:** live **v0.3.0** (Llama 3.2 1B test model, Cloudflare Workers AI). **v0.4.0** (1B-only + 24h maintenance mode on a server-side cap hit) is built in this repo under `cloudflare/ping-server/` and is **not deployed** — deploy needs Gary's explicit approval. The trained v10 does **not** run on the server. See [`cloudflare/ping-server/README.md`](./cloudflare/ping-server/README.md).
 - **v11.3 / wave5:** candidate/staging only until promotion evidence reproduces cleanly through [Gate v2](./docs/V2_CANDIDATE_ISOLATION_POLICY.md).
-- **Datasets:** external open-source datasets are **acquisition targets only**. They are not bundled, not ingested, and not promoted into incumbent weights yet. See the [3.0 Dataset Acquisition Matrix](./docs/DATASET_ACQUISITION_MATRIX_3_0.md).
+- **Datasets:** external open-source datasets now go through the acquisition lane (`scripts/ops/acquire_hf_dataset.py`: quarantine → manifest → license check → convert → dedupe) before they can influence promoted weights. **GSM8K is the first acquired source** — 500 records, MIT, quarantined + manifested, pending Gate v2. BigCode The Stack is **held on license review**. Nothing is promoted into incumbent weights yet. **And the hard rule stands: external datasets are evaluation/benchmark references only — they never enter the actual training data.** See the [3.0 Dataset Acquisition Matrix](./docs/DATASET_ACQUISITION_MATRIX_3_0.md).
 - **Current knowledge weight:** self-curated ARC material plus the [ARC Language Module](https://github.com/GareBear99/arc-language-module) carry the live lexical/provenance spine. Tiny/Small model weights are proof-of-loop reference models, not the full brain.
 - **Portable memory layer:** [Omnibinary Runtime](https://github.com/GareBear99/omnibinary-runtime) + [Arc-RAR](https://github.com/GareBear99/Arc-RAR) provide device-portable communication, replay, restore, and source-spine continuity.
 - **Add-on under active build:** [ARC-StreamMemory](https://github.com/GareBear99/ARC-StreamMemory) is the visual/video memory add-on being built for ARC-style systems and other LLM stacks. See the [ARC-StreamMemory add-on note](./docs/ARC_STREAMMEMORY_ADDON.md).
@@ -110,6 +114,7 @@ Bot-readable summary: [`llms.txt`](./llms.txt). Clone rationale: [`docs/WHY_CLON
 - [What it does, in plain English](#what-it-does-in-plain-english)
 - [Current state](#current-state)
 - [Dataset acquisition roadmap](#dataset-acquisition-roadmap)
+- [Highest-winning published trading strategy](./docs/HIGHEST_WINNING_STRATEGY.md) — research reference for the crypto bots; **not training data for this repo**
 - [Quick start](#quick-start)
 - [Architecture at a glance](#architecture-at-a-glance)
 - [ARC-StreamMemory add-on](#arc-streammemory-add-on)
@@ -147,6 +152,8 @@ flowchart LR
 ```
 
 Nothing auto-promotes to the curated `seed_examples.jsonl` — ingested data stays in a separate shard so a human curator keeps the final call. Full pipeline: [docs/LIVE_DEPLOYMENT_LEARNING.md](./docs/LIVE_DEPLOYMENT_LEARNING.md). Activation is one secret: `OPERATOR_READ_TOKEN` (PAT with `Actions: Read` on `GareBear99/gh-ai-operator`).
+
+**Status as of 2026-11-07 — ingest is currently disabled:** the scheduled ingest workflow (`.github/workflows/ingest-operator-reviews.yml`) is a manual placeholder — live scheduled ingest is disabled for public repo stability — and `data/critique/operator_reviews.jsonl` does not exist yet. No operator reviews have landed in this repo. The pipeline above describes the design, not a running feed.
 
 **Live-run evidence**: [docs/OPERATOR_EVIDENCE.md](./docs/OPERATOR_EVIDENCE.md) — chronological log of real runs. First entry (FreeEQ8, Portfolio issue #1) documents the verdict, the JSONL shape, and the ingest manifest with no code changes required to accept it.
 
@@ -372,7 +379,7 @@ All four Gate v2 decision states have fired lawfully on real runs. Every claim a
 
 ## Dataset acquisition roadmap
 
-No external third-party dataset below is currently bundled, ingested, or promoted into the incumbent. These are roadmap acquisition targets for the v2 candidate lane and the 3.0 integration path. Every source must pass manifest, license, hash, quarantine, benchmark, and no-regression checks before it can influence promoted weights.
+One external third-party dataset below is now acquired (GSM8K — ingested into quarantine and converted to v2-candidate seed data; not promoted into the incumbent) and one is held on license review (BigCode The Stack). The rest remain roadmap acquisition targets for the v2 candidate lane and the 3.0 integration path. Every source must pass manifest, license, hash, quarantine, benchmark, and no-regression checks before it can influence promoted weights.
 
 | Dataset/source candidate | Intended use | Status |
 |---|---|---|
@@ -381,14 +388,16 @@ No external third-party dataset below is currently bundled, ingested, or promote
 | [UltraChat / UltraChat 200k](https://huggingface.co/datasets/HuggingFaceH4/ultrachat_200k) | multi-turn conversation | acquisition target only |
 | [MentalChat16K](https://huggingface.co/papers/2503.13509) and related counseling/support-language data | lexical simplicity, empathy, de-escalation, support wording; **not therapy authority** | candidate-v2 only |
 | WikiLarge / text simplification corpora | plain-language rewriting and readability | acquisition target only |
-| [GSM8K](https://github.com/openai/grade-school-math) | arithmetic reasoning benchmarks/training references | acquisition target only |
+| [GSM8K](https://github.com/openai/grade-school-math) | arithmetic reasoning benchmarks/training references | **acquired** — 500 records, MIT, quarantined + manifested, pending Gate v2 |
 | [MBPP](https://github.com/google-research/google-research/tree/master/mbpp) | Python/code task solving | acquisition target only |
 | [HumanEval](https://github.com/openai/human-eval) | code evaluation and repair benchmarking | acquisition target only |
-| [BigCode The Stack](https://huggingface.co/datasets/bigcode/the-stack) / Stack v2-style code data | code and tool-use reference data, subject to license review | acquisition target only |
+| [BigCode The Stack](https://huggingface.co/datasets/bigcode/the-stack) / Stack v2-style code data | code and tool-use reference data, subject to license review | **held** — license review (card license `other`, not on the permissive allowlist); no download, no records |
 | ARC-native operator corrections and production review logs | highest-trust self-curated learning data | local curated lane |
 | Memory / continuity regression tasks | test whether repeated questions preserve doctrine and decisions | benchmark lane |
 
 The rule is simple: **new data never overwrites the incumbent directly.** It enters a v2 candidate class, receives receipts, and must beat the incumbent without violating protected floors.
+
+**Hard rule — no external dataset pollution in the actual training, ever:** GSM8K, The Stack, and any other external dataset are **evaluation/benchmark references only** and **never enter the actual training data**. The training uses only our own data (the "us" corpus). Testing is offloaded to the continuous live running system instead. See [DATASET_ACQUISITION_MATRIX_3_0.md](./docs/DATASET_ACQUISITION_MATRIX_3_0.md).
 
 Full docs: [DATASET_ACQUISITION_MATRIX_3_0.md](./docs/DATASET_ACQUISITION_MATRIX_3_0.md), [V2_CANDIDATE_ISOLATION_POLICY.md](./docs/V2_CANDIDATE_ISOLATION_POLICY.md).
 

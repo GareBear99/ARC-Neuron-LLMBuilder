@@ -14,6 +14,7 @@ pip-wheel-metadata/
 
 # ── Virtual environments ───────────────────────────────────────────────────────
 .venv/
+.venv-hf/
 venv/
 env/
 .env

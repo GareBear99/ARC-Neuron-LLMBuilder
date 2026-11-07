@@ -82,6 +82,8 @@ This folder contains the **historical and topical design record** — acceptance
 
 ### Datasets, benchmarks, and corpus
 
+- [DATASET_ACQUISITION_MATRIX_3_0.md](./DATASET_ACQUISITION_MATRIX_3_0.md) — 3.0 dataset acquisition matrix (GSM8K acquired, The Stack held) + the hard no-pollution rule for actual training + live continuous testing
+- [HIGHEST_WINNING_STRATEGY.md](./HIGHEST_WINNING_STRATEGY.md) — highest-winning published trading strategy, mathematically backed (research reference for the crypto bots — **not training data for this repo**)
 - [DATASET_STRATEGY.md](./DATASET_STRATEGY.md) — dataset strategy
 - [DATASET_EXPANSION_PLAN.md](./DATASET_EXPANSION_PLAN.md) — dataset expansion plan
 - [EXPERIMENT_RUNBOOK.md](./EXPERIMENT_RUNBOOK.md) — experiment runbook
