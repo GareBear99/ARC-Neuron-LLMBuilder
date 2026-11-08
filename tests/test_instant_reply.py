@@ -33,6 +33,7 @@ from instant_reply import (  # noqa: E402
     bundle_delivery,
     classify_binary,
     decide_delivery,
+    fallback_after_ping_error,
     intake_record,
     packet_bytes,
     packet_id,
@@ -131,6 +132,43 @@ class TestBranches(unittest.TestCase):
         r = decide_delivery(packet_present=True, hash_verified=True, branch_matches=False, reply_text=CANNED)
         self.assertEqual(r.decision, Delivery.FALLBACK_PING)
         self.assertIsNone(r.reply_text)
+
+
+class TestSecondFallback(unittest.TestCase):
+    """Second fallback after the ping route itself errors (Gary, 2026-11-08).
+
+    Packet-first order: packet -> ping -> OpenAI (key only, server-side)
+    -> honest error. Local is NEVER the fallback in this flow (user-side
+    CPU must be NONE); rate-limit (429) is terminal (the SP gate is
+    never bypassed); a partial ping reply already streamed is terminal
+    (no Franken-reply from two models).
+    """
+
+    def test_clean_ping_error_with_key_falls_back_to_openai(self):
+        self.assertEqual(
+            fallback_after_ping_error(is_rate_limited=False, has_api_key=True, partial_reply_streamed=False),
+            "openai",
+        )
+
+    def test_clean_ping_error_without_key_is_honest_error(self):
+        self.assertEqual(
+            fallback_after_ping_error(is_rate_limited=False, has_api_key=False, partial_reply_streamed=False),
+            "none",
+        )
+
+    def test_rate_limit_is_terminal_even_with_key(self):
+        # 429 = SP spent. Falling through would spend Gary's paid API
+        # key to bypass a quota the user has exhausted. Never.
+        self.assertEqual(
+            fallback_after_ping_error(is_rate_limited=True, has_api_key=True, partial_reply_streamed=False),
+            "none",
+        )
+
+    def test_partial_stream_is_terminal_even_with_key(self):
+        self.assertEqual(
+            fallback_after_ping_error(is_rate_limited=False, has_api_key=True, partial_reply_streamed=True),
+            "none",
+        )
 
 
 class TestConnection(unittest.TestCase):

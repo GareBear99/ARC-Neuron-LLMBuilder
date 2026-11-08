@@ -22,6 +22,15 @@ verification itself. Hash verification happens where the bytes are
 (packets.verify_packet / ARC-Apache verify); this module only decides
 from the results. The Lucid client (src/lib/instantReplyPackets.ts)
 mirrors this exact table.
+
+PACKET-FIRST ORDER (Gary, 2026-11-08 — the CPU-none rule, which
+overrides the AI chat plan's local-inference default): the instant-reply
+flow is packet -> ping -> OpenAI (key only, server-side) -> honest
+error. The local route (llamafile cold-load, a model running on the
+user's machine) is NEVER a fallback in this flow — user-side CPU must
+be NONE. Generation CPU is allowed only once, at pack time, server-side
+/ offline. See fallback_after_ping_error() below: it is the second
+fallback, after the ping route itself errors.
 """
 
 from __future__ import annotations
@@ -87,3 +96,37 @@ def decide_delivery(
         reason="packet verified, branch matches — deliver verbatim, zero CPU at reply time",
         packet_id=packet_id,
     )
+
+
+def fallback_after_ping_error(
+    *,
+    is_rate_limited: bool,
+    has_api_key: bool,
+    partial_reply_streamed: bool,
+) -> str:
+    """Second fallback after the ping route itself errors.
+
+    Returns "openai" or "none". This is the ONLY second fallback in the
+    instant-reply flow, and it is deliberately narrow (Gary, 2026-11-08):
+
+      * Rate-limited (SP spent, 429) -> "none", always. The SP gate is
+        terminal: falling through to OpenAI would spend Gary's paid
+        API key to bypass a quota the user has exhausted. Never.
+      * Part of the ping reply already streamed to the user ->
+        "none". Appending a second model's text after partial ping
+        text would serve a Franken-reply made of two models.
+      * Otherwise -> "openai" iff an OpenAI key is configured, else
+        "none" (honest error, no fake reply).
+
+    The local route is NOT a fallback here, ever: running a model on
+    the user's machine is user-side CPU, and Gary's rule is user-side
+    CPU = NONE. The local route stays a leg of the general cascade
+    outside this flow; inside this flow it is gated out. The Lucid
+    handler (electron/ipc/ai.ts) and the Lucid decision client
+    (src/lib/instantReplyPackets.ts) mirror this exact rule.
+    """
+    if is_rate_limited:
+        return "none"
+    if partial_reply_streamed:
+        return "none"
+    return "openai" if has_api_key else "none"

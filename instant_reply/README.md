@@ -70,6 +70,15 @@ connect to — not a segment itself.
      FALLBACK_PING  no packet / wrong branch -> ping (1 SP, ~0.5 neurons).
      DISCARD        hash failed -> discard packet, fall back to ping.
    Never invent a reply. Never serve a bad packet.
+   PACKET-FIRST ORDER (Gary, 2026-11-08 — the CPU-none rule): the
+   full flow is packet -> ping -> OpenAI (key only, server-side) ->
+   honest error. If the ping route itself errors, the second fallback
+   is fallback_after_ping_error() / resolveInstantReplyFallbackAfter-
+   PingError(): OpenAI iff a key is configured AND the error was not
+   a 429 (SP spent — the gate is terminal) AND no partial ping reply
+   was already streamed (no Franken-reply). The local route is NEVER
+   a fallback in this flow (user-side CPU = NONE); it stays a leg of
+   the general cascade outside this flow, gated out here.
 
 6. DELIVER — zero CPU at reply time
    Reply text is handed to the chat bubble in tick order. No generation,
@@ -164,4 +173,6 @@ job, it is listed separately, not bundled in: none needed for this module
 
 Python: `python3 -m unittest discover -s tests -p "test_instant_reply.py" -v`
 (Uses stdlib unittest — no pytest on this VM.)
-TypeScript: `npm test -- tests/instantReplyPackets.test.ts tests/instantReplyConnection.test.ts`
+TypeScript: `npm test -- tests/instantReplyPackets.test.ts tests/aiChatRoute.test.ts`
+(The Connection tests live in tests/instantReplyPackets.test.ts — there
+is no separate tests/instantReplyConnection.test.ts file.)

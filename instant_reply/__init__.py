@@ -53,7 +53,7 @@ from __future__ import annotations
 
 from .apache_store import ApacheNotAvailable, ApacheStore
 from .arcrar import bundle_delivery, verify_bundle
-from .branches import BranchPass, Delivery, decide_delivery
+from .branches import BranchPass, Delivery, decide_delivery, fallback_after_ping_error
 from .connection import CallReason, ConnectionPass, should_call, what_it_carries
 from .omnibinary import BinaryKind, classify_binary, intake_record
 from .packets import Packet, build_packet, packet_bytes, packet_id, verify_packet
@@ -71,6 +71,7 @@ __all__ = [
     "BranchPass",
     "Delivery",
     "decide_delivery",
+    "fallback_after_ping_error",
     "CallReason",
     "ConnectionPass",
     "should_call",
