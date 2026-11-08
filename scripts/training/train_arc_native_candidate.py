@@ -63,7 +63,7 @@ TIER_CONFIGS: dict[str, dict] = {
 
 # ── corpus collection ──────────────────────────────────────────────────────────
 _CORPUS_EXTENSIONS = {".md", ".py", ".txt", ".yaml", ".yml", ".json", ".toml", ".sh", ".csv", ".rs"}
-_CORPUS_SKIP_PARTS = {"__pycache__", ".git", "artifacts", "dist", "build", "node_modules", ".venv", "exports", "reports", "release_evidence", ".pytest_cache"}
+_CORPUS_SKIP_PARTS = {"__pycache__", ".git", "artifacts", "dist", "build", "node_modules", ".venv", "exports", "reports", "release_evidence", ".pytest_cache", "acquired"}
 
 
 def collect_corpus(repo_root: Path, max_bytes: int = 500_000) -> bytes:

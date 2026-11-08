@@ -1,0 +1,2676 @@
+{
+  "corpus": "us_corpus",
+  "version": "1",
+  "built_by": "scripts/ops/build_us_corpus.py",
+  "promotion_lane": "candidate_v2_only",
+  "schema": [
+    "id",
+    "source_repo",
+    "capability",
+    "domain",
+    "prompt",
+    "target",
+    "tags",
+    "promotion_lane",
+    "notes"
+  ],
+  "total_rows": 3674,
+  "corpus_sha256": "a68f111fbac29143ff6c1ccd4821929a2efd32de8a51cb548edde3f11c324c49",
+  "sources": [
+    {
+      "source_repo": "memory/MEMORY.md",
+      "files": [
+        {
+          "file": "/home/hatch/MEMORY.md",
+          "bytes": 335298,
+          "sha256": "322261d969a74a25b3852bbc6fffc4e03350a4fb837c5e25874c38d05a0b5165"
+        }
+      ],
+      "rows": 436,
+      "rows_sha256": "73594887b5b719da709c1515fbb5f91d8dbe62b50f816d44304cc8af66960456"
+    },
+    {
+      "source_repo": "memory/daily-logs",
+      "files": [
+        {
+          "file": "/home/hatch/memory/2026-11-03.md",
+          "bytes": 287705,
+          "sha256": "afe7eb11355a11faf03b743df11ce9d09a2823884f00d7101f9ff727ed8c24aa"
+        },
+        {
+          "file": "/home/hatch/memory/2026-11-04.md",
+          "bytes": 489414,
+          "sha256": "dfa8179ac0aeec158cbaba17648b9884a3f514ac39b5c27070ebab1ccf8ade4b"
+        },
+        {
+          "file": "/home/hatch/memory/2026-11-05.md",
+          "bytes": 794453,
+          "sha256": "a6f2715a44f57ff1cbc4f762338b1a2b5b5462988b51a7ce296d82de5d2411e3"
+        },
+        {
+          "file": "/home/hatch/memory/2026-11-06.md",
+          "bytes": 689095,
+          "sha256": "b18edd7eb302d04ad5b8c0d13b5a2a52276c39cd89e0111ec19035c9187b6ba5"
+        },
+        {
+          "file": "/home/hatch/memory/2026-11-07.md",
+          "bytes": 554105,
+          "sha256": "08a6f7d6f8c619276e10a513b579b665ae5a23f182a52a07bd4774be139c0b35"
+        }
+      ],
+      "rows": 1918,
+      "rows_sha256": "45cc2e462cce8bef5585382ac802927560142fd4c620b748d180c72b4e14b77c"
+    },
+    {
+      "source_repo": "docs/FreeEQ8-PAPER",
+      "files": [
+        {
+          "file": "/home/hatch/workspace/FreeEQ8/PAPER.md",
+          "bytes": 61671,
+          "sha256": "a34f46ad3531db5511a01f9c4d6765b79354dd7497789c92ee89b3afff75261f"
+        }
+      ],
+      "rows": 88,
+      "rows_sha256": "d69efd208f2d37313b3c10569d7cdf57bb0094e3d0e476fa2de58dd7ffe9c392"
+    },
+    {
+      "source_repo": "docs/Therum-PAPER",
+      "files": [
+        {
+          "file": "/home/hatch/workspace/Therum_JUCE-Plugin/PAPER.md",
+          "bytes": 86694,
+          "sha256": "89d4f664fd2a2cd7d0479f84c967e80ac9e4365a3c1fe83e17dc88abda4c59a0"
+        },
+        {
+          "file": "/home/hatch/workspace/Therum_iPlug2-Plugin/PAPER.md",
+          "bytes": 29839,
+          "sha256": "4578eb5f2b7c15c3ffa3254e1e895da51c06a238279ea70df3ef2e9c1c943742"
+        }
+      ],
+      "rows": 52,
+      "rows_sha256": "1e6f0c01727c118af1fc07fffbc234c312ea5261fd6c0fa183fb88655bff476b"
+    },
+    {
+      "source_repo": "docs/FreeVox8-PAPER",
+      "files": [
+        {
+          "file": "/home/hatch/workspace/FreeVox8/PAPER.md",
+          "bytes": 50175,
+          "sha256": "8990f50e5707d871f633dfac935133cd96157e34a446d4555d5ea965dea9dd97"
+        }
+      ],
+      "rows": 46,
+      "rows_sha256": "1edbaf5a8b14aa0037d275c498f51e7d3b19e51a14900de65acba3fb2a1df04a"
+    },
+    {
+      "source_repo": "docs/llmbuilder-docs",
+      "files": [
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ACCEPTANCE_GATES.md",
+          "bytes": 797,
+          "sha256": "e680a64c3cf01f9df9f05c8df385489327c797b84082b20739abbcdc00c1dc81"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/AI_CRAWLER_SPONSOR_SUMMARY.md",
+          "bytes": 1603,
+          "sha256": "b86b54fa2a5cce6bf291cf8db7e52386df6e071d9b0205dd90e39a021db46ae1"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ALPHA_COMPLETE_STATUS.md",
+          "bytes": 122,
+          "sha256": "ce3804c8f36502722eb336fbf5cb9502273b878b53eeb4bb736148cf1f0d4ef2"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ALPHA_DEFINITION.md",
+          "bytes": 663,
+          "sha256": "41174d6e3b31a458b9de249618ad87e7343a4ad956af6cc56edd8ce721418d22"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ANCF_CANONICAL_ARTIFACT.md",
+          "bytes": 505,
+          "sha256": "8f56ccc2ae04dd0043bfa245a9f2d1fda96a30c93c36d40466bae931a51f94aa"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ARC_NEURON_3_0_ROADMAP_INTEGRATION.md",
+          "bytes": 2283,
+          "sha256": "6ee754299a7d1e51bdf02b0705ec8a3bb01cd52801f5ebb3ed38520a636bf362"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ARC_NEURON_BASE_PREP.md",
+          "bytes": 1475,
+          "sha256": "956a604b3016ace873fb45070834e436033dcc9de55592e0d8b5ff0c0f5f317f"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ARC_NEURON_BASE_PROMOTION.md",
+          "bytes": 1572,
+          "sha256": "34bc77da538e36b6834ed1a0c6a1617b93b9fd9c65cf222d1b4a2be406b88818"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ARC_NEURON_INTEGRATED_STACK.md",
+          "bytes": 897,
+          "sha256": "6fee3ecac79e82ba68f6d3807ba617b36556f122ef8dfc7ba372f70f82e99e33"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ARC_NEURON_MODEL_FAMILY.md",
+          "bytes": 1561,
+          "sha256": "f05f0486157bbba62f1c7598469bb0e62254553c9fcacd81f4575f54c89eaba1"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ARC_NEURON_SMALL_AND_CORPUS_COMPILER.md",
+          "bytes": 1517,
+          "sha256": "a5a9a08762a867a1e1d33b4c91dc43198b99e4aacb88714b96b6eef47be5f6b4"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ARC_NEURON_SMALL_V0_2_PREP.md",
+          "bytes": 1123,
+          "sha256": "abc4afbaddedd1b58c2ede83bccf7d9514933e5494b23d1e43c91dc1b87979c0"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ARC_NEURON_TINY_MODEL_CARD.md",
+          "bytes": 1073,
+          "sha256": "cc7bc0a0f4a5799a900892b9bfd93d9fe4781a3327b585ccce4ba4227252a603"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ARC_STREAMMEMORY_ADDON.md",
+          "bytes": 776,
+          "sha256": "113e889fcf4147ef227664dedc79633ae869ceb19f13badcd071fc0daea3823b"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ARC_TINY_GGUF_PATH.md",
+          "bytes": 1303,
+          "sha256": "1fa040825c1bdaf8b5267e0d84f88a9e99a167ef17cb10af59455b56892a9f42"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/BENCHMARK_PROOF.md",
+          "bytes": 13250,
+          "sha256": "3ea45f547f4b3aad703a6c0da0c38aefe8dd1ff1f17ac797ab0605c77c27607c"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/BROWSER_UI_BOUNDARY_2026-04-14.md",
+          "bytes": 666,
+          "sha256": "83ccffe9dd642978e5930fdbba8da63bd46d9f277aa1fb801da9e434bb3a8f10"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/CANDIDATE_SHAPING_PHASES.md",
+          "bytes": 691,
+          "sha256": "960e41b00f670e9c3db2d4d272e43f79de05067f14fa57412f350c271e8a9c66"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/CURRENT_STATE_AND_NEXT_ACTIONS_2026-04-14.md",
+          "bytes": 1652,
+          "sha256": "c605b7dd91672786da3f5aa949c781508fcce41934c410b1ac0f5306d5cacfbb"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/DARPA_MASTER_AUDIT_2026-04-14.md",
+          "bytes": 2518,
+          "sha256": "4330f4e14b13c93cc95765cd1e2bad486efd283eb90329f7d4f6b193b74389dd"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/DARPA_NEXT_STEPS_TO_GEMMA_CLAUDE_STATE.md",
+          "bytes": 3406,
+          "sha256": "7b774b23202d94ae1dae05d34ada9a99ec5560c0a7ed9e2e91f00c4052a73706"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/DARPA_PROGRAM_CONTROL.md",
+          "bytes": 1131,
+          "sha256": "6e3b5699541a2d6710e8317831fe79559ad7a0de15fb3c9f5ce8094045625025"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/DATASET_ACQUISITION_MATRIX_3_0.md",
+          "bytes": 4784,
+          "sha256": "a66474d23a8b6079518fc276554b3e16723bb51a853d43e37a5d70209e6fdc4a"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/DATASET_EXPANSION_PLAN.md",
+          "bytes": 423,
+          "sha256": "5d04ead8e7774bc17f693ba9f8dba7bba3f80bcb584dde3f6562eb584a8442b9"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/DATASET_STRATEGY.md",
+          "bytes": 718,
+          "sha256": "9844cda2ae6e5318c276c3fb8aabc37cfdd7991e30d1dd3a4be81d8b8a30a624"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ECOSYSTEM_INTEGRATION_MATRIX_2026-04-14.md",
+          "bytes": 1640,
+          "sha256": "d985b6babb3a9da9043a952d5ce1fb15bed94f8138cb498bd436ea07cc0305b4"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ECOSYSTEM_PACKAGE_AUDIT_2026-04-14.md",
+          "bytes": 2292,
+          "sha256": "3c28ab1750667a16d7693a273880548dc05ec6524d7c28b30497907e6e100150"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ENTERPRISE_SPONSOR_READINESS.md",
+          "bytes": 1511,
+          "sha256": "787f27b33868921ed2a66f0c01a24bd9fff5c7afd3f2260d0d664648db4f3564"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/EXECUTION_FIRST_UPGRADE.md",
+          "bytes": 306,
+          "sha256": "77a814cc4af037566b6025f8ea8cfd71525b99241ddbea056957b664ebfec207"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/EXPERIMENT_RUNBOOK.md",
+          "bytes": 573,
+          "sha256": "ee33aaea59c5e1ce4e44135f1363193a0a56c3d5ea6a2dc58966db3727acd469"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/FINAL_EXTERNAL_BOUNDARY_2026-04-14.md",
+          "bytes": 664,
+          "sha256": "eb13d766e1ff5e3dc123a3dfcb1ac649bcac86bfb978ee3ed892f7020c1b8d79"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/FINAL_PRODUCTION_HANDOFF_2026-04-14.md",
+          "bytes": 1153,
+          "sha256": "e6cdf97ff1098826bdf702d80e26cd23de645adb67b819e7adeef8f040ded1b4"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/FINAL_USER_CHECKLIST_2026-04-14.md",
+          "bytes": 1061,
+          "sha256": "bb6ad3cb77b9102803a5c575a4ce59a572382e9fa7185841a52e0ca9206fb8c5"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/FIRST_REAL_CANDIDATE_RUN.md",
+          "bytes": 1434,
+          "sha256": "a538091728adcd79b71df45625aef7d0bc88102feb0857255cf65e5d5167f10c"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/FLAGSHIP_GGUF_SWITCHOVER_2026-04-14.md",
+          "bytes": 921,
+          "sha256": "c5aa6641b797071a4e3b0b7f1a128b01b89723a663f66fe12f51589b578ebe01"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/FLAGSHIP_RUNTIME_VALIDATION_2026-04-14.md",
+          "bytes": 1639,
+          "sha256": "7d7a3bb48a11cea8e9a6023d0885c036fa04faad51cd49623b1c02102737d66f"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/FUNCTIONING_MODEL_STATUS_2026-04-14.md",
+          "bytes": 1053,
+          "sha256": "b803af214c600ceb76d16852d2f4334d230bb4abc641654a58d8cdd3215f59bb"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/GGUF_BACKEND_WIRING.md",
+          "bytes": 119,
+          "sha256": "4adc6ade754c134013ab34b3030d7be5c40ea6f5fd664fb4c092ce24b0dc9149"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/GITHUB_LAUNCH_CHECKLIST.md",
+          "bytes": 1731,
+          "sha256": "d1ed328fd7f149bdc1061c5ae90dc968ae11dd79d6308cb6196d7c72384b2251"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/GITHUB_SEO_AUDIT.md",
+          "bytes": 1105,
+          "sha256": "1966050eecea62d0664ea1e46ce1dadee8fa0246c9420f08924cf237310e4745"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/GITHUB_SPONSORS_PLATFORM_SETUP.md",
+          "bytes": 5211,
+          "sha256": "af43f6aaf593d4c3016dbfe0740e959461c5e70a8d35a30b80a223734cb44f12"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/HIGHEST_WINNING_STRATEGY.md",
+          "bytes": 24144,
+          "sha256": "396fc81293aec9573bcf7fa52b8613a75db69bd1777371d2f38929b8fc6ab273"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/HONEST_STATUS_AND_NEXT_GATES.md",
+          "bytes": 1402,
+          "sha256": "be18c2b996efa925e06a86bf6321d8e01744e3ab88dc34f0fea9632430bbbdf5"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/HOW_TO_GROW.md",
+          "bytes": 8429,
+          "sha256": "104b12c1fab11bcaf253c192bc405252028d334f3a29d574305977d2a69b4a75"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/INTEGRATIONS.md",
+          "bytes": 251,
+          "sha256": "ee1ed3377ff29067176e8d313fb5d267c3921528ef07c8eea70d61385c98066a"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/KNOWLEDGE_PRESERVATION_DOCTRINE.md",
+          "bytes": 1831,
+          "sha256": "e3ea9ba947e8658dd7928a1f672f53d2a009b22acab7b5ea0c4cb127ce37f78d"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/LIVE_DEPLOYMENT_LEARNING.md",
+          "bytes": 4279,
+          "sha256": "f3303dce9124a554e247adad565bff6ca49925bbbc1ed05429e1cadbccf6959c"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/LLAMAFILE_BINARY_RUNTIME_2026-04-14.md",
+          "bytes": 1432,
+          "sha256": "4b1a62a302730b7545be3daf7f688a9e8178736eb84c79b61c76f2e65ecc4ef2"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/LOCAL_BACKEND_SETUP.md",
+          "bytes": 802,
+          "sha256": "300c7293878e7433b912d98544090e6c007dd8947ee3a04fc2a23d480303ea65"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/MASTER_OPERATOR_CONTROL.md",
+          "bytes": 1302,
+          "sha256": "f4f8b626fa2daec3ebe5c33beb36cdc07d97877cec293a4ef258943a3f5b7fcc"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/MCP_TOOLING.md",
+          "bytes": 265,
+          "sha256": "ccce28f6eec6f156adbf8f80ec17dd221101f6c81a2f508e139569d1b50acf87"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/MERGED_FINAL_STATUS.md",
+          "bytes": 895,
+          "sha256": "99a2f72edeacc77f1a371c8de0ce43e22d704d35712f841f79bd84fdb148747c"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/MODEL_LADDER.md",
+          "bytes": 468,
+          "sha256": "37b15d61a4d9df5210416a6bcbdde0d90ef1ad3c5a62f301c743522a3eeabb1f"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/MODEL_MEMORY_EVALUATION_PROTOCOL.md",
+          "bytes": 2360,
+          "sha256": "a83feda52ab3d62d3823c93e18a6ac9f08d371e3d95a8badeae2a7d23a6afbb9"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/MODEL_RUNTIME_BOUNDARY_SPEC.md",
+          "bytes": 769,
+          "sha256": "f3dc759fe0e5297a13bdcbe0cd356255b619c2ce6ea3b886994bc47cdab2cad5"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/NATIVE_GGUF_BOOTSTRAP_FROM_UPLOADED_STACK.md",
+          "bytes": 1904,
+          "sha256": "00b2d54d4dfdf40b8e29bc1ad60b5f0f4478a3f50ded5f33661b85652d203458"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/NEXT_ESSENTIALS_PURPOSE_MAP.md",
+          "bytes": 494,
+          "sha256": "f0ebf441ac237dae1020f7aea4d7a63cc9e6a05b2e75a99b056081b3452fd096"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/NEXT_INTEGRATION_GRAPH.md",
+          "bytes": 2098,
+          "sha256": "b2725cff92633b3e00faf4295f2406b571f1254ca69952cd923726c34a51dccf"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/NEXT_PUBLIC_UPDATE_ROADMAP_PHASES.md",
+          "bytes": 3952,
+          "sha256": "63a7cae4b5d28975b65b829aff66bfb8cda483c8d8157abfd5e4173fad483813"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/OMNIBINARY_BIDIRECTIONAL_TRUTH_LATCH.md",
+          "bytes": 1820,
+          "sha256": "5c1364e4e1e1631b4a860a99949c61b490b779e9fe9810a84e1e8965cebf99fa"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/OMNIBINARY_INTEGRATION_NEXT_STEPS.md",
+          "bytes": 1024,
+          "sha256": "b211c211196967b3ff352f751a30586bd7ffa02e761de4e5e3c586fae62918e3"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/OPERATOR_EVIDENCE.md",
+          "bytes": 5165,
+          "sha256": "a11ba1952c8c11eac766be73d0c7c36fdef4791c2025ccf689f0810a2edb2ec5"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/PATCH_STATUS_2026-05-05.md",
+          "bytes": 1488,
+          "sha256": "917f5b68ebf44c7abdd58accf35eab0c9e0c77603e3634f4bf19e635d3029bec"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/PHASE3_EXTERNAL_RUNTIME_WIRING_2026-04-14.md",
+          "bytes": 1101,
+          "sha256": "d48a207d8741d20e1ca3656d17898c966d8c2545dd1dff193b66968459d5490a"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/PHASE3_STATUS_2026-04-14.md",
+          "bytes": 1070,
+          "sha256": "095f59665a6a8be80b208555860c9e98263bf0d425ebdd802d4ebe55dbb406c1"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/PHASE4_FUNCTIONING_MODEL_2026-04-14.md",
+          "bytes": 1101,
+          "sha256": "adc4aed31a6850f437d26fb8a38c58f0b96d5e5df3110430cf371139afc206d1"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/PHASE6_LLAMAFILE_RUNTIME_2026-04-14.md",
+          "bytes": 615,
+          "sha256": "bab7609596ee81c54cdcec47a51445a98c2fc134dcccec98fae210f63e04234a"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/PHASE_0_1_TARGETED_DATA_RECOVERY.md",
+          "bytes": 2155,
+          "sha256": "74b61f4e95a66a7f1adf4e0154099ba2cc0020d1e6e11e96f6c50b8466dfa1dc"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/PRODUCTION_GGUF_BUILD_CONTRACT_2026-04-14.md",
+          "bytes": 637,
+          "sha256": "68f5318c83d03923b9379943d2cb4fb8f040981acaf36aeaa69a89cb86dfd93f"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/PRODUCTION_HARDENING_STATUS.md",
+          "bytes": 716,
+          "sha256": "79661e1dc5e7098dbec239ae1a1d8becb614a8ae8fa405e716f7c33d3c895a6a"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/PRODUCTION_READINESS_MATRIX.md",
+          "bytes": 846,
+          "sha256": "db6c4331a782dfe863c4fe4bf1b5ae773ea2850c45e9ba7b77fc39cc7f7e338d"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/PRODUCTION_RELEASE_HANDOFF.md",
+          "bytes": 2271,
+          "sha256": "1d57db94958aebab644ddab72a068d7950a7afb7d51171bdb78459b1700a9cb2"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/QUICKSTART_STEPBYSTEP.md",
+          "bytes": 7590,
+          "sha256": "32df7c7ab9a75fa9e8c82f6803773ec3ddb715ab5c940353fd8678b198218be8"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/README.md",
+          "bytes": 9706,
+          "sha256": "29a482fd1450afe2a3f4ce7d8033247b77dd01ff74f2e9bce980cb487e0c403e"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/REAL_GGUF_PRODUCTION_PATH_2026-04-14.md",
+          "bytes": 1503,
+          "sha256": "0b05e5c8b350d24faa65c450b0002e7ab45b2b9b3ee9f0208039f0e488ead2ad"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/REPO_PURPOSE_MATRIX.md",
+          "bytes": 113,
+          "sha256": "863439ed0877c33700fe616c9318334d1d581f7fca39c53f68c757d279af76b9"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/ROADMAP_NEXT_STEPS.md",
+          "bytes": 687,
+          "sha256": "fa223dd924bd43f23a3466468cf0fab47c72b58d30fd3f3d35c36e31a069bf7e"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/RUNTIME_RECEIPTS_AND_TIMEOUTS_2026-04-14.md",
+          "bytes": 784,
+          "sha256": "92291312467a18616f3155b2584a5adb219083c4f3fc3fce6515e891642ec858"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/SCORER_EVOLUTION.md",
+          "bytes": 3127,
+          "sha256": "a19c294388001d1507d07d40e956a8a3e96028c9766ed2e9bc5b41261016aec4"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/SECURITY_VULNERABILITY_RESPONSE.md",
+          "bytes": 1568,
+          "sha256": "d32540a1b5de366d31a03cbd269a1463efad5fada0bd08b0c776ab3c9efbfc1e"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/SEO_INDEXING_PLAYBOOK.md",
+          "bytes": 3363,
+          "sha256": "8a2204682e5dc8e98385fb0c45bc0377db7c2e7bf17b7dd836184fa93f275329"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/SPONSOR_PROOF_BRIEF.md",
+          "bytes": 3771,
+          "sha256": "55b3a156ea4029ab7ff956f1130e75955eb07260ec92ccc35726b8bb815dbc1f"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/SPONSOR_ROUTING_INDEX.md",
+          "bytes": 1362,
+          "sha256": "a5dba432de686a7f91a380c65fed474f57c89d3afa6444b4c025b5db4a592931"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/STACK_INTERFACE_CONTRACTS.md",
+          "bytes": 1679,
+          "sha256": "882da72e00c44f517655b134e664aee7e288b59bd34312800bb090aa9a2fd9e3"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/STAGED_VALIDATION.md",
+          "bytes": 6659,
+          "sha256": "6375506c19959a3e4798ca5d1fe6677fa83aeaef211577375facfa3c74b33fd0"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/SYNTH_COMPANION_ROADMAP_4_5_7.md",
+          "bytes": 994,
+          "sha256": "93c9f4b5019bc0f6cf86b972f6c638214083c4edfe521e755c1363a003cf7fe8"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/TRAINING_STACK_AND_GGUF_PATH.md",
+          "bytes": 854,
+          "sha256": "5ac21463e70172576b2903ca93d3892a6d9a32d09c59c6c5185e50d4f4198451"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/TRANSITIONAL_LICENSE_ROADMAP.md",
+          "bytes": 1380,
+          "sha256": "9dcb7be375ca9e904f21b5d522f43ac3a58fef01ba4c73f85067fe45e374ea19"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/UPSTREAM_EVENT_RELEASE_FLOW_2026-04-14.md",
+          "bytes": 957,
+          "sha256": "977455688333435febe56919cd2a7e2b9e02ad00bc7dce125a037751e1c9899d"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/USER_END_RUNTIME_FLOW_2026-04-14.md",
+          "bytes": 2807,
+          "sha256": "e05037cfed60a0a4f68fd4fc67d150153abeda99c9731e75df6bfddc1a2d9c4d"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/USE_CASES.md",
+          "bytes": 12920,
+          "sha256": "b63242f7ad86795e3aaa8857a1166179d5ff400877cf91e5f53b80e0b6e46055"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/V2_CANDIDATE_ISOLATION_POLICY.md",
+          "bytes": 799,
+          "sha256": "b95ec3717cf7e4490924def60f0ff15af54f37fe8808d112fc12bc77173f4dd5"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/VISUAL_ATTACHMENT_WORKFLOW.md",
+          "bytes": 240,
+          "sha256": "48a372a580d0e28ef3979861aa8f30355cc8d0333a86173633b7093f6bf66cf4"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/WARP_PAIRING_AGENTIC_TERMINAL.md",
+          "bytes": 2926,
+          "sha256": "c9d7608adc708351f4d3792bc9a4e7d3658d383342b504a07efef9b0dc1748dd"
+        },
+        {
+          "file": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/docs/WHY_CLONE_ARC_NEURON.md",
+          "bytes": 1063,
+          "sha256": "c322f1e8b896debb84f94140be56c5bc1a3c009713f1ad81499ee0f6bfdfbc97"
+        }
+      ],
+      "rows": 308,
+      "rows_sha256": "f4189f37b065fb24dc74ff0d47ec1a87cc4b909aad0d77291687a0cbddef709f"
+    },
+    {
+      "source_repo": "docs/lucid-terminal",
+      "files": [
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/ARCHITECTURE.md",
+          "bytes": 15803,
+          "sha256": "f9e2c58f4eb7d19664bc8b4a200125df7504ef0157487310ef290b922cb2f7ab"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/CHANGELOG.md",
+          "bytes": 5858,
+          "sha256": "e421eb2ff0afddbc6193fa146c02c0a213054c7b99e56c2bce7542159eb9d7ad"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/COMMANDS.md",
+          "bytes": 7976,
+          "sha256": "fddc8fc339d37d1d64fc832ebdb8581eb9d0e6ffa789fa87e98a180a63b79043"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/COMMAND_ROUTER_TESTING.md",
+          "bytes": 7430,
+          "sha256": "037625ef3bad23f4d90d25775e77815fea939c2cd1594cccfde9ee304b1d3530"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/COMPLETE_FEATURES_FINAL.md",
+          "bytes": 16629,
+          "sha256": "6f99533418d4e689ee007efdf81e254ff14fc169f9d04a1de3aac95f1b2d7ef5"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/CONTRIBUTING.md",
+          "bytes": 1628,
+          "sha256": "fe8c62acf8e1a729f3440d60d00c046ed816af22bae82eb763cf9b1a31413654"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/CONVERSATION_HISTORY_SIDEBAR.md",
+          "bytes": 10859,
+          "sha256": "3e16405a667952d2d736e4c7fbe7f8148c4415e04c8d03fcf5af48c6dcc83e6a"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/FIXNET_AUDIT.md",
+          "bytes": 25807,
+          "sha256": "505065f54239f5b8a4539b7c43a32f24efb9d760afa08d06b752cee464260e97"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/FIXNET_DARPA_AUDIT.md",
+          "bytes": 12965,
+          "sha256": "106788aa41c0ba482c679827def3df7e3376ad152f0dab83f8f74964ac80868c"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/FIXNET_IMPLEMENTATION.md",
+          "bytes": 14674,
+          "sha256": "8d2514512cd4e0106ded025afdc6d41af490933c5441ef39b7c335aa7d3f275f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/IMPLEMENTATION_COMPLETE_SUMMARY.md",
+          "bytes": 16139,
+          "sha256": "5abf8139c6e0a898ceaee33ea1662e75c9efd7b5281a148dfe90ed085091e487"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/IMPLEMENTATION_STATUS.md",
+          "bytes": 13422,
+          "sha256": "183dd853de642f189b02c171a0b3b2f5eee48b30448c933c9c99065f9edf257c"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/IMPLEMENTATION_SUMMARY.md",
+          "bytes": 8765,
+          "sha256": "8144fa981e8eec70d642e5b9a8671a76810fb9e48a4a64745ac6ed0cb00bf2d4"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/INTENT_PARSER_COMPLETE.md",
+          "bytes": 10574,
+          "sha256": "139f0d482ffc5638fa85939c05a3f10450365eeb649638b6de18ddf6948fedde"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/IPHONE_TOGGLES_DARPA_VALIDATOR_PLAN.md",
+          "bytes": 22247,
+          "sha256": "88693453fca7f47fb84c28860307a5d443e78860192a004d6aa53383f20bcea8"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/KNOWN_ISSUES.md",
+          "bytes": 2542,
+          "sha256": "972f4492d19312fc3a3addad1613878703192d9a277383a5f3b4a5f958392891"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/COMPLETE_ROUTING_ARCHITECTURE.md",
+          "bytes": 25909,
+          "sha256": "1ac67c4711b0fcbb69fe72481669cfb66a38567401aefff727c7d85913e96160"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/CONTRIBUTING.md",
+          "bytes": 1740,
+          "sha256": "94be5d49ae7cfe03cf32308ccf1afb8b6549b6496c99491fa353b21a9bda9832"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/DOCUMENTATION_AUDIT_COMPLETE.md",
+          "bytes": 14287,
+          "sha256": "5361ae4c10be2bbd80a7a4ca051bce3f32436073fb1654a26d2686522ef3ce38"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/DOCUMENTATION_AUDIT_PHASE_0_COMPLETE.md",
+          "bytes": 7187,
+          "sha256": "df86d6827f338c356b1dd9a7b9589a1fffae994357ac9359f51043d179f4c9f4"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/DOCUMENTATION_UPDATE_SUMMARY.md",
+          "bytes": 7105,
+          "sha256": "2843d2f0262dc82f1be04fc3dd6beb41786a1c597078a78cab0b519d83ae8cd2"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/Demo/DEMO_README.md",
+          "bytes": 2694,
+          "sha256": "b8c007bd7ebf009092c87fb2bce1f719ba658d7d512ce38f65d726523bbe7d27"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/Demo/HELP_PAGE_UPDATES.md",
+          "bytes": 4980,
+          "sha256": "3eca997d42a70d5d0dd5e9c6f25dcedb690f28bb973fffb5dce96283ac8f05cf"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/Demo/README.md",
+          "bytes": 3074,
+          "sha256": "b18cf0c488af1660c65bec67f5f9c7dbb9dd3c2f4fe93a7593fb58e10b904bcf"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/Demo/TESTING_GUIDE.md",
+          "bytes": 5319,
+          "sha256": "ffd6437cac0dc4f7524b1edae0b9300395ab2b50f0ca3472e25800792e450e74"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/Demo/TEST_COMMAND_SUMMARY.md",
+          "bytes": 4096,
+          "sha256": "0ed02ffccff6f510116a1d8ef6a394899534243a94eea2094e406192441a5a0a"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/ISSUES_FINAL_STATUS.md",
+          "bytes": 6161,
+          "sha256": "47debc5557b46a88d5ee31c4f6b0469f673c007e9f4d792efa13c0c02a97b581"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/LuciferAI_Consensus_Browser/README.md",
+          "bytes": 6657,
+          "sha256": "4b73ae47da2e63f6ecfb794cb7120c2c0ef0ac0c6a36c301790fd6ee09df32c3"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/LuciferAI_Fan_Terminal/README.md",
+          "bytes": 5837,
+          "sha256": "bbaa8072c1058eb40c97aa5a0a1427e7275902bd7c77a940774fbc9c809234e2"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/MASTER_CONTROLLER_STATUS.md",
+          "bytes": 9911,
+          "sha256": "49a548eec95ad9f62aa5133950d54d6cff63acce13cb66b206b5aec133e750f0"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/MASTER_CONTROLLER_SUMMARY.md",
+          "bytes": 10572,
+          "sha256": "ce848df8458274215f0348105e2d951cdcb12039cdd466d9d99ca4e6807101b8"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/MISSING_DOCUMENTATION.md",
+          "bytes": 7482,
+          "sha256": "1b59e332afdc35287374b917bc7e90a55ac00c76f831d20fd6facf9050b2d80a"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/MONETIZATION_SETUP.md",
+          "bytes": 5694,
+          "sha256": "2f43bfb8916ffffbe2ff9d0cb8706013333cf76cde8d447b2dbac7af17b60152"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/README.md",
+          "bytes": 66063,
+          "sha256": "2d79345a6acaaea0b10adf2c868427f336ac469d19dbeb8357e34b749bbd70aa"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/STARTUP_PROCESS.md",
+          "bytes": 17807,
+          "sha256": "c11052d6ad56fd72fa706da21d0405d905cbe5e31a07a18c8b63daf5fafd9f67"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/START_HERE.md",
+          "bytes": 3596,
+          "sha256": "2c762b66d48a075b0aa445f9703563f45cc97cd56ff3e996e1299ec2c4b959a1"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/STEPS_SYSTEM_REVIEW.md",
+          "bytes": 15583,
+          "sha256": "bb82b54751dce76718c9c68e8e9628de5c10cac30ee2469921b4492f20d8bb78"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/STEP_DISPLAY_FIX.md",
+          "bytes": 5181,
+          "sha256": "568a1c0e9dce51bf8025f0d16079f728dc544cea52db33006aa1b0bcc43e2c98"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/STEP_WORKFLOW_DETECTION_ISSUES.md",
+          "bytes": 14046,
+          "sha256": "b7a2b570e284ec8cd31d77cfd6157182439e3c0f9debb42fbbcc492e98254dd2"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/TIMEOUT_FIX_IMPLEMENTATION.md",
+          "bytes": 6155,
+          "sha256": "c1fe0626b956475c5dbdd765ce4e1a45d0f7a1c0fb07709f3bca1ec3005f5190"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/TOKEN_TRACKING_IMPLEMENTATION_STATUS.md",
+          "bytes": 10963,
+          "sha256": "5189408778b63bf74777f947b8f05e28cfb735d363b7f2ec474dd19843885bc2"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/core/INTERACTIVE_TERMINAL_README.md",
+          "bytes": 6462,
+          "sha256": "9f73a4c5d19972a2345be4bf127c1b45b3e49eac803737db25d1a8887d836f8f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/ADDITIONAL_FEATURES.md",
+          "bytes": 28841,
+          "sha256": "c50140e1089296681cf89f013fbe26b8e64096f1d7328563b76a2fc093341ada"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/ADVANCED_COMBAT_MECHANICS.md",
+          "bytes": 7875,
+          "sha256": "99cc49e89f2d5533bcf09d1aba6602838fcf3b773f9d4a1ea5130b2c31068e70"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/BADGES.md",
+          "bytes": 7129,
+          "sha256": "0ad59c99799cf0e2a5b9fc461a6a6f155a7b7c6556ea15055a9134ed6de973e5"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/BADGE_PROGRESSION_GUIDE.md",
+          "bytes": 5586,
+          "sha256": "46f1761587aca4a0127ccf0cfdb488fce5dd801fa01076496ae36758081bb75e"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/BUILD_COMMANDS_FIXED.md",
+          "bytes": 6459,
+          "sha256": "20147312b3ba226d33d06d230163e89580c1e9b083b7931edaa153fd4b3dcfc4"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/BUNDLED_MODELS.md",
+          "bytes": 5370,
+          "sha256": "d62f5b23ddaf7b301e992a0494656a5f6181f949076c2e8cd052dfd3fd3e586b"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/CD_COMMAND.md",
+          "bytes": 7013,
+          "sha256": "655d7a4e0a9487f744a600ac056b8417043638a19dc571504a550002045e0252"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/CD_IMPLEMENTATION.md",
+          "bytes": 6508,
+          "sha256": "d75d87f81344779d868891cf6373446a127c92f10044b834d257c75b6192a8b3"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/CHANGELOG_VISUAL.md",
+          "bytes": 8173,
+          "sha256": "412aeea70179530c702fb839393df62e3317860e68f18fd2c83a49ec2302a4b4"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/COMMANDS.md",
+          "bytes": 15562,
+          "sha256": "7153c97ce43fb60b86687f4b4de5d4e0f2250bd2fabfb597439b34ea2278f7b6"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/COMMAND_TEST_RESULTS.md",
+          "bytes": 5502,
+          "sha256": "71a438776dcc8fbb205f103cbf671fcde34ccf55bb5aff39697766343b0bda4b"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/COMPLETE_BADGE_GUIDE.md",
+          "bytes": 8282,
+          "sha256": "d4d3f327c4b069849c612bff1c8920b55470fdd6a6f488e12be7664f8d7f1c92"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/COMPREHENSIVE_TEST_PLAN.md",
+          "bytes": 9298,
+          "sha256": "f91881f8e48d2c9b2b1de66381313ebe980077e4c1e7f59dc50605ae7ec05769"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/CONSENSUS_FIX_VALIDATION.md",
+          "bytes": 10113,
+          "sha256": "bdb5e94a336cec4adbd961b9676315f4463f648f45779d87e59c1b562d9bd96f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/CONSENSUS_SYSTEM.md",
+          "bytes": 13265,
+          "sha256": "50e75af073e1ef667b40277730783a58527918e458dc1950bab5d75b9cccdb3b"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/CONTEXT_AWARENESS_FIX.md",
+          "bytes": 8827,
+          "sha256": "463f17701d8c26a5aa18debf4d6d08b08abfa0a55d1b8d03627bacac4a06da2d"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/CONTEXT_SYSTEM.md",
+          "bytes": 8878,
+          "sha256": "f0dc7de28dd1cf68327d50b9d7aca57d7b14e41cbfc3dfd6a66ef7c9b2b4612d"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/CONTINUOUS_COMBAT_DESIGN.md",
+          "bytes": 7897,
+          "sha256": "12efb68cda40ead1a250bd39cf3c8f9296df8570d5086f68dcf52e5b682f9750"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/CUSTOM_INTEGRATIONS.md",
+          "bytes": 14708,
+          "sha256": "4b0b71118bedda1bb2e4f7503d74c47f7fcc90782af97aed8698cf1efa8788f5"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/CUSTOM_MODELS.md",
+          "bytes": 9234,
+          "sha256": "a1a1db2b5fb341c8ef9aa18253f9ff4abc012595a499dc0352ea0d72a163181e"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/ENVIRONMENT_COMMANDS.md",
+          "bytes": 9212,
+          "sha256": "2b740ae945233850621d89e1359ad0fc46ba143c2f4aa4f7eafff6972195e98a"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/FALLBACK_FEATURE.md",
+          "bytes": 5323,
+          "sha256": "df14411a92f6cd3b4f4eadc97e8ea2bf784d81cd234b0019445e3378c2cf128d"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/FALLBACK_PARSING_SYSTEM.md",
+          "bytes": 12066,
+          "sha256": "ab7d9fdbf2bd215e06391d46be4c697ae26745a8dfcce4d0d5495b3c5940cba2"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/FALLBACK_SYSTEM.md",
+          "bytes": 13396,
+          "sha256": "87adfa7fcc0efdece5bb9af18317ff24f74ffd04ee860f9e2cbebe579255a7aa"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/FEATURES_OLD.md",
+          "bytes": 5649,
+          "sha256": "19b74cb2fc10cc21db293d14c6410bfcc1a1029cb9c389d11f6fa9b2f73b60fc"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/FEATURES_SUMMARY.md",
+          "bytes": 10285,
+          "sha256": "e8eb12c944dbe77b26b419798fa2ce488c3e6f494a44d67123844e3f3d82ee63"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/FINAL_TEST_RESULTS.md",
+          "bytes": 8766,
+          "sha256": "b58f6c978e99595b289c57afd61d68d863330506181daa0f6f80a83da26d9c8f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/FIXES_APPLIED.md",
+          "bytes": 5262,
+          "sha256": "115675adeb7d49f718a1b241aad7bb8f4c4d546c287607cde17840c4697e23cb"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/FIXNET_GUIDE.md",
+          "bytes": 14657,
+          "sha256": "9ae031dd35e5f8447be1a29dc62121995dc2deb8db83494e74891b488e93be29"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/FIXNET_SYSTEM.md",
+          "bytes": 15428,
+          "sha256": "94ac465b3c4d31902f342c36c6dd5d44686bd484be5e4368a8a0892ca79ba68c"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/FIX_UPLOAD_FLOW.md",
+          "bytes": 8144,
+          "sha256": "b9a0517f10cad3eeb0a8aa5bda2f98b8510d7db5a89f111274d0ae3d5964fc3a"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/FIX_VALIDATION_V2.md",
+          "bytes": 7933,
+          "sha256": "61ada26ff95ae6defc9c19825091c1c730973cb0d73a8708d52d0c73ab254ad5"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/FOUNDER.md",
+          "bytes": 2681,
+          "sha256": "5891fdc8b60071d6227753efde16f3328baf8ca4d767065dba3162a66e123a5b"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/HEARTBEAT_UPDATE.md",
+          "bytes": 7132,
+          "sha256": "cf5d516098715e4111c14d06491a3bfa7ff3726a7919d12a06ca52c7bb972538"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/IMPROVEMENTS_SUMMARY.md",
+          "bytes": 8222,
+          "sha256": "bfa5545264438546b56e98179f583c57effdf7c91032b6567e3a539fcf45f61a"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/IMPROVEMENT_PLAN.md",
+          "bytes": 4982,
+          "sha256": "a75ea3585a135588d7cbf70fbfd5f0e77d57f2a1050519e3e6e5a3ddc23e28a8"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/INSTALL.md",
+          "bytes": 2988,
+          "sha256": "178a7025d5f200c7c85ee2b57ef199289ba18e76b0fa6834a49b8f2920314197"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/INTEGRATION_SUMMARY.md",
+          "bytes": 11786,
+          "sha256": "9d2ef36b532940685de330e4ca3687f0a41dca018d40f4a0f692ab05d8d4459d"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/INTEGRITY_TRACKING.md",
+          "bytes": 6662,
+          "sha256": "d40e867f3fb790511a234e1e0aa24fbc02688339435c66c1b61be25100b917da"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/INTELLIGENT_PARSING_SYSTEMS.md",
+          "bytes": 25623,
+          "sha256": "1575b956533bed8a4af4cae5dae2eea1a0920cbf9db55e7a67fa3a4a16665a67"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/INTERRUPT_HANDLING.md",
+          "bytes": 4283,
+          "sha256": "986dbb68622a3026dd14b55bedf580f3c60abda71e98f11aeb75056d549e2f83"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/LLAMAFILE_ALL_MODELS_PLAN.md",
+          "bytes": 8491,
+          "sha256": "e654a0e7a62175c72168090330c7f9fb6a25070525196123ff637500f4e2c960"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/LLM_BACKEND_UNIFIED.md",
+          "bytes": 9263,
+          "sha256": "546b06d34c48400add0ce02fc596cbf015e27b48b48669031d1451bbfd0df26a"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/LLM_ROUTING_FLOW.md",
+          "bytes": 7205,
+          "sha256": "c0a3551eb6dfaa7d19756974320cca02d3c10751e5bda3d65164bb5580fab96d"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/LUCI_ENV_IMPLEMENTATION.md",
+          "bytes": 9351,
+          "sha256": "54d22c350052847caa641cc9e138bf168b5e239b4d769c93c8e39e2794901af5"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/LUCI_FEATURES.md",
+          "bytes": 5811,
+          "sha256": "26375070367c041f16ccbfadbdcd0dd8254eb2e035c75bb671c5590d3f76a6bb"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/LUCI_USAGE.md",
+          "bytes": 3828,
+          "sha256": "cf884f186dcd0f62b9004193e6dae6c523ed44338d42e7ff0b22180c0b587745"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/LUC_QUICK_START.md",
+          "bytes": 3424,
+          "sha256": "5e856c168a050956e1efef8ec6919abecb8e727bcc0556559b63323372ffdf42"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/LUC_SYSTEM.md",
+          "bytes": 2747,
+          "sha256": "c1d40d8e62e1ef29bacf2d172466b16affa385ccd343f56caf2a779d5d4ebc99"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/MODEL_CAPABILITIES.md",
+          "bytes": 8189,
+          "sha256": "c1f4315890127abe8529da6d04dba7ad9ad4036fa4441126e147aa8981dc89d2"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/MODEL_DEVELOPMENT.md",
+          "bytes": 12616,
+          "sha256": "31e486e6293822abc62c63471f3467b24059730310c05f519f127eb7a7e3c478"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/MODEL_STORAGE.md",
+          "bytes": 11192,
+          "sha256": "7f683ed8db8d8b16ac3704327edbee670fbcb47ff8ad85986886e9000af6b000"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/MODEL_TIERS.md",
+          "bytes": 8347,
+          "sha256": "c50dba49ec2fb312c531fe38bfd9fec1996b4c008dce165bf0d54203a485cdb1"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/MULTISTEP_TEST_RESULTS.md",
+          "bytes": 7927,
+          "sha256": "c7b7b1012f58a443e50c7c192d1deea6afe5b1f5dcad405ecebcec984c0155e9"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/NATURAL_LANGUAGE.md",
+          "bytes": 5321,
+          "sha256": "e40e435582be487039174d5d27e4fc6b6898a7ab86b13a7915f178f18fc6ab8c"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/NO_LLM_OPERATION.md",
+          "bytes": 25558,
+          "sha256": "fa16e2188cc70581da48be87390c979a96a08295090f242e2b9688ccc178ccec"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/PHYSICS_COMBAT_SYSTEM.md",
+          "bytes": 10618,
+          "sha256": "0265ffe86ac287576776f305ef6cf0e4e9f15a7293a155fb8c0785b85e4f89eb"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/PHYSICS_COMBAT_SYSTEM_COMPLETE.md",
+          "bytes": 10773,
+          "sha256": "dbe191d29c0cccc8bdf75cd651f7ae14df672d014b111a69efdbc70f55bdedf5"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/QUICKSTART.md",
+          "bytes": 8448,
+          "sha256": "c79d247f93eca048c8670d0ca4c9b52906dfc24604f2ef3ff271c42b15f7bcf8"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/QUICKSTART_OLD.md",
+          "bytes": 6995,
+          "sha256": "9f765da78781023512ff051a575cd667559c4029893f060bc4ab59bfb0b436e7"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/QUICK_REFERENCE.md",
+          "bytes": 2740,
+          "sha256": "5002f130892d181b559302a6bbb42d1cbe0655465c3949b3b8a986bd9fa704b4"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/README.md",
+          "bytes": 1899,
+          "sha256": "a92c29f5597e043ec4533326343d699c64b74177cdb6def96f2b3a0a64681c0f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/REAL_ISSUES_FOUND.md",
+          "bytes": 5076,
+          "sha256": "49fba33365e7d2c6b169f1313677d7f32ebc91d63762cc936c0c93daa1e2e049"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/SESSION_SUMMARY.md",
+          "bytes": 10489,
+          "sha256": "611d8681de38067f1885a712655539b53cf580afb4431a566752e0b177fc4cf0"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/SOUL_COMBAT_SYSTEM.md",
+          "bytes": 7927,
+          "sha256": "e5105e1fc71271a3a6ef2cea1e269f0c80a7725d7190ff640bdee5d27e471208"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/STATUS.md",
+          "bytes": 7442,
+          "sha256": "a9413037be1cfc95c9d7d5b1df254814a83f03727d6644a26799db865fffca16"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/TESTING_STATUS.md",
+          "bytes": 7041,
+          "sha256": "eddb31b74ecf2f49e5747ae4276ab0db4c58e7d2a9474e9f434e4c40dc3fbf0f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/TESTING_SUMMARY.md",
+          "bytes": 6437,
+          "sha256": "d9381ffc82a8c4dd2078592b186660941544a0dcb16ee87918917883699fa510"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/TEST_REPORT.md",
+          "bytes": 6920,
+          "sha256": "6695452f7c84dbbb21efadedd0829220f999c511764854727a59491cba13ddd7"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/TEST_RESULTS.md",
+          "bytes": 4804,
+          "sha256": "6199106561c96c0a5774716307052dc7553bfbc69026d4a0a0691061a0ace3a1"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/TEST_RESULTS_VALIDATED.md",
+          "bytes": 4122,
+          "sha256": "0e05f38d1d02e78bcf5b14e902b02e94f7b3047c5be50cc970f799d35228507b"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/TEST_RESULTS_YN_PROMPTS.md",
+          "bytes": 7023,
+          "sha256": "fa1e4b9f53c7afe75ef4839860cd65c484ee44cb96f65727ca6135d91fe67cb4"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/TIER_SYSTEM.md",
+          "bytes": 13865,
+          "sha256": "854fd29eb0cc66bafd9d1b444829ab69fd79224a90abbc7d354b7974f874e951"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/TINYLLAMA_TEST_RESULTS.md",
+          "bytes": 7237,
+          "sha256": "98613df96807ae556190d3574ac995d3ae84ad83ef21cc234daafb5e9d931fa5"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/TOKEN_TRACKING_SYSTEM.md",
+          "bytes": 8558,
+          "sha256": "6027eb6aa4ec894e87c9c94f07d2eeb7b91f2be3ccd244a2062f510353ec55f3"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/TRAIN_CUSTOM_LLM_FOR_LUCIFERAI.md",
+          "bytes": 28301,
+          "sha256": "9c3799f1cf3d012611aa864b49a66ca2f90b8be1590377a9212ee37f88c79b9b"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/TREE_VISUALIZER_INTEGRATION.md",
+          "bytes": 9688,
+          "sha256": "4b597a3e5b3ec07cc4e43bf23427d96b3b293a3f4bc56b80631ab6c5942bd385"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/VISUAL_SYSTEM.md",
+          "bytes": 7862,
+          "sha256": "ec1155975b671597915bbc11b3e8dc48924924ae50a6a6673c476463e094330f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/WARP_QUALITY_ACHIEVED.md",
+          "bytes": 9570,
+          "sha256": "24fb8caa3d7da3c614220e411507e6fbf684e8b4357ee3e3b49c86189a90ddf8"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/WINDOWS_LEGACY.md",
+          "bytes": 4513,
+          "sha256": "33db76cadf6447e50d424c60c9347e1b832a7ab62afd0940ea137baecb0533e3"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/archive/DYNAMIC_PARSER_COMPLETE.md",
+          "bytes": 6458,
+          "sha256": "35c70cd318f7c0763fba67738020849cf015ea4c9ea00217256e065e7d439c70"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/archive/FINAL_IMPLEMENTATION_SUMMARY.md",
+          "bytes": 8453,
+          "sha256": "7ec41ab9f54fcab61dd88b5915b5558efda3a6596120cdafbb94c3476c0d8455"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/archive/IMPLEMENTATION_COMPLETE.md",
+          "bytes": 12686,
+          "sha256": "784ae8689596021cd83a43a6f9485abe6ca58ac3a70dc058d6a0822e904a1f0b"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/archive/IMPLEMENTATION_PLAN.md",
+          "bytes": 4114,
+          "sha256": "70343f9221099963886497942dc5b194896a8dfda7cbbdd09d708bb8ddd1d09f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/archive/IMPLEMENTATION_STATUS.md",
+          "bytes": 6645,
+          "sha256": "6db99455a9860ed553c8ff3b334b9e739254c6e1a285bcd080ad1a38f5cd3b25"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/archive/IMPLEMENTATION_SUMMARY.md",
+          "bytes": 9771,
+          "sha256": "cdca8ef9de311d0b88e586c5748a9e4a204033c2c2c990871bc400f2d0007436"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/archive/IMPROVEMENTS_COMPLETE.md",
+          "bytes": 8275,
+          "sha256": "7c0b8a76174856aa92d31aef52aff385c3b008447fdf6f67ff7ea400c824508f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/docs/archive/README.md",
+          "bytes": 2670,
+          "sha256": "b007b0846c42f69a1b1bb49b5d32bd16411971fe88e61347ac54ecd11813b03f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/games/soul_combat/docs/COMBAT_SYSTEM_UPDATES.md",
+          "bytes": 5401,
+          "sha256": "62b6c1aff6cea89ff0abb35961c2904bfdbf82af49b11ce100c0ca899cf6c9e0"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/games/soul_combat/docs/PHYSICS_COMBAT_README.md",
+          "bytes": 7972,
+          "sha256": "c38ca45cd42df75862cee9e3d4dd5c366cd533cb0f07beb8ae8bf61e9544a393"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/luci/README.md",
+          "bytes": 6314,
+          "sha256": "662403cd2fc61ab41a6b2db59a8eecdda89ed99c5c3b58584f4c99f976ced4f0"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/media/README.md",
+          "bytes": 1536,
+          "sha256": "15642d8412a80aa600c89ad9d3233f2f2662476ae82bf2bc64f310ee9169b8a0"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/models/custom_models/README.md",
+          "bytes": 1117,
+          "sha256": "25c330478bd1a5abfb2fdf1ddcf82e0b8fa92f8d6f1f1ddab3651c0f6c54ff14"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/tests/PROGRESSIVE_TIER_TESTING.md",
+          "bytes": 9095,
+          "sha256": "52e7c67db86b4f0b057cfb0cd1a75d7f70df006d8e3e53db3a9694c72a3a2874"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/tests/README_TEST_SUITE.md",
+          "bytes": 6741,
+          "sha256": "e24bbb2d2a799bcfaf82a3cfaeaec92ae13a7b890a644323417c97e2147d233f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/tests/TEST_RESULTS.md",
+          "bytes": 6374,
+          "sha256": "e50ac776e511b9cf665070cd80dd920c87dd6c4f2e55f80b7f02ec18f67bda52"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BACKEND/tests/manual_test_guide.md",
+          "bytes": 9006,
+          "sha256": "08ffb93fa7c903553deb50ed7e8542375bd63dc2bdd92c5e2597b2e66943ecf8"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/CODE_OF_CONDUCT.md",
+          "bytes": 164,
+          "sha256": "fc4c304400f1f018c41b8d2d11f9f8fdfe76ddb95905542d2bf3994a12b23f11"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/CONTRIBUTING.md",
+          "bytes": 5395,
+          "sha256": "655cc23442adca73e669f082422480ced2bd4ef733b022cb223a4194d334b023"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/README.md",
+          "bytes": 53038,
+          "sha256": "9994d067916a957e00025fc320bfad20fa18dff92402fd266fd420f098c0573f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/SECURITY.md",
+          "bytes": 4533,
+          "sha256": "12355eb3bcb42d70629b27d5a22c8b722e4285d5d4cafc00d33511d87a897eda"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/SUPPORT.md",
+          "bytes": 2946,
+          "sha256": "9be6a7cd03d915b935fb18afed360ccd0e0e8c68b509034429ef91267b456053"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/docs/BROWSER_UI_BOUNDARY_2026-04-14.md",
+          "bytes": 666,
+          "sha256": "83ccffe9dd642978e5930fdbba8da63bd46d9f277aa1fb801da9e434bb3a8f10"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/docs/CURRENT_STATE_AND_NEXT_ACTIONS_2026-04-14.md",
+          "bytes": 1652,
+          "sha256": "c605b7dd91672786da3f5aa949c781508fcce41934c410b1ac0f5306d5cacfbb"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/docs/ECOSYSTEM_INTEGRATION_MATRIX_2026-04-14.md",
+          "bytes": 1640,
+          "sha256": "d985b6babb3a9da9043a952d5ce1fb15bed94f8138cb498bd436ea07cc0305b4"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/docs/FINAL_EXTERNAL_BOUNDARY_2026-04-14.md",
+          "bytes": 664,
+          "sha256": "eb13d766e1ff5e3dc123a3dfcb1ac649bcac86bfb978ee3ed892f7020c1b8d79"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/docs/FINAL_PRODUCTION_HANDOFF_2026-04-14.md",
+          "bytes": 1153,
+          "sha256": "e6cdf97ff1098826bdf702d80e26cd23de645adb67b819e7adeef8f040ded1b4"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/docs/LLAMAFILE_BINARY_RUNTIME_2026-04-14.md",
+          "bytes": 1432,
+          "sha256": "4b1a62a302730b7545be3daf7f688a9e8178736eb84c79b61c76f2e65ecc4ef2"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/docs/PHASE3_EXTERNAL_RUNTIME_WIRING_2026-04-14.md",
+          "bytes": 1101,
+          "sha256": "d48a207d8741d20e1ca3656d17898c966d8c2545dd1dff193b66968459d5490a"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/docs/PHASE3_STATUS_2026-04-14.md",
+          "bytes": 1070,
+          "sha256": "095f59665a6a8be80b208555860c9e98263bf0d425ebdd802d4ebe55dbb406c1"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/docs/PRODUCTION_GGUF_BUILD_CONTRACT_2026-04-14.md",
+          "bytes": 637,
+          "sha256": "68f5318c83d03923b9379943d2cb4fb8f040981acaf36aeaa69a89cb86dfd93f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/docs/RUNTIME_RECEIPTS_AND_TIMEOUTS_2026-04-14.md",
+          "bytes": 784,
+          "sha256": "92291312467a18616f3155b2584a5adb219083c4f3fc3fce6515e891642ec858"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/docs/UPSTREAM_EVENT_RELEASE_FLOW_2026-04-14.md",
+          "bytes": 957,
+          "sha256": "977455688333435febe56919cd2a7e2b9e02ad00bc7dce125a037751e1c9899d"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/docs/USER_END_RUNTIME_FLOW_2026-04-14.md",
+          "bytes": 2807,
+          "sha256": "e05037cfed60a0a4f68fd4fc67d150153abeda99c9731e75df6bfddc1a2d9c4d"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/scripts/execution/promote_candidate_PATCH.md",
+          "bytes": 1616,
+          "sha256": "e8a52596069f4c0790922938da03b1a69b9555d275d3764a831eb21866b0a30f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/scripts/execution/run_model_benchmarks_PATCH.md",
+          "bytes": 1289,
+          "sha256": "3d827ece5a3fce3f03ca11dc4cd593c354ea05871941aad5acccde17cc1c3fc7"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCID-BUILDER/specs/cognition_doctrine_v1.md",
+          "bytes": 1863,
+          "sha256": "389e0faf1161ccf5bb5a358c66f011c38001e83d3c14705b7cbc62201d21b5bd"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCIFERAI_AUDIT.md",
+          "bytes": 25811,
+          "sha256": "ea4c2583dffb18d14f76af062acf3492c5c5e65bc5a36c90d398fcb47b827cd2"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCIFERAI_BACKEND_AUDIT.md",
+          "bytes": 21089,
+          "sha256": "0fe6354a57e02afe18962a83a356c8348ab38673a80aaabc56062691e24fb0fe"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/LUCIFERAI_WARP_INTEGRATION_COMPLETE.md",
+          "bytes": 19589,
+          "sha256": "5b49ab1f0f76a050f2a716351c2f24bd20baf2bd79387d2a8f2c7554fe0efcaa"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/MODELS_COMPLETE.md",
+          "bytes": 7228,
+          "sha256": "ce392d6e3a8e7b6e688aeb2f54dc1e7ca8dc766c246f71f809828ac093791b9d"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/PHASE3_COMPLETE.md",
+          "bytes": 8657,
+          "sha256": "a5e7650436b2fb02d4f924a7b5bed64679b956c7696a3c1ddccc74b35ee88b6b"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/PHASE4_COMPLETE.md",
+          "bytes": 8425,
+          "sha256": "95730915b49208da6169d7fa44bd092fb661c3427b9e1737c14c05042e44c63e"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/PHASE_2_COMPLETE.md",
+          "bytes": 13872,
+          "sha256": "7fdd792bd87cae03fd5d62f906d88b389fb281473cd82126284d80ed36893e95"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/PLANNING_PANEL_COMPLETE.md",
+          "bytes": 8280,
+          "sha256": "61a7512f47191e71ef5b55b07dc271a8041e59da832aec1f7879d82c90804319"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/PLUGIN_ARCHITECTURE.md",
+          "bytes": 13652,
+          "sha256": "685c3ccd7459a17ede8b65a18ae04ef3e309333470e762849119ef3f7947d249"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/PLUGIN_ARCHITECTURE_PLAN.md",
+          "bytes": 29021,
+          "sha256": "78215d780a9dc19ab022fedecb76a10dc62f78e526066f51fcc04c14178bee99"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/PROJECT_COMPLETE_SUMMARY.md",
+          "bytes": 17925,
+          "sha256": "cff30a3c6446e0061d2181f1a6b8372c08c69fe44a3b2296c2984701a05e3547"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/README.md",
+          "bytes": 14596,
+          "sha256": "82c7b457e1e20f6e2bc5cd63e1e0f0951e1b2310911d8f03a636ecf008305011"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/README.old.md",
+          "bytes": 4392,
+          "sha256": "162e7141fc498d02c452c4059ea3a6604f17c842dd403132582c4cae91674c5e"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/SECURITY.md",
+          "bytes": 7501,
+          "sha256": "2ad37cb3621125255e1a7f3e2c542f88bbc4e3f9b9a9c14d25363d5350c30ecd"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/SESSION_COMPLETE_FINAL.md",
+          "bytes": 7630,
+          "sha256": "78741d42ee02a82f2d87d00aa9aa94ddd1f6e45cea49d777d72ba3a108c0963f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/WARP_AI_INTEGRATION_FINAL.md",
+          "bytes": 14279,
+          "sha256": "d9228201d6c3c6fe495d6eb5a12fa2b592a4dd4b25333406b61440d22b48003c"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/WARP_COMMANDS_IMPLEMENTATION.md",
+          "bytes": 4662,
+          "sha256": "7ac31cd12f08191a06f743f19aef96ffd8710b11d72169d9510bcc5d3ca5a892"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/WORKFLOW_COMPLETE.md",
+          "bytes": 6314,
+          "sha256": "c2d0a6b7ca7b4c6c9141eee981a0e64cf47a6a1b08c54b581d26fddb02ac5ebe"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/WORKFLOW_SYSTEM.md",
+          "bytes": 11520,
+          "sha256": "5d8b6b06b59969819471dc58bcc6941e371dd0a781cc504a426ed187dda62f91"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/docs/COMMANDS.md",
+          "bytes": 7805,
+          "sha256": "5671e94f0f2e1a7b9a7f7dd8105f74f59d6c5386d86b6bc4cb69efadc9127ed9"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/docs/phone-streaming-spike.md",
+          "bytes": 7684,
+          "sha256": "6da47fe438be3fb3e1d64b9524616fc46638635f579ce904ee942b8613ad9f60"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/electron/core/README.md",
+          "bytes": 10202,
+          "sha256": "6d4e800d97d01d9f8a832a9cc002bfe810a542590ec0006fdfda2f9772f186ea"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/electron/core/tools/README.md",
+          "bytes": 6943,
+          "sha256": "d8049a5876b9f60f291a51d7ef789ee33521462449535d146f9e3a141468c315"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/perf/README.md",
+          "bytes": 2218,
+          "sha256": "a83b61f11e7b6f29bf772d23da27904e60a6a0bd94b10f1ac48aeeef884148c9"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/public/plugins/README.md",
+          "bytes": 4119,
+          "sha256": "92aae338ad662dd962a0ef688384366c182add2397141cf191ea78219380cfc4"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/public/settings/README.md",
+          "bytes": 3137,
+          "sha256": "5cf0ad0421c84cfed7f9ba25b4a228875b38c16363ef8a91ca384ba5f2ac6c60"
+        }
+      ],
+      "rows": 462,
+      "rows_sha256": "be3c791dce91432bdacedf5e7acef21ba7729b0a6cfa26cde731968404338291"
+    },
+    {
+      "source_repo": "docs/hub-docs",
+      "files": [
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/API.md",
+          "bytes": 7772,
+          "sha256": "593e3914629c784b4ba5dfae8381812a0b81ff5ba53c99d789bc732efc7acb24"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/ARCHITECTURE.md",
+          "bytes": 602,
+          "sha256": "00ec830153e7c6a0641175e3425bcddba270856680d7a1d34db50d74490c3bb8"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/AUDIT_EVIDENCE.md",
+          "bytes": 1085,
+          "sha256": "b2e46d4fcb18a593e78571f660dc9616cc1344aeee0ea98367a55816c7a5c1e7"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/BRANCHING_AUDIT_REPORT.md",
+          "bytes": 1704,
+          "sha256": "9b45430e670320ae73fc8aabdf1b6cc29401db7c836c5a99816e756cd06a8191"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/BRANCHING_STRATEGY.md",
+          "bytes": 2553,
+          "sha256": "9c9dce74bd8b7d182b773bd1eeacdd1f108136198cbdcd8a7c73ec8251744829"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/BRANCH_EXECUTION_QUEUE.md",
+          "bytes": 1293,
+          "sha256": "78b826d140d5c5c6ea605c51bccb384549aaebc401fc43893c1a932efdec4669"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/BRANCH_PROTECTION_RULES.md",
+          "bytes": 625,
+          "sha256": "1aff0d8bca098a923c0fcad9f37da4e03b2c4052003fa682f0e8193384306119"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/BRANCH_RELEASE_LADDER.md",
+          "bytes": 666,
+          "sha256": "e7beb94c26ea804d344a98ba7fb86645264c3ed89b89576d73caea308387cac7"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/CATALOG_POLICY.md",
+          "bytes": 654,
+          "sha256": "16f1adee98cf1f4f661053f6406b199a318127e4ca6c1c7f57a1dfa69df05fa8"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/DEFERRED_CUT_PROPOSAL.md",
+          "bytes": 8352,
+          "sha256": "ad30bad3579d4d2af3af8970da8e7509f385e2efd3287b78ad89d2f7adfb9d79"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/ECOSYSTEM_INDEX_OPERATIONS.md",
+          "bytes": 1032,
+          "sha256": "c18f3f7ebc97d0b5b6370a43c5335785f7372c97c73a9e9c2c763e106385779c"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/ENGINEERING_AUDIT.md",
+          "bytes": 2161,
+          "sha256": "7222e4ff0216f61886de8b10db366f38fc28ac768e37eb8883e53487bb0077bc"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/HUB_TRUST_SPINE.md",
+          "bytes": 1653,
+          "sha256": "ba03a3c7a5d5e249ca0208d2221c7aa2123ee79e76b3a0b1375ebc3a85ae2bce"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/OPERATOR_RUNBOOK.md",
+          "bytes": 859,
+          "sha256": "b607ca797480b558a2e85d177940184e42895ae2410119f1dcfb3f737d585953"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/PUBLIC_INDEX_READINESS_REPORT.md",
+          "bytes": 2200,
+          "sha256": "602264a5e8cf1d065f32eb17d37736d47ca79feae01badce6c8e35db6f4e1bee"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/PUBLIC_INDEX_TOP_TIER_READINESS.md",
+          "bytes": 1470,
+          "sha256": "0b1f8c804576c77dbae1d0dabd7b8432addbc6569fcaac7e48789808a8d652d3"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/PUBLIC_LINK_GRAPH.md",
+          "bytes": 54550,
+          "sha256": "ec93b66bacdcdf515805d3d487da9cdae60893e2bc793a65001d9290967df665"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/PUBLIC_PAGE_DEFAULT.md",
+          "bytes": 630,
+          "sha256": "e6e603542094986cf73b7df24af8b93bfa36aa32c389aada92b60ec2c04bf976"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/PUBLIC_ROADMAP.md",
+          "bytes": 633,
+          "sha256": "11f2c5f54b6fa2c39da19e353e6319504e58d4f3aa41beb140cb6e082609260c"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/QUICKSTART.md",
+          "bytes": 1332,
+          "sha256": "c6a671e5844312e75c40e0e0d01222e19fb4d3a60826e3ae1a2290b15daf3a48"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/READINESS.md",
+          "bytes": 833,
+          "sha256": "d86f8d3882434e32bb0ee788f4d079234ba5233a605287d90ed51ef8ca6b1cd7"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/RELEASE_CHECKLIST.md",
+          "bytes": 767,
+          "sha256": "2ac7c89990671a76f44d617e1200c7840240f7f73195647119dec081261fe6a7"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/SEO_INDEXING_AUDIT.md",
+          "bytes": 3882,
+          "sha256": "3d4855de5fe81ad04d2cf1dfde779ff954ed01eca237e2b6939fdb0245a6c232"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/SEO_PROMOTION.md",
+          "bytes": 1208,
+          "sha256": "8e7b34d3049ae94d1952ef6a9447ba9715e8da80cc89f383dd48bff7e813187f"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/SEO_TRACTION_PLAN.md",
+          "bytes": 1298,
+          "sha256": "06994cd9ee553ef6fc0c082be00930326fa0b3babbac0da4bc2fbb41a27c8c75"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/SHIP_NEXT_STEPS.md",
+          "bytes": 484,
+          "sha256": "df1505ee15b30fd9a848bd71532c5b1fce968f8821a4ff7176ebe6b8e4c1cf7d"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/SOURCE_INDEXING_SYSTEM.md",
+          "bytes": 1714,
+          "sha256": "2d1b8569b5b36fc1bda43cd3b47b8eac44009c8b75b779addda7156bafc69bcb"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/SOURCE_REPOSITORY_INDEX.md",
+          "bytes": 5803,
+          "sha256": "6642bd5208cd4df5d09f6e06a7f4c22d70af07c6e3fd92d58e5e0f66a4131536"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/SOURCE_SPINE_AUTOSYNC.md",
+          "bytes": 2140,
+          "sha256": "6bc38b023a240c8dcb70a826494b8b6e46496e4801117993ea33fbf0c28323b4"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/STATE_MODEL.md",
+          "bytes": 825,
+          "sha256": "6331def848a4a52a188ab64a333d78cb749885e2e310b6a3e020db0e4b57a7c8"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/STRIPE_NOTES.md",
+          "bytes": 1195,
+          "sha256": "e6b2dd9bec523d865433c28b038dc0ecf9597a6efa4fc8b985d7198d417eff58"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/SUBMISSION_ROUTES.md",
+          "bytes": 14283,
+          "sha256": "af6500937a24672b6608bdec90df7e51b1dc2db5a4cbb29d774e1c2144cc96e6"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/V1_ABSOLUTE_CLEAN_AUDIT.md",
+          "bytes": 575,
+          "sha256": "16c3623e89a0c499f90252bf2daf7b8003a228f846623a2432c40a10a987a41f"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/V1_CONFLICT_CLEAN_AUDIT.md",
+          "bytes": 611,
+          "sha256": "6095b1361c3d6ebb135d7107bb5174148fc0e115cf138580b1545fae0f39fe41"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/V1_LISTS_TAB_AUDIT.md",
+          "bytes": 14157,
+          "sha256": "8dfbe834839eef84d66101530581e0e42c18807a51a0af7f39c4b44df2226861"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/V1_SEO_BUTTONS_RESTORED_AUDIT.md",
+          "bytes": 672,
+          "sha256": "8597be1b4a7774fd60f03f16222482dc01c5e80c3506e4ec8455d6403b34d130"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/V1_STABLE_RELEASE_CHECKS.md",
+          "bytes": 559,
+          "sha256": "3227413ed06b09d0105d3b9465f65300d3eea484a1e563cb738db821ca805aff"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/V1_START_HERE_LIST_AUDIT.md",
+          "bytes": 2007,
+          "sha256": "3c61eda4a34c1dbb01ce4fe9fe228b71c527633d7a547c7201ccb4b566b7ed96"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/V1_TOGGLE_DEFAULT.md",
+          "bytes": 506,
+          "sha256": "d152460928413f68a852d7669478f3b65617a984327d35aea218b4351fba1aa2"
+        },
+        {
+          "file": "/home/hatch/workspace/TizWildinEntertainmentHUB/docs/api-routes-daily.md",
+          "bytes": 2368,
+          "sha256": "89c537139ea07538eebb1b03e0a942d2477d4ad84c601c11ef3d9df889d10bbf"
+        }
+      ],
+      "rows": 112,
+      "rows_sha256": "201f95471cf62d949ee78872189fdfce2fdba96dfbb9f4170c85bd6d95d33513"
+    },
+    {
+      "source_repo": "devto-article",
+      "files": [
+        {
+          "file": "/home/hatch/workspace/devto-wakeup-call.md",
+          "bytes": 2403,
+          "sha256": "b1145a10ac5afe5946bb782159f356e16e6e98e7722df8fd817101622991fc6a"
+        }
+      ],
+      "rows": 6,
+      "rows_sha256": "782ace1eb84e3ce5e2b9b048a8369e59bbc8718ba996f2a1733d45ab6cb8c435"
+    },
+    {
+      "source_repo": "threads-queue",
+      "files": [
+        {
+          "file": "/home/hatch/workspace/threads-poster/queue",
+          "note": "directory; per-file list omitted"
+        }
+      ],
+      "rows": 112,
+      "rows_sha256": "9d4380a4a713dfbf41c3ad30da2c4230a0e35f31fd6156a74c033678c6a0ae80"
+    },
+    {
+      "source_repo": "itch-listings",
+      "files": [
+        {
+          "file": "/home/hatch/workspace/itch-seo/all_items.json",
+          "bytes": 133782,
+          "sha256": "6945421bd1b78d1c69f085ad7802518e1a5396e0db5131f01ce51ca25ead544d"
+        }
+      ],
+      "rows": 134,
+      "rows_sha256": "3d269d95eb44a515d7613cbb26f4ba9755b2bf80febe6200c185b961ad91ad5c"
+    }
+  ],
+  "excluded": [
+    {
+      "what": "GSM8K (datasets/acquired/gsm8k/gsm8k.jsonl, 500 rows)",
+      "why": "EVALUATION-ONLY. Never in training, by Gary's hard rule."
+    },
+    {
+      "what": "The Stack (datasets/acquired/the-stack/, 0 rows)",
+      "why": "HELD for license review. Not in training at all."
+    },
+    {
+      "what": "All other external datasets (Hugging Face, etc.)",
+      "why": "Excluded by Gary's hard rule: no pollution of external datasets in the actual training, ever."
+    },
+    {
+      "what": "Chat transcripts (Muse conversation store)",
+      "why": "NOT used: using Gary's words as training data is still Gary's call and it has not been given."
+    },
+    {
+      "what": "Voice notes (73 mp3s in ~/workspace/your_files/)",
+      "why": "NOT transcribed in this pass (no Whisper installed; CPU transcription would take hours; substance already in MEMORY.md + daily logs). Deferred Phase 1b."
+    }
+  ],
+  "exclusion_statement": "This corpus contains ONLY our own data. No external dataset is in it: GSM8K is evaluation-only, The Stack is held for license review, and all other external datasets are excluded by Gary's hard rule (2026-11-07): no pollution of external datasets in the actual training, ever. Chat transcripts were not used (Gary's call, not given). Voice-note mp3s were not transcribed in this pass (deferred Phase 1b).",
+  "evaluation_principle": "Evaluation is Gate v2 benchmark first, then live continuous testing in the running system (Lucid / the ping server, in real operation) -- never by mixing external test datasets into the training.",
+  "cleaning": {
+    "dedupe": "by normalized prompt (lowercased, whitespace-collapsed)",
+    "dropped_total": 176,
+    "dropped_by_reason": {
+      "duplicate-prompt": 176
+    },
+    "redacted_pairs": 16
+  },
+  "dropped_log": [
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Preferences?"
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Preferences."
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Preferences?"
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Preferences."
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Preferences?"
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Preferences."
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Preferences?"
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Preferences."
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Preferences?"
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Preferences."
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Preferences?"
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Preferences."
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Preferences?"
+    },
+    {
+      "source": "memory/MEMORY.md",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Preferences."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Portfolio / crypto bots — review completed?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Portfolio / crypto bots — review completed."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Portfolio / crypto bots — review completed?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Portfolio / crypto bots — review completed."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Portfolio / crypto bots — review completed?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Portfolio / crypto bots — review completed."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Portfolio / crypto bots — review completed?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Portfolio / crypto bots — review completed."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Portfolio / crypto bots — review completed?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Portfolio / crypto bots — review completed."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Portfolio / crypto bots — review completed?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Portfolio / crypto bots — review completed."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Portfolio / crypto bots — review completed?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Portfolio / crypto bots — review completed."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Supersedes the last entry above?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Supersedes the last entry above."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about [event|high] On 2026-11-03 Gary approved?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about [event|high] On 2026-11-03 Gary approved?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Gary uploaded 15 Sentinel sprite?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Gary uploaded 15 Sentinel sprite."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about 09:45 PST — 48h paper-run health check (hourly)?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about 09:45 PST — 48h paper-run health check (hourly)."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about 09:45 PST — 48h paper-run health check (hourly)?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about 09:45 PST — 48h paper-run health check (hourly)."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about As of this flush the?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about As of this flush the?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Gary uploaded 15 Sentinel sprite?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Gary uploaded 15 Sentinel sprite."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about 10:43 PST — 48h paper run health check?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about 10:43 PST — 48h paper run health check."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about 11:44 PST — 48h paper run health check (3rd VM reset today"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about 11:44 PST — 48h paper run health check (3rd VM reset today)."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about 11:44 PST — 48h paper run health check (3rd VM reset today"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about 11:44 PST — 48h paper run health check (3rd VM reset today)."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about llamafile?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about llamafile?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about [event|high] On 2026-11-03 Gary approved?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about [event|high] On 2026-11-03 Gary approved?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about 48h paper run health check — 12:43 PST?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about 48h paper run health check — 12:43 PST."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about [event|medium] On 2026-11-03 Gary approved?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about [event|medium] On 2026-11-03 Gary approved?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Gary asked the assistant to?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Gary asked the assistant to."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about [event|high] On 2026-11-03 Gary started?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about [event|high] On 2026-11-03 Gary started."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Supersedes the \"spawned, pending\" entry?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Supersedes the \"spawned, pending\" entry."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about [event|high] On 2026-11-03 Gary approved?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about [event|high] On 2026-11-03 Gary approved?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Android Emulator — INSTALLED + BOOTED (supersedes \"queued\""
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Android Emulator — INSTALLED + BOOTED (supersedes \"queued\")."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Android Emulator — INSTALLED + BOOTED (supersedes \"queued\""
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Android Emulator — INSTALLED + BOOTED (supersedes \"queued\")."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Android Emulator — INSTALLED + BOOTED (supersedes \"queued\""
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Android Emulator — INSTALLED + BOOTED (supersedes \"queued\")."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about Android Emulator — INSTALLED + BOOTED (supersedes \"queu"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about Android Emulator — INSTALLED + BOOTED (supersedes \"queu"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Android Emulator — INSTALLED + BOOTED (supersedes \"queued\""
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Android Emulator — INSTALLED + BOOTED (supersedes \"queued\")."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about Android Emulator — INSTALLED + BOOTED (supersedes \"queu"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about Android Emulator — INSTALLED + BOOTED (supersedes \"queu"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about State changes / corrections?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about State changes / corrections?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about State changes / corrections?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about State changes / corrections?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about RAM pressure — live check (Gary asked what's eating RAM)?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about RAM pressure — live check (Gary asked what's eating RAM)."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about Emulator wrapper — approved and BUILT (Gary, ~01:15 PST"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about Emulator wrapper — approved and BUILT (Gary, ~01:15 PST"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about State changes / corrections?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about State changes / corrections?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What did we decide about State changes / corrections?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What should I know about State changes / corrections?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Two one-shot (runonce) crons created?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Two one-shot (runonce) crons created."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Bluesky — Arcanum I drafts DONE and SCHEDULED?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Bluesky — Arcanum I drafts DONE and SCHEDULED."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Bluesky — Arcanum I drafts DONE and SCHEDULED?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Bluesky — Arcanum I drafts DONE and SCHEDULED."
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "What do we know about Full Bluesky posting schedule now?"
+    },
+    {
+      "source": "memory/daily-logs",
+      "reason": "duplicate-prompt",
+      "prompt": "Tell me about Full Bluesky posting schedule now."
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Abstract cover?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Abstract work?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does 1. Introduction cover?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does 1. Introduction work?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does References cover?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does References work?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Abstract cover?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Abstract work?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does 1. Introduction cover?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does 1. Introduction work?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does 2. The bar: Serum 2 (evidence) cover?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does 2. The bar: Serum 2 (evidence) work?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does 7. Measurement plan cover?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does 7. Measurement plan work?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does 8. Limitations and open questions cover?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does 8. Limitations and open questions work?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does 9. Future work cover?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does 9. Future work work?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does References cover?"
+    },
+    {
+      "source": "docs/Therum-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does References work?"
+    },
+    {
+      "source": "docs/FreeVox8-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Abstract cover?"
+    },
+    {
+      "source": "docs/FreeVox8-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Abstract work?"
+    },
+    {
+      "source": "docs/FreeVox8-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does 1. Introduction cover?"
+    },
+    {
+      "source": "docs/FreeVox8-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does 1. Introduction work?"
+    },
+    {
+      "source": "docs/FreeVox8-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does 1.1 Product Architecture cover?"
+    },
+    {
+      "source": "docs/FreeVox8-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does 1.1 Product Architecture work?"
+    },
+    {
+      "source": "docs/FreeVox8-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "What does References cover?"
+    },
+    {
+      "source": "docs/FreeVox8-PAPER",
+      "reason": "duplicate-prompt",
+      "prompt": "How does References work?"
+    },
+    {
+      "source": "docs/llmbuilder-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Honest boundary cover?"
+    },
+    {
+      "source": "docs/llmbuilder-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Honest boundary work?"
+    },
+    {
+      "source": "docs/llmbuilder-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Concrete applications cover?"
+    },
+    {
+      "source": "docs/llmbuilder-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Concrete applications work?"
+    },
+    {
+      "source": "docs/llmbuilder-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Concrete applications cover?"
+    },
+    {
+      "source": "docs/llmbuilder-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Concrete applications work?"
+    },
+    {
+      "source": "docs/llmbuilder-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Concrete applications cover?"
+    },
+    {
+      "source": "docs/llmbuilder-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Concrete applications work?"
+    },
+    {
+      "source": "docs/llmbuilder-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Concrete applications cover?"
+    },
+    {
+      "source": "docs/llmbuilder-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Concrete applications work?"
+    },
+    {
+      "source": "docs/llmbuilder-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Concrete applications cover?"
+    },
+    {
+      "source": "docs/llmbuilder-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Concrete applications work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Executive Summary cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Executive Summary work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Fixed cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Fixed work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Executive Summary cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Executive Summary work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Executive Summary cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Executive Summary work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Conclusion cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Executive Summary cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Executive Summary work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Conclusion cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Executive Summary cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Executive Summary work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Deliverables cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Deliverables work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Deliverables cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Deliverables work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Deliverables cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Deliverables work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Conclusion cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Summary cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Summary work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Features cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Features work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does 🏆 Conclusion cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does 🏆 Conclusion work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Current State cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Current State work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does 📁 File Operations cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does 📁 File Operations work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Executive Summary cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Executive Summary work?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Benefits cover?"
+    },
+    {
+      "source": "docs/lucid-terminal",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Benefits work?"
+    },
+    {
+      "source": "docs/hub-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Added cover?"
+    },
+    {
+      "source": "docs/hub-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Added work?"
+    }
+  ]
+}

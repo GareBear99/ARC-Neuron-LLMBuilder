@@ -1,0 +1,30 @@
+{
+  "schema_version": "acquire-hf/1.0",
+  "source": {
+    "hf_id": "bigcode/the-stack",
+    "config": null,
+    "split": "train",
+    "revision": "153f6301d232928d7f90d09b37fceb4fadc2c950",
+    "license": "other",
+    "license_status": "unknown"
+  },
+  "acquired_at_utc": "2026-11-06T03:24:16.710287+00:00",
+  "quarantine_dir": "datasets/acquired/the-stack/quarantine",
+  "checks": {
+    "manifest": "pass",
+    "license": "held",
+    "hash": "pass",
+    "quarantine": "pass",
+    "benchmark": "pending-gate-v2",
+    "no_regression": "pending-gate-v2"
+  },
+  "counts": {
+    "raw_rows": 0,
+    "converted": 0,
+    "dropped_empty": 0,
+    "dropped_duplicate": 0
+  },
+  "converter_verified": false,
+  "quarantine_status": "held-license-review",
+  "notes": "License 'other' is not on the permissive allowlist. Raw bytes were not converted; no JSONL was written. A human must review the license before this dataset can enter the v2 candidate lane."
+}

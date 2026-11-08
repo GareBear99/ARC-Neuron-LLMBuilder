@@ -1,0 +1,249 @@
+{
+  "schema_version": "catalogue/1.0",
+  "dataset": "distillation_sft",
+  "category": "our-own-seed",
+  "role": "training",
+  "promotion_lane": "candidate_v2",
+  "status": "present",
+  "touches_progression": false,
+  "purpose": "Self-curated ARC distillation SFT \u2014 waves 1-4, v4/v5/v6, phase-1 targeted records (instruction following, continuity, reflection). The largest seed family.",
+  "source": "ARC audit findings + distillation waves, self-curated.",
+  "license": "own-data",
+  "license_status": "own-data",
+  "total_rows": 886,
+  "total_bytes": 811265,
+  "schema": [
+    "capability",
+    "prompt",
+    "receipt_id",
+    "source",
+    "target",
+    "training_score",
+    "ts_utc"
+  ],
+  "files": [
+    {
+      "file": "demo_20260420T193950Z.jsonl",
+      "bytes": 12438,
+      "sha256": "309f93c0065691cc1e197a674aa33a2b336c5ab887c7e7a819f0b95ef39970c0",
+      "rows": 8
+    },
+    {
+      "file": "demo_20260421T061257Z.jsonl",
+      "bytes": 14263,
+      "sha256": "c1258f860bbc4ed55252bfff69b667fb715b0407c93427339dd67d605e7efd5c",
+      "rows": 9
+    },
+    {
+      "file": "demo_20260422T154617Z.jsonl",
+      "bytes": 14263,
+      "sha256": "c1258f860bbc4ed55252bfff69b667fb715b0407c93427339dd67d605e7efd5c",
+      "rows": 9
+    },
+    {
+      "file": "demo_20260422T155048Z.jsonl",
+      "bytes": 14263,
+      "sha256": "c1258f860bbc4ed55252bfff69b667fb715b0407c93427339dd67d605e7efd5c",
+      "rows": 9
+    },
+    {
+      "file": "demo_20260422T160615Z.jsonl",
+      "bytes": 14263,
+      "sha256": "c1258f860bbc4ed55252bfff69b667fb715b0407c93427339dd67d605e7efd5c",
+      "rows": 9
+    },
+    {
+      "file": "demo_20260422T161637Z.jsonl",
+      "bytes": 53375,
+      "sha256": "65b9a1c850e7b0fbdc71e68362e74028e28d0fc9a2f03c970c8ea8d9d470dc31",
+      "rows": 39
+    },
+    {
+      "file": "phase1_continuity.jsonl",
+      "bytes": 61735,
+      "sha256": "7109b9afd5975658be80d4e06cf5268e57fe8a921b4a8ec468988631681a3e71",
+      "rows": 50
+    },
+    {
+      "file": "phase1_instruction_following.jsonl",
+      "bytes": 59795,
+      "sha256": "004e3c35bb21b2d2af64c8391714da57726ce9a9625b76dfcd097ea390ae0b14",
+      "rows": 50
+    },
+    {
+      "file": "phase1_reflection.jsonl",
+      "bytes": 65515,
+      "sha256": "66a2186ac04facabd936610bf992eadb427d18e3bbba8de6551b203f984000d0",
+      "rows": 50
+    },
+    {
+      "file": "pipeline_export.jsonl",
+      "bytes": 4087,
+      "sha256": "2513f54f4c905e1c9120d37b56e2186c973b2cb86ac5793a3354b5dce4b79742",
+      "rows": 3
+    },
+    {
+      "file": "pipeline_v2_export.jsonl",
+      "bytes": 10767,
+      "sha256": "ed89ff5b40741f45fef397bac5fab683c8b6bad4fe79f665d4ff8eb6c78d13d1",
+      "rows": 7
+    },
+    {
+      "file": "proof_proof_workflow_5161.jsonl",
+      "bytes": 12438,
+      "sha256": "309f93c0065691cc1e197a674aa33a2b336c5ab887c7e7a819f0b95ef39970c0",
+      "rows": 8
+    },
+    {
+      "file": "reflection_sft.jsonl",
+      "bytes": 18962,
+      "sha256": "c8f8f66fe52faba0eb148bf15ef8ea800f9cc997023f0d2e1521827aaa468b20",
+      "rows": 15
+    },
+    {
+      "file": "seed_records.jsonl",
+      "bytes": 12211,
+      "sha256": "257b0ce866dfe427f903e5826fa1c8ee1a464f36c1d8ba758445ca1f9bcb92e1",
+      "rows": 20
+    },
+    {
+      "file": "terminology_sft.jsonl",
+      "bytes": 15280,
+      "sha256": "7e7c656b88d88027129c5e1e78fd45bf0466791319a4844713cfd54ba0bb364a",
+      "rows": 45
+    },
+    {
+      "file": "v11_continuity_sft.jsonl",
+      "bytes": 21341,
+      "sha256": "4cdd0c564ffa02b289f0d9326ff73af7fc068633bbc2484ead5a129dede0d8a6",
+      "rows": 20
+    },
+    {
+      "file": "v11_intelligence_sft.jsonl",
+      "bytes": 15017,
+      "sha256": "8b035e88e7b158a3c44e86e3b06da496432a21ef639f0d2bed47b3773a403176",
+      "rows": 28
+    },
+    {
+      "file": "v11_precision_sft.jsonl",
+      "bytes": 15180,
+      "sha256": "64bc772301e053dac6d2bd5aef1c2e2969ce0ff2a26370614663b93770cdcdf7",
+      "rows": 22
+    },
+    {
+      "file": "v11_surgical_sft.jsonl",
+      "bytes": 25225,
+      "sha256": "b49225d27c57fc94ff2e385701799a665730b882fdd95a07e57c5a3e3ef0c54c",
+      "rows": 26
+    },
+    {
+      "file": "v4_headroom_reasoning.jsonl",
+      "bytes": 11502,
+      "sha256": "f67e047a0a02ddad8c839eeae76b8e161fe43cde8d5f959ae2c4b3621532b792",
+      "rows": 17
+    },
+    {
+      "file": "v5_extension_reasoning.jsonl",
+      "bytes": 5907,
+      "sha256": "58faa41672ffcff728a7071b1686de6918ad69fd9f9db9b787a7943e71a4e65a",
+      "rows": 8
+    },
+    {
+      "file": "v6_conversation_harvest.jsonl",
+      "bytes": 53375,
+      "sha256": "65b9a1c850e7b0fbdc71e68362e74028e28d0fc9a2f03c970c8ea8d9d470dc31",
+      "rows": 39
+    },
+    {
+      "file": "v6_deterministic_compliance_sft.jsonl",
+      "bytes": 11294,
+      "sha256": "aeb53e20fbd0d48fafbed81f411e7a9ca72232f554995fc46576e97615418949",
+      "rows": 20
+    },
+    {
+      "file": "v6_direct_conversation.jsonl",
+      "bytes": 39672,
+      "sha256": "c84d39355d0e52564da3e1351ef157baa67242bf8b53fc93bf8ac84ce63a9a4d",
+      "rows": 30
+    },
+    {
+      "file": "v6_planning_sft.jsonl",
+      "bytes": 16733,
+      "sha256": "42122f4e5ab00789ece220ba8a1ebeb92b9e53c7eb4154a58a293796bd203274",
+      "rows": 20
+    },
+    {
+      "file": "v6_reflection_sft.jsonl",
+      "bytes": 24530,
+      "sha256": "68dc42d43db291a7bec1d66c5479cb14488bc033c8342be04f5965a054cc253a",
+      "rows": 29
+    },
+    {
+      "file": "wave1_arc_english.jsonl",
+      "bytes": 5315,
+      "sha256": "a1dae594332416097e6e293e3dcee5c337318e4febbd715bc01cd9c4597be40f",
+      "rows": 12
+    },
+    {
+      "file": "wave1_calibration_repair_planning.jsonl",
+      "bytes": 33118,
+      "sha256": "029e736ed0f15a2683b31567461e2210f1538cf1ab99557841a31e649526c6cd",
+      "rows": 45
+    },
+    {
+      "file": "wave1_exemplars.jsonl",
+      "bytes": 73691,
+      "sha256": "4d77ee6d58829d7d5129540d14bb17ddd8cd52bf5d27cfdef3a333a317d7fbe8",
+      "rows": 100
+    },
+    {
+      "file": "wave1_ood_english.jsonl",
+      "bytes": 10422,
+      "sha256": "24d8c3cf2579515a4078b71b034a96d55afe285231d97c03eb9543df1a84fd88",
+      "rows": 30
+    },
+    {
+      "file": "wave1_sparse_caps.jsonl",
+      "bytes": 15199,
+      "sha256": "24e859264867f454510df9ce1c4d6c96bfa67b5377c1992bfdcab8a41f6b7428",
+      "rows": 25
+    },
+    {
+      "file": "wave2_compression_targeted.jsonl",
+      "bytes": 7389,
+      "sha256": "730b5788fa7967e4d8371c8416b0ab4cf89e839fba168adb0f713fe3f4cebd75",
+      "rows": 10
+    },
+    {
+      "file": "wave2_intelligence_continuity.jsonl",
+      "bytes": 14044,
+      "sha256": "eedd719be26e76f3177bbe3f2c4dc6b0c606ae3d752052164ac11b42bb3ae3d0",
+      "rows": 22
+    },
+    {
+      "file": "wave3_english_comp.jsonl",
+      "bytes": 6092,
+      "sha256": "cc21a5f79421576066bc1299095a2fd8ceb53b1fa979f314af6fd52ce74d518d",
+      "rows": 12
+    },
+    {
+      "file": "wave3_english_und_targeted.jsonl",
+      "bytes": 4864,
+      "sha256": "ae782b01a7883f4b8ba6eee8f57617fdcdf02d206807cb575a9f000b41b40f1d",
+      "rows": 10
+    },
+    {
+      "file": "wave3_reflection_targeted.jsonl",
+      "bytes": 7266,
+      "sha256": "972359fd8edb2d1f0ed3ad4506b9dcfdb6e6eb6d653d2f375aee5295ae298bed",
+      "rows": 11
+    },
+    {
+      "file": "wave4_targeted.jsonl",
+      "bytes": 10434,
+      "sha256": "229d17a0ee69ca2309c66f77df19e4141251a750971119db856128cf703544e0",
+      "rows": 19
+    }
+  ],
+  "notes": "Generated by scripts/ops/catalogue_datasets.py. The Lucid/Track A corpus and the held us corpus have their own authoritative manifests; this manifest covers a seed dataset."
+}

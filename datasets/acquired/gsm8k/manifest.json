@@ -1,0 +1,40 @@
+{
+  "schema_version": "acquire-hf/1.0",
+  "source": {
+    "hf_id": "openai/gsm8k",
+    "config": "main",
+    "split": "train",
+    "revision": "740312add88f781978c0658806c59bc2815b9866",
+    "license": "mit",
+    "license_status": "permissive"
+  },
+  "acquired_at_utc": "2026-11-06T03:25:56.508601+00:00",
+  "quarantine_dir": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/datasets/acquired/gsm8k/quarantine",
+  "checks": {
+    "manifest": "pass",
+    "license": "pass",
+    "hash": "pass",
+    "quarantine": "pass",
+    "benchmark": "pending-gate-v2",
+    "no_regression": "pending-gate-v2"
+  },
+  "counts": {
+    "raw_rows": 500,
+    "converted": 500,
+    "dropped_empty": 0,
+    "dropped_duplicate": 0
+  },
+  "converter_verified": true,
+  "raw_source": "parquet-branch",
+  "raw_files": [
+    {
+      "file": "0000.parquet",
+      "sha256": "ea82612ea9582142387730c793eb67d3b12849002bc0b7fa6f8efafa7351419d",
+      "bytes": 2306545
+    }
+  ],
+  "raw_sha256_combined": "cab596670406b9c8fb95a46b95b003ee1a6e6548c2329f44b250982c0c35ec97",
+  "quarantine_status": "quarantined",
+  "output_jsonl": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/datasets/acquired/gsm8k/gsm8k.jsonl",
+  "notes": "Converted records are v2-candidate-lane only (promotion_lane candidate_v2_only). They do not change the incumbent until a trained candidate passes benchmark and Gate v2."
+}
