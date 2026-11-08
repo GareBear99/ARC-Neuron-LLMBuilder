@@ -8,8 +8,9 @@
 
 **Location:** `datasets/lucid_corpus/` (this directory)
 **Built by:** `scripts/ops/build_lucid_corpus.py` (run from the repo root)
-**Version:** 1 — built 2026-11-07
-**Total rows:** 1,650 SFT pairs
+**Version:** 1 — rebuilt 2026-11-08 (third prompt template per section added;
+was 1,650 rows, built 2026-11-07)
+**Total rows:** 2,426 SFT pairs
 **Schema:** `{id, source_repo, capability, domain, prompt, target, tags, promotion_lane, notes}`
 — exactly the repo seed schema (as in `datasets/acquired/gsm8k/gsm8k.jsonl`).
 Every row has `promotion_lane: "candidate_v2_only"` (new dataset family →
@@ -31,10 +32,10 @@ model, or padded with external data.
 
 | Source (`source_repo`) | Rows | What it is |
 |---|---|---|
-| `lucid-docs` | 1,552 | Lucid repo markdown docs (185 md files) — README, ARCHITECTURE, COMMANDS, feature docs, backend docs, guides, changelogs |
+| `lucid-docs` | 2,328 | Lucid repo markdown docs (205 md files) — README, ARCHITECTURE, COMMANDS, feature docs, backend docs, guides, changelogs. 901 sections × 3 prompts ("what does X cover?" / "how does X work?" / "explain X in Lucid") |
 | `lucid-help` | 96 | Lucid help commands from `src/data/helpData.ts` (48 commands × 2 prompts: "how do I use X?" / "what does X do?") |
 | `lucid-forge` | 2 | Forge user-facing surface only — what the Forge is + its three tabs (forge / dual / tail), from `ForgeView.tsx` |
-| **Total** | **1,650** | |
+| **Total** | **2,426** | |
 
 Per-source row counts, file lists, source-file SHA-256s and the corpus
 SHA-256 are in `manifest.json`. Rebuild any time with:
@@ -110,16 +111,18 @@ datasets into the training data.
 
 ## Honest limits — the gap
 
-- **1,650 rows is below the 2,000–5,000 credible-first-run target** (short by
-  ~350 rows) and well below the 10k+ the plan wants for the real model
-  (short by ~8,350 rows).
-- The Lucid repo holds ~206k words of markdown docs, which yields ~1,556
-  section pairs at 2 prompts per section. The docs are the bottleneck, not
-  the compiler.
-- **To reach 2k:** add code-comment pairs (TypeScript/Python doc comments in
-  `src/`, `electron/`, `LUCID-BACKEND/`), and/or a third prompt template per
-  section (e.g. "give me an example of X"). Both are honest extensions of
-  the same sources, no new data needed.
+- **2,426 rows is INSIDE the 2,000–5,000 credible-first-run target** (reached
+  2026-11-08 by adding a third prompt template per doc section — "Explain X
+  in Lucid." — the same sources, no new data; was 1,650 rows, short by ~350).
+  It is still well below the 10k+ the plan wants for the real model
+  (short by ~7,574 rows).
+- The Lucid repo holds ~206k words of markdown docs, which yields 2,703
+  section pairs at 3 prompts per section (901 sections; 2,328 kept after
+  dedupe + cleaning). The docs are the bottleneck, not the compiler.
+- **The 2k step is DONE** (third prompt template per section, 2026-11-08).
+  The remaining honest extension for more rows is code-comment pairs
+  (TypeScript/Python doc comments in `src/`, `electron/`, `LUCID-BACKEND/`) —
+  same sources, no new data needed.
 - **To reach 10k:** NOT reachable from the current Lucid docs alone. It would
   need (a) much more Lucid documentation written, (b) real Lucid user
   questions + answers (the live system generates these over time — the

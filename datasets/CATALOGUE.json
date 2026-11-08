@@ -13,7 +13,7 @@
   },
   "totals": {
     "entries": 70,
-    "present_our_own_training_rows": 14841,
+    "present_our_own_training_rows": 15617,
     "present_evaluation_rows": 713,
     "benchmark_tasks": 168,
     "to_acquire": 13,
@@ -863,7 +863,7 @@
       "promotion_lane": "candidate_v2_only",
       "status": "to_build",
       "touches_progression": false,
-      "purpose": "Grow lucid_corpus from 1,650 rows toward the 2,000\u20135,000 credible-first-run target and the 10k goal. To 2k: code-comment pairs (TypeScript/Python doc comments in src/, electron/, LUCID-BACKEND/) and/or a third prompt template per section. To 10k: more Lucid docs written, real user questions + answers from the live system, and/or synthetic Q&A from the docs (human review gate before it enters training).",
+      "purpose": "Grow lucid_corpus from 2,426 rows toward the 10k goal. The 2,000-row step is DONE (third prompt template per section, 2026-11-08 — was 1,650 rows). To 10k: code-comment pairs (TypeScript/Python doc comments in src/, electron/, LUCID-BACKEND/), more Lucid docs written, real user questions + answers from the live system, and/or synthetic Q&A from the docs (human review gate before it enters training).",
       "source": "Lucid repo code + docs + live-system Q&A.",
       "license": "own-data",
       "license_status": "own-data",
@@ -1495,8 +1495,8 @@
       "source": "Lucid repo markdown docs + help commands + Forge surface (build_lucid_corpus.py).",
       "license": "own-data",
       "license_status": "own-data",
-      "rows": 1650,
-      "bytes": 1404977,
+      "rows": 2426,
+      "bytes": 2086299,
       "schema": [
         "capability",
         "domain",

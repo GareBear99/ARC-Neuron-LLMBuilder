@@ -63,7 +63,7 @@ repo (this repo) ── progression path ── 3.0 commercial version, natively
 | Measure | Count |
 |---|---|
 | Catalogue entries | 70 |
-| Present our-own training rows | 14,841 |
+| Present our-own training rows | 15,617 |
 | Present evaluation rows (external + local eval) | 713 |
 | Benchmark tasks (Gate v2) | 168 |
 | To acquire (external) | 13 |
@@ -81,7 +81,7 @@ trains.
 
 | Dataset | Rows | Status | Role | What it is |
 |---|---|---|---|---|
-| `datasets/lucid_corpus/` | 1,650 | present | training (Track A) | Lucid-only product knowledge — Lucid docs 1,552, help commands 96, Forge surface 2. Built by `scripts/ops/build_lucid_corpus.py`. THE training corpus (Track A, the only track). Short of the 2,000–5,000 credible-first-run target by ~350 rows; 10k goal needs more docs / live user Q&A (see §H). |
+| `datasets/lucid_corpus/` | 2,426 | present | training (Track A) | Lucid-only product knowledge — Lucid docs 2,328, help commands 96, Forge surface 2. Built by `scripts/ops/build_lucid_corpus.py`. THE training corpus (Track A, the only track). Inside the 2,000–5,000 credible-first-run target (2,426 rows, reached 2026-11-08 with a third prompt template per section); 10k goal needs more docs / live user Q&A (see §H). |
 | `datasets/us_corpus/` | 3,674 | **held** | training-held (Track B) | Gary's own data — MEMORY.md 436, daily logs 1,918, FreeEQ8 paper 88, Therum 52, FreeVox8 46, llmbuilder docs 308, Lucid docs 462, hub docs 112, dev.to 6, Threads 112, itch 134. Built by `scripts/ops/build_us_corpus.py`. **HELD: Track B is OFF — do NOT train a private Gary model.** Kept as a built artefact; not a training input unless Gary reverses that decision. |
 
 The LoRA trainer default is the Lucid corpus
@@ -215,7 +215,7 @@ on the VM.
 | HUB corpus | `~/workspace/TizWildinEntertainmentHUB/docs/` | HUB product knowledge. 112 rows already inside `us_corpus`. |
 | Voice-note corpus (Phase 1b) | `~/workspace/your_files/voice-message-*.mp3` (73 files) | Gary's voice, transcribed. Deferred: needs Whisper transcription (slow on CPU, or the free T4). Substance already covered by MEMORY.md + daily logs. |
 | Chat transcripts corpus | Muse conversation store | **BLOCKED — Gary's call not given.** Using Gary's words as training data is Gary's call and it has NOT been given. Do NOT build. |
-| Lucid corpus growth (2k / 10k) | Lucid repo code + docs + live-system Q&A | Grow `lucid_corpus` from 1,650 toward 2,000–5,000 (code-comment pairs, third prompt template per section) and 10k (more docs, real user Q&A from the live system, synthetic Q&A with a human review gate). |
+| Lucid corpus growth (2k / 10k) | Lucid repo code + docs + live-system Q&A | `lucid_corpus` reached 2,426 rows on 2026-11-08 (third prompt template per section) — inside the 2,000–5,000 credible-first-run target. Next: 10k (code-comment pairs, more docs, real user Q&A from the live system, synthetic Q&A with a human review gate). |
 
 **Live feed — to arrive:** `data/critique/operator_reviews.jsonl` — the
 ARC GitHub AI Operator (gh-ai-operator) answers code-review issues on the

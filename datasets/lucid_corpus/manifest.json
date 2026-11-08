@@ -14,8 +14,8 @@
     "promotion_lane",
     "notes"
   ],
-  "total_rows": 1650,
-  "corpus_sha256": "06f08c03a18f964273a01fc123e9ea8347bfb4002982c33124e329cba1123d40",
+  "total_rows": 2426,
+  "corpus_sha256": "dc5cdeaf0890691e794a075a7a9bdb80a7e1a4460826fa48c8764f432b322cb8",
   "sources": [
     {
       "source_repo": "lucid-docs",
@@ -32,8 +32,8 @@
         },
         {
           "file": "/home/hatch/workspace/lucid-terminal/COMMANDS.md",
-          "bytes": 7976,
-          "sha256": "fddc8fc339d37d1d64fc832ebdb8581eb9d0e6ffa789fa87e98a180a63b79043"
+          "bytes": 8632,
+          "sha256": "0773d30a0678d80598a6eaa472ff0d1eac89ca646dbd0b9c4a6a13c3cfba97d1"
         },
         {
           "file": "/home/hatch/workspace/lucid-terminal/COMMAND_ROUTER_TESTING.md",
@@ -944,22 +944,122 @@
           "file": "/home/hatch/workspace/lucid-terminal/public/settings/README.md",
           "bytes": 3137,
           "sha256": "5cf0ad0421c84cfed7f9ba25b4a228875b38c16363ef8a91ca384ba5f2ac6c60"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/CODE_OF_CONDUCT.md",
+          "bytes": 164,
+          "sha256": "fc4c304400f1f018c41b8d2d11f9f8fdfe76ddb95905542d2bf3994a12b23f11"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/CONTRIBUTING.md",
+          "bytes": 5395,
+          "sha256": "655cc23442adca73e669f082422480ced2bd4ef733b022cb223a4194d334b023"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/README.md",
+          "bytes": 53038,
+          "sha256": "9994d067916a957e00025fc320bfad20fa18dff92402fd266fd420f098c0573f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/SECURITY.md",
+          "bytes": 4533,
+          "sha256": "12355eb3bcb42d70629b27d5a22c8b722e4285d5d4cafc00d33511d87a897eda"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/SUPPORT.md",
+          "bytes": 2946,
+          "sha256": "9be6a7cd03d915b935fb18afed360ccd0e0e8c68b509034429ef91267b456053"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/docs/BROWSER_UI_BOUNDARY_2026-04-14.md",
+          "bytes": 666,
+          "sha256": "83ccffe9dd642978e5930fdbba8da63bd46d9f277aa1fb801da9e434bb3a8f10"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/docs/CURRENT_STATE_AND_NEXT_ACTIONS_2026-04-14.md",
+          "bytes": 1652,
+          "sha256": "c605b7dd91672786da3f5aa949c781508fcce41934c410b1ac0f5306d5cacfbb"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/docs/ECOSYSTEM_INTEGRATION_MATRIX_2026-04-14.md",
+          "bytes": 1640,
+          "sha256": "d985b6babb3a9da9043a952d5ce1fb15bed94f8138cb498bd436ea07cc0305b4"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/docs/FINAL_EXTERNAL_BOUNDARY_2026-04-14.md",
+          "bytes": 664,
+          "sha256": "eb13d766e1ff5e3dc123a3dfcb1ac649bcac86bfb978ee3ed892f7020c1b8d79"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/docs/FINAL_PRODUCTION_HANDOFF_2026-04-14.md",
+          "bytes": 1153,
+          "sha256": "e6cdf97ff1098826bdf702d80e26cd23de645adb67b819e7adeef8f040ded1b4"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/docs/LLAMAFILE_BINARY_RUNTIME_2026-04-14.md",
+          "bytes": 1432,
+          "sha256": "4b1a62a302730b7545be3daf7f688a9e8178736eb84c79b61c76f2e65ecc4ef2"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/docs/PHASE3_EXTERNAL_RUNTIME_WIRING_2026-04-14.md",
+          "bytes": 1101,
+          "sha256": "d48a207d8741d20e1ca3656d17898c966d8c2545dd1dff193b66968459d5490a"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/docs/PHASE3_STATUS_2026-04-14.md",
+          "bytes": 1070,
+          "sha256": "095f59665a6a8be80b208555860c9e98263bf0d425ebdd802d4ebe55dbb406c1"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/docs/PRODUCTION_GGUF_BUILD_CONTRACT_2026-04-14.md",
+          "bytes": 637,
+          "sha256": "68f5318c83d03923b9379943d2cb4fb8f040981acaf36aeaa69a89cb86dfd93f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/docs/RUNTIME_RECEIPTS_AND_TIMEOUTS_2026-04-14.md",
+          "bytes": 784,
+          "sha256": "92291312467a18616f3155b2584a5adb219083c4f3fc3fce6515e891642ec858"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/docs/UPSTREAM_EVENT_RELEASE_FLOW_2026-04-14.md",
+          "bytes": 957,
+          "sha256": "977455688333435febe56919cd2a7e2b9e02ad00bc7dce125a037751e1c9899d"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/docs/USER_END_RUNTIME_FLOW_2026-04-14.md",
+          "bytes": 2807,
+          "sha256": "e05037cfed60a0a4f68fd4fc67d150153abeda99c9731e75df6bfddc1a2d9c4d"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/scripts/execution/promote_candidate_PATCH.md",
+          "bytes": 1616,
+          "sha256": "e8a52596069f4c0790922938da03b1a69b9555d275d3764a831eb21866b0a30f"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/scripts/execution/run_model_benchmarks_PATCH.md",
+          "bytes": 1289,
+          "sha256": "3d827ece5a3fce3f03ca11dc4cd593c354ea05871941aad5acccde17cc1c3fc7"
+        },
+        {
+          "file": "/home/hatch/workspace/lucid-terminal/release/linux-unpacked/resources/LUCID-BUILDER/specs/cognition_doctrine_v1.md",
+          "bytes": 1863,
+          "sha256": "389e0faf1161ccf5bb5a358c66f011c38001e83d3c14705b7cbc62201d21b5bd"
         }
       ],
-      "rows": 1552,
-      "rows_sha256": "4ab5665048c6f7c5743ee60dfe0b7e2451e7050cf7a614e2dfb1d7b28ddd33b1"
+      "rows": 2328,
+      "rows_sha256": "d18e06ac532a9558826387088911f05f25b1354b87d6dbec1356d3b5356b8205"
     },
     {
       "source_repo": "lucid-help",
       "files": [
         {
           "file": "/home/hatch/workspace/lucid-terminal/src/data/helpData.ts",
-          "bytes": 16849,
-          "sha256": "470bebacf6c56d1185135fafcd678bb4b8d39564a7b8ce8a38f931fb1a11330b"
+          "bytes": 17163,
+          "sha256": "1b14b32e1f09f315bf2dcb6f81aca28cd4c38f46d4abb19794762b784f9c03de"
         }
       ],
       "rows": 96,
-      "rows_sha256": "a76984215e6aede15d9f1c0cccb5a2abc4e87c6a6d6fe91af730658e19b724e4"
+      "rows_sha256": "9abaae8b26cc0deb9122ff536ddce7e9e6788fdd8044aae88ee457ad357112b4"
     },
     {
       "source_repo": "lucid-forge",
@@ -971,7 +1071,7 @@
         }
       ],
       "rows": 2,
-      "rows_sha256": "132166cc884db01e86a0b09c983f5a7bcd24e9d77832b10fbd0927af9f07cbd0"
+      "rows_sha256": "32700ed6db3a3f9f520d6808ba4595c704711133fe20705887cc2c7fbf11d105"
     }
   ],
   "excluded": [
@@ -1012,10 +1112,10 @@
   "evaluation_principle": "Evaluation is Gate v2 benchmark first, then live continuous testing in the running system (Lucid / the ping server, in real operation) -- never by mixing external test datasets into the training.",
   "cleaning": {
     "dedupe": "by normalized prompt (lowercased, whitespace-collapsed)",
-    "dropped_total": 250,
+    "dropped_total": 375,
     "dropped_by_reason": {
-      "duplicate-prompt": 246,
-      "mentions-gary-by-name": 4
+      "duplicate-prompt": 369,
+      "mentions-gary-by-name": 6
     },
     "redacted_pairs": 0
   },
@@ -1033,22 +1133,7 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
-      "prompt": "What does Executive Summary cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does Executive Summary work?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "What does Conclusion cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does Conclusion work?"
+      "prompt": "Explain Executive Summary in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1063,12 +1148,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Executive Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Conclusion cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1083,32 +1178,7 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
-      "prompt": "What does Deliverables cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does Deliverables work?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "What does Deliverables cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does Deliverables work?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "What does Deliverables cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does Deliverables work?"
+      "prompt": "Explain Executive Summary in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1119,6 +1189,86 @@
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Executive Summary cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Executive Summary work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Executive Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Deliverables cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Deliverables work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Deliverables in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Deliverables cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Deliverables work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Deliverables in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Deliverables cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Deliverables work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Deliverables in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Conclusion cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1133,12 +1283,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Features cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Features work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Features in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1153,6 +1313,11 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain 🏆 Conclusion in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does 📁 File Operations cover?"
     },
     {
@@ -1163,12 +1328,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain 📁 File Operations in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Executive Summary cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Executive Summary work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Executive Summary in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1183,12 +1358,7 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
-      "prompt": "What does Features cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does Features work?"
+      "prompt": "Explain Benefits in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1199,6 +1369,26 @@
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Features work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Features in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Features cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Features work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Features in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1213,12 +1403,7 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
-      "prompt": "What does Summary cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does Summary work?"
+      "prompt": "Explain How It Works in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1229,6 +1414,26 @@
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Summary work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Summary cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Summary work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Summary in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1243,12 +1448,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain File Operations in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Script Operations cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Script Operations work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Script Operations in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1263,12 +1478,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Model Management in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Natural Language Queries cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Natural Language Queries work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Natural Language Queries in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1283,12 +1508,7 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
-      "prompt": "What does Test Cases cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does Test Cases work?"
+      "prompt": "Explain See Also in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1303,12 +1523,7 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
-      "prompt": "What does Test Cases cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does Test Cases work?"
+      "prompt": "Explain Test Cases in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1319,6 +1534,41 @@
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Test Cases work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Test Cases in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Test Cases cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Test Cases work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Test Cases in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Test Cases cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Test Cases work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Test Cases in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1333,12 +1583,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Future Enhancements in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Conclusion cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1353,12 +1613,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Future Enhancements in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Conclusion cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1373,12 +1643,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Overview cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Overview work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Overview in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1393,12 +1673,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Future Enhancements in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Overview cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Overview work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Overview in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1413,12 +1703,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain 🔮 Future Enhancements in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Overview cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Overview work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Overview in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1433,6 +1733,11 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain core/enhanced_agent.py in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Future Enhancements cover?"
     },
     {
@@ -1443,12 +1748,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Future Enhancements in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Conclusion cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1463,12 +1778,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain ✅ Verification Checklist in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Files Modified cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Files Modified work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Files Modified in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1483,6 +1808,11 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Success Criteria cover?"
     },
     {
@@ -1493,12 +1823,7 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
-      "prompt": "What does Features cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does Features work?"
+      "prompt": "Explain Success Criteria in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1509,6 +1834,26 @@
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Features work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Features in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Features cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Features work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Features in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1523,12 +1868,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Key Files in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Competitive Advantages cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Competitive Advantages work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Competitive Advantages in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1543,12 +1898,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Overview cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Overview work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Overview in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1563,6 +1928,11 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Summary cover?"
     },
     {
@@ -1573,12 +1943,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Overview cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Overview work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Overview in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1593,12 +1973,7 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
-      "prompt": "What does How It Works cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does How It Works work?"
+      "prompt": "Explain Notes in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1609,6 +1984,26 @@
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does How It Works work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain How It Works in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does How It Works cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does How It Works work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain How It Works in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1623,12 +2018,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Files Modified in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Conclusion cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1643,6 +2048,11 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Technical Details in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Executive Summary cover?"
     },
     {
@@ -1653,12 +2063,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Executive Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Conclusion cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1673,12 +2093,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Core Components in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Key Features cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Key Features work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Key Features in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1693,12 +2123,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain What Was Built in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Key Features cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Key Features work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Key Features in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1713,12 +2153,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Quality Metrics in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Test Cases cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Test Cases work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Test Cases in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1733,12 +2183,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Conclusion cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1753,12 +2213,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain ✅ Completed in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does 🚀 Next Steps cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does 🚀 Next Steps work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain 🚀 Next Steps in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1773,12 +2243,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Overview in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Core Capabilities cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Core Capabilities work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Core Capabilities in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1793,12 +2273,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Success Criteria in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Conclusion cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1813,12 +2303,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Status in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does 🎉 Summary cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does 🎉 Summary work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain 🎉 Summary in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1833,6 +2333,11 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Modified Files in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does 🔮 Future Enhancements cover?"
     },
     {
@@ -1843,12 +2348,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain 🔮 Future Enhancements in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does 🎉 Summary cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does 🎉 Summary work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain 🎉 Summary in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1863,12 +2378,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain 🏆 CONCLUSION in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does 📊 Current System Stats cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does 📊 Current System Stats work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain 📊 Current System Stats in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1883,12 +2408,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Features in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Success Criteria cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Success Criteria work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Success Criteria in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1903,12 +2438,7 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
-      "prompt": "What does Expected Behavior cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does Expected Behavior work?"
+      "prompt": "Explain 🎉 Summary in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1919,6 +2449,26 @@
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Expected Behavior work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Expected Behavior in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Expected Behavior cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Expected Behavior work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Expected Behavior in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1933,12 +2483,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Sponsor Program in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Current state cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Current state work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Current state in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1953,12 +2513,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Executive Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does 🩸 Conclusion cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does 🩸 Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain 🩸 Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1973,12 +2543,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain 🚀 Next Steps in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Summary cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Summary work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Summary in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -1993,6 +2573,11 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Completion Criteria in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Summary cover?"
     },
     {
@@ -2003,12 +2588,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Files Modified cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Files Modified work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Files Modified in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2023,12 +2618,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Performance Metrics in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Conclusion cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2043,6 +2648,11 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Next Steps cover?"
     },
     {
@@ -2053,12 +2663,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Next Steps in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Conclusion cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2073,12 +2693,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Executive Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Conclusion cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Conclusion work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Conclusion in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2093,12 +2723,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain 1. Warp AI-Style Validation System ✅ in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does 6. Expanded Settings Panel ✅ cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does 6. Expanded Settings Panel ✅ work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain 6. Expanded Settings Panel ✅ in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2113,12 +2753,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Functionality in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does What You Get Out of the Box cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does What You Get Out of the Box work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain What You Get Out of the Box in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2133,12 +2783,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Known Limitations in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Files Modified cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Files Modified work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Files Modified in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2153,12 +2813,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain 🩸 Conclusion in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does ✅ COMPLETED cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does ✅ COMPLETED work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain ✅ COMPLETED in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2173,6 +2843,11 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Key Features in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Summary cover?"
     },
     {
@@ -2183,12 +2858,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain Summary in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Next Steps cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Next Steps work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Next Steps in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2203,12 +2888,22 @@
     {
       "source": "lucid-docs",
       "reason": "mentions-gary-by-name",
+      "prompt": "Explain The jar (open item) in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "mentions-gary-by-name",
       "prompt": "What does Deliberately NOT done cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "mentions-gary-by-name",
       "prompt": "How does Deliberately NOT done work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "mentions-gary-by-name",
+      "prompt": "Explain Deliberately NOT done in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2223,12 +2918,22 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
+      "prompt": "Explain File Tools (8) in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
       "prompt": "What does Summary cover?"
     },
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Summary work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Summary in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2243,12 +2948,7 @@
     {
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
-      "prompt": "What does Files cover?"
-    },
-    {
-      "source": "lucid-docs",
-      "reason": "duplicate-prompt",
-      "prompt": "How does Files work?"
+      "prompt": "Explain Notes in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2259,6 +2959,26 @@
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Files work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Files in Lucid."
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "What does Files cover?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "How does Files work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Files in Lucid."
     },
     {
       "source": "lucid-docs",
@@ -2269,6 +2989,11 @@
       "source": "lucid-docs",
       "reason": "duplicate-prompt",
       "prompt": "How does Wiring work?"
+    },
+    {
+      "source": "lucid-docs",
+      "reason": "duplicate-prompt",
+      "prompt": "Explain Wiring in Lucid."
     }
   ]
 }
