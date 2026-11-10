@@ -1,0 +1,26 @@
+# LoRA/QLoRA training stack for LLMBuilder (scripts/training/train_lora.py).
+# Pinned versions verified mutually compatible 2026-11-07 (see docs/LORA_TRAINING.md):
+#   trl 1.17.1 needs transformers>=4.56.2, torch>=2.6.0, accelerate>=1.11.0,
+#   datasets>=4.7.0, peft>=0.17.0, bitsandbytes>=0.45.2.
+#   transformers 5.22.2 needs tokenizers>=0.23.1,<0.24.0 and torch>=2.6.
+#   bitsandbytes 0.50.2 needs torch>=2.4,<3.
+# Python >= 3.11 (trl 1.17.1, transformers 5.22.2).
+#
+# TORCH IS INTENTIONALLY NOT PINNED HERE. Colab preinstalls the CUDA build
+# of torch — installing this file there must NOT downgrade/replace it.
+# Install order matters:
+#   Colab T4 (GPU): torch is already present; `pip install -r requirements-lora.txt`
+#   Local CPU verification: install the CPU wheel FIRST, then this file, so pip
+#   sees the torch requirement as satisfied and does not fetch the CUDA build:
+#       pip install --index-url https://download.pytorch.org/whl/cpu torch
+#       pip install -r requirements-lora.txt
+#   Either way the requirement is torch>=2.6,<3.
+trl==1.17.1
+peft==0.21.2
+transformers==5.22.2
+accelerate==1.15.0
+datasets==5.1.0
+bitsandbytes==0.50.2
+pyyaml==6.0.3
+sentencepiece==0.2.3
+tokenizers==0.23.3
