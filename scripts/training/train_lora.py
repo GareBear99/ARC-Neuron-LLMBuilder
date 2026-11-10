@@ -459,6 +459,64 @@ def detect_target_modules(model) -> list[str]:
     return found
 
 
+def _patch_fused_lm_head_for_sm75() -> bool:
+    """Force TRL's fused LM head to fp32 on GPUs with compute capability < 8.0.
+
+    TRL 1.17.1's SFTTrainer ALWAYS uses the chunked-logprob fused LM head
+    (``add_fused_lm_head`` is called unconditionally in ``SFTTrainer.__init__``;
+    there is no SFTConfig flag to turn it off). Its ``_addmm_fp32`` kernel calls
+    ``torch.addmm(..., out_dtype=torch.float32)`` when the inputs are bf16/fp16
+    and torch >= 2.8 — but that ``out_dtype`` path requires CUDA compute
+    capability >= 8.0 (sm80+). On a Colab T4 (sm75, compute capability 7.5)
+    the first backward pass crashes with::
+
+        RuntimeError: gemm input type at::BFloat16 and output type float is
+        only supported for CUDA devices with compute capability 8.0 or higher
+
+    ``add_fused_lm_head`` has a public ``cast_lm_head_to_fp32`` parameter:
+    when True, the hidden states are cast to fp32 and autocast is disabled
+    for the head, so the kernel's ``compute_dtype`` is fp32 and ``_addmm_fp32``
+    takes its plain ``addmm_`` fallback, which works on any CUDA device.
+    The fp32 head is also slightly more accurate; the cost (fp32 vs bf16
+    for one projection) is negligible on a 1B model.
+
+    Only applied on compute capability < 8.0; sm80+ (L4/A100) keeps the
+    fast bf16 path unchanged. Returns True if the patch was applied.
+    """
+    import torch
+    if not torch.cuda.is_available():
+        return False
+    major, minor = torch.cuda.get_device_capability()
+    if major >= 8:
+        return False
+    try:
+        import trl.trainer.sft_trainer as _sft_mod
+        import trl.trainer.utils as _trl_utils
+    except ImportError:
+        return False
+    orig = getattr(_sft_mod, "add_fused_lm_head", None)
+    if orig is None:
+        return False
+    # Forward-compatible: only patch if the public parameter exists.
+    if "cast_lm_head_to_fp32" not in inspect.signature(orig).parameters:
+        return False
+    import functools
+
+    @functools.wraps(orig)
+    def _add_fused_lm_head_sm75(model, *args, **kwargs):
+        kwargs["cast_lm_head_to_fp32"] = True
+        return orig(model, *args, **kwargs)
+
+    _sft_mod.add_fused_lm_head = _add_fused_lm_head_sm75
+    _trl_utils.add_fused_lm_head = _add_fused_lm_head_sm75
+    print(
+        f"[train_lora] GPU compute capability {major}.{minor} (< 8.0, e.g. T4/sm75): "
+        "forcing TRL fused LM head to fp32 (cast_lm_head_to_fp32=True) so the "
+        "chunked-logprob kernel avoids the sm80-only torch.addmm out_dtype path."
+    )
+    return True
+
+
 def cmd_train(args: argparse.Namespace, settings: dict, dataset_path: Path) -> int:
     import torch
     from transformers import AutoModelForCausalLM
@@ -521,6 +579,11 @@ def cmd_train(args: argparse.Namespace, settings: dict, dataset_path: Path) -> i
     # model + peft_config go to SFTTrainer, which does the wrapping.
 
     from trl import SFTConfig, SFTTrainer
+
+    # T4/sm75 fix: force the fused LM head to fp32 so the chunked-logprob
+    # kernel avoids the sm80-only torch.addmm out_dtype path (see
+    # _patch_fused_lm_head_for_sm75). No-op on sm80+ and on CPU.
+    _patch_fused_lm_head_for_sm75()
 
     output_dir = Path(settings["output_dir"]) if settings["output_dir"] else (
         DEFAULT_OUTPUT_BASE / settings["run_id"]
