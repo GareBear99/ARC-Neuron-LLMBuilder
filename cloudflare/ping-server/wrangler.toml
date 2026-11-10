@@ -1,0 +1,85 @@
+# Lucid ping server — Cloudflare Worker front door for Lucid's API streams.
+#
+# First working test dummy for the Lucid -> Cloudflare -> model -> stream
+# path. A Worker is global edge by nature: that IS the "global user
+# connect stream". The stream itself is the SSE token stream from the
+# model. Our own trained GGUF swaps in behind this same Worker later
+# (see README.md "Swapping in our own model").
+#
+# Deploy (Gary's approval required — see README.md):
+#   cd cloudflare/ping-server
+#   npx wrangler secret put PING_SHARED_SECRET   # shared-secret header
+#   npx wrangler deploy
+# Expected URL: https://lucid-ping-server.admension.workers.dev
+#   (account subdomain admension.workers.dev, per the 2026-11-05 audit)
+name = "lucid-ping-server"
+main = "worker.js"
+compatibility_date = "2026-11-05"
+
+# Workers AI binding — the free model runs on Cloudflare's GPUs.
+[ai]
+binding = "AI"
+
+# Per-user token bucket (SP — stock points) lives in a Durable
+# Object: one stub per user id, counted in DO storage. New users start
+# at 100 SP; stage 1 refills +25 SP/4h to a 200 cap, stage 2 refills
+# +20 SP/12h to a 250 cap. See worker.js (PingRateLimiter) and
+# bucket.js — this is Cloudflare's own documented rate-limiting shape.
+# Local `wrangler dev` runs DOs in miniflare, so the quota is
+# verifiable without deploying.
+#
+# Server-wide usage + 24h maintenance mode lives in a second Durable
+# Object (PingServerUsage, one global stub 'server:usage'): it counts
+# chat completions and estimated neurons per UTC day, and trips a
+# 24-hour maintenance window when a server-side cap is hit (10,000
+# neurons/day or 100,000 requests/day) or the AI platform reports
+# the quota exhausted. See worker.js (PingServerUsage) and
+# maintenance.js. DO storage persists the window across restarts
+# and redeploys; expiry is derived from time, so the Worker resumes
+# by itself after 24 hours.
+#
+# Chain progress lives in a third Durable Object (PingProgress, one
+# global stub 'progress:current'): the training chain (train -> merge
+# -> gguf -> gate -> r2 -> manifest -> client) pushes progress events
+# to POST /admin/progress, and an admin (or Lucid, as a thin client)
+# pulls the current progress with GET /admin/progress. Plain DO
+# reads/writes — 0 neurons, 0 SP, never Workers AI. See worker.js
+# (PingProgress) and progress.js.
+[durable_objects]
+bindings = [
+  { name = "RATE_LIMITER", class_name = "PingRateLimiter" },
+  { name = "SERVER_USAGE", class_name = "PingServerUsage" },
+  { name = "PROGRESS", class_name = "PingProgress" },
+]
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["PingRateLimiter"]
+
+[[migrations]]
+tag = "v2"
+new_sqlite_classes = ["PingServerUsage"]
+
+[[migrations]]
+tag = "v3"
+new_sqlite_classes = ["PingProgress"]
+
+# The model. This is the DEFAULT — and, by Gary's decision
+# (2026-11-06), the ONLY model on the PING_MODELS allowlist in
+# worker.js. The client picks it with body.model on
+# POST /v1/chat/completions, and an absent or unknown model falls back
+# to this one. Verified on the official Workers AI pricing page
+# (developers.cloudflare.com/workers-ai/platform/pricing/, checked
+# 2026-11-06): @cf/meta/llama-3.2-1b-instruct is the cheapest Llama
+# chat model listed — 2,457 neurons per M input tokens, 18,252 per M
+# output tokens. The 10,000 neurons/day free allocation covers roughly
+# a thousand short test replies a day. Every request costs the same
+# 1 SP; the SP bucket does not vary by model. (The other 33 models
+# from the catalog snapshot were removed — neurons, 10,000/day, are
+# the only quota that matters for scaling, and 1B is the only model
+# we can support at the user numbers we want within that budget.)
+[vars]
+MODEL = "@cf/meta/llama-3.2-1b-instruct"
+
+[observability]
+enabled = true

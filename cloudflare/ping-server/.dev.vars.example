@@ -1,0 +1,7 @@
+# Local-dev secrets for the ping server. Copy to `.dev.vars` (gitignored)
+# and fill in — NEVER commit a real secret.
+#
+# When set, /ping and /v1/chat/completions require the header
+#   x-lucid-ping-key: <this value>
+# When unset, the routes are open (dummy mode).
+PING_SHARED_SECRET=change-me-to-something-random

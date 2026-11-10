@@ -55,9 +55,20 @@ import hashlib
 import inspect
 import json
 import sys
+import time
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
+
+# Progress reporting (stdlib-only helper in the same directory).
+# Imported best-effort: if the helper is missing, reporting is
+# silently disabled and training is unaffected. The helper is shipped
+# with the repo (scripts/training/progress.py).
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    from progress import ProgressReporter
+except ImportError:  # pragma: no cover - helper is shipped with the repo
+    ProgressReporter = None
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
@@ -517,6 +528,96 @@ def _patch_fused_lm_head_for_sm75() -> bool:
     return True
 
 
+class _ProgressCallback:
+    """Event-driven progress reporter for the training loop.
+
+    A HF TrainerCallback: the trainer itself fires ``on_log`` when it
+    logs (every ``logging_steps``), so this is an EVENT, not a poll —
+    there is no timer loop here. Each log event is a chance to push
+    one progress update to the ping server, batched so it never posts
+    more often than a sane minimum interval (at least 10 steps and at
+    least 30 seconds since the last POST, or the first log). The
+    percent, ETA, and bar are computed HERE, on the GPU/training
+    side, and sent with the report — the neuron side stores and
+    serves them verbatim and never computes progress. Reporting is
+    fire-and-forget (the reporter swallows all errors), so a failed
+    POST can never fail the training run. If no reporter is
+    configured (no ping key), this callback is never attached.
+    """
+
+    # Batching floor: never POST more often than this (steps / seconds).
+    MIN_STEPS_BETWEEN_POSTS = 10
+    MIN_SECONDS_BETWEEN_POSTS = 30.0
+
+    def __init__(self, reporter, run_id: str):
+        self.reporter = reporter
+        self.run_id = run_id
+        self.started_at = time.monotonic()
+        self.last_step = -1
+        self.last_post_at = 0.0
+        self.posted_once = False
+
+    def _eta_seconds(self, step: int, total: int | None) -> float | None:
+        if not total or step <= 0:
+            return None
+        elapsed = time.monotonic() - self.started_at
+        if elapsed <= 0:
+            return None
+        return elapsed * (total - step) / step
+
+    def on_log(self, args, state, control, logs=None, **kwargs):
+        try:
+            step = int(getattr(state, "global_step", 0) or 0)
+            total = getattr(state, "max_steps", None)
+            total = int(total) if total else None
+            now = time.monotonic()
+            # Batching: first log always posts; after that, only when
+            # enough steps AND enough seconds have passed since the
+            # last POST. (logging_steps is already 10 on a full run,
+            # so this is belt-and-braces against chattiness.)
+            if self.posted_once:
+                if step - self.last_step < self.MIN_STEPS_BETWEEN_POSTS:
+                    return
+                if now - self.last_post_at < self.MIN_SECONDS_BETWEEN_POSTS:
+                    return
+            loss = None
+            if isinstance(logs, dict) and isinstance(logs.get("loss"), (int, float)):
+                loss = float(logs["loss"])
+            self.reporter.report(
+                stage="train",
+                status="running",
+                step=step,
+                total=total,
+                loss=loss,
+                eta_seconds=self._eta_seconds(step, total),
+                run_id=self.run_id,
+                message=f"Training step {step}/{total}" if total else f"Training step {step}",
+            )
+            self.last_step = step
+            self.last_post_at = now
+            self.posted_once = True
+        except Exception:
+            # A progress callback must never break training.
+            pass
+
+
+def _make_progress_reporter(args: argparse.Namespace, run_id: str):
+    """Build the progress reporter from CLI flags / env, or None.
+
+    Enabled only when a ping key is configured (CLI --progress-key
+    or env LUCID_PING_KEY). No key -> None -> no callback, no
+    reports, zero behavior change.
+    """
+    if ProgressReporter is None:
+        return None
+    reporter = ProgressReporter(
+        url=getattr(args, "progress_url", None),
+        key=getattr(args, "progress_key", None),
+        run_id=run_id,
+    )
+    return reporter if reporter.enabled else None
+
+
 def cmd_train(args: argparse.Namespace, settings: dict, dataset_path: Path) -> int:
     import torch
     from transformers import AutoModelForCausalLM
@@ -624,15 +725,48 @@ def cmd_train(args: argparse.Namespace, settings: dict, dataset_path: Path) -> i
         "peft_config": peft_config,
         "processing_class": tokenizer,
     }
+    # Progress reporting (event-driven, 0 neurons, 0 SP): only when a
+    # ping key is configured. The callback fires on the trainer's own
+    # log events (batched); the percent/ETA/bar are computed here, on
+    # the GPU side, and the neuron side stores/serves them verbatim.
+    # No key -> no reporter, no callback, zero behavior change.
+    progress_reporter = _make_progress_reporter(args, settings["run_id"])
+    if progress_reporter is not None:
+        trainer_kwargs["callbacks"] = [
+            _ProgressCallback(progress_reporter, settings["run_id"])
+        ]
     trainer = SFTTrainer(**_filtered_kwargs(SFTTrainer.__init__, trainer_kwargs))
     trainer.model.print_trainable_parameters()
 
-    result = trainer.train()
+    total_steps = getattr(trainer.state, "max_steps", None)
+    if progress_reporter is not None:
+        progress_reporter.report(
+            stage="train", status="running", step=0, total=total_steps,
+            run_id=settings["run_id"], message="Training started",
+        )
+    try:
+        result = trainer.train()
+    except Exception as exc:
+        if progress_reporter is not None:
+            progress_reporter.report(
+                stage="train", status="failed",
+                step=getattr(trainer.state, "global_step", 0) or 0,
+                total=total_steps, run_id=settings["run_id"],
+                message=f"Training failed: {exc}",
+            )
+        raise
     train_loss = None
     for entry in reversed(trainer.state.log_history):
         if "loss" in entry:
             train_loss = entry["loss"]
             break
+    if progress_reporter is not None:
+        progress_reporter.report(
+            stage="train", status="completed",
+            step=trainer.state.global_step, total=total_steps,
+            loss=train_loss, run_id=settings["run_id"],
+            message="Training complete",
+        )
 
     trainer.save_model(str(output_dir))
     tokenizer.save_pretrained(str(output_dir))
@@ -697,6 +831,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--smoke-test", action="store_true",
                    help="1-step training run on a few rows (sets --max-steps 1 "
                         "and --limit 8 unless given explicitly).")
+    p.add_argument("--progress-url", default=None,
+                   help="Ping server base URL for progress reporting "
+                        "(default: env LUCID_PING_URL or the live worker). "
+                        "Only used when --progress-key (or env "
+                        "LUCID_PING_KEY) is set.")
+    p.add_argument("--progress-key", default=None,
+                   help="Ping shared secret for progress reporting "
+                        "(default: env LUCID_PING_KEY). When unset, no "
+                        "progress is reported and training is unchanged. "
+                        "The key is never printed.")
     return p
 
 
