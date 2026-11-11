@@ -1,0 +1,15 @@
+{
+  "id": "garydoman/llmbuilder-lora-train",
+  "title": "LLMBuilder LoRA Train (T4, QLoRA, 152 steps)",
+  "code_file": "llmbuilder-lora-train.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_internet": "true",
+  "dataset_sources": [
+    "garydoman/llmbuilder-lora-run"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}

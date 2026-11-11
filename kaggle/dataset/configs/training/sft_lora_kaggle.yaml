@@ -1,0 +1,51 @@
+# KAGGLE (2026-11-11, prepared locally, not yet uploaded) — same Track A run
+# as configs/training/sft_lora.yaml, but for Kaggle
+# (notebook llmbuilder-lora-train.ipynb). Identical hyperparameters to the
+# proven Nov 10 Colab T4 run (r=64, alpha=128, lr 2e-4, epochs 2,
+# max_seq 2048, micro 1 x accum 32, QLoRA) with ONE deliberate change:
+# save_steps 25 instead of 500.
+
+version: 1
+name: sft_lora_kaggle
+objective: supervised_distillation
+base_model_source: configs/base_model_candidates.yaml
+# Consumed by scripts/training/train_lora.py, which reads ONLY the
+# `trainer:` section below. It does NOT read `dataset_inputs` — the dataset
+# is always the explicit --dataset argument (default
+# datasets/lucid_corpus/lucid_corpus.jsonl — Track A, the only track; Gary,
+# 2026-11-08: Track B, the private "us" model, is OFF). That is the
+# no-external-data rule: training data is the Lucid corpus only, never
+# datasets/acquired/.
+dataset_inputs:
+  - datasets/distillation_sft/seed_records.jsonl
+  - data/observe_infer/seed_examples.jsonl
+  - data/plan/seed_examples.jsonl
+  - data/critique/seed_examples.jsonl
+  - data/repair/seed_examples.jsonl
+  - data/compress/seed_examples.jsonl
+  - data/calibrate/seed_examples.jsonl
+target_behaviors:
+  - plan_before_commitment
+  - explicit_assumptions
+  - critique_before_finality
+  - repair_after_failure
+  - bounded_confidence
+trainer:
+  method: lora
+  rank: 64
+  alpha: 128
+  dropout: 0.05
+  micro_batch_size: 1
+  grad_accumulation: 32
+  learning_rate: 2e-4
+  epochs: 2
+  # 2048, not the old 8192 placeholder: 8192-token context is heavy on a
+  # free T4; 2048 is the realistic first-run setting for Lucid SFT data.
+  # Raise to 4096/8192 with --max-seq once the first run is proven.
+  max_seq_length: 2048
+  # 25, NOT 500: with 152 total steps, save_steps=500 produced NO
+  # intermediate checkpoint (only the final one). 25 gives checkpoints at
+  # steps 25/50/75/100/125/150 + final 152 — an early resume point if the
+  # Kaggle session ends early. Each checkpoint is adapter + optimizer
+  # state only (~150-250 MB), ~1.5 GB total in /kaggle/working/run1.
+  save_steps: 25
