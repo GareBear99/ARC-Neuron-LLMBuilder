@@ -283,6 +283,14 @@ def resolve_settings(args: argparse.Namespace, cfg: dict) -> dict:
         "max_seq": args.max_seq if args.max_seq is not None else int(trainer.get("max_seq_length", DEFAULTS["max_seq"])),
         "micro_batch": args.micro_batch if args.micro_batch is not None else int(trainer.get("micro_batch_size", DEFAULTS["micro_batch"])),
         "grad_accum": args.grad_accum if args.grad_accum is not None else int(trainer.get("grad_accumulation", DEFAULTS["grad_accum"])),
+        # MODAL DRAFT (2026-11-11, uncommitted): save_steps is now
+        # configurable instead of hardcoded 500. Default 500 preserves
+        # the proven Colab path exactly; the Modal config
+        # (configs/training/sft_lora_modal.yaml) sets 25 so an early
+        # checkpoint exists for resume (Modal functions are preemptible
+        # by default). CLI --save-steps wins over the config.
+        "save_steps": args.save_steps if args.save_steps is not None else int(trainer.get("save_steps", 500)),
+        "resume_from_checkpoint": args.resume_from_checkpoint,
         "max_steps": args.max_steps,
         "limit": args.limit,
         "output_dir": str(args.output_dir) if args.output_dir else None,
@@ -294,6 +302,8 @@ def resolve_settings(args: argparse.Namespace, cfg: dict) -> dict:
         raise TrainerError("Learning rate must be positive.")
     if settings["max_seq"] < 128:
         raise TrainerError("max_seq must be >= 128.")
+    if settings["save_steps"] <= 0:
+        raise TrainerError("save_steps must be positive.")
     settings["effective_batch"] = settings["micro_batch"] * settings["grad_accum"]
     return settings
 
@@ -399,6 +409,8 @@ def write_manifest(output_dir: Path, settings: dict, dataset_stats: dict,
             "grad_accum": settings["grad_accum"],
             "effective_batch": settings["effective_batch"],
             "qlora": settings["qlora"],
+            "save_steps": settings["save_steps"],
+            "resume_from_checkpoint": settings["resume_from_checkpoint"],
             "max_steps": settings["max_steps"],
         },
         "output_dir": str(output_dir),
@@ -440,7 +452,8 @@ def cmd_dry_run(args: argparse.Namespace, settings: dict, dataset_path: Path) ->
         "dataset": stats,
         "config": {k: settings[k] for k in (
             "lora_r", "lora_alpha", "lora_dropout", "learning_rate", "epochs",
-            "max_seq", "micro_batch", "grad_accum", "effective_batch", "qlora")},
+            "max_seq", "micro_batch", "grad_accum", "effective_batch", "qlora",
+            "save_steps", "resume_from_checkpoint")},
         "manifest": str(manifest_path),
     }, indent=2))
     return 0
@@ -700,7 +713,11 @@ def cmd_train(args: argparse.Namespace, settings: dict, dataset_path: Path) -> i
         # ~3% of a ~625-step first run (3,674 rows, eff. batch 32, 2 epochs).
         "warmup_steps": 20,
         "logging_steps": 1 if settings["max_steps"] else 10,
-        "save_steps": 500,
+        # Was hardcoded 500 (2026-11-11: with 152 total steps that meant NO
+        # intermediate checkpoint — only the final one). Now configurable
+        # via config `trainer.save_steps` / CLI --save-steps; the Modal
+        # config sets 25. Default 500 preserves the Colab path.
+        "save_steps": settings["save_steps"],
         "save_strategy": "steps",
         "bf16": has_cuda,
         "gradient_checkpointing": True,
@@ -745,7 +762,12 @@ def cmd_train(args: argparse.Namespace, settings: dict, dataset_path: Path) -> i
             run_id=settings["run_id"], message="Training started",
         )
     try:
-        result = trainer.train()
+        # MODAL DRAFT (2026-11-11): resume support. None (default) starts
+        # fresh; a checkpoint dir (e.g. /llmbuilder/run1/checkpoint-25)
+        # resumes optimizer + scheduler + step count there.
+        result = trainer.train(
+            resume_from_checkpoint=settings["resume_from_checkpoint"]
+        )
     except Exception as exc:
         if progress_reporter is not None:
             progress_reporter.report(
@@ -823,6 +845,16 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--lora-alpha", type=int, default=None)
     p.add_argument("--limit", type=int, default=None,
                    help="Use at most N dataset rows (smoke tests).")
+    p.add_argument("--save-steps", type=int, default=None,
+                   help="Checkpoint every N steps (default: config "
+                        "trainer.save_steps, 500 if absent — the proven "
+                        "Colab value. The Modal config sets 25 so an early "
+                        "checkpoint exists for resume).")
+    p.add_argument("--resume-from-checkpoint", default=None,
+                   help="Resume from a checkpoint dir, e.g. "
+                        "/llmbuilder/run1/checkpoint-25 (Modal) or "
+                        "exports/lora/<run-id>/checkpoint-25. Restores "
+                        "optimizer, scheduler, and step count.")
     p.add_argument("--no-qlora", action="store_true",
                    help="16-bit LoRA instead of 4-bit QLoRA.")
     p.add_argument("--dry-run", action="store_true",
