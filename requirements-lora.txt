@@ -21,6 +21,12 @@ transformers==5.22.2
 accelerate==1.15.0
 datasets==5.1.0
 bitsandbytes==0.50.2
+torchao>=0.16.0
+# ^ torchao is pinned because the merge (transformers/peft) needs
+# torchao >= 0.16.0 — Colab's preinstalled 0.10.0 broke the merge on
+# 2026-11-10; it was upgraded to 0.18.0 in the session. Pinning here
+# keeps a fresh runtime working. (torch itself stays unpinned — Colab
+# preinstalls the CUDA build; see the header note.)
 pyyaml==6.0.3
 sentencepiece==0.2.3
 tokenizers==0.23.3
