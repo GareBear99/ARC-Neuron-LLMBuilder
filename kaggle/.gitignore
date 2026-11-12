@@ -1,0 +1,6 @@
+# Local per-user Kaggle config + rendered metadata (bring your own
+# account). These are never committed: they carry YOUR Kaggle
+# username. The repo ships placeholders only — see
+# kaggle.local.json.example and tools/kaggle_setup.py.
+kaggle.local.json
+.local/

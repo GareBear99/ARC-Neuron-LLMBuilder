@@ -1,5 +1,5 @@
 {
-  "id": "garydoman/llmbuilder-lora-train",
+  "id": "<kaggle-username>/llmbuilder-lora-train-t4-qlora-152-steps",
   "title": "LLMBuilder LoRA Train (T4, QLoRA, 152 steps)",
   "code_file": "llmbuilder-lora-train.ipynb",
   "language": "python",
@@ -8,7 +8,7 @@
   "enable_gpu": "true",
   "enable_internet": "true",
   "dataset_sources": [
-    "garydoman/llmbuilder-lora-run"
+    "<kaggle-username>/llmbuilder-lora-run"
   ],
   "competition_sources": [],
   "kernel_sources": []

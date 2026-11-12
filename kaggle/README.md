@@ -1,7 +1,34 @@
 # Kaggle training package — LLMBuilder LoRA re-train
 
-Prepared locally 2026-11-11. **Ready to upload the moment a Kaggle API token exists.**
-No Kaggle account, token, upload, or run has happened — this is the package only.
+Prepared locally 2026-11-11. **Bring your own Kaggle account** — the
+package carries no account: see "Bring your own Kaggle account" below.
+The repo ships placeholders only; `tools/kaggle_setup.py` fills in
+YOUR username from a local, gitignored config.
+
+## Bring your own Kaggle account (Gary, 2026-11-12)
+
+No account is named in this repo — not in the metadata, not in the
+docs, not in the scripts. Every run uses the account of whoever runs
+it, and spends that account's GPU hours. We fund no GPU hours for
+anyone: we cannot support even one pull, so every user brings their
+own Kaggle account and their own quota. Nobody ever runs on anyone
+else's account.
+
+Setup (once, on your own machine):
+
+```bash
+cp kaggle/kaggle.local.json.example kaggle/kaggle.local.json
+# put YOUR Kaggle username in "kaggle_username"
+python3 kaggle/tools/kaggle_setup.py
+```
+
+The script renders the two metadata files with your username into
+`kaggle/.local/` (gitignored — it never enters the repo) and prints
+the exact `kaggle datasets ...` / `kaggle kernels push ...` commands
+to run. It validates the rendered metadata (JSON parses, required
+fields present, ids shaped like owner/slug) and refuses a missing or
+placeholder username. Your API token (`kaggle.json`) lives in
+`~/.kaggle/kaggle.json` (chmod 600) and is never in this repo.
 
 ## The GPU pool — the architecture (Gary, 2026-11-11)
 
@@ -124,13 +151,20 @@ GPU death.
 ```
 kaggle-llmbuilder/
   README.md                  — this file
+  kaggle.local.json.example  — local config shape (copy to
+                               kaggle.local.json, gitignored, and put
+                               YOUR Kaggle username in it)
   tools/
     export_state.py          — pool state export: package a state dir into
                                a portable bundle (--kind live-state for the
                                GPU-death handoff, --kind checkpoint for the
                                last-resort fallback)
+    kaggle_setup.py          — render the metadata with your username
+                               into kaggle/.local/ (gitignored) and print
+                               the exact CLI commands; validates the
+                               rendered metadata, pushes nothing
   dataset/                   — Kaggle Dataset payload (upload as one dataset)
-    dataset-metadata.json    — id: YOUR-KAGGLE-USERNAME/llmbuilder-lora-run
+    dataset-metadata.json    — id: <kaggle-username>/llmbuilder-lora-run
     scripts/training/train_lora.py
     configs/training/sft_lora.yaml
     configs/training/sft_lora_kaggle.yaml   — the run config (save_steps 25)
@@ -146,7 +180,7 @@ kaggle-llmbuilder/
                                smoke test, STATE INTAKE (live state / last-
                                resort checkpoint), mode-aware FULL RUN,
                                post-run verify + zip
-    kernel-metadata.json     — id: YOUR-KAGGLE-USERNAME/llmbuilder-lora-train,
+    kernel-metadata.json     — id: <kaggle-username>/llmbuilder-lora-train-t4-qlora-152-steps,
                                enable_gpu + enable_internet, attaches the dataset
 ```
 
@@ -158,12 +192,13 @@ dataset into `/kaggle/working/llmbuilder` before training.
 
 ## What is still blocked
 
-**The Kaggle API token (Gary's step).** No Kaggle account or token exists
-yet (checked memory, Secure Vault, and `/Users/gary/projects/` ~12:17 PST
-Nov 11 — nothing). Gary is signing up in his Brave now (Google,
-gdoman99@gmail.com — same pattern as the Modal signup); the token gets
-saved in `/Users/gary/projects/` like Modal's was. Do NOT paste the token
-in chat.
+**The Kaggle API token (your step, on your own machine).** No Kaggle
+account or token lives in this repo — each user creates their own
+Kaggle account and their own API token (kaggle.com → Settings → API →
+Create New Token) and saves `kaggle.json` at `~/.kaggle/kaggle.json`
+(chmod 600). Do NOT paste the token in chat, and do NOT commit it.
+Then run `tools/kaggle_setup.py` (see "Bring your own Kaggle account")
+so the metadata carries your username.
 
 Also needed at run time (in the Kaggle notebook UI, not in any file):
 - A Kaggle Secret named **`HF_TOKEN`** (Add-ons → Secrets) whose value is
@@ -185,21 +220,21 @@ continue-from-live-state execution cannot be wired or validated. See
 ## How to upload + run (once the token exists)
 
 ```bash
-# 0. Put Gary's kaggle.json at ~/.kaggle/kaggle.json and lock it down:
-#    mkdir -p ~/.kaggle && cp /Users/gary/projects/kaggle.json ~/.kaggle/kaggle.json
-#    chmod 600 ~/.kaggle/kaggle.json
+# 0. Your own Kaggle API token at ~/.kaggle/kaggle.json (chmod 600),
+#    from your own Kaggle account (kaggle.com → Settings → API).
 #    pip install kaggle
 
-# 1. Replace the username placeholder in BOTH metadata files:
-#    dataset/dataset-metadata.json and notebook/kernel-metadata.json
-#    YOUR-KAGGLE-USERNAME -> Gary's Kaggle username
+# 1. Render the metadata with YOUR username (see "Bring your own
+#    Kaggle account" above — placeholders are filled from your
+#    local kaggle.local.json, never by hand-editing the repo files):
+python3 kaggle/tools/kaggle_setup.py
 
-# 2. Upload the dataset (code + corpus, ~2.3 MB):
-cd ~/workspace/kaggle-llmbuilder
-kaggle datasets create -p dataset/
+# 2. Upload the dataset (code + corpus, ~2.3 MB), from the staged
+#    tree the script printed:
+kaggle datasets create -p kaggle/.local/dataset/
 
 # 3. Push the notebook:
-kaggle kernels push -p notebook/
+kaggle kernels push -p kaggle/.local/notebook/
 
 # 4. In the Kaggle web UI: open the notebook, add the HF_TOKEN secret,
 #    confirm Accelerator = GPU T4, then Run All.

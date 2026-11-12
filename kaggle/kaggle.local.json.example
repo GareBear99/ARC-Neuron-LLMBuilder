@@ -1,0 +1,5 @@
+{
+  "dataset_slug": "llmbuilder-lora-run",
+  "kaggle_username": "<your Kaggle username>",
+  "kernel_slug": "llmbuilder-lora-train-t4-qlora-152-steps"
+}
