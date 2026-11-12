@@ -1,0 +1,34 @@
+{
+  "schema": "llmbuilder-lora-run-manifest/v1",
+  "run_id": "modal-draft-dryrun",
+  "timestamp_utc": "2026-11-11T17:22:12.214753+00:00",
+  "model": "sshleifer/tiny-gpt2",
+  "dataset": {
+    "path": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/datasets/lucid_corpus/lucid_corpus.jsonl",
+    "sha256": "dc5cdeaf0890691e794a075a7a9bdb80a7e1a4460826fa48c8764f432b322cb8",
+    "rows_usable": 2426,
+    "rows_skipped": 0
+  },
+  "config": {
+    "config_file": "configs/training/sft_lora_modal.yaml",
+    "lora_r": 64,
+    "lora_alpha": 128,
+    "lora_dropout": 0.05,
+    "learning_rate": 0.0002,
+    "epochs": 2.0,
+    "max_seq": 2048,
+    "micro_batch": 1,
+    "grad_accum": 32,
+    "effective_batch": 32,
+    "qlora": true,
+    "save_steps": 25,
+    "resume_from_checkpoint": null,
+    "max_steps": null
+  },
+  "output_dir": "/home/hatch/workspace/ARC-Neuron-LLMBuilder/exports/lora/modal-draft-dryrun",
+  "git_head": "5f0db4addb11cedee06d18157e1a2da94e185aec",
+  "data_policy": "Training data is ONLY the explicit --dataset file. No external datasets (GSM8K evaluation-only, The Stack held) were read, scanned, or mixed into this run.",
+  "mode": "dry_run",
+  "tokenizer_resolved": true,
+  "sample_text_preview": "### Instruction:\nWhat does Executive Summary cover?\n\n### Response:\nLucid Terminal is an AI-native development environment implementing LuciferAI's offline-first intelligence architecture within a modern Electron-based terminal application. The system handles deterministic commands and cached fixes without external LLM calls through local template matching, quality-graded fix consensus, and intelli"
+}

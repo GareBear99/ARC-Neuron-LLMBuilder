@@ -12,3 +12,26 @@ selection_notes:
   qwen3_coder_480b_a35b_instruct: strongest code-first target
   qwen3_235b_a22b: strongest general reasoning target
   llama4_maverick: reference-class open model target
+
+# ── LoRA/QLoRA training bases ───────────────────────────────────────────────
+# The trainer (scripts/training/train_lora.py) takes ANY Hugging Face model
+# id via --model — it is not hardcoded to the 1B. This section records the
+# bases we actually train, starting with the ping-server base. Add entries
+# here when a new base is trained; --model stays the mechanism, this file
+# stays the record.
+lora_bases:
+  - id: meta-llama/Llama-3.2-1B-Instruct
+    params: 1.23B
+    license: Llama Community License (gated download — a Hugging Face account
+      must accept the license terms before the weights can be downloaded)
+    role: ping-server base; first LoRA/QLoRA fine-tune target
+    trainer: scripts/training/train_lora.py (default --model)
+    dataset: datasets/lucid_corpus/lucid_corpus.jsonl (Lucid corpus only,
+      Track A — no external datasets in training, ever; GSM8K is
+      evaluation-only, The Stack is held)
+    notes: >
+      Same base already serving on the ping server. Fine-tune is judged by
+      Gate v2 + A/B against the stock 1B before it can become an option,
+      let alone the default. QLoRA ~2.5 GB VRAM fits a free Colab T4.
+      Train with: python scripts/training/train_lora.py
+      (defaults already point at this model and the Lucid corpus).

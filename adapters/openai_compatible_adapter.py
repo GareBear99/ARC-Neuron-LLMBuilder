@@ -26,6 +26,9 @@ class OpenAICompatibleAdapter(ModelAdapter):
         started = time.perf_counter()
         data = None if payload is None else json.dumps(payload).encode("utf-8")
         headers = {"Content-Type": "application/json"} if payload is not None else {}
+        # Cloudflare blocks urllib's default User-Agent (HTTP 403 / error 1010) on
+        # /health and POST /v1/chat/completions; a browser UA gets through.
+        headers["User-Agent"] = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
         if self.api_key:
             headers["Authorization"] = f"Bearer {self.api_key}"
         req = urllib.request.Request(url, data=data, headers=headers, method=method)

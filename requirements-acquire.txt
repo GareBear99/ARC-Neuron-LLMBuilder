@@ -1,0 +1,5 @@
+# Acquire-lane dependencies (scripts/ops/acquire_hf_dataset.py).
+# Install into the acquire venv: .venv-hf/bin/pip install -r requirements-acquire.txt
+huggingface_hub>=0.25
+datasets>=2.20
+pytest>=8.0
