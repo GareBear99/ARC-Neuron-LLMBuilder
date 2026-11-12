@@ -37,3 +37,9 @@ trainer:
   # free T4; 2048 is the realistic first-run setting for Lucid SFT data.
   # Raise to 4096/8192 with --max-seq once the first run is proven.
   max_seq_length: 2048
+  # 25, NOT 500: with 152 total steps, save_steps=500 produced NO
+  # intermediate checkpoint (only the final one). 25 gives checkpoints at
+  # steps 25/50/75/100/125/150 + final 152 — an early resume point if the
+  # Kaggle session ends early. Synced 2026-11-12 to match
+  # sft_lora_kaggle.yaml (the config the Kaggle notebook actually passes).
+  save_steps: 25

@@ -54,9 +54,22 @@ import argparse
 import hashlib
 import inspect
 import json
+import os
 import sys
 import time
 import uuid
+
+# Single-GPU visibility (Gary, 2026-11-12): Kaggle's T4 tier is x2 only —
+# two T4s are visible to every process, and TRL's SFTTrainer refuses
+# torch.nn.DataParallel ("SFTTrainer does not support 'nn.DataParallel'",
+# trl/trainer/sft_trainer.py:1167 — hit by the 2026-11-12 smoke test
+# after weights loaded 146/146). Pin this process to GPU 0 BEFORE any
+# torch import so Trainer sees exactly one device and never wraps in
+# DataParallel. No-op on single-GPU workers (Colab T4). Safe here: every
+# torch/transformers/peft/trl import in this file is lazy inside
+# functions, so nothing has imported torch yet at this point.
+# setdefault: an explicit CUDA_VISIBLE_DEVICES from the caller still wins.
+os.environ.setdefault("CUDA_VISIBLE_DEVICES", "0")
 from datetime import datetime, timezone
 from pathlib import Path
 
