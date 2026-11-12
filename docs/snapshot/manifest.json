@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "run": "run1",
+  "date": "2026-11-12",
+  "base_model": "meta-llama/Llama-3.2-1B-Instruct",
+  "corpus": {
+    "rows": 2426,
+    "sha256": "dc5cdeaf0890691e794a075a7a9bdb80a7e1a4460826fa48c8764f432b322cb8"
+  },
+  "training": {
+    "platform": "Kaggle 2x Tesla T4 (single-GPU pin CUDA_VISIBLE_DEVICES=0)",
+    "steps": 152,
+    "epochs": 2,
+    "lora": { "r": 64, "alpha": 128 },
+    "learning_rate": 0.0002,
+    "max_seq_len": 2048,
+    "save_steps": 25,
+    "final_loss": 0.807,
+    "final_loss_step": 150,
+    "mean_token_accuracy": 0.8188,
+    "train_commit": "93cde6a"
+  },
+  "checkpoint": {
+    "step": 152,
+    "local_path": "/Users/gary/kaggle-llmbuilder/checkpoints/checkpoint-152"
+  },
+  "merged": {
+    "params": 1235814400,
+    "vocab_size": 128256,
+    "local_path": "/Users/gary/kaggle-llmbuilder/run1-merged"
+  },
+  "gguf": {
+    "q4_k_m": {
+      "file": "lucid-1b-lora-Q4_K_M.gguf",
+      "size_bytes": 807694016,
+      "sha256": "ad296679908a792e0f4d62223b126d89bd11e6e4659f6c78b22e60581070eb09",
+      "url": "https://github.com/GareBear99/ARC-Neuron-LLMBuilder/releases/download/lucid-1b-lora-run1/lucid-1b-lora-Q4_K_M.gguf",
+      "release": "https://github.com/GareBear99/ARC-Neuron-LLMBuilder/releases/tag/lucid-1b-lora-run1"
+    },
+    "f16": {
+      "file": "lucid-1b-lora-F16.gguf",
+      "size_bytes": 2479595200,
+      "sha256": "79b83e9cd871e2866c44cd55bc81825447ce1a58444df2b09dd77caa2b58c8c8",
+      "note": "kept locally — over GitHub's 2 GB per-asset limit, not uploaded to the release"
+    }
+  },
+  "gate": {
+    "cpu_q4": "pass",
+    "note": "llama.cpp CPU (-ngl 0) generation coherent on Lucid prompts; Metal (MTL0) on this Intel Mac degrades output — local Metal runs must not be used to judge the model"
+  }
+}
