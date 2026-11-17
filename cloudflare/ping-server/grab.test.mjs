@@ -538,10 +538,11 @@ await check('GET /admin/grab reads the state without creating it; /admin/grab ne
   // The service card lists the grab routes and the grab block.
   const svc = await callWorker(env, 'GET', '/');
   assert.equal(svc.status, 200);
-  assert.equal(svc.body.version, '0.6.0');
+  assert.equal(svc.body.version, '0.7.0');
   assert.ok(svc.body.routes.includes('POST /admin/grab'));
   assert.ok(svc.body.routes.includes('GET /admin/grab'));
   assert.ok(svc.body.routes.includes('POST /temp/activate'));
+  assert.ok(svc.body.routes.includes('POST /register'));
   assert.equal(svc.body.grab.daily_cap, GRAB_DAILY_CAP);
   assert.equal(svc.body.grab.chunk_records, GRAB_CHUNK_RECORDS);
 });

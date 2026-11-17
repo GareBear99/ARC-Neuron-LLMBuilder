@@ -27,6 +27,13 @@
  *                                not do tool calls, and the request is
  *                                rejected with 400 if `tools` is present.
  *                                Every model costs 1 SP per request.
+ *   POST /register              — per-install key provisioning (Fix 2).
+ *                                Body { userId }. Mints ONE key per
+ *                                user id (re-issue returns the same
+ *                                key) and returns { ok, key }. No auth
+ *                                — it is the provisioning endpoint for
+ *                                a client with no key stored. 0 neurons,
+ *                                0 SP.
  *   POST /admin/progress       — a chain step reports a progress
  *                                event (train/merge/gguf/gate/r2/
  *                                manifest/client). Body { stage,
@@ -49,6 +56,16 @@
  * /v1/chat/completions require `x-lucid-ping-key: <secret>` and
  * answer 401 without it. If no secret is set, the routes are open —
  * this is a test dummy, never a production gate.
+ *
+ * Per-install keys (Fix 2): POST /register mints one key per
+ * install (the per-install user id), stored server-side in that
+ * user's limiter DO. A per-install key is accepted alongside the
+ * shared secret on /ping, /v1/chat/completions and /temp/activate
+ * only — never on /admin/* (those stay shared-secret-only). The
+ * default ping server therefore works without manual key entry:
+ * a fresh install registers once and stores the minted key.
+ * One key per user id, re-issue returns the same key — that is
+ * the registration rate limit.
  *
  * Identity + quota: a per-user token bucket of SP (stock points).
  * 1 SP per /v1/chat/completions request; SP are like credits — the
@@ -185,7 +202,7 @@ import {
 
 const DEFAULT_MODEL = '@cf/meta/llama-3.2-1b-instruct';
 const SERVICE = 'lucid-ping-server';
-const VERSION = '0.6.0';
+const VERSION = '0.7.0';
 
 /**
  * All Workers AI text-generation models the ping server serves.
@@ -293,6 +310,51 @@ export class PingRateLimiter {
         JSON.stringify({ ok: true, verified: true, ...quotaView(state, nowMs) }),
         { headers: { 'content-type': 'application/json' } },
       );
+    }
+
+    if (url.pathname === '/register-key') {
+      // Per-install key registration (Fix 2 — the default ping
+      // server works without manual key entry). One key per
+      // user id, minted once and stored under 'key' (separate
+      // from the 'quota' bucket record, so the bucket math in
+      // bucket.js is untouched). Re-issue returns the SAME key
+      // — that is the rate limit: a user id can never hold two
+      // keys, and re-registering never rotates the key. Called
+      // by the Worker (handleRegister), never by a client
+      // directly — the client calls POST /register on the
+      // Worker, which calls this route on the user's stub.
+      const existing = await this.state.storage.get('key');
+      if (typeof existing === 'string' && existing) {
+        return new Response(JSON.stringify({ ok: true, key: existing }), {
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const key = mintInstallKey();
+      await this.state.storage.put('key', key);
+      return new Response(JSON.stringify({ ok: true, key }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/check-key') {
+      // Read-only key check (Fix 2): does the supplied key
+      // match this user's stored per-install key? Never mints,
+      // never creates state on a bare read — a failed auth
+      // attempt must not register a key for an arbitrary user
+      // id. Called by the Worker (authorizedClient), never by
+      // a client directly. Returns { ok, match } — the key
+      // itself is never echoed back.
+      let body = {};
+      try {
+        body = await request.json();
+      } catch {
+        body = {};
+      }
+      const stored = await this.state.storage.get('key');
+      const match = keysEqual(body.key, stored);
+      return new Response(JSON.stringify({ ok: true, match }), {
+        headers: { 'content-type': 'application/json' },
+      });
     }
 
     return new Response(JSON.stringify({ ok: false, error: 'unknown limiter route' }), {
@@ -1169,6 +1231,70 @@ function authorized(request, env) {
   return supplied === secret;
 }
 
+/**
+ * Mint a per-install key (Fix 2). 32 cryptographically random
+ * bytes, hex-encoded, prefixed `pk-` so a per-install key is
+ * never confused with the shared secret. 67 chars total.
+ * Called only by the PingRateLimiter /register-key route (which
+ * stores it once per user id and re-issues the same key).
+ */
+export function mintInstallKey() {
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  let hex = '';
+  for (const b of bytes) hex += b.toString(16).padStart(2, '0');
+  return `pk-${hex}`;
+}
+
+/** Constant-time string comparison (for key checks — no early exit on length or content). */
+export function keysEqual(a, b) {
+  if (typeof a !== 'string' || typeof b !== 'string') return false;
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
+/**
+ * Client-route gate (Fix 2). Accepts EITHER the shared secret
+ * (x-lucid-ping-key === PING_SHARED_SECRET, the manually-entered
+ * key Gary pasted) OR a valid per-install key for the user id in
+ * x-lucid-user (the key POST /register minted for that install).
+ * Used ONLY by the client routes (/ping, /v1/chat/completions,
+ * /temp/activate) — the /admin/* routes keep authorized()
+ * (shared secret only), so a per-install key can never reach
+ * the grab, the progress store, or the outcome log. Open when
+ * no secret is configured (dummy, same as authorized()). Async
+ * because the per-install check is a Durable Object read (the
+ * user's limiter stub /check-key) — and fail-closed: a missing
+ * binding, a missing user id, or a DO error means not
+ * authorized, never a silent pass.
+ */
+export async function authorizedClient(request, env) {
+  const secret = env.PING_SHARED_SECRET;
+  if (!secret) return true;
+  const supplied = request.headers.get('x-lucid-ping-key');
+  if (!supplied) return false;
+  if (supplied === secret) return true;
+  const id = userId(request);
+  if (!id || !env.RATE_LIMITER) return false;
+  try {
+    const stub = env.RATE_LIMITER.get(env.RATE_LIMITER.idFromName(`user:${id}`));
+    const res = await stub.fetch(
+      new Request('http://limiter/check-key', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ key: supplied }),
+      }),
+    );
+    if (!res.ok) return false;
+    const parsed = await res.json();
+    return parsed && parsed.ok === true && parsed.match === true;
+  } catch {
+    return false;
+  }
+}
+
 /** Per-install user id from the x-lucid-user header, or null. */
 function userId(request) {
   const id = request.headers.get('x-lucid-user');
@@ -1522,7 +1648,7 @@ async function handleProgressGet(request, env) {
 }
 
 async function handlePing(request, env) {
-  if (!authorized(request, env)) {
+  if (!(await authorizedClient(request, env))) {
     return errorResponse(401, 'unauthorized: missing or wrong x-lucid-ping-key');
   }
   let echo = null;
@@ -1575,7 +1701,7 @@ async function handlePing(request, env) {
 }
 
 async function handleChatCompletions(request, env, ctx) {
-  if (!authorized(request, env)) {
+  if (!(await authorizedClient(request, env))) {
     return errorResponse(401, 'unauthorized: missing or wrong x-lucid-ping-key');
   }
   // Maintenance pre-check: a server in maintenance answers 503 and
@@ -2278,6 +2404,64 @@ async function handleGrabOutcomes(request, env) {
 }
 
 /**
+ * Per-install key registration (Fix 2 — Gary 2026-11-17 06:31 MST:
+ * "if its default i shouldnt have to input it"). The default ping
+ * server works without manual key entry: a fresh install with no
+ * key stored calls this once, gets a per-install key, and stores
+ * it (the Lucid client's ensureDefaultPingKey — deployed d8c6a54).
+ *
+ * POST /register — body { userId }. The userId is the per-install
+ * id (the same id the client sends as x-lucid-user). The server
+ * mints ONE key per userId (the user's limiter stub stores it
+ * under 'key'; re-issue returns the SAME key — that is the rate
+ * limit) and returns { ok: true, key }. The key is accepted by
+ * authorizedClient() alongside PING_SHARED_SECRET for /ping,
+ * /v1/chat/completions and /temp/activate — never for /admin/*.
+ *
+ * Auth: NONE — this is the provisioning endpoint, called by a
+ * client that has no key yet. The userId is a random per-install
+ * UUID (the client generates it once), so minting requires
+ * knowing it; a key is only useful with its own userId, and a
+ * minted key for a random userId spends from a bucket nobody
+ * owns. Bad userId -> 400. DO unavailable -> 503 (the client
+ * degrades to manual entry — ensureDefaultPingKey returns false
+ * on any failure and the call proceeds without a key). 0 neurons,
+ * 0 SP — plain DO read/write, never Workers AI.
+ */
+async function handleRegister(request, env) {
+  let body = {};
+  try {
+    body = await request.json();
+  } catch {
+    return errorResponse(400, 'invalid JSON body');
+  }
+  const userIdValue = body.userId;
+  if (
+    typeof userIdValue !== 'string' ||
+    !userIdValue ||
+    userIdValue.length > 128 ||
+    !/^[A-Za-z0-9._-]+$/.test(userIdValue)
+  ) {
+    return errorResponse(400, 'userId must be a non-empty string of 1-128 [A-Za-z0-9._-] characters');
+  }
+  if (!env.RATE_LIMITER) {
+    return errorResponse(503, 'rate limiter binding (RATE_LIMITER) is not configured');
+  }
+  try {
+    const stub = env.RATE_LIMITER.get(env.RATE_LIMITER.idFromName(`user:${userIdValue}`));
+    const res = await stub.fetch(new Request('http://limiter/register-key', { method: 'POST' }));
+    if (!res.ok) return errorResponse(503, 'key registry unavailable');
+    const parsed = await res.json();
+    if (!parsed || parsed.ok !== true || typeof parsed.key !== 'string' || !parsed.key) {
+      return errorResponse(503, 'key registry unavailable');
+    }
+    return jsonResponse(200, { ok: true, key: parsed.key });
+  } catch (err) {
+    return errorResponse(503, `key registry unavailable: ${err instanceof Error ? err.message : String(err)}`);
+  }
+}
+
+/**
  * The yield intake — how a client's temp record enters the temp
  * store so the daily grab can verify it (step 1 of the dailies,
  * the activation half of the spec §1.2: a temp is ACTIVATED when
@@ -2313,7 +2497,7 @@ async function handleGrabOutcomes(request, env) {
  * grab); nothing is silently half-activated.
  */
 async function handleTempActivate(request, env) {
-  if (!authorized(request, env)) {
+  if (!(await authorizedClient(request, env))) {
     return errorResponse(401, 'unauthorized: missing or wrong x-lucid-ping-key');
   }
   let body = {};
@@ -2442,6 +2626,7 @@ export default {
           'GET /',
           'POST /ping',
           'POST /v1/chat/completions',
+          'POST /register',
           'POST /admin/progress',
           'GET /admin/progress',
           'POST /admin/grab',
@@ -2502,11 +2687,22 @@ export default {
       return handleGrabOutcomes(request, env);
     }
 
+    // Per-install key registration (Fix 2 — the default ping
+    // server works without manual key entry). Plain DO
+    // read/write, routed before the AI path so it can never
+    // invoke the model; 0 neurons, 0 SP. POST /register mints
+    // one key per userId (re-issue returns the same key). No
+    // auth — it is the provisioning endpoint for a client that
+    // has no key yet.
+    if (url.pathname === '/register' && request.method === 'POST') {
+      return handleRegister(request, env);
+    }
+
     // The yield intake (step 1 of the dailies — how a client's
     // temp record enters the store). Plain DO reads/writes,
     // routed before the AI path so it can never invoke the
     // model; 0 neurons, 0 SP. POST /temp/activate registers one
-    // temp (shared-secret auth, same as /admin/*).
+    // temp (shared secret or a per-install key for that user).
     if (url.pathname === '/temp/activate' && request.method === 'POST') {
       return handleTempActivate(request, env);
     }
