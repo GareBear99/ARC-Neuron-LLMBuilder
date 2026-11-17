@@ -126,7 +126,7 @@
  * for which path actually served that reply.
  */
 
-import { SP_INITIAL, peekBucket, spendBucket } from './bucket.js';
+import { SP_INITIAL, migrateRecord, peekBucket, quotaView, spendBucket } from './bucket.js';
 import {
   MAINTENANCE_MS,
   NEURON_DAILY_CAP,
@@ -143,10 +143,49 @@ import {
   progressView,
   sanitizeProgressUpdate,
 } from './progress.js';
+import {
+  GENESIS_REFERRAL_ID,
+  applyOutcome,
+  checkChain,
+  genesisReferrerState,
+  isTerminalOutcome,
+  newActivationRecord,
+  outcomeKey,
+  outcomeValue,
+  parseOutcomeKey,
+  parseOutcomeValue,
+  parseQueueKey,
+  parseQueueValue,
+  queueKey,
+  queueValue,
+  utcDay,
+  validateTempRecord,
+} from './tempstore.js';
+import {
+  GRAB_BATCH_CONCURRENCY,
+  GRAB_CHUNK_RECORDS,
+  GRAB_CPU_BUDGET_MS,
+  GRAB_DAILY_CAP,
+  GRAB_LOG_BATCH,
+  GRAB_QUEUE_PAGE,
+  GRAB_SHARD_WIDTH,
+  GRAB_SUBREQUEST_LIMIT,
+  GRAB_TIMEZONE,
+  chunkRange,
+  compareCursors,
+  grabDayFor,
+  isGrabHour,
+  newGrabState,
+  shardForTick,
+  shardRange,
+  shardStubId,
+  validateGrabCursor,
+  validateGrabState,
+} from './grab.js';
 
 const DEFAULT_MODEL = '@cf/meta/llama-3.2-1b-instruct';
 const SERVICE = 'lucid-ping-server';
-const VERSION = '0.4.0';
+const VERSION = '0.6.0';
 
 /**
  * All Workers AI text-generation models the ping server serves.
@@ -234,6 +273,24 @@ export class PingRateLimiter {
       await this.state.storage.put('quota', state);
       return new Response(
         JSON.stringify({ ok: true, allowed, ...view }),
+        { headers: { 'content-type': 'application/json' } },
+      );
+    }
+
+    if (url.pathname === '/verify') {
+      // Mark this user's bucket verified: the grab recognised
+      // their temp (FixNet step 2). Verified is sticky — once
+      // true it never goes back to false. The grant itself
+      // (+1000 SP/day, no cap) is applied by applyRefill on the
+      // next /peek or /check, so this route only flips the flag
+      // and persists it; it grants nothing by itself. Called by
+      // the Worker (runGrabChunk / handleTempActivate), never by
+      // a client directly — a client cannot verify itself.
+      const state = migrateRecord(record, nowMs);
+      state.verified = true;
+      await this.state.storage.put('quota', state);
+      return new Response(
+        JSON.stringify({ ok: true, verified: true, ...quotaView(state, nowMs) }),
         { headers: { 'content-type': 'application/json' } },
       );
     }
@@ -441,6 +498,658 @@ export class PingProgress {
   }
 }
 
+/**
+ * One temp's record (one stub per temp, id `temp:<id>`).
+ * State is one record in DO storage under key 'record' — the
+ * spec §3.2 shape (id, referralId, status, activationTick,
+ * windowStart, windowEnd, verificationState, verifiedTick,
+ * grabDay, discarded, createdAt). Thin storage wrapper over the
+ * pure logic in tempstore.js, like PingRateLimiter — and
+ * unit-testable in Node with fake storage.
+ *
+ * No Worker route calls this DO yet: the grab (plan step 2) wires
+ * the Worker to it. Step 1 is the store + the timed scan only.
+ *
+ * Routes (all POST, JSON bodies):
+ *   /get — read-only: { record } or { record: null }. Never
+ *          creates state on a bare read.
+ *   /put { record } — validate + store. Bad record -> 400.
+ *   /apply { nowMs, referrerState, tick, grabDay } — run the
+ *          §1.2 chain check against the stored record and persist
+ *          the outcome (verified stamps verifiedTick/grabDay once,
+ *          never re-numbered). No record stored -> 404.
+ *          Returns { outcome, reason, record }.
+ */
+export class TempRecord {
+  constructor(state) {
+    this.state = state;
+  }
+
+  async fetch(request) {
+    const url = new URL(request.url);
+
+    if (url.pathname === '/get') {
+      const record = (await this.state.storage.get('record')) || null;
+      return new Response(JSON.stringify({ ok: true, record }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/put') {
+      let body = {};
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(JSON.stringify({ ok: false, error: 'invalid JSON body' }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const { ok, record, error } = validateTempRecord(body.record);
+      if (!ok) {
+        return new Response(JSON.stringify({ ok: false, error }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      await this.state.storage.put('record', record);
+      return new Response(JSON.stringify({ ok: true, record }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/apply') {
+      let body = {};
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(JSON.stringify({ ok: false, error: 'invalid JSON body' }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const record = (await this.state.storage.get('record')) || null;
+      if (!record) {
+        return new Response(JSON.stringify({ ok: false, error: 'no record stored' }), {
+          status: 404,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const nowMs = typeof body.nowMs === 'number' ? body.nowMs : Date.now();
+      const tick = typeof body.tick === 'number' ? body.tick : 0;
+      const grabDay = typeof body.grabDay === 'string' ? body.grabDay : null;
+      const referrerState =
+        body.referrerState === 'verified' ||
+        body.referrerState === 'pending' ||
+        body.referrerState === 'not_verified' ||
+        body.referrerState === 'missing' ||
+        body.referrerState === 'genesis' ||
+        body.referrerState === 'genesis_not_root'
+          ? body.referrerState
+          : null;
+      const { outcome, reason } = checkChain(record, nowMs, referrerState);
+      const next = applyOutcome(record, outcome, tick, grabDay);
+      await this.state.storage.put('record', next);
+      return new Response(
+        JSON.stringify({ ok: true, outcome, reason, record: next }),
+        { headers: { 'content-type': 'application/json' } },
+      );
+    }
+
+    return new Response(JSON.stringify({ ok: false, error: 'unknown temp record route' }), {
+      status: 404,
+      headers: { 'content-type': 'application/json' },
+    });
+  }
+}
+
+/**
+ * The temp store's index (one stub per tick-range shard, id
+ * 'temp:index:<shard>' — grab.js shardForTick; step 2 of the
+ * dailies sharded the single 'temp:index' stub, which at 1B
+ * would hold ~137 GB against the 10 GB per-DO limit). Each shard
+ * holds its range's tick-ordered pending queue (queueKey(tick)
+ * -> compact `id|referralId` value) and the per-grab outcome log
+ * (outcomeKey(tick, id) -> outcome, latest outcome wins — one
+ * entry per temp, so the log does not grow per grab). The index
+ * is the causal record: the tick order lives here, and the grab
+ * walks it. This settles plan Q4 — verification ticks are
+ * server-side records in these index stubs, not in either of
+ * Lucid's client rings. Thin storage wrapper over tempstore.js /
+ * grab.js, like PingServerUsage.
+ *
+ * Queue keys are zero-padded (tempstore.js queueKey), so
+ * storage.list({ prefix: 'q:' }) returns the queue in
+ * activation-tick order with no sort step. The queue value
+ * carries the referralId (tempstore.js queueValue) so the grab
+ * driver learns it from the queue page and never needs a
+ * separate /get per record to resolve the referrer.
+ *
+ * Routes (all POST, JSON bodies):
+ *   /enqueue { activationTick, id, referralId? } — add a queue
+ *             entry. Idempotent (same key overwrites). Bad body
+ *             -> 400. referralId null/omitted = no referral.
+ *   /queue — read-only: { entries: [{ activationTick, id,
+ *            referralId, done }] } in tick order. Never creates
+ *            state. done is null for a live entry, or the
+ *            terminal outcome that discarded it (see below).
+ *   /queue-range { startTick, endTick, limit? } — entries in
+ *            tick order within [startTick, endTick], at most
+ *            limit (default GRAB_QUEUE_PAGE, max the same — one
+ *            DO response stays small). The grab driver pages
+ *            this to walk a chunk. Entries carry done (null or
+ *            the discarding outcome); the driver skips done
+ *            entries — no referrer /get, no /apply, no tally.
+ *   /log { tick, id, outcome, day?, reason? } — append an
+ *            outcome-log entry. 'skip' is not an outcome and is
+ *            rejected (400). day (the grab day, 'YYYY-MM-DD')
+ *            and reason (why — chain_holds, genesis_root,
+ *            no_referral, referrer_pending, ...) ride along
+ *            when the caller supplies them, so the log is the
+ *            audit record, not just the outcome. This route
+ *            logs only; it does NOT mark the queue entry done
+ *            (it is the manual single-entry route, not a grab
+ *            step).
+ *   /log-batch { entries: [{ tick, id, outcome, referralId?,
+ *            day?, reason? }] }
+ *            — batch outcome writes (one call per chunk page
+ *            instead of one per record). Idempotent by key; a
+ *            bad entry rejects the whole batch (400, nothing
+ *            written). DISCARD: for every entry whose outcome is
+ *            terminal (verified / not_verified / expired), the
+ *            batch ALSO rewrites that tick's queue value as
+ *            `id|referralId|done:<outcome>` — the queue entry is
+ *            discarded from the nightly walk (the driver skips
+ *            it), while the KEY stays: the grab's stopping rule
+ *            reads an empty page as "no later ticks exist", so
+ *            deleting a queue entry would end a grab early.
+ *            The outcome log and the record stub are untouched
+ *            — a discarded record is never deleted. Pending
+ *            outcomes mark nothing (a pending record is
+ *            re-checked by every grab). 'skip' entries are
+ *            accepted as MARKING-ONLY: a skip means the record
+ *            was already verified (usually by a chunk that
+ *            crashed before its /log-batch), so nothing is
+ *            written to the outcome log, but the queue entry is
+ *            marked done:verified — without this, a crashed
+ *            chunk's records would be re-walked every night
+ *            forever. referralId, when the caller supplies it
+ *            (the driver does), avoids a storage read for the
+ *            marking; when omitted, the handler reads the stored
+ *            queue value instead.
+ *   /outcomes — read-only: { entries: [{ tick, id, outcome,
+ *            day, reason }] } in tick order (the stored order is
+ *            the key order, which is tick order). day/reason
+ *            are null for entries logged before they were
+ *            recorded (legacy plain-outcome values).
+ *            in tick order. Never creates state.
+ *   /status — read-only: { queued, done, logged } counts.
+ *            queued counts every queue key (live + discarded);
+ *            done counts the discarded ones.
+ */
+export class TempIndex {
+  constructor(state) {
+    this.state = state;
+  }
+
+  async fetch(request) {
+    const url = new URL(request.url);
+
+    if (url.pathname === '/enqueue') {
+      let body = {};
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(JSON.stringify({ ok: false, error: 'invalid JSON body' }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const tick = body.activationTick;
+      const id = body.id;
+      const referralId = body.referralId ?? null;
+      if (
+        typeof tick !== 'number' ||
+        !Number.isFinite(tick) ||
+        tick < 0 ||
+        !Number.isInteger(tick) ||
+        typeof id !== 'string' ||
+        !id ||
+        (referralId !== null && typeof referralId !== 'string')
+      ) {
+        return new Response(
+          JSON.stringify({ ok: false, error: 'activationTick must be a non-negative integer, id a non-empty string, referralId a string or null' }),
+          { status: 400, headers: { 'content-type': 'application/json' } },
+        );
+      }
+      const key = queueKey(tick);
+      await this.state.storage.put(key, queueValue(id, referralId));
+      return new Response(JSON.stringify({ ok: true, key }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/queue') {
+      const entries = [];
+      for (const [key, value] of await this.state.storage.list({ prefix: 'q:' })) {
+        const tick = parseQueueKey(key);
+        if (tick !== null) {
+          const parsed = parseQueueValue(value);
+          if (parsed) entries.push({ activationTick: tick, id: parsed.id, referralId: parsed.referralId, done: parsed.done });
+        }
+      }
+      return new Response(JSON.stringify({ ok: true, entries }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/queue-range') {
+      let body = {};
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(JSON.stringify({ ok: false, error: 'invalid JSON body' }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const startTick = body.startTick;
+      const endTick = body.endTick;
+      const limit =
+        body.limit === undefined ? GRAB_QUEUE_PAGE : body.limit;
+      if (
+        typeof startTick !== 'number' ||
+        !Number.isInteger(startTick) ||
+        startTick < 0 ||
+        typeof endTick !== 'number' ||
+        !Number.isInteger(endTick) ||
+        endTick < startTick ||
+        typeof limit !== 'number' ||
+        !Number.isInteger(limit) ||
+        limit < 1 ||
+        limit > GRAB_QUEUE_PAGE
+      ) {
+        return new Response(
+          JSON.stringify({ ok: false, error: `startTick/endTick must be integers with endTick >= startTick, limit an integer 1..${GRAB_QUEUE_PAGE}` }),
+          { status: 400, headers: { 'content-type': 'application/json' } },
+        );
+      }
+      const entries = [];
+      // Bounded list: start/end are zero-padded queue keys, so
+      // the storage scan touches only this range (never the whole
+      // shard — a full list() here would materialise 31M keys in
+      // the isolate). start is inclusive, end exclusive, limit
+      // caps the page. The returned Map is in lexicographic key
+      // order, which IS tick order.
+      const list = await this.state.storage.list({
+        prefix: 'q:',
+        start: queueKey(startTick),
+        end: queueKey(endTick + 1),
+        limit,
+      });
+      for (const [key, value] of list) {
+        const tick = parseQueueKey(key);
+        if (tick === null) continue;
+        const parsed = parseQueueValue(value);
+        if (parsed) entries.push({ activationTick: tick, id: parsed.id, referralId: parsed.referralId, done: parsed.done });
+      }
+      return new Response(JSON.stringify({ ok: true, entries }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/log') {
+      let body = {};
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(JSON.stringify({ ok: false, error: 'invalid JSON body' }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const { tick, id, outcome, day, reason } = body;
+      if (
+        typeof tick !== 'number' ||
+        !Number.isFinite(tick) ||
+        tick < 0 ||
+        !Number.isInteger(tick) ||
+        typeof id !== 'string' ||
+        !id ||
+        !['verified', 'pending', 'not_verified', 'expired'].includes(outcome) ||
+        (day !== undefined && day !== null && typeof day !== 'string') ||
+        (reason !== undefined && reason !== null && typeof reason !== 'string')
+      ) {
+        return new Response(
+          JSON.stringify({ ok: false, error: 'tick, id and an outcome (verified|pending|not_verified|expired) are required; day and reason, when present, must be strings' }),
+          { status: 400, headers: { 'content-type': 'application/json' } },
+        );
+      }
+      await this.state.storage.put(outcomeKey(tick, id), outcomeValue(outcome, day ?? null, reason ?? null));
+      return new Response(JSON.stringify({ ok: true }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/log-batch') {
+      let body = {};
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(JSON.stringify({ ok: false, error: 'invalid JSON body' }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const entries = body.entries;
+      if (
+        !Array.isArray(entries) ||
+        entries.length === 0 ||
+        entries.length > GRAB_LOG_BATCH
+      ) {
+        return new Response(
+          JSON.stringify({ ok: false, error: `entries must be a non-empty array of at most ${GRAB_LOG_BATCH}` }),
+          { status: 400, headers: { 'content-type': 'application/json' } },
+        );
+      }
+      // Validate everything first: a bad entry rejects the whole
+      // batch and nothing is written. 'skip' is accepted as
+      // marking-only (see below) — it is not an outcome and is
+      // never written to the outcome log.
+      for (const e of entries) {
+        if (
+          !e ||
+          typeof e.tick !== 'number' ||
+          !Number.isFinite(e.tick) ||
+          e.tick < 0 ||
+          !Number.isInteger(e.tick) ||
+          typeof e.id !== 'string' ||
+          !e.id ||
+          !['verified', 'pending', 'not_verified', 'expired', 'skip'].includes(e.outcome) ||
+          (e.referralId !== undefined && e.referralId !== null && typeof e.referralId !== 'string') ||
+          (e.day !== undefined && e.day !== null && typeof e.day !== 'string') ||
+          (e.reason !== undefined && e.reason !== null && typeof e.reason !== 'string')
+        ) {
+          return new Response(
+            JSON.stringify({ ok: false, error: 'each entry needs tick, id and an outcome (verified|pending|not_verified|expired|skip); referralId, day and reason, when present, must be strings or null' }),
+            { status: 400, headers: { 'content-type': 'application/json' } },
+          );
+        }
+      }
+      // Idempotent by key (same key overwrites) — a re-run chunk
+      // re-logs the same outcomes and changes nothing. 'skip'
+      // entries write nothing to the log (nothing happened this
+      // grab — the record was already verified).
+      let logged = 0;
+      for (const e of entries) {
+        if (e.outcome === 'skip') continue;
+        await this.state.storage.put(outcomeKey(e.tick, e.id), outcomeValue(e.outcome, e.day ?? null, e.reason ?? null));
+        logged += 1;
+      }
+      // DISCARD: a terminal outcome discards the queue entry
+      // from the nightly walk — rewrite its queue value with the
+      // done marker (the key stays, so the grab's density-based
+      // stopping rule still holds). Pending marks nothing. A
+      // 'skip' marks done:verified: the record IS verified, and
+      // its queue entry was only ever unmarked because the grab
+      // that verified it crashed before its /log-batch — without
+      // this, a crashed chunk's records would be re-walked every
+      // night forever. A done marker, once set, is never
+      // overwritten with a different outcome (terminal outcomes
+      // are final; the driver never re-applies a done record).
+      // The referralId rides the entry when the caller supplies
+      // it (the driver does); otherwise read the stored queue
+      // value so the marking never drops the referral.
+      let marked = 0;
+      for (const e of entries) {
+        const markOutcome = e.outcome === 'skip' ? 'verified' : e.outcome;
+        if (!isTerminalOutcome(markOutcome)) continue;
+        let referralId = e.referralId ?? null;
+        if (e.referralId === undefined) {
+          const stored = await this.state.storage.get(queueKey(e.tick));
+          const parsed = stored === null ? null : parseQueueValue(stored);
+          if (!parsed) continue;
+          referralId = parsed.referralId;
+          if (parsed.done !== null) continue;
+        }
+        await this.state.storage.put(queueKey(e.tick), queueValue(e.id, referralId, markOutcome));
+        marked += 1;
+      }
+      return new Response(JSON.stringify({ ok: true, logged, marked }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/outcomes') {
+      const entries = [];
+      for (const [key, value] of await this.state.storage.list({ prefix: 'o:' })) {
+        const parsed = parseOutcomeKey(key);
+        if (!parsed) continue;
+        const { outcome, day, reason } = parseOutcomeValue(value);
+        if (!outcome) continue;
+        entries.push({ tick: parsed.tick, id: parsed.id, outcome, day, reason });
+      }
+      return new Response(JSON.stringify({ ok: true, entries }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/status') {
+      const queue = await this.state.storage.list({ prefix: 'q:' });
+      const log = await this.state.storage.list({ prefix: 'o:' });
+      let done = 0;
+      for (const value of queue.values()) {
+        const parsed = parseQueueValue(value);
+        if (parsed && parsed.done !== null) done += 1;
+      }
+      return new Response(
+        JSON.stringify({ ok: true, queued: queue.size, done, logged: log.size }),
+        { headers: { 'content-type': 'application/json' } },
+      );
+    }
+
+    return new Response(JSON.stringify({ ok: false, error: 'unknown temp index route' }), {
+      status: 404,
+      headers: { 'content-type': 'application/json' },
+    });
+  }
+}
+
+/**
+ * The daily grab's state (one global stub, id 'grab:current').
+ * The cursor is the truth: the grab is a chain of chunk
+ * invocations, and if any link in the chain dies (CPU cut,
+ * failed self-fetch, deploy mid-grab), the next trigger resumes
+ * from this cursor — nothing is lost, nothing is double-counted
+ * (chunk re-runs are idempotent: /apply never re-numbers a
+ * stamp, /log-batch overwrites the same keys). State is one
+ * record under key 'grab' — the grab.js shape (grabDay, shard,
+ * nextTick, tallies, startedAtMs, updatedAtMs, done, capHit,
+ * doneReason). Thin storage wrapper over grab.js, like
+ * PingServerUsage.
+ *
+ * Routes (all POST, JSON bodies):
+ *   /get — read-only: { state } or { state: null }. Never
+ *          creates state on a bare read.
+ *   /start { grabDay } — begin the grab for a day, or return
+ *          the existing state for that day (idempotent: a
+ *          second start returns the in-progress cursor; a start
+ *          for a finished day returns the finished state).
+ *   /advance { state } — persist the state after a chunk.
+ *          The cursor must not move backward (a stale writer is
+ *          a 409); tallies must not shrink. Bad shape -> 400.
+ *   /finish { tallies } — mark the grab done (doneReason
+ *          'exhausted' or 'cap'). The state must exist (404).
+ */
+export class GrabState {
+  constructor(state) {
+    this.state = state;
+  }
+
+  async fetch(request) {
+    const url = new URL(request.url);
+
+    if (url.pathname === '/get') {
+      const state = (await this.state.storage.get('grab')) || null;
+      return new Response(JSON.stringify({ ok: true, state }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/start') {
+      let body = {};
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(JSON.stringify({ ok: false, error: 'invalid JSON body' }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      if (typeof body.grabDay !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(body.grabDay)) {
+        return new Response(JSON.stringify({ ok: false, error: 'grabDay must be a UTC date string' }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const existing = (await this.state.storage.get('grab')) || null;
+      if (existing && existing.grabDay === body.grabDay) {
+        return new Response(JSON.stringify({ ok: true, state: existing, resumed: true }), {
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      // The shard width is part of the grab's configuration and
+      // is stored on the state (grab.js newGrabState): the
+      // cursor validation in /advance uses the stored width, so
+      // a grab run with a narrower width (tests, or a future
+      // re-shard) validates against its own width, not the
+      // production one. A bad width falls back to the default.
+      const shardWidth =
+        typeof body.shardWidth === 'number' &&
+        Number.isInteger(body.shardWidth) &&
+        body.shardWidth >= 1
+          ? body.shardWidth
+          : GRAB_SHARD_WIDTH;
+      const state = newGrabState(body.grabDay, Date.now(), shardWidth);
+      await this.state.storage.put('grab', state);
+      return new Response(JSON.stringify({ ok: true, state, resumed: false }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/advance') {
+      let body = {};
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(JSON.stringify({ ok: false, error: 'invalid JSON body' }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const { ok, state, error } = validateGrabState(body.state);
+      if (!ok) {
+        return new Response(JSON.stringify({ ok: false, error }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const existing = (await this.state.storage.get('grab')) || null;
+      if (existing && existing.grabDay === state.grabDay) {
+        // The cursor never moves backward and tallies never shrink
+        // — a stale writer (an old invocation finishing late) is
+        // rejected, not silently applied.
+        if (compareCursors({ shard: state.shard, nextTick: state.nextTick }, { shard: existing.shard, nextTick: existing.nextTick }) < 0) {
+          return new Response(JSON.stringify({ ok: false, error: 'cursor moved backward' }), {
+            status: 409,
+            headers: { 'content-type': 'application/json' },
+          });
+        }
+        for (const k of ['checked', 'verified', 'pending', 'not_verified', 'expired', 'skipped']) {
+          if (state.tallies[k] < existing.tallies[k]) {
+            return new Response(JSON.stringify({ ok: false, error: `tallies.${k} shrank` }), {
+              status: 409,
+              headers: { 'content-type': 'application/json' },
+            });
+          }
+        }
+      }
+      await this.state.storage.put('grab', { ...state, updatedAtMs: Date.now() });
+      return new Response(JSON.stringify({ ok: true, state }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/finish') {
+      let body = {};
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(JSON.stringify({ ok: false, error: 'invalid JSON body' }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const existing = (await this.state.storage.get('grab')) || null;
+      if (!existing) {
+        return new Response(JSON.stringify({ ok: false, error: 'no grab started' }), {
+          status: 404,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      if (body.doneReason !== 'exhausted' && body.doneReason !== 'cap') {
+        return new Response(JSON.stringify({ ok: false, error: "doneReason must be 'exhausted' or 'cap'" }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const state = {
+        ...existing,
+        tallies: body.tallies ?? existing.tallies,
+        done: true,
+        capHit: body.doneReason === 'cap',
+        doneReason: body.doneReason,
+        updatedAtMs: Date.now(),
+      };
+      const { ok, error } = validateGrabState(state);
+      if (!ok) {
+        return new Response(JSON.stringify({ ok: false, error }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      await this.state.storage.put('grab', state);
+      return new Response(JSON.stringify({ ok: true, state }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/next-tick') {
+      // The activation-tick counter (the yield intake's tick
+      // source — POST /temp/activate). Activation ticks are the
+      // causal order: monotonic, assigned once by the SERVER,
+      // never by the client, never re-numbered. The counter lives
+      // under its own key ('nextActivationTick'), separate from
+      // the grab state ('grab'), so a grab start/finish never
+      // touches it. A Durable Object serves one request at a
+      // time, so the read-increment-write here is atomic — two
+      // concurrent activations can never receive the same tick.
+      // First tick is 1 (ticks start at 1; shardForTick maps
+      // tick 1 to shard 0).
+      const next = (await this.state.storage.get('nextActivationTick')) ?? 1;
+      await this.state.storage.put('nextActivationTick', next + 1);
+      return new Response(JSON.stringify({ ok: true, tick: next }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
+    return new Response(JSON.stringify({ ok: false, error: 'unknown grab state route' }), {
+      status: 404,
+      headers: { 'content-type': 'application/json' },
+    });
+  }
+}
+
 function jsonResponse(status, body, extraHeaders = {}) {
   return new Response(JSON.stringify(body, null, 2), {
     status,
@@ -490,6 +1199,29 @@ async function quotaFor(env, id, spend) {
   );
   if (!res.ok) throw new Error(`rate limiter error: HTTP ${res.status}`);
   return res.json();
+}
+
+/**
+ * Mark one user's SP bucket verified (PingRateLimiter /verify).
+ * Called by the grab when a temp verifies, and by the intake
+ * when a re-activation finds an already-verified record. The
+ * user id is the temp's ownerUserId — the per-install id that
+ * activated the temp — so the grant can only ever land on the
+ * install that owns the verified temp. Fail-open: a missing
+ * binding, a missing user id, or a DO error returns null and
+ * the caller carries on — a failed grant must never fail the
+ * grab or the intake (the next grab's 'skip' re-marks it).
+ */
+async function markUserVerified(env, userId) {
+  if (!env.RATE_LIMITER || !userId) return null;
+  try {
+    const stub = env.RATE_LIMITER.get(env.RATE_LIMITER.idFromName(`user:${userId}`));
+    const res = await stub.fetch(new Request('http://limiter/verify', { method: 'POST' }));
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
 }
 
 /**
@@ -1017,6 +1749,655 @@ async function handleChatCompletions(request, env, ctx) {
   }
 }
 
+/**
+ * The daily grab — step 2 of the dailies (how temps are verified).
+ * One ping call to Cloudflare per day became, after the step-1
+ * prototype's measured verdict (one call cannot work over the
+ * store at 1B), CHUNKED PASSES over a SHARDED INDEX. This section
+ * is the grab's Worker side; the pure math lives in grab.js, the
+ * record shape and chain check in tempstore.js.
+ *
+ * Gary's framing: the pass is a pass of cryptographic hashes —
+ * the check per record (checkChain, pure, no I/O) is cheap; the
+ * chunking/sharding is about the storage round-trips and the
+ * invocation CPU budget, not the check. The driver below is built
+ * to that framing: per record it does ~2 stub calls (one referrer
+ * /get, one /apply — the /get the step-1 scan did per record is
+ * gone, the referralId rides the queue entry) plus batched log
+ * writes, and the pure check is measured separately (grab-scan).
+ *
+ * Invocation shape: POST /admin/grab runs ONE chunk and returns;
+ * the next chunk is chained by a self-fetch via ctx.waitUntil
+ * (the cursor in the GrabState DO is the truth — if the chain
+ * breaks, the next hourly cron wake-up resumes it). The
+ * scheduled() handler gates on the 00:00 America/Vancouver hour.
+ * Chunks are sized (grab.js GRAB_CHUNK_RECORDS) to fit the
+ * binding invocation budgets with margin: ~15 s CPU (half the
+ * 30 s Paid HTTP default) and ~400k subrequests (40% of the
+ * configured 1,000,000 [limits] — the Paid default is 10,000,
+ * which would cap chunks at ~5,000 records; the raise is a
+ * required deployment setting, see wrangler.toml).
+ *
+ * Safety: a DO failure fails the chunk LOUD (the error
+ * propagates, the cursor does not advance, the next trigger
+ * retries the chunk). A chunk re-run is idempotent (/apply never
+ * re-numbers a stamp; /log-batch overwrites the same keys).
+ * The cap (Q2, decided in grab.js: queue for the next day) is
+ * enforced per batch — an overshoot of at most one batch
+ * (GRAB_BATCH_CONCURRENCY records) past the cap is possible and
+ * is within measurement noise at 1B.
+ */
+
+/** Call a DO stub route and parse its JSON; a DO error throws (fail-loud, never a silent skip). */
+async function doJson(stub, path, body) {
+  const res = await stub.fetch(
+    new Request(`http://do${path}`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: body ? JSON.stringify(body) : undefined,
+    }),
+  );
+  const parsed = await res.json().catch(() => null);
+  if (!res.ok || !parsed || parsed.ok === false) {
+    throw new Error(`DO ${path} failed: HTTP ${res.status} ${parsed && parsed.error ? parsed.error : ''}`);
+  }
+  return parsed;
+}
+
+/** A temp's record stub. */
+function tempRecordStub(env, id) {
+  if (!env.TEMP_STORE) throw new Error('temp store binding (TEMP_STORE) is not configured');
+  return env.TEMP_STORE.get(env.TEMP_STORE.idFromName(`temp:${id}`));
+}
+
+/** An index shard's stub. */
+function tempIndexStub(env, shard) {
+  if (!env.TEMP_INDEX) throw new Error('temp index binding (TEMP_INDEX) is not configured');
+  return env.TEMP_INDEX.get(env.TEMP_INDEX.idFromName(shardStubId(shard)));
+}
+
+/** The grab-state stub (one global stub). */
+function grabStateStub(env) {
+  if (!env.GRAB_STATE) throw new Error('grab state binding (GRAB_STATE) is not configured');
+  return env.GRAB_STATE.get(env.GRAB_STATE.idFromName('grab:current'));
+}
+
+/**
+ * Run ONE chunk of the grab from a grab state. Pure driver over
+ * the DO bindings: pages the current shard's queue-remainder,
+ * applies the chain check per record in tick-order batches, logs
+ * the outcomes in batches, and returns the next state (not yet
+ * persisted — the caller /advance's it) plus chunk stats.
+ * Never spans shards; never re-verifies (the /apply 'skip'
+ * path); stops early on the cap.
+ */
+async function runGrabChunk(env, state, opts = {}) {
+  const nowMs = opts.nowMs ?? Date.now();
+  const grabDay = opts.grabDay ?? grabDayFor(nowMs);
+  const chunkRecords = opts.chunkRecords ?? GRAB_CHUNK_RECORDS;
+  const concurrency = opts.concurrency ?? GRAB_BATCH_CONCURRENCY;
+  const shardWidth = opts.shardWidth ?? state.shardWidth ?? GRAB_SHARD_WIDTH;
+  const cap = opts.cap ?? GRAB_DAILY_CAP;
+
+  // The cursor can land one past a shard's end when the previous
+  // chunk ended exactly on the boundary (chunkRecords filled at
+  // shardEnd). That shard is FULLY processed — every tick up to
+  // its end was checked — so advance to the next shard and probe
+  // IT. Only a shard remainder that actually pages EMPTY means
+  // the grab is done; a cursor past a shard's end must never be
+  // read as "exhausted" (that bug would silently skip every
+  // later shard).
+  let shard = state.shard;
+  let { startTick, endTick: shardEnd } = shardRange(shard, shardWidth);
+  let fromTick = Math.max(state.nextTick, startTick);
+  while (fromTick > shardEnd) {
+    shard += 1;
+    ({ startTick, endTick: shardEnd } = shardRange(shard, shardWidth));
+    fromTick = startTick;
+  }
+
+  // Page the shard remainder [fromTick, shardEnd], collecting up
+  // to chunkRecords entries. The shard remainder is exhausted
+  // only when BOTH hold: the last page was short (nothing more
+  // exists in the range) AND the chunk took every entry the
+  // pages returned. A short page alone does not exhaust the
+  // shard when the chunk truncated the returned entries — the
+  // cut-off entries are still unprocessed in this shard.
+  const entries = [];
+  let pageStart = fromTick;
+  let shardExhausted = false;
+  while (entries.length < chunkRecords && pageStart <= shardEnd) {
+    const page = await doJson(tempIndexStub(env, shard), '/queue-range', {
+      startTick: pageStart,
+      endTick: shardEnd,
+      limit: GRAB_QUEUE_PAGE,
+    });
+    for (const e of page.entries) {
+      // Done entries are discarded from the nightly walk — skip
+      // them here (no referrer /get, no /apply, no tally). The
+      // page advance below still uses the raw page (done entries
+      // included), so paging walks the full tick range and the
+      // density-based stopping rule still holds.
+      if (!e.done) entries.push(e);
+    }
+    if (page.entries.length < GRAB_QUEUE_PAGE) {
+      shardExhausted = true;
+      break;
+    }
+    if (entries.length >= chunkRecords) break;
+    pageStart = page.entries[page.entries.length - 1].activationTick + 1;
+  }
+  let truncated = false;
+  if (entries.length > chunkRecords) {
+    entries.length = chunkRecords;
+    truncated = true;
+  }
+  if (pageStart > shardEnd) shardExhausted = true;
+  if (truncated) shardExhausted = false;
+
+  const tallies = { ...state.tallies };
+  const outcomes = [];
+  // Per-install user ids whose temp verified in this chunk
+  // (or was already verified — 'skip'). Marked verified on
+  // their SP buckets after the outcomes are logged, so the
+  // 1,000 SP/day grant only lands once the outcome is durable.
+  const verifiedOwners = [];
+  let processed = 0;
+  let capHit = false;
+
+  // Tick-order batches; Promise.all within a batch, batches
+  // sequential. A referrer is an earlier tick, so it is in an
+  // earlier batch or an earlier chunk — except the ~batch-sized
+  // fraction inside the same batch, which reads the referrer's
+  // pre-apply state and pends one grab (safe, negligible).
+  // Each batch runs in two phases — resolve ALL referrer states
+  // first, then apply — so a same-batch referrer is always read
+  // BEFORE any of the batch's applies land (deterministic,
+  // pre-batch state), never a read/write race.
+  for (let i = 0; i < entries.length; i += concurrency) {
+    const batch = entries.slice(i, i + concurrency);
+    const referrerStates = await Promise.all(
+      batch.map(async (entry) => {
+        // The genesis claim is only the root: referralId
+        // 'ref:genesis' AND activation tick 1. Any later temp
+        // carrying it is not the root and is marked not_verified
+        // (genesis_not_root) — the claim cannot be used to skip
+        // the chain. A referral-less temp gets null and the
+        // chain check marks it not_verified (no_referral).
+        const genesis = genesisReferrerState(entry.referralId, entry.activationTick);
+        if (genesis === 'genesis_not_root') return 'genesis_not_root';
+        if (genesis === 'genesis') return 'genesis';
+        if (!entry.referralId) return null;
+        const ref = await doJson(tempRecordStub(env, entry.referralId), '/get');
+        return !ref.record
+          ? 'missing'
+          : ref.record.verificationState === 'verified'
+            ? 'verified'
+            : 'pending';
+      }),
+    );
+    const results = await Promise.all(
+      batch.map(async (entry, j) => {
+        const applied = await doJson(tempRecordStub(env, entry.id), '/apply', {
+          nowMs,
+          referrerState: referrerStates[j],
+          tick: entry.activationTick,
+          grabDay,
+        });
+        return {
+          entry,
+          outcome: applied.outcome,
+          // The reason the chain check gave (chain_holds,
+          // genesis_root, no_referral, ...) — it rides the
+          // outcome log so the publish can say why, not just
+          // what. The owner is the per-install id that activated
+          // the temp — the SP grant lands on that install only.
+          reason: typeof applied.reason === 'string' ? applied.reason : null,
+          ownerUserId:
+            applied.record && typeof applied.record.ownerUserId === 'string'
+              ? applied.record.ownerUserId
+              : null,
+        };
+      }),
+    );
+    for (const { entry, outcome, reason, ownerUserId } of results) {
+      tallies.checked += 1;
+      // The outcome is 'skip'; the tally key is 'skipped' —
+      // tallies['skip'] would be NaN (and null after JSON).
+      tallies[outcome === 'skip' ? 'skipped' : outcome] += 1;
+      processed += 1;
+      // Every outcome rides /log-batch — including 'skip', which
+      // /log-batch takes as marking-only (done:verified, no log
+      // write): a skipped record was verified by an earlier grab,
+      // or by a chunk that crashed before its /log-batch. The
+      // referralId rides along so the marking never needs a
+      // storage read for it.
+      outcomes.push({ tick: entry.activationTick, id: entry.id, outcome, referralId: entry.referralId ?? null, day: grabDay, reason: reason ?? null });
+      // A refused genesis claim is worth a log line: a temp
+      // claimed the root and was not the root tick. (It fires
+      // here, on the outcome, not at resolution — an
+      // already-verified record that happens to carry the claim
+      // skips and is never refused.)
+      if (outcome === 'not_verified' && reason === 'genesis_not_root') {
+        console.log(`[grab] genesis claim refused: ${entry.id} tick ${entry.activationTick} is not the root tick`);
+      }
+      // A verified temp grants its owner the verified SP
+      // allowance (1,000/day) — and a skipped one is already
+      // verified, so it re-marks (idempotent) in case the grab
+      // that verified it crashed before marking. The marking
+      // happens after the log-batch below, so the grant only
+      // lands once the outcome is durably logged.
+      if ((outcome === 'verified' || outcome === 'skip') && ownerUserId) {
+        verifiedOwners.push(ownerUserId);
+      }
+    }
+    if (tallies.verified >= cap) {
+      capHit = true;
+      break;
+    }
+  }
+
+  // Log the outcomes in batches (idempotent by key) — and, in
+  // the same call, discard the terminal ones from the nightly
+  // walk (/log-batch marks their queue entries done; 'skip'
+  // entries mark done:verified without a log write).
+  for (let i = 0; i < outcomes.length; i += GRAB_LOG_BATCH) {
+    await doJson(tempIndexStub(env, shard), '/log-batch', {
+      entries: outcomes.slice(i, i + GRAB_LOG_BATCH),
+    });
+  }
+
+  // The outcomes are durably logged — now mark the verified
+  // owners' SP buckets (1,000 SP/day, no cap). Deduped: one
+  // user may own several verified temps in a chunk. Fail-open
+  // per owner (markUserVerified never throws): a failed mark is
+  // retried by the next grab's 'skip', which re-marks.
+  for (const ownerUserId of new Set(verifiedOwners)) {
+    await markUserVerified(env, ownerUserId);
+  }
+
+  // The next cursor. A cap-hit grab stops here (the rest queue
+  // for the next day — Q2). An exhausted shard moves to the next
+  // shard; an empty shard remainder means the grab is done:
+  // activation ticks are a dense monotonic counter and shards
+  // fill in order, so an empty shard implies no later ticks
+  // exist. Otherwise the cursor stays in this shard.
+  let nextState = {
+    ...state,
+    shard,
+    nextTick: state.nextTick,
+    tallies,
+    updatedAtMs: Date.now(),
+    done: state.done,
+    capHit: state.capHit,
+    doneReason: state.doneReason,
+  };
+  let done = false;
+  let doneReason = null;
+  if (capHit) {
+    done = true;
+    doneReason = 'cap';
+    nextState.nextTick =
+      processed > 0 ? entries[processed - 1].activationTick + 1 : state.nextTick;
+  } else if (shardExhausted) {
+    if (processed === 0) {
+      done = true;
+      doneReason = 'exhausted';
+      nextState.nextTick = state.nextTick;
+    } else {
+      const next = shardRange(shard + 1, shardWidth);
+      nextState.shard = shard + 1;
+      nextState.nextTick = next.startTick;
+    }
+  } else {
+    nextState.nextTick = entries[processed - 1].activationTick + 1;
+  }
+  nextState.done = done;
+  nextState.capHit = capHit;
+  nextState.doneReason = doneReason;
+  return {
+    state: nextState,
+    chunk: {
+      shard,
+      startTick: fromTick,
+      endTick: processed > 0 ? entries[processed - 1].activationTick : fromTick - 1,
+      records: processed,
+      verified: tallies.verified - state.tallies.verified,
+      shardExhausted,
+      capHit,
+    },
+    done,
+    doneReason,
+    capHit,
+  };
+}
+
+/**
+ * Chain the next chunk: a self-fetch to this Worker's own grab
+ * endpoint, scheduled via ctx.waitUntil so the current
+ * invocation returns immediately. The origin comes from the
+ * triggering request (POST) or the GRAB_PUBLIC_URL var
+ * (scheduled); the admin key comes from env (the shared secret
+ * the Worker itself holds). If there is no origin or no secret,
+ * no chain is scheduled — the cursor is the truth and the next
+ * hourly cron wake-up resumes the grab (slow backstop). A
+ * failed chain is swallowed: it only delays the grab, never
+ * loses work. Safety note: in local dev the secret is unset, so
+ * a local chain fetch carries no key and production (which has
+ * the secret set) answers 401 — a local run can never poke the
+ * production grab.
+ */
+function chainGrab(env, ctx, origin) {
+  if (!origin || !env.PING_SHARED_SECRET || !ctx || typeof ctx.waitUntil !== 'function') {
+    return false;
+  }
+  const chained = fetch(`${origin}/admin/grab`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      'x-lucid-ping-key': env.PING_SHARED_SECRET,
+    },
+    body: JSON.stringify({ chain: true }),
+  }).catch(() => null);
+  try {
+    ctx.waitUntil(chained);
+  } catch {
+    return false;
+  }
+  return true;
+}
+
+/** Read the grab state (or null when no grab has ever started). */
+async function grabStateGet(env) {
+  return doJson(grabStateStub(env), '/get');
+}
+
+/**
+ * One grab step: start/resume today's grab, run one chunk,
+ * persist the cursor, chain the next chunk unless done.
+ * Returns { done, capHit, doneReason, state, chunk, chained }.
+ * A re-run after a finished grab returns the finished state
+ * without doing any work (idempotent).
+ */
+async function grabStep(env, ctx, opts = {}) {
+  const nowMs = opts.nowMs ?? Date.now();
+  const grabDay = grabDayFor(nowMs);
+  const origin = opts.origin ?? null;
+  const chain = opts.chain !== false;
+
+  const got = await grabStateGet(env);
+  let state = got.state;
+  if (state && state.grabDay === grabDay && state.done) {
+    return { done: true, capHit: state.capHit, doneReason: state.doneReason, state, chunk: null, chained: false };
+  }
+  if (!state || state.grabDay !== grabDay) {
+    const started = await doJson(grabStateStub(env), '/start', {
+      grabDay,
+      shardWidth: opts.chunk?.shardWidth,
+    });
+    state = started.state;
+  }
+
+  const run = await runGrabChunk(env, state, { nowMs, grabDay, ...opts.chunk });
+  if (run.done) {
+    const finished = await doJson(grabStateStub(env), '/finish', {
+      tallies: run.state.tallies,
+      doneReason: run.doneReason,
+    });
+    return { done: true, capHit: run.capHit, doneReason: run.doneReason, state: finished.state, chunk: run.chunk, chained: false };
+  }
+  const advanced = await doJson(grabStateStub(env), '/advance', { state: run.state });
+  let chained = false;
+  if (chain) chained = chainGrab(env, ctx, origin);
+  return { done: false, capHit: false, doneReason: null, state: advanced.state, chunk: run.chunk, chained };
+}
+
+/**
+ * The daily grab — the queryable admin endpoint.
+ *
+ * The grab is a data check: it runs no model call, it is not a
+ * chat completion, and it spends 0 neurons and 0 SP (spec §1.2
+ * step 9 — the corrected model: 1 ping call to Cloudflare per
+ * day, flat, count-independent; the chunked passes are many
+ * invocations of one daily grab, each one a data check).
+ *
+ * POST /admin/grab — run one chunk of today's grab (admin key).
+ *   Body: { chain?: boolean } — chain the next chunk (default
+ *   true; false drives the grab manually, one chunk per call —
+ *   the local-test shape). Returns the chunk result + the
+ *   cursor + the tallies. A second call after the grab is done
+ *   returns the finished state without work.
+ * GET /admin/grab — read-only: the grab state, or null when no
+ *   grab has ever started. Never creates state.
+ * The status lookup (any temp checks verified/pending/not
+ * verified) is step 3, NOT this route — it rides the FixNet
+ * connection (Q5, decided), not the grab endpoint.
+ */
+async function handleGrabPost(request, env, ctx) {
+  if (!authorized(request, env)) {
+    return errorResponse(401, 'unauthorized: missing or wrong x-lucid-ping-key');
+  }
+  let body = {};
+  try {
+    body = await request.json();
+  } catch {
+    body = {};
+  }
+  const origin = new URL(request.url).origin;
+  const step = await grabStep(env, ctx, {
+    chain: body.chain !== false,
+    origin,
+    chunk: {
+      chunkRecords: typeof body.chunkRecords === 'number' ? body.chunkRecords : undefined,
+      concurrency: typeof body.concurrency === 'number' ? body.concurrency : undefined,
+      shardWidth: typeof body.shardWidth === 'number' ? body.shardWidth : undefined,
+      cap: typeof body.cap === 'number' ? body.cap : undefined,
+    },
+  });
+  return jsonResponse(200, {
+    ok: true,
+    done: step.done,
+    capHit: step.capHit,
+    doneReason: step.doneReason,
+    state: step.state,
+    chunk: step.chunk,
+    chained: step.chained,
+  });
+}
+
+async function handleGrabGet(request, env) {
+  if (!authorized(request, env)) {
+    return errorResponse(401, 'unauthorized: missing or wrong x-lucid-ping-key');
+  }
+  const got = await grabStateGet(env);
+  return jsonResponse(200, { ok: true, state: got.state });
+}
+
+/**
+ * GET /admin/grab-outcomes — read-only: the grab's outcome log
+ * across every temp-index shard, in activation-tick order.
+ * This is the publish step's read end (FixNet step 3): the
+ * daily Pages publish reads this route and writes the status
+ * table the clients pull. Admin key only — the log carries
+ * every temp id, so it never goes to a client directly.
+ *
+ * Query params (all optional):
+ *   shard=N — read one shard only (a single shard's /outcomes).
+ *   day=YYYY-MM-DD — keep only outcomes decided on that grab day.
+ * Without params: every shard the grab cursor has reached
+ * (0..state.shard), merged and sorted by tick. The shard
+ * fan-out is capped at 64 (shard width 31,250,000 ticks — 64
+ * shards is 2B ticks, far past the 1B/day cap); a larger
+ * cursor returns shards 0..63 and reports truncated: true, so
+ * the publish reads the rest by shard.
+ *
+ * Response: { ok, grabDay, shards, truncated, outcomes:
+ * [{ tick, id, outcome, day, reason }] } — one entry per temp
+ * (latest outcome wins in the log), in tick order. day/reason
+ * are null for entries logged before they were recorded.
+ */
+async function handleGrabOutcomes(request, env) {
+  if (!authorized(request, env)) {
+    return errorResponse(401, 'unauthorized: missing or wrong x-lucid-ping-key');
+  }
+  const url = new URL(request.url);
+  const dayFilter = url.searchParams.get('day');
+  const shardParam = url.searchParams.get('shard');
+  const got = await grabStateGet(env);
+  const state = got.state;
+  const maxShard = state && typeof state.shard === 'number' ? state.shard : 0;
+  let shards;
+  if (shardParam !== null) {
+    const single = Number(shardParam);
+    if (!Number.isInteger(single) || single < 0) {
+      return errorResponse(400, 'shard must be a non-negative integer');
+    }
+    shards = [single];
+  } else {
+    const top = Math.min(maxShard, 63);
+    shards = Array.from({ length: top + 1 }, (_, i) => i);
+  }
+  const truncated = shardParam === null && maxShard > 63;
+  const outcomes = [];
+  for (const shard of shards) {
+    const res = await doJson(tempIndexStub(env, shard), '/outcomes');
+    if (!res.ok || !Array.isArray(res.entries)) continue;
+    for (const e of res.entries) {
+      if (dayFilter && e.day !== dayFilter) continue;
+      outcomes.push(e);
+    }
+  }
+  outcomes.sort((a, b) => a.tick - b.tick);
+  return jsonResponse(200, {
+    ok: true,
+    grabDay: state ? state.grabDay : null,
+    shards: shards.length,
+    truncated,
+    outcomes,
+  });
+}
+
+/**
+ * The yield intake — how a client's temp record enters the temp
+ * store so the daily grab can verify it (step 1 of the dailies,
+ * the activation half of the spec §1.2: a temp is ACTIVATED when
+ * its record is registered in the store with the referral that
+ * brought it in).
+ *
+ * POST /temp/activate — the client sends its temp's id (the
+ * `profile-<uuid>` from createProfile) and the referral that
+ * brought it in, if any. The SERVER assigns the activation tick
+ * (GrabState /next-tick — monotonic, never the client, never
+ * re-numbered), builds the record (window = now + 1 year,
+ * verificationState pending), stores it (TempRecord /put) and
+ * enqueues it (TempIndex /enqueue). Idempotent: re-activating an
+ * id that already has a record returns its ORIGINAL tick and
+ * re-enqueues it (crash recovery — a /put that landed without
+ * its /enqueue is repaired by the retry, never re-numbered).
+ *
+ * Auth: the shared secret (x-lucid-ping-key), same as /admin/*
+ * and /ping — the client already holds it (pingServer.ts
+ * pingHeaders). No secret configured locally = open, like the
+ * other routes. 0 neurons, 0 SP — plain DO reads/writes, never
+ * Workers AI. One activation per temp, ever; a temp with no
+ * referral activates fine and the grab will mark it
+ * not_verified (no_referral). A referrer that does not exist
+ * yet is fine too — the grab marks the temp pending until the
+ * referrer verifies, or not_verified (referral_broken) if the
+ * referrer never appears.
+ *
+ * Failure mode, stated: if /put lands and /enqueue throws, the
+ * call answers 500 with the record created but not queued — the
+ * client retries, and the retry takes the resumed path and
+ * enqueues it. A DO failure fails loud (same contract as the
+ * grab); nothing is silently half-activated.
+ */
+async function handleTempActivate(request, env) {
+  if (!authorized(request, env)) {
+    return errorResponse(401, 'unauthorized: missing or wrong x-lucid-ping-key');
+  }
+  let body = {};
+  try {
+    body = await request.json();
+  } catch {
+    return errorResponse(400, 'invalid JSON body');
+  }
+  const id = body.id;
+  const referralId = body.referralId ?? null;
+  const windowStart = body.windowStart ?? null;
+  if (
+    typeof id !== 'string' ||
+    !id.startsWith('profile-') ||
+    id.length <= 'profile-'.length ||
+    (referralId !== null && typeof referralId !== 'string') ||
+    (referralId !== null && referralId.length === 0) ||
+    (windowStart !== null && (typeof windowStart !== 'string' || Number.isNaN(Date.parse(windowStart))))
+  ) {
+    return errorResponse(400, 'id must be a profile-<uuid> string; referralId a non-empty string or null; windowStart an ISO timestamp or null');
+  }
+  const nowMs = Date.now();
+  // The per-install user id that activated this temp (the
+  // x-lucid-user header — the same id the SP bucket is keyed
+  // by). It binds the temp to the install that owns it, so the
+  // verified SP grant can only ever land on that install. Null
+  // when the caller sent no usable header — the temp still
+  // activates and can still verify, but no SP grant can bind
+  // to it until a re-activation carries the header.
+  const ownerUserId = userId(request);
+  const existing = await doJson(tempRecordStub(env, id), '/get');
+  if (existing.record) {
+    // Resumed: the tick is the original, never re-numbered.
+    // Re-enqueue (idempotent by key) in case the first
+    // activation's /enqueue never landed.
+    await doJson(tempIndexStub(env, shardForTick(existing.record.activationTick)), '/enqueue', {
+      activationTick: existing.record.activationTick,
+      id,
+      referralId: existing.record.referralId,
+    });
+    // An already-verified record re-activating under its owner
+    // re-marks the SP bucket (idempotent) — the grant survives
+    // a grab that verified the temp but crashed before marking.
+    if (existing.record.verificationState === 'verified' && ownerUserId) {
+      await markUserVerified(env, ownerUserId);
+    }
+    return jsonResponse(200, {
+      ok: true,
+      resumed: true,
+      id,
+      activationTick: existing.record.activationTick,
+      verificationState: existing.record.verificationState,
+      windowEnd: existing.record.windowEnd,
+      referralId: existing.record.referralId,
+    });
+  }
+  const { tick } = await doJson(grabStateStub(env), '/next-tick', {});
+  const built = newActivationRecord({
+    id,
+    referralId,
+    activationTick: tick,
+    windowStart: windowStart ?? undefined,
+    nowMs,
+    ownerUserId,
+  });
+  const { ok, record, error } = validateTempRecord(built);
+  if (!ok) return errorResponse(400, error);
+  await doJson(tempRecordStub(env, id), '/put', { record });
+  await doJson(tempIndexStub(env, shardForTick(tick)), '/enqueue', {
+    activationTick: tick,
+    id,
+    referralId: record.referralId,
+  });
+  return jsonResponse(200, {
+    ok: true,
+    resumed: false,
+    id,
+    activationTick: tick,
+    verificationState: record.verificationState,
+    windowEnd: record.windowEnd,
+    referralId: record.referralId,
+  });
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -1049,6 +2430,7 @@ export default {
           initial: SP_INITIAL,
           stage_1: { refill: 25, period_hours: 4, cap: 200 },
           stage_2: { refill: 20, period_hours: 12, cap: 250, applies_when: 'balance >= 200' },
+          verified: { refill: 1000, period_hours: 24, cap: 'none — the on-hand balance is the cap', applies_when: 'temp verified by the daily grab' },
         },
         server_caps: {
           neurons_per_day: NEURON_DAILY_CAP,
@@ -1062,7 +2444,26 @@ export default {
           'POST /v1/chat/completions',
           'POST /admin/progress',
           'GET /admin/progress',
+          'POST /admin/grab',
+          'GET /admin/grab',
+          'GET /admin/grab-outcomes',
+          'POST /temp/activate',
         ],
+        temp: {
+          note: 'The yield intake (step 1 of the dailies — how a client temp record enters the store). POST /temp/activate registers one temp: the client sends its profile-<uuid> id and the referral that brought it in; the server assigns the activation tick (monotonic, never re-numbered), stores the record and enqueues it. Idempotent — re-activating an id returns its original tick. 0 neurons, 0 SP. DISCARD: when the grab applies a terminal outcome (verified / not_verified / expired) it marks that tick\'s queue entry done — the entry is discarded from the nightly walk (the driver skips it), the key stays so the grab\'s density-based stopping rule still holds, and the record + outcome log are never deleted. Pending records are re-checked by every grab.',
+          activation_tick: 'server-assigned, GrabState /next-tick, first tick 1',
+          window: 'activation + 1 year',
+        },
+        grab: {
+          note: 'The daily grab (step 2 of the dailies — how temps are verified). One grab a day at 12:00 AM America/Vancouver: chunked passes over the sharded temp index, in activation-tick order. 0 neurons, 0 SP — plain Durable Object reads/writes, never Workers AI. POST /admin/grab runs one chunk (and chains the next unless the body says chain: false); GET /admin/grab reads the grab state; GET /admin/grab-outcomes reads the outcome log (the publish step reads it to write the FixNet Pages status table). The status lookup (any temp checks verified/pending/not verified) is step 3, through the FixNet connection — not this route.',
+          daily_cap: GRAB_DAILY_CAP,
+          cap_overflow: 'queue_next_day',
+          shard_width_ticks: GRAB_SHARD_WIDTH,
+          chunk_records: GRAB_CHUNK_RECORDS,
+          cpu_budget_ms: GRAB_CPU_BUDGET_MS,
+          subrequest_limit: GRAB_SUBREQUEST_LIMIT,
+          timezone: GRAB_TIMEZONE,
+        },
         progress: {
           note: 'Chain progress (train -> merge -> gguf -> gate -> r2 -> manifest -> client). Event-driven pushes from the chain steps; queryable on demand via GET /admin/progress (admin key). 0 neurons, 0 SP — plain Durable Object reads/writes, never Workers AI.',
         },
@@ -1084,10 +2485,65 @@ export default {
       return handleProgressGet(request, env);
     }
 
+    // The daily grab (step 2 of the dailies — how temps are
+    // verified). Plain DO reads/writes, routed before the AI
+    // path so they can never invoke the model; 0 neurons, 0 SP.
+    // POST runs one chunk (and chains the next unless the body
+    // says chain: false); GET reads the grab state.
+    if (url.pathname === '/admin/grab' && request.method === 'POST') {
+      return handleGrabPost(request, env, ctx);
+    }
+
+    if (url.pathname === '/admin/grab' && request.method === 'GET') {
+      return handleGrabGet(request, env);
+    }
+
+    if (url.pathname === '/admin/grab-outcomes' && request.method === 'GET') {
+      return handleGrabOutcomes(request, env);
+    }
+
+    // The yield intake (step 1 of the dailies — how a client's
+    // temp record enters the store). Plain DO reads/writes,
+    // routed before the AI path so it can never invoke the
+    // model; 0 neurons, 0 SP. POST /temp/activate registers one
+    // temp (shared-secret auth, same as /admin/*).
+    if (url.pathname === '/temp/activate' && request.method === 'POST') {
+      return handleTempActivate(request, env);
+    }
+
     if (url.pathname === '/v1/chat/completions' && request.method === 'POST') {
       return handleChatCompletions(request, env, ctx);
     }
 
     return errorResponse(404, `not found: ${request.method} ${url.pathname}`);
+  },
+
+  /**
+   * Cron wake-up (hourly — see [triggers] in wrangler.toml).
+   * The grab runs at 12:00 AM America/Vancouver; the handler
+   * gates on the local hour via Intl, so it follows the
+   * runtime's tz database — BC is on permanent Pacific time
+   * (PCT, UTC-7) from 1 Nov 2026, so 12am Gary's time is 07:00
+   * UTC year-round (tzdata 2026b+; a stale-tzdata runtime would
+   * fire at 08:00 UTC instead — same UTC day, one hour late).
+   * The handler does nothing the other 23 hours. When it is the
+   * grab hour it runs one chunk of today's grab and chains the
+   * rest via the GRAB_PUBLIC_URL var; a grab already done today
+   * is a no-op, and a stalled grab (a broken chain) resumes
+   * from its cursor. The cron is the backstop — the chain does
+   * the bulk of the work back-to-back, the hourly wake-up
+   * catches anything the chain dropped.
+   */
+  async scheduled(event, env, ctx) {
+    const nowMs = event.scheduledTime;
+    if (!isGrabHour(nowMs)) return;
+    try {
+      await grabStep(env, ctx, { nowMs, chain: true, origin: env.GRAB_PUBLIC_URL ?? null });
+    } catch (err) {
+      // A failed wake-up must never throw out of scheduled():
+      // the cursor is the truth and the next hourly wake-up
+      // retries. Log loudly instead.
+      console.log(`[grab] scheduled wake-up failed: ${err instanceof Error ? err.message : String(err)}`);
+    }
   },
 };

@@ -7,9 +7,11 @@ import {
   SP_INITIAL,
   STAGE_1,
   STAGE_2,
+  VERIFIED_REFILL,
   applyRefill,
   migrateRecord,
   newUserState,
+  nextMidnightMs,
   peekBucket,
   quotaView,
   spendBucket,
@@ -38,8 +40,8 @@ check('stage 1 below 200, stage 2 at/above 200', () => {
 // --- new user ---
 check('new user starts at 100 SP, no refill before 4h', () => {
   const s = newUserState(T0);
-  assert.deepEqual(s, { balance: 100, lastRefill: T0 });
-  assert.deepEqual(applyRefill(s, T0 + 3 * H + 59 * 60 * 1000), { balance: 100, lastRefill: T0 });
+  assert.deepEqual(s, { balance: 100, lastRefill: T0, verified: false, verifiedDay: null });
+  assert.deepEqual(applyRefill(s, T0 + 3 * H + 59 * 60 * 1000), { balance: 100, lastRefill: T0, verified: false, verifiedDay: null });
   const v = quotaView(s, T0);
   assert.equal(v.limit, 200);
   assert.equal(v.remaining, 100);
@@ -50,29 +52,29 @@ check('new user starts at 100 SP, no refill before 4h', () => {
 // --- stage 1 refill boundaries ---
 check('exactly 4h: one refill (+25)', () => {
   const s = applyRefill({ balance: 100, lastRefill: T0 }, T0 + 4 * H);
-  assert.deepEqual(s, { balance: 125, lastRefill: T0 + 4 * H });
+  assert.deepEqual(s, { balance: 125, lastRefill: T0 + 4 * H, verified: false, verifiedDay: null });
 });
 check('exactly 8h: two refills (+50)', () => {
   const s = applyRefill({ balance: 100, lastRefill: T0 }, T0 + 8 * H);
-  assert.deepEqual(s, { balance: 150, lastRefill: T0 + 8 * H });
+  assert.deepEqual(s, { balance: 150, lastRefill: T0 + 8 * H, verified: false, verifiedDay: null });
 });
 check('partial periods: 7h59m refills once only, remainder banked (no drift)', () => {
   const s = applyRefill({ balance: 100, lastRefill: T0 }, T0 + 7 * H + 59 * 60 * 1000);
-  assert.deepEqual(s, { balance: 125, lastRefill: T0 + 4 * H });
+  assert.deepEqual(s, { balance: 125, lastRefill: T0 + 4 * H, verified: false, verifiedDay: null });
   // 3h59m after the consumed boundary: nothing yet.
   const s2 = applyRefill(s, T0 + 7 * H + 59 * 60 * 1000);
-  assert.deepEqual(s2, { balance: 125, lastRefill: T0 + 4 * H });
+  assert.deepEqual(s2, { balance: 125, lastRefill: T0 + 4 * H, verified: false, verifiedDay: null });
   // 4h after the consumed boundary (8h total): the banked remainder
   // completes the next period — refill again.
   const s3 = applyRefill(s, T0 + 8 * H);
-  assert.deepEqual(s3, { balance: 150, lastRefill: T0 + 8 * H });
+  assert.deepEqual(s3, { balance: 150, lastRefill: T0 + 8 * H, verified: false, verifiedDay: null });
   // 8h after the consumed boundary (12h total): two periods.
   const s4 = applyRefill(s, T0 + 12 * H);
-  assert.deepEqual(s4, { balance: 175, lastRefill: T0 + 12 * H });
+  assert.deepEqual(s4, { balance: 175, lastRefill: T0 + 12 * H, verified: false, verifiedDay: null });
 });
 check('stage 1 cap: 190 + 12h clamps at 200', () => {
   const s = applyRefill({ balance: 190, lastRefill: T0 }, T0 + 12 * H);
-  assert.deepEqual(s, { balance: 200, lastRefill: T0 + 12 * H });
+  assert.deepEqual(s, { balance: 200, lastRefill: T0 + 12 * H, verified: false, verifiedDay: null });
 });
 
 // --- stage 2 ---
@@ -80,47 +82,61 @@ check('stage 2: 200 + 12h -> 220, +24h -> 240, +36h -> 250 (cap)', () => {
   assert.deepEqual(applyRefill({ balance: 200, lastRefill: T0 }, T0 + 12 * H), {
     balance: 220,
     lastRefill: T0 + 12 * H,
+    verified: false,
+    verifiedDay: null,
   });
   assert.deepEqual(applyRefill({ balance: 200, lastRefill: T0 }, T0 + 24 * H), {
     balance: 240,
     lastRefill: T0 + 24 * H,
+    verified: false,
+    verifiedDay: null,
   });
   assert.deepEqual(applyRefill({ balance: 200, lastRefill: T0 }, T0 + 36 * H), {
     balance: 250,
     lastRefill: T0 + 36 * H,
+    verified: false,
+    verifiedDay: null,
   });
 });
 check('stage 2 cap: 245 + 24h clamps at 250', () => {
   assert.deepEqual(applyRefill({ balance: 245, lastRefill: T0 }, T0 + 24 * H), {
     balance: 250,
     lastRefill: T0 + 24 * H,
+    verified: false,
+    verifiedDay: null,
   });
 });
 check('stage 2 cadence is 12h, not 4h: 200 + 11h refills nothing', () => {
   assert.deepEqual(applyRefill({ balance: 200, lastRefill: T0 }, T0 + 11 * H), {
     balance: 200,
     lastRefill: T0,
+    verified: false,
+    verifiedDay: null,
   });
 });
 
 // --- stage boundary crossing ---
 check('crossing 200: 190 + 8h refills under stage 1 and stops at the 200 cap', () => {
   const s = applyRefill({ balance: 190, lastRefill: T0 }, T0 + 8 * H);
-  assert.deepEqual(s, { balance: 200, lastRefill: T0 + 8 * H });
+  assert.deepEqual(s, { balance: 200, lastRefill: T0 + 8 * H, verified: false, verifiedDay: null });
   // The next refill now runs under stage 2 (12h cadence, +20).
   const s2 = applyRefill(s, T0 + 8 * H + 12 * H);
-  assert.deepEqual(s2, { balance: 220, lastRefill: T0 + 8 * H + 12 * H });
+  assert.deepEqual(s2, { balance: 220, lastRefill: T0 + 8 * H + 12 * H, verified: false, verifiedDay: null });
 });
 check('dropping below 200: 199 refills under stage 1 again (+25/4h, cap 200)', () => {
   // 12h at 199 is three stage-1 periods, capped at 200 — NOT 199+20.
   assert.deepEqual(applyRefill({ balance: 199, lastRefill: T0 }, T0 + 12 * H), {
     balance: 200,
     lastRefill: T0 + 12 * H,
+    verified: false,
+    verifiedDay: null,
   });
   // And a single 4h period gives +25, capped at 200.
   assert.deepEqual(applyRefill({ balance: 180, lastRefill: T0 }, T0 + 4 * H), {
     balance: 200,
     lastRefill: T0 + 4 * H,
+    verified: false,
+    verifiedDay: null,
   });
 });
 check('spend across the boundary: 200 -> 199 switches the next refill to stage 1', () => {
@@ -143,7 +159,7 @@ check('quota view in stage 2: limit 250, reset is the 12h boundary', () => {
 // --- empty bucket / 429 ---
 check('empty bucket: no refill before 4h, reset is the next 4h boundary', () => {
   const s = applyRefill({ balance: 0, lastRefill: T0 }, T0 + 2 * H);
-  assert.deepEqual(s, { balance: 0, lastRefill: T0 });
+  assert.deepEqual(s, { balance: 0, lastRefill: T0, verified: false, verifiedDay: null });
   const spent = spendBucket({ balance: 0, lastRefill: T0 }, T0 + 2 * H);
   assert.equal(spent.allowed, false);
   assert.equal(spent.state.balance, 0);
@@ -190,24 +206,28 @@ check('/ping never deducts: peek twice, then spend, balance drops by exactly 1',
 // --- migration ---
 check('migration: old shape, same-day count carries the remainder in', () => {
   const today = todayUTC(T0);
-  assert.deepEqual(migrateRecord({ count: 2, day: today }, T0), { balance: 98, lastRefill: T0 });
-  assert.deepEqual(migrateRecord({ count: 0, day: today }, T0), { balance: 100, lastRefill: T0 });
-  assert.deepEqual(migrateRecord({ count: 100, day: today }, T0), { balance: 0, lastRefill: T0 });
+  assert.deepEqual(migrateRecord({ count: 2, day: today }, T0), { balance: 98, lastRefill: T0, verified: false, verifiedDay: null });
+  assert.deepEqual(migrateRecord({ count: 0, day: today }, T0), { balance: 100, lastRefill: T0, verified: false, verifiedDay: null });
+  assert.deepEqual(migrateRecord({ count: 100, day: today }, T0), { balance: 0, lastRefill: T0, verified: false, verifiedDay: null });
 });
 check('migration: old shape from an earlier day resets to 100 (as the old code did)', () => {
   assert.deepEqual(migrateRecord({ count: 90, day: '2026-11-05' }, T0), {
     balance: 100,
     lastRefill: T0,
+    verified: false,
+    verifiedDay: null,
   });
-  assert.deepEqual(migrateRecord({ count: 0, day: '' }, T0), { balance: 100, lastRefill: T0 });
+  assert.deepEqual(migrateRecord({ count: 0, day: '' }, T0), { balance: 100, lastRefill: T0, verified: false, verifiedDay: null });
 });
 check('migration: no record starts a new user at 100; new shape passes through', () => {
-  assert.deepEqual(migrateRecord(null, T0), { balance: 100, lastRefill: T0 });
-  assert.deepEqual(migrateRecord(undefined, T0), { balance: 100, lastRefill: T0 });
-  assert.deepEqual(migrateRecord({}, T0), { balance: 100, lastRefill: T0 });
+  assert.deepEqual(migrateRecord(null, T0), { balance: 100, lastRefill: T0, verified: false, verifiedDay: null });
+  assert.deepEqual(migrateRecord(undefined, T0), { balance: 100, lastRefill: T0, verified: false, verifiedDay: null });
+  assert.deepEqual(migrateRecord({}, T0), { balance: 100, lastRefill: T0, verified: false, verifiedDay: null });
   assert.deepEqual(migrateRecord({ balance: 150, lastRefill: T0 - 2 * H }, T0), {
     balance: 150,
     lastRefill: T0 - 2 * H,
+    verified: false,
+    verifiedDay: null,
   });
   // A new-shape balance above the max cap is clamped on read.
   assert.equal(migrateRecord({ balance: 999, lastRefill: T0 }, T0).balance, 250);
@@ -216,7 +236,55 @@ check('migration + refill: a migrated user refills from the migration moment', (
   const today = todayUTC(T0);
   const migrated = migrateRecord({ count: 2, day: today }, T0); // 98 SP
   const after = applyRefill(migrated, T0 + 4 * H);
-  assert.deepEqual(after, { balance: 123, lastRefill: T0 + 4 * H });
+  assert.deepEqual(after, { balance: 123, lastRefill: T0 + 4 * H, verified: false, verifiedDay: null });
+});
+
+// --- verified allowance (SP_VERIFIED_DAILY = 1000) ---
+check('verified: +1000 SP per UTC day, no cap, replaces the stage refills', () => {
+  const v = { balance: 100, lastRefill: T0, verified: true, verifiedDay: null };
+  const day1 = applyRefill(v, T0 + 1 * H);
+  assert.deepEqual(day1, {
+    balance: 100 + VERIFIED_REFILL,
+    lastRefill: T0,
+    verified: true,
+    verifiedDay: todayUTC(T0 + 1 * H),
+  });
+  // The same UTC day again: no second grant.
+  const again = applyRefill(day1, T0 + 2 * H);
+  assert.deepEqual(again, day1);
+  // The next UTC day: one more grant, still no cap (1100 + 1000 = 2100).
+  const day2 = applyRefill(day1, T0 + 24 * H);
+  assert.equal(day2.balance, 100 + 2 * VERIFIED_REFILL);
+  assert.equal(day2.verifiedDay, todayUTC(T0 + 24 * H));
+});
+check('verified: a balance above 250 is NOT clamped (the on-hand balance is the cap)', () => {
+  const big = migrateRecord({ balance: 2100, lastRefill: T0, verified: true, verifiedDay: '2026-11-06' }, T0);
+  assert.equal(big.balance, 2100);
+  assert.equal(big.verified, true);
+  assert.equal(big.verifiedDay, '2026-11-06');
+  // An unverified balance above 250 IS still clamped.
+  assert.equal(migrateRecord({ balance: 999, lastRefill: T0 }, T0).balance, 250);
+});
+check('verified: quota view limit is the on-hand balance, reset is next UTC midnight', () => {
+  const v = quotaView({ balance: 2100, lastRefill: T0, verified: true, verifiedDay: '2026-11-06' }, T0);
+  assert.equal(v.limit, 2100);
+  assert.equal(v.remaining, 2100);
+  assert.equal(v.reset, Math.floor(nextMidnightMs(T0) / 1000));
+  assert.equal(v.reset_in_seconds, Math.floor(nextMidnightMs(T0) / 1000) - Math.floor(T0 / 1000));
+});
+check('verified: spend works and the grant survives the spend', () => {
+  const r = spendBucket({ balance: 100, lastRefill: T0, verified: true, verifiedDay: null }, T0);
+  assert.equal(r.allowed, true);
+  // +1000 grant, then 1 spent = 1099.
+  assert.equal(r.state.balance, 100 + VERIFIED_REFILL - 1);
+  assert.equal(r.state.verified, true);
+  assert.equal(r.state.verifiedDay, todayUTC(T0));
+  assert.equal(r.view.limit, r.state.balance); // limit is the balance itself
+});
+check('verified: an unverified user never gets the verified grant', () => {
+  const s = applyRefill({ balance: 100, lastRefill: T0, verified: false, verifiedDay: null }, T0 + 24 * H);
+  assert.equal(s.balance, 200); // stage 1 refills only (6 x 25, capped at 200)
+  assert.equal(s.verified, false);
 });
 
 console.log(`\n${passed} bucket tests passed, 0 failed.`);

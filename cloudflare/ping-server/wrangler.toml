@@ -45,11 +45,29 @@ binding = "AI"
 # pulls the current progress with GET /admin/progress. Plain DO
 # reads/writes — 0 neurons, 0 SP, never Workers AI. See worker.js
 # (PingProgress) and progress.js.
+#
+# The temp store lives in two more Durable Objects (step 1 of the
+# dailies — how temps are verified, spec
+# ~/workspace/temp-verification-how-verified-spec.md): TempRecord,
+# one stub per temp (`temp:<id>`, the spec §3.2 record), and
+# TempIndex — SHARDED in step 2 (grab.js): one stub per
+# activation-tick range (`temp:index:<shard>`, 31,250,000 ticks
+# per shard), each holding its range's tick-ordered pending queue
+# and outcome log. The single 'temp:index' stub would hold ~137 GB
+# at 1B against the 10 GB per-DO limit; a full shard holds ~5.68 GB.
+#
+# The grab's own state lives in one more Durable Object (step 2):
+# GrabState, one global stub ('grab:current') holding the cursor
+# (shard + next tick), the tallies, and the done/cap flags — the
+# cursor is the truth the chunk chain resumes from.
 [durable_objects]
 bindings = [
   { name = "RATE_LIMITER", class_name = "PingRateLimiter" },
   { name = "SERVER_USAGE", class_name = "PingServerUsage" },
   { name = "PROGRESS", class_name = "PingProgress" },
+  { name = "TEMP_STORE", class_name = "TempRecord" },
+  { name = "TEMP_INDEX", class_name = "TempIndex" },
+  { name = "GRAB_STATE", class_name = "GrabState" },
 ]
 
 [[migrations]]
@@ -63,6 +81,33 @@ new_sqlite_classes = ["PingServerUsage"]
 [[migrations]]
 tag = "v3"
 new_sqlite_classes = ["PingProgress"]
+
+[[migrations]]
+tag = "v4"
+new_sqlite_classes = ["TempRecord", "TempIndex"]
+
+[[migrations]]
+tag = "v5"
+new_sqlite_classes = ["GrabState"]
+
+# Cron wake-up for the daily grab (step 2): hourly. The
+# scheduled() handler gates on the 00:00 America/Vancouver hour
+# (Intl, so the PST/PDT shift is correct — a fixed UTC cron
+# would be wrong half the year) and does nothing the other 23
+# hours. The hourly cadence is the backstop: the chunk chain
+# (self-fetch via ctx.waitUntil) does the bulk of the work
+# back-to-back, and the next hourly wake-up resumes anything the
+# chain dropped. Cron triggers run in UTC; the handler converts.
+[triggers]
+crons = ["0 * * * *"]
+
+# Invocation limits REMOVED: the [limits] section cannot be set on
+# the Free plan at all — Cloudflare rejects any limits config with
+# error 100328 ("CPU limits are not supported for the Free plan"),
+# even with only subrequests set. The grab's 1,000,000-subrequest /
+# 30 s CPU raise is a REQUIRED deployment setting for full 1B scale
+# and needs the Paid plan ($5/mo Workers Paid). Tonight's small test
+# runs on the Free defaults.
 
 # The model. This is the DEFAULT — and, by Gary's decision
 # (2026-11-06), the ONLY model on the PING_MODELS allowlist in
@@ -80,6 +125,14 @@ new_sqlite_classes = ["PingProgress"]
 # we can support at the user numbers we want within that budget.)
 [vars]
 MODEL = "@cf/meta/llama-3.2-1b-instruct"
+
+# The Worker's own public URL, for the grab's chunk chain: the
+# scheduled() handler has no request to derive an origin from,
+# so it self-fetches this URL to chain the next chunk (with the
+# shared secret from env — a local run has no secret, so a local
+# chain fetch carries no key and production answers 401; a local
+# run can never poke the production grab).
+GRAB_PUBLIC_URL = "https://lucid-ping-server.admension.workers.dev"
 
 [observability]
 enabled = true

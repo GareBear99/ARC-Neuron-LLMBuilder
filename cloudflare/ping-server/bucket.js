@@ -18,11 +18,13 @@
  * resumes. So an idle user climbs 200 → 220 → 240 → 250 over three
  * 12-hour periods, and no user can ever hold more than 250 SP.
  *
- * State per user (one DO record): { balance, lastRefill } where
- * lastRefill is the unix-ms timestamp of the last refill boundary
- * consumed. Refills are whole periods only: lastRefill advances by
- * exactly the consumed periods, so partial periods are never lost
- * (no drift). New users start at 100 SP.
+ * State per user (one DO record): { balance, lastRefill, verified,
+ * verifiedDay } where verified is whether the user's temp is verified
+ * (the grab recognised it — sticky, never revoked) and verifiedDay is
+ * the UTC date of the last verified daily grant. A verified user gets
+ * VERIFIED_REFILL SP per UTC day with no cap (the on-hand balance is
+ * the cap, Q9); an unverified user refills by stages. New users start
+ * at 100 SP.
  *
  * Migration: the old shape was { count, day } (100/day, UTC-day
  * buckets). On first request after deploy the remaining balance is
@@ -42,40 +44,101 @@ export const MAX_CAP = 250;
 // The old daily allowance, for migration only.
 const OLD_DAILY_LIMIT = 100;
 
+/**
+ * The verified allowance (SP_VERIFIED_DAILY = 1000, sovereignPoints.ts
+ * client-side — the same number, both sides). A verified temp gets
+ * this many SP a day, regardless of the neuron limit. It is a daily
+ * grant, not a refill stage: once per UTC day the balance grows by
+ * this amount, with NO cap — the cap is the user's on-hand SP
+ * balance (Gary, 2026-11-16, Q9 settled: "use their on-hand SP
+ * balance for the pass daily"). Verified replaces the stage
+ * refills entirely: a verified user never refills by stages.
+ */
+export const VERIFIED_REFILL = 1000;
+export const VERIFIED_PERIOD_MS = 24 * 3600 * 1000;
+
 /** The refill stage for a balance: 1 below 200 SP, 2 at or above. */
 export function stageFor(balance) {
   return balance >= STAGE_2_THRESHOLD ? STAGE_2 : STAGE_1;
 }
 
+/** The next UTC midnight after nowMs (unix ms) — the verified grant boundary. */
+export function nextMidnightMs(nowMs) {
+  const d = new Date(nowMs);
+  return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + 1);
+}
+
 /**
  * Apply the refills due between lastRefill and nowMs.
- * The stage is decided by the balance BEFORE the refill. Whole
- * periods only; lastRefill advances by exactly the consumed periods
- * (no drift — a leftover partial period stays banked for next time).
- * Returns a NEW state { balance, lastRefill }; the input is untouched.
+ * Verified users take a different path: once per UTC day the
+ * balance grows by VERIFIED_REFILL, with no cap and no stage
+ * refills — the on-hand balance is the cap (Q9). The grant is
+ * recorded by verifiedDay (the UTC date it was last granted), so
+ * a verified user gets exactly one grant per day no matter how
+ * often the bucket is read. Unverified users take the existing
+ * stage path, unchanged: the stage is decided by the balance
+ * BEFORE the refill, whole periods only, lastRefill advances by
+ * exactly the consumed periods (no drift).
+ * Returns a NEW state { balance, lastRefill, verified, verifiedDay };
+ * the input is untouched.
  */
 export function applyRefill(state, nowMs) {
+  if (state.verified === true) {
+    const today = todayUTC(nowMs);
+    if (state.verifiedDay === today) {
+      return {
+        balance: state.balance,
+        lastRefill: state.lastRefill,
+        verified: true,
+        verifiedDay: state.verifiedDay,
+      };
+    }
+    return {
+      balance: state.balance + VERIFIED_REFILL,
+      lastRefill: state.lastRefill,
+      verified: true,
+      verifiedDay: today,
+    };
+  }
   const stage = stageFor(state.balance);
   const elapsed = nowMs - state.lastRefill;
   if (elapsed < stage.periodMs) {
-    return { balance: state.balance, lastRefill: state.lastRefill };
+    return {
+      balance: state.balance,
+      lastRefill: state.lastRefill,
+      verified: false,
+      verifiedDay: state.verifiedDay ?? null,
+    };
   }
   const periods = Math.floor(elapsed / stage.periodMs);
   return {
     balance: Math.min(stage.cap, state.balance + periods * stage.refill),
     lastRefill: state.lastRefill + periods * stage.periodMs,
+    verified: false,
+    verifiedDay: state.verifiedDay ?? null,
   };
 }
 
 /**
- * Quota view for headers and bodies: limit is the CURRENT cap for the
- * user's stage (200 or 250), remaining is the balance, reset is the
- * next refill boundary (unix seconds) under that stage's cadence.
- * The stage here is the stage of the CURRENT balance — the stage that
- * will govern the NEXT refill — so the reported limit/reset always
- * describe what actually happens next.
+ * Quota view for headers and bodies. Unverified: limit is the
+ * CURRENT cap for the user's stage (200 or 250), remaining is the
+ * balance, reset is the next refill boundary under that stage's
+ * cadence. Verified: there is no cap — the on-hand balance IS the
+ * cap (Q9) — so limit is the balance itself, and reset is the
+ * next UTC midnight (the next daily grant). The stage reported
+ * for a verified user is the verified grant, so the reported
+ * limit/reset always describe what actually happens next.
  */
 export function quotaView(state, nowMs) {
+  if (state.verified === true) {
+    const reset = Math.floor(nextMidnightMs(nowMs) / 1000);
+    return {
+      limit: Math.max(0, state.balance),
+      remaining: Math.max(0, state.balance),
+      reset,
+      reset_in_seconds: Math.max(0, reset - Math.floor(nowMs / 1000)),
+    };
+  }
   const stage = stageFor(state.balance);
   const reset = Math.floor((state.lastRefill + stage.periodMs) / 1000);
   return {
@@ -86,9 +149,9 @@ export function quotaView(state, nowMs) {
   };
 }
 
-/** A brand-new user: 100 SP, refill clock starts now. */
+/** A brand-new user: 100 SP, refill clock starts now, not verified. */
 export function newUserState(nowMs) {
-  return { balance: SP_INITIAL, lastRefill: nowMs };
+  return { balance: SP_INITIAL, lastRefill: nowMs, verified: false, verifiedDay: null };
 }
 
 /** UTC date string, e.g. "2026-11-06" — old-shape migration only. */
@@ -97,9 +160,14 @@ export function todayUTC(nowMs = Date.now()) {
 }
 
 /**
- * Migrate a stored DO record to the new shape { balance, lastRefill }.
- * - New shape (numeric balance): keep it, clamped to [0, 250]; keep
- *   lastRefill if numeric, else nowMs.
+ * Migrate a stored DO record to the new shape
+ * { balance, lastRefill, verified, verifiedDay }.
+ * - New shape (numeric balance): keep it; a verified record is
+ *   NOT clamped to MAX_CAP (the on-hand balance is the cap, Q9);
+ *   an unverified record is clamped to [0, 250]. Keep lastRefill
+ *   if numeric, else nowMs. Keep verified/verifiedDay when
+ *   present (verified is sticky — a verified user never
+ *   un-verifies); default false/null.
  * - Old shape (numeric count): the remaining balance for today carries
  *   in — max(0, 100 - count) when the record is from today, 100 when
  *   it is from an earlier day (the old code would have reset it);
@@ -108,12 +176,18 @@ export function todayUTC(nowMs = Date.now()) {
  */
 export function migrateRecord(record, nowMs) {
   if (record && typeof record.balance === 'number' && Number.isFinite(record.balance)) {
+    const verified = record.verified === true;
     return {
-      balance: Math.min(MAX_CAP, Math.max(0, Math.floor(record.balance))),
+      balance: verified
+        ? Math.max(0, Math.floor(record.balance))
+        : Math.min(MAX_CAP, Math.max(0, Math.floor(record.balance))),
       lastRefill:
         typeof record.lastRefill === 'number' && Number.isFinite(record.lastRefill)
           ? record.lastRefill
           : nowMs,
+      verified,
+      verifiedDay:
+        typeof record.verifiedDay === 'string' ? record.verifiedDay : null,
     };
   }
   if (record && typeof record.count === 'number' && Number.isFinite(record.count)) {
@@ -121,7 +195,7 @@ export function migrateRecord(record, nowMs) {
       record.day === todayUTC(nowMs)
         ? Math.max(0, OLD_DAILY_LIMIT - Math.floor(record.count))
         : SP_INITIAL;
-    return { balance, lastRefill: nowMs };
+    return { balance, lastRefill: nowMs, verified: false, verifiedDay: null };
   }
   return newUserState(nowMs);
 }
@@ -143,7 +217,12 @@ export function peekBucket(record, nowMs) {
 
 export function spendBucket(record, nowMs) {
   const refilled = applyRefill(migrateRecord(record, nowMs), nowMs);
-  const state = { balance: refilled.balance, lastRefill: refilled.lastRefill };
+  const state = {
+    balance: refilled.balance,
+    lastRefill: refilled.lastRefill,
+    verified: refilled.verified,
+    verifiedDay: refilled.verifiedDay,
+  };
   let allowed = false;
   if (state.balance >= 1) {
     state.balance -= 1;
