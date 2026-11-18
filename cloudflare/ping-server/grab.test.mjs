@@ -588,7 +588,7 @@ await check('GET /admin/grab reads the state without creating it; /admin/grab ne
   // The service card lists the grab routes and the grab block.
   const svc = await callWorker(env, 'GET', '/');
   assert.equal(svc.status, 200);
-  assert.equal(svc.body.version, '0.8.0');
+  assert.equal(svc.body.version, '0.8.1');
   assert.ok(svc.body.routes.includes('POST /admin/grab'));
   assert.ok(svc.body.routes.includes('GET /admin/grab'));
   assert.ok(svc.body.routes.includes('GET /admin/grab-outcomes'));
@@ -953,6 +953,102 @@ await check('genesis end to end: tick 1 verifies, a later genesis claim is refus
   assert.equal(shard0.body.outcomes.length, 3);
   const shard1 = await callWorker(env, 'GET', '/admin/grab-outcomes?shard=1');
   assert.deepEqual(shard1.body.outcomes, []);
+});
+
+await check("POST /admin/rotate backfills a rotation for an already-verified temp AND surfaces its next_temp in the outcome log", async () => {
+  setNow(T0);
+  const sharedMap = new Map();
+  // One genesis-root temp, verified by an earlier grab (before
+  // rotation existed): the record is verified, the outcome is
+  // logged WITHOUT nextTemp, the queue entry is marked done —
+  // the exact Genesis shape (verified 2026-11-17, genesis_root).
+  // Without the outcome-log write in the backfill, the publish
+  // (which reads ONLY the outcome log) would never learn the
+  // next_temp and the temp would never rotate on sync.
+  const id = 'profile-genesis';
+  const rec = newTempRecord({ id, referralId: 'ref:genesis', activationTick: 1, windowStart: new Date(T0 - DAY).toISOString(), createdAt: new Date(T0 - DAY).toISOString() });
+  const verified = { ...rec, status: 'verified', verificationState: 'verified', verifiedTick: 1, grabDay: '2026-12-15' };
+  sharedMap.set(`temp:${id}:record`, verified);
+  // Queue entry (live) + outcome logged by the verifying grab.
+  sharedMap.set('temp:index:0:q:0000000000000001', queueValue(id, 'ref:genesis'));
+  const idx = new TempIndex(namespacedState(sharedMap, 'temp:index:0'));
+  const logged = await callDo(idx, '/log-batch', { entries: [{ tick: 1, id, outcome: 'verified', day: '2026-12-15', reason: 'genesis_root', nextTemp: null }] });
+  assert.equal(logged.body.ok, true);
+  // The verifying grab marked the queue entry done.
+  assert.equal(parseQueueValue(sharedMap.get('temp:index:0:q:0000000000000001')).done, 'verified');
+  // Next tick for the rotation record.
+  sharedMap.set('grab:current:nextActivationTick', 2);
+  const env = fakeEnv(sharedMap);
+  // Before: the outcome log has no next_temp for Genesis.
+  const before = await callWorker(env, 'GET', '/admin/grab-outcomes?day=2026-12-15');
+  assert.equal(before.body.outcomes.length, 1);
+  assert.equal(before.body.outcomes[0].next_temp, null);
+  // The backfill creates the rotation...
+  const r = await callWorker(env, 'POST', '/admin/rotate', { id });
+  assert.equal(r.status, 200, JSON.stringify(r.body));
+  assert.equal(r.body.ok, true);
+  assert.equal(r.body.created, true);
+  assert.ok(r.body.next_temp && typeof r.body.next_temp.id === 'string' && r.body.next_temp.id.startsWith('profile-'));
+  assert.equal(r.body.next_temp.tick, 2);
+  // ...and the outcome log now carries it, with day/reason preserved.
+  const after = await callWorker(env, 'GET', '/admin/grab-outcomes?day=2026-12-15');
+  assert.equal(after.body.outcomes.length, 1);
+  assert.deepEqual(after.body.outcomes[0].next_temp, r.body.next_temp);
+  assert.equal(after.body.outcomes[0].day, '2026-12-15');
+  assert.equal(after.body.outcomes[0].reason, 'genesis_root');
+  assert.equal(after.body.outcomes[0].outcome, 'verified');
+  // The rotation record is real: referral + rotatesFrom are the old temp, pending.
+  const rot = sharedMap.get(`temp:${r.body.next_temp.id}:record`);
+  assert.ok(rot);
+  assert.equal(rot.referralId, id);
+  assert.equal(rot.rotatesFrom, id);
+  assert.equal(rot.ownerUserId, null);
+  assert.equal(rot.activationTick, 2);
+  assert.equal(rot.verificationState, 'pending');
+  assert.equal(sharedMap.get(`temp:${id}:record`).rotationTempId, r.body.next_temp.id);
+  // The queue entry is still done:verified (the backfill did not disturb it).
+  assert.equal(parseQueueValue(sharedMap.get('temp:index:0:q:0000000000000001')).done, 'verified');
+  // Idempotent: a repeat returns the same rotation, created:false,
+  // and the outcome log is unchanged.
+  const again = await callWorker(env, 'POST', '/admin/rotate', { id });
+  assert.equal(again.status, 200);
+  assert.equal(again.body.created, false);
+  assert.deepEqual(again.body.next_temp, r.body.next_temp);
+  const after2 = await callWorker(env, 'GET', '/admin/grab-outcomes?day=2026-12-15');
+  assert.deepEqual(after2.body.outcomes, after.body.outcomes);
+  // Errors: unknown id 404, unverified temp 400.
+  const missing = await callWorker(env, 'POST', '/admin/rotate', { id: 'profile-nope' });
+  assert.equal(missing.status, 404);
+  const pendingId = 'profile-pending';
+  const pending = newTempRecord({ id: pendingId, referralId: id, activationTick: 3, windowStart: new Date(T0 - DAY).toISOString(), createdAt: new Date(T0 - DAY).toISOString() });
+  sharedMap.set(`temp:${pendingId}:record`, pending);
+  const notVerified = await callWorker(env, 'POST', '/admin/rotate', { id: pendingId });
+  assert.equal(notVerified.status, 400);
+});
+
+await check("POST /admin/rotate with no logged outcome still surfaces the next_temp (grab day + already_verified)", async () => {
+  setNow(T0);
+  const sharedMap = new Map();
+  // A verified temp whose verifying grab crashed before its
+  // /log-batch: record verified, NO outcome entry, NO queue entry.
+  const id = 'profile-unlogged';
+  const rec = newTempRecord({ id, referralId: 'ref:genesis', activationTick: 1, windowStart: new Date(T0 - DAY).toISOString(), createdAt: new Date(T0 - DAY).toISOString() });
+  const verified = { ...rec, status: 'verified', verificationState: 'verified', verifiedTick: 1, grabDay: '2026-12-15' };
+  sharedMap.set(`temp:${id}:record`, verified);
+  sharedMap.set('grab:current:nextActivationTick', 2);
+  // A grab state for today, so the fallback day is the grab day.
+  sharedMap.set('grab:current:grab', newGrabState('2026-12-15', T0));
+  const env = fakeEnv(sharedMap);
+  const r = await callWorker(env, 'POST', '/admin/rotate', { id });
+  assert.equal(r.status, 200, JSON.stringify(r.body));
+  assert.equal(r.body.created, true);
+  // The outcome log now has the entry, attributed to the grab day.
+  const after = await callWorker(env, 'GET', '/admin/grab-outcomes?day=2026-12-15');
+  assert.equal(after.body.outcomes.length, 1);
+  assert.deepEqual(after.body.outcomes[0].next_temp, r.body.next_temp);
+  assert.equal(after.body.outcomes[0].outcome, 'verified');
+  assert.equal(after.body.outcomes[0].day, '2026-12-15');
+  assert.equal(after.body.outcomes[0].reason, 'already_verified');
 });
 
 await check('activate binds the owner and the grab marks their SP bucket verified', async () => {

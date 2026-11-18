@@ -203,7 +203,7 @@ import {
 
 const DEFAULT_MODEL = '@cf/meta/llama-3.2-1b-instruct';
 const SERVICE = 'lucid-ping-server';
-const VERSION = '0.8.0';
+const VERSION = '0.8.1';
 
 /**
  * All Workers AI text-generation models the ping server serves.
@@ -2659,7 +2659,11 @@ async function handleGrabOutcomes(request, env) {
  * SKIPS done queue entries, so a temp verified before rotation
  * existed (Genesis, verified 2026-11-17) never re-enters the walk
  * — this one-time endpoint creates its rotation instead. Admin
- * key only. Body { id }.
+ * key only. Body { id }. It ALSO writes the rotation into the
+ * outcome log (via /log-batch's skip+nextTemp lane, preserving
+ * the entry's original day/reason) — the publish reads ONLY the
+ * outcome log, so without this the client would never learn the
+ * next_temp and the temp would never rotate on sync.
  *
  * Returns { ok, id, next_temp: { id, tick }, created }: created
  * true when this call created the rotation, false when one
@@ -2700,6 +2704,58 @@ async function handleRotatePost(request, env) {
     return errorResponse(400, 'temp is not verified');
   }
   const rotation = await ensureRotation(env, got.record, Date.now(), shardWidth);
+  // Surface the rotation to the publish: the outcome log entry for
+  // this temp was written by the grab that verified it (before
+  // rotation existed), so it carries next_temp: null — and the
+  // publish reads ONLY the outcome log, so without this the client
+  // would never learn the next_temp and the temp would never
+  // rotate on sync. Write it back with the next_temp via
+  // /log-batch's skip+nextTemp lane (the crash-repair path — a
+  // skip carrying nextTemp writes the entry as 'verified' with
+  // the given day/reason/nextTemp). Preserve the entry's original
+  // day/reason; if there is no logged entry (the verifying grab
+  // crashed before its /log-batch), attribute it to the current
+  // grab day with reason 'already_verified'. Runs on every call
+  // (created or already-existing), so a retry after a failed
+  // log write still surfaces the rotation.
+  const shard = shardForTick(got.record.activationTick, shardWidth);
+  let day = null;
+  let reason = null;
+  let found = false;
+  const outcomesRes = await doJson(tempIndexStub(env, shard), '/outcomes');
+  if (outcomesRes.ok && Array.isArray(outcomesRes.entries)) {
+    const existing = outcomesRes.entries.find(
+      (e) => e.tick === got.record.activationTick && e.id === id,
+    );
+    if (existing) {
+      found = true;
+      day = existing.day ?? null;
+      reason = existing.reason ?? null;
+    }
+  }
+  if (!found) {
+    const grabState = await grabStateGet(env);
+    day =
+      grabState.state && typeof grabState.state.grabDay === 'string'
+        ? grabState.state.grabDay
+        : null;
+    reason = 'already_verified';
+  }
+  const logRes = await doJson(tempIndexStub(env, shard), '/log-batch', {
+    entries: [
+      {
+        tick: got.record.activationTick,
+        id,
+        outcome: 'skip',
+        day,
+        reason,
+        nextTemp: { id: rotation.id, tick: rotation.tick },
+      },
+    ],
+  });
+  if (!logRes.ok) {
+    return errorResponse(500, 'rotation created but the outcome log update failed — retry the backfill');
+  }
   return jsonResponse(200, {
     ok: true,
     id,
