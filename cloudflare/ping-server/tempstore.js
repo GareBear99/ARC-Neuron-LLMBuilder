@@ -108,8 +108,14 @@ export function utcDay(nowMs = Date.now()) {
  * verified profile id gets nothing). Null for records created
  * before the binding existed; a null owner can never resolve as
  * verified (fail closed).
+ *
+ * Rotation (FixNet temp rotation, design D2): `rotatesFrom` is
+ * the id of the temp this one rotates from (null unless this
+ * record IS a rotation temp); `rotationTempId` is the id of the
+ * rotation temp this one yields once verified (null until the
+ * grab creates it). Both are null for a plain temp.
  */
-export function newTempRecord({ id, referralId, activationTick, windowStart, createdAt, status = 'temp', ownerUserId = null }) {
+export function newTempRecord({ id, referralId, activationTick, windowStart, createdAt, status = 'temp', ownerUserId = null, rotatesFrom = null, rotationTempId = null }) {
   const start = typeof windowStart === 'string' ? windowStart : new Date(createdAt ?? Date.now()).toISOString();
   return {
     id,
@@ -124,7 +130,63 @@ export function newTempRecord({ id, referralId, activationTick, windowStart, cre
     discarded: false,
     createdAt: createdAt ?? start,
     ownerUserId: ownerUserId ?? null,
+    rotatesFrom: rotatesFrom ?? null,
+    rotationTempId: rotationTempId ?? null,
   };
+}
+
+/**
+ * A random UUID — `crypto.randomUUID()` with a Math.random
+ * fallback (mirrors the client's newProfileId; tempstore.js is
+ * pure and runs in Node tests too, where crypto may be absent).
+ * The fallback keeps the UUID v4 shape (version + variant bits
+ * set) so the id still reads as a UUID.
+ */
+function randomUuid() {
+  if (typeof crypto !== 'undefined' && crypto && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = Math.floor(Math.random() * 16);
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
+/** A fresh temp id: `profile-<random UUID>` (the client-side creation shape). */
+export function newTempId() {
+  return `profile-${randomUuid()}`;
+}
+
+/**
+ * A rotation temp (FixNet temp rotation, design D2): the
+ * successor the grab creates when a temp verifies. The id is a
+ * fresh `profile-<randomUUID>` (or the caller's `id` — the
+ * crash-repair override: when the pointer was stored on the old
+ * record but the rotation record itself never landed, the repair
+ * rebuilds under the SAME id with a fresh tick, never a second
+ * id). referralId is the OLD temp's id — the chain resolves the
+ * referrer as verified, so this temp verifies on the next grab
+ * with reason 'chain_holds'. NEVER 'ref:genesis' (that would be
+ * genesis_not_root → not_verified). ownerUserId is inherited
+ * from the old temp (the SP grant stays on the profile-id
+ * bucket). rotatesFrom is the old temp's id; the old record
+ * carries rotationTempId = this id (set by the caller via
+ * TempRecord /rotate). Window is now + 1 year; the record starts
+ * pending, unverified, undisposed.
+ */
+export function newRotationRecord({ oldRecord, activationTick, nowMs = Date.now(), id = null }) {
+  const now = new Date(nowMs).toISOString();
+  return newTempRecord({
+    id: id ?? newTempId(),
+    referralId: oldRecord.id,
+    activationTick,
+    windowStart: now,
+    createdAt: now,
+    ownerUserId: oldRecord.ownerUserId ?? null,
+    rotatesFrom: oldRecord.id,
+    rotationTempId: null,
+  });
 }
 
 function isNonEmptyString(v) {
@@ -223,6 +285,25 @@ export function validateTempRecord(record) {
   ) {
     return { ok: false, record: null, error: 'ownerUserId must be a non-empty string or null' };
   }
+  // Rotation (FixNet temp rotation, design D2): the link both
+  // ways — rotatesFrom (this record IS a rotation of that temp)
+  // and rotationTempId (this record yields that temp once
+  // verified). Nullable strings; absent on pre-rotation records
+  // reads as null.
+  if (
+    record.rotatesFrom !== null &&
+    record.rotatesFrom !== undefined &&
+    !isNonEmptyString(record.rotatesFrom)
+  ) {
+    return { ok: false, record: null, error: 'rotatesFrom must be a non-empty string or null' };
+  }
+  if (
+    record.rotationTempId !== null &&
+    record.rotationTempId !== undefined &&
+    !isNonEmptyString(record.rotationTempId)
+  ) {
+    return { ok: false, record: null, error: 'rotationTempId must be a non-empty string or null' };
+  }
   // A verified record must carry its stamp; a pending record must not.
   if (record.verificationState === 'verified' && record.verifiedTick === null) {
     return { ok: false, record: null, error: 'a verified record must carry verifiedTick' };
@@ -245,6 +326,8 @@ export function validateTempRecord(record) {
       discarded: record.discarded,
       createdAt: record.createdAt,
       ownerUserId: record.ownerUserId ?? null,
+      rotatesFrom: record.rotatesFrom ?? null,
+      rotationTempId: record.rotationTempId ?? null,
     },
     error: null,
   };
@@ -373,40 +456,75 @@ export function parseOutcomeKey(key) {
  * "d":"2026-11-16","r":"chain_holds"}. day and reason are
  * optional (null when absent); a legacy plain-outcome value
  * ("verified") parses as { outcome, day: null, reason: null }.
+ *
+ * Rotation (FixNet temp rotation, design D4): `nextTemp`
+ * ({id, tick}) rides along when the grab created (or reused) a
+ * rotation for this temp — {"o":"verified","d":"2026-11-17",
+ * "r":"chain_holds","n":{"id":"profile-...","tick":42}} — so the
+ * publish can put next_temp on the verified status entry and
+ * the client can rotate to it. Absent (no "n" key) when no
+ * rotation exists for this outcome.
  */
-export function outcomeValue(outcome, day = null, reason = null) {
-  return JSON.stringify({
+export function outcomeValue(outcome, day = null, reason = null, nextTemp = null) {
+  const value = {
     o: outcome,
     d: typeof day === 'string' && day ? day : null,
     r: typeof reason === 'string' && reason ? reason : null,
-  });
+  };
+  if (
+    nextTemp &&
+    typeof nextTemp === 'object' &&
+    !Array.isArray(nextTemp) &&
+    typeof nextTemp.id === 'string' &&
+    nextTemp.id &&
+    typeof nextTemp.tick === 'number' &&
+    Number.isInteger(nextTemp.tick) &&
+    nextTemp.tick >= 0
+  ) {
+    value.n = { id: nextTemp.id, tick: nextTemp.tick };
+  }
+  return JSON.stringify(value);
 }
 
 /**
  * Inverse of outcomeValue. Accepts both the JSON form and a
- * legacy plain-outcome string. Returns { outcome, day, reason }
- * with day/reason null when absent. Never throws: an
- * unparseable value is read as a legacy outcome string when it
- * is one of the known outcomes, else { outcome: null, day: null,
- * reason: null }.
+ * legacy plain-outcome string. Returns { outcome, day, reason,
+ * nextTemp } with day/reason/nextTemp null when absent. Never
+ * throws: an unparseable value is read as a legacy outcome
+ * string when it is one of the known outcomes, else
+ * { outcome: null, day: null, reason: null, nextTemp: null }.
+ * A malformed "n" (wrong shape) reads as nextTemp null — the
+ * outcome itself still parses.
  */
 export function parseOutcomeValue(value) {
-  if (typeof value !== 'string') return { outcome: null, day: null, reason: null };
+  if (typeof value !== 'string') return { outcome: null, day: null, reason: null, nextTemp: null };
   if (!value.startsWith('{')) {
     return GRAB_OUTCOMES.includes(value)
-      ? { outcome: value, day: null, reason: null }
-      : { outcome: null, day: null, reason: null };
+      ? { outcome: value, day: null, reason: null, nextTemp: null }
+      : { outcome: null, day: null, reason: null, nextTemp: null };
   }
   try {
     const parsed = JSON.parse(value);
-    if (!parsed || typeof parsed !== 'object') return { outcome: null, day: null, reason: null };
+    if (!parsed || typeof parsed !== 'object') return { outcome: null, day: null, reason: null, nextTemp: null };
+    const nextTemp =
+      parsed.n &&
+      typeof parsed.n === 'object' &&
+      !Array.isArray(parsed.n) &&
+      typeof parsed.n.id === 'string' &&
+      parsed.n.id &&
+      typeof parsed.n.tick === 'number' &&
+      Number.isInteger(parsed.n.tick) &&
+      parsed.n.tick >= 0
+        ? { id: parsed.n.id, tick: parsed.n.tick }
+        : null;
     return {
       outcome: GRAB_OUTCOMES.includes(parsed.o) ? parsed.o : null,
       day: typeof parsed.d === 'string' && parsed.d ? parsed.d : null,
       reason: typeof parsed.r === 'string' && parsed.r ? parsed.r : null,
+      nextTemp,
     };
   } catch {
-    return { outcome: null, day: null, reason: null };
+    return { outcome: null, day: null, reason: null, nextTemp: null };
   }
 }
 

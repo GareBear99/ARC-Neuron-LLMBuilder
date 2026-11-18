@@ -372,6 +372,12 @@ function seedSmallStore(sharedMap, { n = 200, shardWidth = 100, seed = 0xc0ffee 
     const shard = Math.floor((tick - 1) / shardWidth);
     sharedMap.set(`temp:index:${shard}:q:${String(tick).padStart(16, '0')}`, queueValue(id, rec.referralId));
   }
+  // The tick counter is where /temp/activate would have left it
+  // after activating n temps: the next tick is n+1. The grab's
+  // rotation creation allocates from this counter — without it,
+  // rotations would re-allocate ticks 1..n and overwrite the
+  // seeded queue entries.
+  sharedMap.set('grab:current:nextActivationTick', n + 1);
   return records;
 }
 
@@ -418,7 +424,17 @@ function referenceScan(records, concurrency = GRAB_BATCH_CONCURRENCY, chunkRecor
         // The outcome is 'skip'; the tally key is 'skipped'.
         tallies[outcome === 'skip' ? 'skipped' : outcome] += 1;
         state.set(rec.id, next.verificationState);
-        if (outcome !== 'skip') outcomes.push({ tick: rec.activationTick, id: rec.id, outcome, day: utcDay(nowMs), reason });
+        // A skip still writes a log entry when the grab creates
+        // (or reuses) a rotation for it (FixNet temp rotation):
+        // the record IS verified, so /log-batch logs it as
+        // 'verified' with reason 'already_verified' — the
+        // crash-repair write. nextTemp is random per run, so the
+        // reference omits it and the driver test strips it.
+        if (outcome === 'skip') {
+          outcomes.push({ tick: rec.activationTick, id: rec.id, outcome: 'verified', day: utcDay(nowMs), reason: 'already_verified' });
+        } else {
+          outcomes.push({ tick: rec.activationTick, id: rec.id, outcome, day: utcDay(nowMs), reason });
+        }
       }
     }
   }
@@ -443,11 +459,13 @@ await check('driver end to end: chunked passes over 2 shards match the sequentia
     calls += 1;
     assert.ok(calls < 20, 'the grab did not finish in a reasonable number of chunks');
   }
-  assert.equal(calls, 5, '200 records at 50/chunk over 2 shards = 4 data chunks + 1 empty probe of shard 2, which is what proves exhaustion (a full shard says nothing about the next one)');
+  assert.equal(calls, 5, '200 records at 50/chunk over 2 shards = 4 data chunks + 1 probe of shard 2 (the probe returns done via the maxTick bound — the cursor is past the highest tick the grab started with — which is what proves exhaustion; a full shard says nothing about the next one)');
   assert.equal(state.done, true);
   assert.equal(state.doneReason, 'exhausted');
   assert.deepEqual(state.tallies, expected.tallies);
   // The outcome log holds exactly the reference outcomes, in tick order.
+  // (nextTemp is stripped for the comparison — the reference does
+  // not model rotations; the rotation linkage is asserted just below.)
   const log = [];
   for (let s = 0; s < 2; s++) {
     const idx = new TempIndex(namespacedState(sharedMap, `temp:index:${s}`));
@@ -455,7 +473,35 @@ await check('driver end to end: chunked passes over 2 shards match the sequentia
     log.push(...o.body.entries);
   }
   log.sort((a, b) => a.tick - b.tick);
-  assert.deepEqual(log, expected.outcomes);
+  assert.deepEqual(log.map(({ nextTemp, ...rest }) => rest), expected.outcomes);
+  // Every verified outcome carries its rotation (nextTemp), every
+  // other outcome carries null — and the rotation records are
+  // real: referral = the old temp, owner inherited (null here),
+  // rotatesFrom set, old record points back at the rotation.
+  // (The log's verified entries include the skip-repairs: the 3
+  // pre-verified roots log as 'verified'/'already_verified'.)
+  const verifiedLog = log.filter((e) => e.outcome === 'verified');
+  assert.equal(verifiedLog.length, expected.tallies.verified + expected.tallies.skipped);
+  for (const e of verifiedLog) {
+    assert.ok(e.nextTemp && typeof e.nextTemp.id === 'string' && e.nextTemp.id.startsWith('profile-'), `verified tick ${e.tick} must carry nextTemp`);
+    assert.ok(Number.isInteger(e.nextTemp.tick) && e.nextTemp.tick > 200, `rotation tick must be past the seeded range, got ${e.nextTemp.tick}`);
+    const rot = sharedMap.get(`temp:${e.nextTemp.id}:record`);
+    assert.ok(rot, `rotation record ${e.nextTemp.id} must exist`);
+    assert.equal(rot.referralId, e.id);
+    assert.equal(rot.rotatesFrom, e.id);
+    assert.equal(rot.ownerUserId, null);
+    assert.equal(rot.activationTick, e.nextTemp.tick);
+    assert.equal(rot.verificationState, 'pending');
+    assert.equal(sharedMap.get(`temp:${e.id}:record`).rotationTempId, e.nextTemp.id);
+  }
+  for (const e of log.filter((e) => e.outcome !== 'verified')) {
+    assert.equal(e.nextTemp, null);
+  }
+  // The rotations themselves are still pending — the grab's
+  // maxTick bound means same-grab rotations wait for the next grab.
+  const rotations = [...sharedMap.values()].filter((v) => v && typeof v === 'object' && typeof v.rotatesFrom === 'string' && v.rotatesFrom);
+  assert.equal(rotations.length, expected.tallies.verified + expected.tallies.skipped);
+  assert.ok(rotations.every((r) => r.verificationState === 'pending'));
   // Verified ticks are monotonic in tick order.
   const verifiedTicks = log.filter((e) => e.outcome === 'verified').map((e) => e.tick);
   for (let i = 1; i < verifiedTicks.length; i++) {
@@ -509,6 +555,10 @@ await check('Q2 cap: the grab stops at the cap (queue for the next day) and the 
     sharedMap.set(`temp:${id}:record`, rec);
     sharedMap.set(`temp:index:0:q:${String(tick).padStart(16, '0')}`, queueValue(id, referralId));
   }
+  // The tick counter is where /temp/activate would have left it
+  // (see seedSmallStore): without it the grab's maxTick snapshot
+  // is 0 and the grab ends before checking anything.
+  sharedMap.set('grab:current:nextActivationTick', 11);
   const env = fakeEnv(sharedMap);
   // concurrency 1: the cap is enforced per batch, so a batch of
   // 1 stops exactly at the cap (a batch of 16 could overshoot
@@ -538,9 +588,11 @@ await check('GET /admin/grab reads the state without creating it; /admin/grab ne
   // The service card lists the grab routes and the grab block.
   const svc = await callWorker(env, 'GET', '/');
   assert.equal(svc.status, 200);
-  assert.equal(svc.body.version, '0.7.0');
+  assert.equal(svc.body.version, '0.8.0');
   assert.ok(svc.body.routes.includes('POST /admin/grab'));
   assert.ok(svc.body.routes.includes('GET /admin/grab'));
+  assert.ok(svc.body.routes.includes('GET /admin/grab-outcomes'));
+  assert.ok(svc.body.routes.includes('POST /admin/rotate'));
   assert.ok(svc.body.routes.includes('POST /temp/activate'));
   assert.ok(svc.body.routes.includes('POST /register'));
   assert.equal(svc.body.grab.daily_cap, GRAB_DAILY_CAP);
@@ -745,10 +797,13 @@ await check("day 2 grab skips done entries: tallies count only the still-pending
   assert.deepEqual((await callWorker(env, 'GET', '/admin/grab')).body.state.tallies, expected1.tallies);
   // Every terminal record's queue entry is marked done — including
   // the 3 genesis roots, which the driver skipped and /log-batch
-  // marked done:verified without a log write.
-  const queueValues = [...sharedMap.entries()]
-    .filter(([k]) => k.includes(':q:'))
-    .map(([, v]) => parseQueueValue(v));
+  // marked done:verified without a log write. (Only the 200
+  // seeded ticks are counted here: day 1's rotations added their
+  // own queue entries at ticks 201+, which are live, not done.)
+  const queueValues = records.map((r) => {
+    const shard = Math.floor((r.activationTick - 1) / 100);
+    return parseQueueValue(sharedMap.get(`temp:index:${shard}:q:${String(r.activationTick).padStart(16, '0')}`));
+  });
   assert.equal(queueValues.length, 200);
   const doneCount = queueValues.filter((q) => q.done !== null).length;
   assert.equal(doneCount, expected1.tallies.verified + expected1.tallies.not_verified + expected1.tallies.expired + expected1.tallies.skipped);
@@ -795,7 +850,17 @@ await check("day 2 grab skips done entries: tallies count only the still-pending
       }
     }
   }
-  assert.equal(expected2.checked, live.length);
+  // Day 2 also walks day 1's rotations (ticks 201+, shard 2):
+  // every one verifies — its referrer is a day-1 verified
+  // original — and each yields a new rotation of its own (ticks
+  // past day 2's maxTick, so they are not walked today). The
+  // rotations never touch the originals' referrers, so the two
+  // sets add: R1 = day-1 verified + skipped (rotations are
+  // created for both outcomes).
+  const rotationsDay1 = expected1.tallies.verified + expected1.tallies.skipped;
+  expected2.checked += rotationsDay1;
+  expected2.verified += rotationsDay1;
+  assert.equal(expected2.checked, live.length + rotationsDay1);
   assert.ok(expected2.checked < expected1.tallies.checked, 'day 2 checks fewer records than day 1');
   let done2 = false;
   let calls2 = 0;
@@ -825,6 +890,10 @@ await check('genesis end to end: tick 1 verifies, a later genesis claim is refus
   seed(1, 'profile-root', 'ref:genesis');
   seed(2, 'profile-fake', 'ref:genesis'); // not the root tick — must NOT verify
   seed(3, 'profile-child', 'profile-root'); // refers to the root — verifies
+  // The tick counter is where /temp/activate would have left it
+  // (see seedSmallStore): without it the grab's maxTick snapshot
+  // is 0 and the grab ends before checking anything.
+  sharedMap.set('grab:current:nextActivationTick', 4);
   const env = fakeEnv(sharedMap);
   // concurrency 1: the root verifies in batch 1, so its referee
   // (tick 3) resolves against the verified record in batch 2.
@@ -839,14 +908,41 @@ await check('genesis end to end: tick 1 verifies, a later genesis claim is refus
   assert.equal(fake.verificationState, 'not_verified');
   const child = sharedMap.get('temp:profile-child:record');
   assert.equal(child.verificationState, 'verified');
-  // The outcome log carries the day and the reason for each.
+  // The outcome log carries the day and the reason for each —
+  // plus next_temp on the verified entries (the rotation each
+  // verified temp yields). Rotation ids are random, so they are
+  // asserted against the old records' rotationTempId, not fixed.
   const o = await callWorker(env, 'GET', '/admin/grab-outcomes');
   assert.equal(o.status, 200);
-  assert.deepEqual(o.body.outcomes, [
-    { tick: 1, id: 'profile-root', outcome: 'verified', day: '2026-12-15', reason: 'genesis_root' },
-    { tick: 2, id: 'profile-fake', outcome: 'not_verified', day: '2026-12-15', reason: 'genesis_not_root' },
-    { tick: 3, id: 'profile-child', outcome: 'verified', day: '2026-12-15', reason: 'chain_holds' },
-  ]);
+  assert.deepEqual(
+    o.body.outcomes.map(({ next_temp, ...rest }) => rest),
+    [
+      { tick: 1, id: 'profile-root', outcome: 'verified', day: '2026-12-15', reason: 'genesis_root' },
+      { tick: 2, id: 'profile-fake', outcome: 'not_verified', day: '2026-12-15', reason: 'genesis_not_root' },
+      { tick: 3, id: 'profile-child', outcome: 'verified', day: '2026-12-15', reason: 'chain_holds' },
+    ],
+  );
+  assert.deepEqual(o.body.outcomes[0].next_temp, { id: root.rotationTempId, tick: 4 });
+  assert.equal(o.body.outcomes[1].next_temp, null);
+  assert.deepEqual(o.body.outcomes[2].next_temp, { id: child.rotationTempId, tick: 5 });
+  // The rotation records are real: referral + rotatesFrom are
+  // the old temp, owner inherited (null here — seeded without
+  // one), pending, and enqueued at their ticks. The refused
+  // fake yields no rotation.
+  const rotRoot = sharedMap.get(`temp:${root.rotationTempId}:record`);
+  assert.equal(rotRoot.referralId, 'profile-root');
+  assert.equal(rotRoot.rotatesFrom, 'profile-root');
+  assert.equal(rotRoot.ownerUserId, null);
+  assert.equal(rotRoot.activationTick, 4);
+  assert.equal(rotRoot.verificationState, 'pending');
+  const rotChild = sharedMap.get(`temp:${child.rotationTempId}:record`);
+  assert.equal(rotChild.referralId, 'profile-child');
+  assert.equal(rotChild.activationTick, 5);
+  assert.equal(fake.rotationTempId, null);
+  const idx = new TempIndex(namespacedState(sharedMap, 'temp:index:0'));
+  const q = await callDo(idx, '/queue-range', { startTick: 4, endTick: 5 });
+  assert.deepEqual(q.body.entries.map((e) => e.id), [root.rotationTempId, child.rotationTempId]);
+  assert.deepEqual(q.body.entries.map((e) => e.referralId), ['profile-root', 'profile-child']);
   // The day filter keeps only that day's outcomes.
   const filtered = await callWorker(env, 'GET', '/admin/grab-outcomes?day=2026-12-15');
   assert.equal(filtered.body.outcomes.length, 3);
@@ -905,6 +1001,215 @@ await check('/temp/activate resumed path re-marks an already-verified owner', as
   assert.equal(again.body.resumed, true);
   assert.equal(again.body.verificationState, 'verified');
   assert.equal(sharedMap.get('user:user-abc:quota').verified, true);
+});
+
+// --- FixNet temp rotation (design D1–D9) ---
+
+await check('GrabState /start snapshots maxTick from the tick counter; a resumed start keeps it', async () => {
+  const sharedMap = new Map();
+  const d = new GrabState(namespacedState(sharedMap, 'grab:current'));
+  await callDo(d, '/next-tick'); // 1
+  await callDo(d, '/next-tick'); // 2
+  await callDo(d, '/next-tick'); // 3
+  const s = await callDo(d, '/start', { grabDay: '2026-12-15' });
+  assert.equal(s.body.state.maxTick, 3);
+  // A later tick does not move the snapshot — it belongs to the next grab.
+  await callDo(d, '/next-tick'); // 4
+  const s2 = await callDo(d, '/start', { grabDay: '2026-12-15' });
+  assert.equal(s2.body.resumed, true);
+  assert.equal(s2.body.state.maxTick, 3);
+  // No counter at all: maxTick 0 (an empty store — the grab ends at once).
+  const empty = new GrabState(fakeState());
+  const e = await callDo(empty, '/start', { grabDay: '2026-12-15' });
+  assert.equal(e.body.state.maxTick, 0);
+  // validateGrabState accepts maxTick, rejects a negative one.
+  assert.equal(validateGrabState({ ...newGrabState('2026-12-15', T0), maxTick: 7 }).ok, true);
+  assert.equal(validateGrabState({ ...newGrabState('2026-12-15', T0), maxTick: -1 }).ok, false);
+  assert.equal(validateGrabState({ ...newGrabState('2026-12-15', T0), maxTick: 1.5 }).ok, false);
+});
+
+await check('rotation: the cycle — a verified temp yields its rotation, which verifies on the NEXT grab via chain_holds and yields the next one', async () => {
+  setNow(T0);
+  const sharedMap = new Map();
+  const seed = (tick, id, referralId, ownerUserId = null) => {
+    const rec = newTempRecord({ id, referralId, activationTick: tick, windowStart: new Date(T0 - DAY).toISOString(), createdAt: new Date(T0 - DAY).toISOString(), ownerUserId });
+    sharedMap.set(`temp:${id}:record`, rec);
+    sharedMap.set(`temp:index:0:q:${String(tick).padStart(16, '0')}`, queueValue(id, referralId));
+  };
+  seed(1, 'profile-root', 'ref:genesis', 'user-abc');
+  sharedMap.set('grab:current:nextActivationTick', 2);
+  const env = fakeEnv(sharedMap);
+  // Day 1: the root verifies and yields T2 (tick 2). T2 is still
+  // pending — the maxTick bound keeps same-grab rotations out of
+  // the walk, so the grab ends instead of looping forever.
+  const day1 = await runGrabToDone(env, { concurrency: 1 });
+  assert.equal(day1.body.state.tallies.verified, 1);
+  const root = sharedMap.get('temp:profile-root:record');
+  const t2id = root.rotationTempId;
+  assert.ok(t2id && t2id.startsWith('profile-') && t2id !== 'profile-root');
+  const t2 = sharedMap.get(`temp:${t2id}:record`);
+  assert.equal(t2.referralId, 'profile-root');
+  assert.equal(t2.rotatesFrom, 'profile-root');
+  assert.equal(t2.ownerUserId, 'user-abc');
+  assert.equal(t2.activationTick, 2);
+  assert.equal(t2.verificationState, 'pending');
+  const o1 = await callWorker(env, 'GET', '/admin/grab-outcomes');
+  assert.deepEqual(o1.body.outcomes[0].next_temp, { id: t2id, tick: 2 });
+  // Day 2: T2's referrer (the root) is verified, so T2 verifies
+  // with reason chain_holds — NOT genesis — and yields T3.
+  setNow(T0 + DAY);
+  const day2 = await runGrabToDone(env, { concurrency: 1 });
+  assert.deepEqual(day2.body.state.tallies, { checked: 1, verified: 1, pending: 0, not_verified: 0, expired: 0, skipped: 0 });
+  assert.equal(sharedMap.get(`temp:${t2id}:record`).verificationState, 'verified');
+  assert.equal(sharedMap.get(`temp:${t2id}:record`).verifiedTick, 2);
+  const t3id = sharedMap.get(`temp:${t2id}:record`).rotationTempId;
+  const t3 = sharedMap.get(`temp:${t3id}:record`);
+  assert.equal(t3.referralId, t2id);
+  assert.equal(t3.rotatesFrom, t2id);
+  assert.equal(t3.ownerUserId, 'user-abc');
+  assert.equal(t3.activationTick, 3);
+  const o2 = await callWorker(env, 'GET', '/admin/grab-outcomes?day=2026-12-16');
+  assert.equal(o2.body.outcomes.length, 1);
+  assert.equal(o2.body.outcomes[0].id, t2id);
+  assert.equal(o2.body.outcomes[0].outcome, 'verified');
+  assert.equal(o2.body.outcomes[0].reason, 'chain_holds');
+  assert.deepEqual(o2.body.outcomes[0].next_temp, { id: t3id, tick: 3 });
+  // The root's day-1 entry still carries ITS next_temp (T2).
+  const o1again = await callWorker(env, 'GET', '/admin/grab-outcomes?day=2026-12-15');
+  assert.deepEqual(o1again.body.outcomes[0].next_temp, { id: t2id, tick: 2 });
+});
+
+await check('rotation: a crashed chunk re-run reuses the rotation (no duplicate) and repairs the outcome log', async () => {
+  setNow(T0);
+  const sharedMap = new Map();
+  const rec = newTempRecord({ id: 'profile-root', referralId: 'ref:genesis', activationTick: 1, windowStart: new Date(T0 - DAY).toISOString(), createdAt: new Date(T0 - DAY).toISOString() });
+  sharedMap.set('temp:profile-root:record', rec);
+  sharedMap.set('temp:index:0:q:0000000000000001', queueValue('profile-root', 'ref:genesis'));
+  sharedMap.set('grab:current:nextActivationTick', 2);
+  const env = fakeEnv(sharedMap);
+  const day1 = await runGrabToDone(env, { concurrency: 1 });
+  assert.equal(day1.body.state.tallies.verified, 1);
+  const t2id = sharedMap.get('temp:profile-root:record').rotationTempId;
+  assert.ok(t2id);
+  // Simulate the crash: the chunk verified the root and created
+  // the rotation, then died before its /log-batch — so the
+  // outcome log has no entry, the queue entry is unmarked, and
+  // the grab state is gone (the next trigger retries the chunk
+  // from the start of the day).
+  sharedMap.delete('grab:current:grab');
+  sharedMap.delete('temp:index:0:o:0000000000000001:profile-root');
+  sharedMap.set('temp:index:0:q:0000000000000001', queueValue('profile-root', 'ref:genesis'));
+  // The re-run: /apply skips (already verified), the existing
+  // rotation is REUSED — no second rotation record appears —
+  // and the skip+nextTemp repairs the outcome log. (T2 is walked
+  // too — it existed at the re-run's start — and verifies, which
+  // is the re-run completing the work, not a duplicate.)
+  const rerun = await runGrabToDone(env, { concurrency: 1 });
+  assert.equal(rerun.body.done, true);
+  assert.deepEqual(rerun.body.state.tallies, { checked: 2, verified: 1, pending: 0, not_verified: 0, expired: 0, skipped: 1 });
+  assert.equal(sharedMap.get('temp:profile-root:record').rotationTempId, t2id);
+  const rotations = [...sharedMap.values()].filter((v) => v && typeof v === 'object' && v.rotatesFrom === 'profile-root');
+  assert.equal(rotations.length, 1);
+  assert.equal(rotations[0].id, t2id);
+  const o = await callWorker(env, 'GET', '/admin/grab-outcomes');
+  assert.equal(o.body.outcomes.length, 2);
+  assert.deepEqual(
+    o.body.outcomes.map(({ next_temp, ...rest }) => rest),
+    [
+      { tick: 1, id: 'profile-root', outcome: 'verified', day: '2026-12-15', reason: 'already_verified' },
+      { tick: 2, id: t2id, outcome: 'verified', day: '2026-12-15', reason: 'chain_holds' },
+    ],
+  );
+  assert.deepEqual(o.body.outcomes[0].next_temp, { id: t2id, tick: 2 });
+  assert.equal(o.body.outcomes[1].next_temp.id, sharedMap.get(`temp:${t2id}:record`).rotationTempId);
+  // The root's queue entry is marked done:verified now.
+  const idx = new TempIndex(namespacedState(sharedMap, 'temp:index:0'));
+  const q = await callDo(idx, '/queue-range', { startTick: 1, endTick: 1 });
+  assert.equal(q.body.entries[0].done, 'verified');
+});
+
+await check('POST /admin/rotate backfills a verified temp; idempotent; 400 when not verified; 404 when missing', async () => {
+  setNow(T0);
+  const sharedMap = new Map();
+  // Genesis as it stands before rotation existed: verified, no
+  // rotation, queue entry done (never re-enters the walk).
+  const genesis = newTempRecord({ id: 'profile-genesis', referralId: 'ref:genesis', activationTick: 1, windowStart: new Date(T0 - DAY).toISOString(), createdAt: new Date(T0 - DAY).toISOString(), ownerUserId: 'user-abc' });
+  const verified = { ...genesis, status: 'verified', verificationState: 'verified', verifiedTick: 1, grabDay: '2026-12-15' };
+  sharedMap.set('temp:profile-genesis:record', verified);
+  sharedMap.set('temp:index:0:q:0000000000000001', queueValue('profile-genesis', 'ref:genesis', 'verified'));
+  const pending = newTempRecord({ id: 'profile-pending', referralId: 'profile-genesis', activationTick: 2, windowStart: new Date(T0 - DAY).toISOString(), createdAt: new Date(T0 - DAY).toISOString() });
+  sharedMap.set('temp:profile-pending:record', pending);
+  sharedMap.set('temp:index:0:q:0000000000000002', queueValue('profile-pending', 'profile-genesis'));
+  sharedMap.set('grab:current:nextActivationTick', 3);
+  const env = fakeEnv(sharedMap);
+  // 404: no such temp. 400: pending, and bad bodies.
+  assert.equal((await callWorker(env, 'POST', '/admin/rotate', { id: 'profile-nope' })).status, 404);
+  assert.equal((await callWorker(env, 'POST', '/admin/rotate', { id: 'profile-pending' })).status, 400);
+  assert.equal((await callWorker(env, 'POST', '/admin/rotate', {})).status, 400);
+  assert.equal((await callWorker(env, 'POST', '/admin/rotate', { id: '' })).status, 400);
+  // Backfill: creates the rotation, stores the pointer, enqueues it.
+  const first = await callWorker(env, 'POST', '/admin/rotate', { id: 'profile-genesis', shardWidth: 100 });
+  assert.equal(first.status, 200, JSON.stringify(first.body));
+  assert.equal(first.body.ok, true);
+  assert.equal(first.body.id, 'profile-genesis');
+  assert.equal(first.body.created, true);
+  assert.ok(first.body.next_temp.id.startsWith('profile-'));
+  assert.equal(first.body.next_temp.tick, 3);
+  const rot = sharedMap.get(`temp:${first.body.next_temp.id}:record`);
+  assert.equal(rot.referralId, 'profile-genesis');
+  assert.equal(rot.rotatesFrom, 'profile-genesis');
+  assert.equal(rot.ownerUserId, 'user-abc');
+  assert.equal(rot.verificationState, 'pending');
+  assert.equal(sharedMap.get('temp:profile-genesis:record').rotationTempId, first.body.next_temp.id);
+  const idx = new TempIndex(namespacedState(sharedMap, 'temp:index:0'));
+  const q = await callDo(idx, '/queue-range', { startTick: 3, endTick: 3 });
+  assert.equal(q.body.entries.length, 1);
+  assert.equal(q.body.entries[0].id, first.body.next_temp.id);
+  // Idempotent: the second call returns the same rotation, created false.
+  const second = await callWorker(env, 'POST', '/admin/rotate', { id: 'profile-genesis', shardWidth: 100 });
+  assert.equal(second.status, 200);
+  assert.equal(second.body.created, false);
+  assert.deepEqual(second.body.next_temp, first.body.next_temp);
+  assert.equal(sharedMap.get('grab:current:nextActivationTick'), 4, 'no second tick consumed');
+  // Admin key required when a secret is set.
+  const envSecret = { ...fakeEnv(new Map()), PING_SHARED_SECRET: 'test-secret' };
+  assert.equal((await callWorkerHeaders(envSecret, 'POST', '/admin/rotate', { id: 'profile-genesis' })).status, 401);
+});
+
+await check('/log-batch skip with nextTemp writes a verified log entry; skip without nextTemp writes nothing; bad nextTemp is a 400', async () => {
+  const sharedMap = new Map();
+  const index = new TempIndex(namespacedState(sharedMap, 'temp:index:0'));
+  await callDo(index, '/enqueue', { activationTick: 1, id: 'profile-a', referralId: 'ref:genesis' });
+  await callDo(index, '/enqueue', { activationTick: 2, id: 'profile-b', referralId: 'profile-a' });
+  // A skip carrying nextTemp repairs the log as 'verified';
+  // a skip without nextTemp writes nothing, as before.
+  const r = await callDo(index, '/log-batch', { entries: [
+    { tick: 1, id: 'profile-a', outcome: 'skip', referralId: 'ref:genesis', day: '2026-12-15', reason: 'already_verified', nextTemp: { id: 'profile-next', tick: 9 } },
+    { tick: 2, id: 'profile-b', outcome: 'skip', referralId: 'profile-a' },
+  ] });
+  assert.equal(r.status, 200);
+  assert.equal(r.body.logged, 1);
+  assert.equal(r.body.marked, 2);
+  const o = await callDo(index, '/outcomes');
+  assert.deepEqual(o.body.entries, [
+    { tick: 1, id: 'profile-a', outcome: 'verified', day: '2026-12-15', reason: 'already_verified', nextTemp: { id: 'profile-next', tick: 9 } },
+  ]);
+  // A bad nextTemp rejects the whole batch, nothing written.
+  for (const badNext of [{ id: 'profile-d', tick: -1 }, { id: '', tick: 3 }, { id: 'profile-d', tick: 1.5 }, 'profile-d', { tick: 3 }]) {
+    const bad = await callDo(index, '/log-batch', { entries: [
+      { tick: 3, id: 'profile-c', outcome: 'verified', nextTemp: badNext },
+    ] });
+    assert.equal(bad.status, 400, `expected 400 for nextTemp ${JSON.stringify(badNext)}`);
+  }
+  // A verified entry WITH nextTemp stores it; without, null.
+  const ok = await callDo(index, '/log-batch', { entries: [
+    { tick: 3, id: 'profile-c', outcome: 'verified', day: '2026-12-15', reason: 'chain_holds', nextTemp: { id: 'profile-d', tick: 4 } },
+    { tick: 4, id: 'profile-e', outcome: 'pending' },
+  ] });
+  assert.equal(ok.body.logged, 2);
+  const o2 = await callDo(index, '/outcomes');
+  assert.deepEqual(o2.body.entries[1], { tick: 3, id: 'profile-c', outcome: 'verified', day: '2026-12-15', reason: 'chain_holds', nextTemp: { id: 'profile-d', tick: 4 } });
+  assert.equal(o2.body.entries[2].nextTemp, null);
 });
 
 Date.now = realNow;

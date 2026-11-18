@@ -21,6 +21,8 @@ import {
   genesisReferrerState,
   isTerminalOutcome,
   newActivationRecord,
+  newRotationRecord,
+  newTempId,
   newTempRecord,
   outcomeKey,
   outcomeValue,
@@ -178,7 +180,82 @@ await check('validateTempRecord rejects a bad id, status, tick, window, and veri
   assert.equal('surprise' in v.record, false);
 });
 
-// --- pure logic: the chain check (spec §1.2) ---
+await check('newRotationRecord: referral is the old temp id (never genesis), owner inherited, rotatesFrom set, pending with a 1-year window', async () => {
+  const old = baseRecord({ id: 'profile-old', ownerUserId: 'user-abc' });
+  const rot = newRotationRecord({ oldRecord: old, activationTick: 42, nowMs: T0 });
+  assert.ok(rot.id.startsWith('profile-'), `rotation id must be profile-<uuid>, got ${rot.id}`);
+  assert.notEqual(rot.id, old.id);
+  assert.equal(rot.referralId, 'profile-old');
+  assert.notEqual(rot.referralId, 'ref:genesis');
+  assert.equal(rot.rotatesFrom, 'profile-old');
+  assert.equal(rot.rotationTempId, null);
+  assert.equal(rot.ownerUserId, 'user-abc');
+  assert.equal(rot.activationTick, 42);
+  assert.equal(rot.status, 'temp');
+  assert.equal(rot.verificationState, 'pending');
+  assert.equal(rot.verifiedTick, null);
+  assert.equal(rot.grabDay, null);
+  assert.equal(rot.discarded, false);
+  assert.equal(rot.windowStart, new Date(T0).toISOString());
+  assert.equal(rot.windowEnd, new Date(T0 + YEAR).toISOString());
+  assert.equal(rot.createdAt, new Date(T0).toISOString());
+  assert.equal(validateTempRecord(rot).ok, true);
+  // Two rotations of the same temp get different ids.
+  const rot2 = newRotationRecord({ oldRecord: old, activationTick: 43, nowMs: T0 });
+  assert.notEqual(rot2.id, rot.id);
+  // The crash-repair override keeps the caller's id.
+  const repaired = newRotationRecord({ oldRecord: old, activationTick: 44, nowMs: T0, id: 'profile-repair' });
+  assert.equal(repaired.id, 'profile-repair');
+  assert.equal(repaired.referralId, 'profile-old');
+  assert.equal(validateTempRecord(repaired).ok, true);
+  // An ownerless old temp yields an ownerless rotation (null inherits as null).
+  const orphan = newRotationRecord({ oldRecord: baseRecord({ ownerUserId: null }), activationTick: 45, nowMs: T0 });
+  assert.equal(orphan.ownerUserId, null);
+  assert.equal(validateTempRecord(orphan).ok, true);
+  // newTempId is a fresh profile-<uuid> every call.
+  assert.ok(newTempId().startsWith('profile-'));
+  assert.notEqual(newTempId(), newTempId());
+});
+
+await check('validateTempRecord accepts + preserves rotatesFrom/rotationTempId, rejects non-strings, defaults missing to null', async () => {
+  // Pre-rotation records (no keys at all) validate with both null.
+  const legacy = validateTempRecord(baseRecord());
+  assert.equal(legacy.ok, true);
+  assert.equal(legacy.record.rotatesFrom, null);
+  assert.equal(legacy.record.rotationTempId, null);
+  // Set fields survive validation.
+  const linked = validateTempRecord({ ...baseRecord(), rotatesFrom: 'profile-a', rotationTempId: 'profile-b' });
+  assert.equal(linked.ok, true);
+  assert.equal(linked.record.rotatesFrom, 'profile-a');
+  assert.equal(linked.record.rotationTempId, 'profile-b');
+  // Non-strings are rejected.
+  assert.equal(validateTempRecord({ ...baseRecord(), rotatesFrom: 42 }).ok, false);
+  assert.equal(validateTempRecord({ ...baseRecord(), rotationTempId: 42 }).ok, false);
+  assert.equal(validateTempRecord({ ...baseRecord(), rotatesFrom: '' }).ok, false);
+  assert.equal(validateTempRecord({ ...baseRecord(), rotationTempId: '' }).ok, false);
+  // newTempRecord carries both fields (null by default, settable).
+  assert.equal(baseRecord().rotatesFrom, null);
+  assert.equal(baseRecord().rotationTempId, null);
+});
+
+await check('TempRecord /rotate sets rotationTempId once, is idempotent, 404 on empty, 400 on bad id', async () => {
+  const d = new TempRecord(fakeState());
+  assert.equal((await call(d, '/rotate', { rotationTempId: 'profile-x' })).status, 404);
+  await call(d, '/put', { record: baseRecord() });
+  assert.equal((await call(d, '/rotate', { rotationTempId: '' })).status, 400);
+  assert.equal((await call(d, '/rotate', {})).status, 400);
+  const first = await call(d, '/rotate', { rotationTempId: 'profile-new' });
+  assert.equal(first.status, 200);
+  assert.equal(first.body.already, false);
+  assert.equal(first.body.record.rotationTempId, 'profile-new');
+  // A second /rotate with a DIFFERENT id reuses the first — never forks.
+  const second = await call(d, '/rotate', { rotationTempId: 'profile-other' });
+  assert.equal(second.status, 200);
+  assert.equal(second.body.already, true);
+  assert.equal(second.body.record.rotationTempId, 'profile-new');
+  const got = await call(d, '/get');
+  assert.equal(got.body.record.rotationTempId, 'profile-new');
+});
 
 await check('checkChain verifies when the chain holds (referrer verified)', async () => {
   assert.deepEqual(checkChain(baseRecord(), T0, 'verified'), {
@@ -408,16 +485,17 @@ await check('TempIndex /log + /outcomes keep the causal record in tick order; sk
   assert.equal(bad.status, 400);
   const o = await call(d, '/outcomes');
   // Entries logged without day/reason read back null for both
-  // (the legacy plain-outcome shape).
+  // (the legacy plain-outcome shape) — and nextTemp null (no
+  // rotation was logged with them).
   assert.deepEqual(o.body.entries, [
-    { tick: 42, id: 'profile-a', outcome: 'verified', day: null, reason: null },
-    { tick: 42, id: 'profile-b', outcome: 'pending', day: null, reason: null },
-    { tick: 43, id: 'profile-c', outcome: 'expired', day: null, reason: null },
+    { tick: 42, id: 'profile-a', outcome: 'verified', day: null, reason: null, nextTemp: null },
+    { tick: 42, id: 'profile-b', outcome: 'pending', day: null, reason: null, nextTemp: null },
+    { tick: 43, id: 'profile-c', outcome: 'expired', day: null, reason: null, nextTemp: null },
   ]);
   // Day + reason ride the log when supplied.
   await call(d, '/log', { tick: 44, id: 'profile-e', outcome: 'verified', day: '2026-11-15', reason: 'genesis_root' });
   const o2 = await call(d, '/outcomes');
-  assert.deepEqual(o2.body.entries[3], { tick: 44, id: 'profile-e', outcome: 'verified', day: '2026-11-15', reason: 'genesis_root' });
+  assert.deepEqual(o2.body.entries[3], { tick: 44, id: 'profile-e', outcome: 'verified', day: '2026-11-15', reason: 'genesis_root', nextTemp: null });
   const s = await call(d, '/status');
   assert.equal(s.body.queued, 0);
   assert.equal(s.body.logged, 4); // 3 plain + the day/reason entry above
@@ -565,15 +643,33 @@ await check('owner binding: newTempRecord carries ownerUserId; validateTempRecor
 });
 await check('outcomeValue/parseOutcomeValue: JSON round-trips day + reason; legacy plain strings still read', () => {
   const v = outcomeValue('verified', '2026-11-16', 'genesis_root');
-  assert.deepEqual(parseOutcomeValue(v), { outcome: 'verified', day: '2026-11-16', reason: 'genesis_root' });
-  assert.deepEqual(parseOutcomeValue(outcomeValue('pending', null, null)), { outcome: 'pending', day: null, reason: null });
+  assert.deepEqual(parseOutcomeValue(v), { outcome: 'verified', day: '2026-11-16', reason: 'genesis_root', nextTemp: null });
+  assert.deepEqual(parseOutcomeValue(outcomeValue('pending', null, null)), { outcome: 'pending', day: null, reason: null, nextTemp: null });
   // Legacy plain-outcome values (written by 0.6.0) read as outcome-only.
-  assert.deepEqual(parseOutcomeValue('verified'), { outcome: 'verified', day: null, reason: null });
-  assert.deepEqual(parseOutcomeValue('not_verified'), { outcome: 'not_verified', day: null, reason: null });
+  assert.deepEqual(parseOutcomeValue('verified'), { outcome: 'verified', day: null, reason: null, nextTemp: null });
+  assert.deepEqual(parseOutcomeValue('not_verified'), { outcome: 'not_verified', day: null, reason: null, nextTemp: null });
   // Garbage is never an outcome.
-  assert.deepEqual(parseOutcomeValue('bogus'), { outcome: null, day: null, reason: null });
-  assert.deepEqual(parseOutcomeValue('{"o":"bogus","d":"2026-11-16","r":"x"}'), { outcome: null, day: '2026-11-16', reason: 'x' });
-  assert.deepEqual(parseOutcomeValue(null), { outcome: null, day: null, reason: null });
+  assert.deepEqual(parseOutcomeValue('bogus'), { outcome: null, day: null, reason: null, nextTemp: null });
+  assert.deepEqual(parseOutcomeValue('{"o":"bogus","d":"2026-11-16","r":"x"}'), { outcome: null, day: '2026-11-16', reason: 'x', nextTemp: null });
+  assert.deepEqual(parseOutcomeValue(null), { outcome: null, day: null, reason: null, nextTemp: null });
+});
+
+await check('outcomeValue/parseOutcomeValue: nextTemp round-trips when given, is omitted otherwise, malformed reads as null', () => {
+  const v = outcomeValue('verified', '2026-11-17', 'chain_holds', { id: 'profile-next', tick: 42 });
+  assert.equal(JSON.parse(v).n.id, 'profile-next');
+  assert.equal(JSON.parse(v).n.tick, 42);
+  assert.deepEqual(parseOutcomeValue(v), { outcome: 'verified', day: '2026-11-17', reason: 'chain_holds', nextTemp: { id: 'profile-next', tick: 42 } });
+  // No nextTemp, no "n" key — old readers see the old shape.
+  assert.equal('n' in JSON.parse(outcomeValue('verified', '2026-11-17', 'chain_holds')), false);
+  assert.equal('n' in JSON.parse(outcomeValue('verified', '2026-11-17', 'chain_holds', null)), false);
+  // A malformed nextTemp is dropped on write, and reads as null.
+  assert.equal('n' in JSON.parse(outcomeValue('verified', null, null, { id: '', tick: 1 })), false);
+  assert.equal('n' in JSON.parse(outcomeValue('verified', null, null, { id: 'profile-x', tick: -1 })), false);
+  assert.equal('n' in JSON.parse(outcomeValue('verified', null, null, { id: 'profile-x', tick: 1.5 })), false);
+  assert.deepEqual(parseOutcomeValue('{"o":"verified","d":null,"r":null,"n":{"id":"","tick":1}}'), { outcome: 'verified', day: null, reason: null, nextTemp: null });
+  assert.deepEqual(parseOutcomeValue('{"o":"verified","d":null,"r":null,"n":"profile-x"}'), { outcome: 'verified', day: null, reason: null, nextTemp: null });
+  // Legacy values (no "n" at all) read nextTemp null.
+  assert.deepEqual(parseOutcomeValue('{"o":"verified","d":"2026-11-16","r":"genesis_root"}'), { outcome: 'verified', day: '2026-11-16', reason: 'genesis_root', nextTemp: null });
 });
 
 Date.now = realNow;

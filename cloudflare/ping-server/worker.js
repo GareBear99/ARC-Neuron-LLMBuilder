@@ -167,6 +167,7 @@ import {
   genesisReferrerState,
   isTerminalOutcome,
   newActivationRecord,
+  newRotationRecord,
   outcomeKey,
   outcomeValue,
   parseOutcomeKey,
@@ -202,7 +203,7 @@ import {
 
 const DEFAULT_MODEL = '@cf/meta/llama-3.2-1b-instruct';
 const SERVICE = 'lucid-ping-server';
-const VERSION = '0.7.0';
+const VERSION = '0.8.0';
 
 /**
  * All Workers AI text-generation models the ping server serves.
@@ -581,6 +582,13 @@ export class PingProgress {
  *          the outcome (verified stamps verifiedTick/grabDay once,
  *          never re-numbered). No record stored -> 404.
  *          Returns { outcome, reason, record }.
+ *   /rotate { rotationTempId } — store the rotation pointer
+ *          (FixNet temp rotation, design D2): this record yields
+ *          the temp `rotationTempId` once verified. Set once,
+ *          never overwritten — a re-run returns the existing
+ *          pointer ({ already: true }) instead of forking a
+ *          second rotation. No record stored -> 404; bad id ->
+ *          400. Returns { ok, record, already }.
  */
 export class TempRecord {
   constructor(state) {
@@ -658,6 +666,50 @@ export class TempRecord {
       );
     }
 
+    if (url.pathname === '/rotate') {
+      let body = {};
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(JSON.stringify({ ok: false, error: 'invalid JSON body' }), {
+          status: 400,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const record = (await this.state.storage.get('record')) || null;
+      if (!record) {
+        return new Response(JSON.stringify({ ok: false, error: 'no record stored' }), {
+          status: 404,
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const rotationTempId = body.rotationTempId;
+      if (typeof rotationTempId !== 'string' || !rotationTempId) {
+        return new Response(
+          JSON.stringify({ ok: false, error: 'rotationTempId must be a non-empty string' }),
+          {
+            status: 400,
+            headers: { 'content-type': 'application/json' },
+          },
+        );
+      }
+      // The pointer is set once, never overwritten: a re-run
+      // (a chunk that crashed after /rotate, or the backfill
+      // endpoint) reuses the existing rotation instead of
+      // forking a second one. The caller reads `record` for
+      // the existing pointer.
+      if (record.rotationTempId) {
+        return new Response(JSON.stringify({ ok: true, record, already: true }), {
+          headers: { 'content-type': 'application/json' },
+        });
+      }
+      const next = { ...record, rotationTempId };
+      await this.state.storage.put('record', next);
+      return new Response(JSON.stringify({ ok: true, record: next, already: false }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    }
+
     return new Response(JSON.stringify({ ok: false, error: 'unknown temp record route' }), {
       status: 404,
       headers: { 'content-type': 'application/json' },
@@ -713,11 +765,14 @@ export class TempRecord {
  *            (it is the manual single-entry route, not a grab
  *            step).
  *   /log-batch { entries: [{ tick, id, outcome, referralId?,
- *            day?, reason? }] }
+ *            day?, reason?, nextTemp? }] }
  *            — batch outcome writes (one call per chunk page
  *            instead of one per record). Idempotent by key; a
  *            bad entry rejects the whole batch (400, nothing
- *            written). DISCARD: for every entry whose outcome is
+ *            written). nextTemp {id, tick} (FixNet temp rotation,
+ *            design D4) rides a verified outcome — it is stored
+ *            in the outcome value, so the publish can put
+ *            next_temp on the verified status entry. DISCARD: for every entry whose outcome is
  *            terminal (verified / not_verified / expired), the
  *            batch ALSO rewrites that tick's queue value as
  *            `id|referralId|done:<outcome>` — the queue entry is
@@ -735,15 +790,23 @@ export class TempRecord {
  *            written to the outcome log, but the queue entry is
  *            marked done:verified — without this, a crashed
  *            chunk's records would be re-walked every night
- *            forever. referralId, when the caller supplies it
+ *            forever. EXCEPTION (rotation, design D3): a skip
+ *            carrying nextTemp DOES write a log entry — as
+ *            'verified' with reason 'already_verified' — because
+ *            the crash that produced the skip also means the log
+ *            has no verified entry for this temp yet, and the
+ *            publish must still learn its next_temp. A skip
+ *            without nextTemp writes nothing, as before.
+ *            referralId, when the caller supplies it
  *            (the driver does), avoids a storage read for the
  *            marking; when omitted, the handler reads the stored
  *            queue value instead.
  *   /outcomes — read-only: { entries: [{ tick, id, outcome,
- *            day, reason }] } in tick order (the stored order is
+ *            day, reason, nextTemp }] } in tick order (the stored order is
  *            the key order, which is tick order). day/reason
  *            are null for entries logged before they were
- *            recorded (legacy plain-outcome values).
+ *            recorded (legacy plain-outcome values); nextTemp is
+ *            null when the outcome carried no rotation.
  *            in tick order. Never creates state.
  *   /status — read-only: { queued, done, logged } counts.
  *            queued counts every queue key (live + discarded);
@@ -917,7 +980,8 @@ export class TempIndex {
       // Validate everything first: a bad entry rejects the whole
       // batch and nothing is written. 'skip' is accepted as
       // marking-only (see below) — it is not an outcome and is
-      // never written to the outcome log.
+      // never written to the outcome log, EXCEPT a skip carrying
+      // nextTemp (rotation crash repair — see the write loop).
       for (const e of entries) {
         if (
           !e ||
@@ -930,10 +994,19 @@ export class TempIndex {
           !['verified', 'pending', 'not_verified', 'expired', 'skip'].includes(e.outcome) ||
           (e.referralId !== undefined && e.referralId !== null && typeof e.referralId !== 'string') ||
           (e.day !== undefined && e.day !== null && typeof e.day !== 'string') ||
-          (e.reason !== undefined && e.reason !== null && typeof e.reason !== 'string')
+          (e.reason !== undefined && e.reason !== null && typeof e.reason !== 'string') ||
+          (e.nextTemp !== undefined &&
+            e.nextTemp !== null &&
+            (typeof e.nextTemp !== 'object' ||
+              Array.isArray(e.nextTemp) ||
+              typeof e.nextTemp.id !== 'string' ||
+              !e.nextTemp.id ||
+              typeof e.nextTemp.tick !== 'number' ||
+              !Number.isInteger(e.nextTemp.tick) ||
+              e.nextTemp.tick < 0))
         ) {
           return new Response(
-            JSON.stringify({ ok: false, error: 'each entry needs tick, id and an outcome (verified|pending|not_verified|expired|skip); referralId, day and reason, when present, must be strings or null' }),
+            JSON.stringify({ ok: false, error: 'each entry needs tick, id and an outcome (verified|pending|not_verified|expired|skip); referralId, day and reason, when present, must be strings or null; nextTemp, when present, must be {id, tick} or null' }),
             { status: 400, headers: { 'content-type': 'application/json' } },
           );
         }
@@ -941,11 +1014,23 @@ export class TempIndex {
       // Idempotent by key (same key overwrites) — a re-run chunk
       // re-logs the same outcomes and changes nothing. 'skip'
       // entries write nothing to the log (nothing happened this
-      // grab — the record was already verified).
+      // grab — the record was already verified), EXCEPT a skip
+      // carrying nextTemp: that skip means the record was
+      // verified by an earlier grab whose /log-batch never
+      // landed, so the log has no verified entry for it — write
+      // one now as 'verified' (the record IS verified; the
+      // reason rides the entry as 'already_verified'), so the
+      // publish still learns its next_temp.
       let logged = 0;
       for (const e of entries) {
-        if (e.outcome === 'skip') continue;
-        await this.state.storage.put(outcomeKey(e.tick, e.id), outcomeValue(e.outcome, e.day ?? null, e.reason ?? null));
+        if (e.outcome === 'skip') {
+          if (e.nextTemp) {
+            await this.state.storage.put(outcomeKey(e.tick, e.id), outcomeValue('verified', e.day ?? null, e.reason ?? null, e.nextTemp));
+            logged += 1;
+          }
+          continue;
+        }
+        await this.state.storage.put(outcomeKey(e.tick, e.id), outcomeValue(e.outcome, e.day ?? null, e.reason ?? null, e.nextTemp ?? null));
         logged += 1;
       }
       // DISCARD: a terminal outcome discards the queue entry
@@ -987,9 +1072,9 @@ export class TempIndex {
       for (const [key, value] of await this.state.storage.list({ prefix: 'o:' })) {
         const parsed = parseOutcomeKey(key);
         if (!parsed) continue;
-        const { outcome, day, reason } = parseOutcomeValue(value);
+        const { outcome, day, reason, nextTemp } = parseOutcomeValue(value);
         if (!outcome) continue;
-        entries.push({ tick: parsed.tick, id: parsed.id, outcome, day, reason });
+        entries.push({ tick: parsed.tick, id: parsed.id, outcome, day, reason, nextTemp: nextTemp ?? null });
       }
       return new Response(JSON.stringify({ ok: true, entries }), {
         headers: { 'content-type': 'application/json' },
@@ -1037,6 +1122,11 @@ export class TempIndex {
  *          the existing state for that day (idempotent: a
  *          second start returns the in-progress cursor; a start
  *          for a finished day returns the finished state).
+ *          Snapshots maxTick from the tick counter (the highest
+ *          tick assigned so far): the grab walks ticks up to
+ *          maxTick only, so rotation temps created BY this grab
+ *          (later ticks) wait for the next grab — see
+ *          newGrabState in grab.js.
  *   /advance { state } — persist the state after a chunk.
  *          The cursor must not move backward (a stale writer is
  *          a 409); tallies must not shrink. Bad shape -> 400.
@@ -1092,7 +1182,19 @@ export class GrabState {
         body.shardWidth >= 1
           ? body.shardWidth
           : GRAB_SHARD_WIDTH;
-      const state = newGrabState(body.grabDay, Date.now(), shardWidth);
+      // Rotation bound (FixNet temp rotation): snapshot the
+      // highest tick assigned so far (the counter holds the
+      // NEXT tick to assign) — the grab walks ticks up to
+      // maxTick only. Rotations created by THIS grab take later
+      // ticks and are walked by the NEXT grab; without the
+      // snapshot the grab would never exhaust (each verified
+      // rotation enqueues a new tick inside the shard
+      // remainder). A temp activated mid-grab likewise waits
+      // for the next day's grab — the bound makes that
+      // deterministic instead of chunk-timing-dependent.
+      const nextTickCounter = (await this.state.storage.get('nextActivationTick')) ?? 1;
+      const maxTick = nextTickCounter - 1;
+      const state = newGrabState(body.grabDay, Date.now(), shardWidth, maxTick);
       await this.state.storage.put('grab', state);
       return new Response(JSON.stringify({ ok: true, state, resumed: false }), {
         headers: { 'content-type': 'application/json' },
@@ -1949,6 +2051,80 @@ function grabStateStub(env) {
 }
 
 /**
+ * Ensure a rotation temp exists for a verified temp (FixNet temp
+ * rotation, design D2/D3). Returns { id, tick, created } — the
+ * rotation temp's id + its activation tick, and whether this call
+ * created it. Idempotent: when oldRecord.rotationTempId is
+ * already set, the existing rotation is REUSED, never duplicated.
+ *
+ * Create path (no rotation yet): a tick from GrabState
+ * /next-tick, the pointer stored on the old record FIRST
+ * (TempRecord /rotate), then the rotation record (/put) and its
+ * queue entry (/enqueue). Pointer-first so a crash after this
+ * point always leaves the rotation id recoverable — the reuse
+ * path below — instead of an orphaned rotation record.
+ *
+ * Reuse path (rotationTempId set): the rotation record is read
+ * for its tick and re-enqueued (idempotent by key — repairs a
+ * crash between /put and /enqueue). If the record is missing (a
+ * crash between /rotate and /put), it is rebuilt under the SAME
+ * id with a fresh tick and enqueued — the id is the pointer, the
+ * tick is re-allocated (the lost tick is a hole, which the
+ * range-based queue paging tolerates, as /temp/activate already
+ * proves).
+ *
+ * The new temp's referralId is the old temp's id (the chain
+ * resolves the referrer as verified → 'chain_holds' on the next
+ * grab); NEVER 'ref:genesis' (that would be genesis_not_root →
+ * not_verified). ownerUserId is inherited from the old temp (the
+ * SP grant stays on the profile-id bucket). Guests never reach
+ * here — the caller only rotates verified / skipped records,
+ * and a guest temp never verifies.
+ *
+ * shardWidth is the grab's configured index width (the driver's
+ * state.shardWidth): the rotation's queue entry must land in the
+ * shard the next grab walks under that width. Production always
+ * uses the default (GRAB_SHARD_WIDTH); the parameter exists so
+ * a narrow-width test grab finds its rotations.
+ */
+async function ensureRotation(env, oldRecord, nowMs, shardWidth = GRAB_SHARD_WIDTH) {
+  if (oldRecord.rotationTempId) {
+    const existing = await doJson(tempRecordStub(env, oldRecord.rotationTempId), '/get');
+    if (existing.record) {
+      await doJson(tempIndexStub(env, shardForTick(existing.record.activationTick, shardWidth)), '/enqueue', {
+        activationTick: existing.record.activationTick,
+        id: existing.record.id,
+        referralId: existing.record.referralId,
+      });
+      return { id: existing.record.id, tick: existing.record.activationTick, created: false };
+    }
+    const { tick } = await doJson(grabStateStub(env), '/next-tick', {});
+    const rebuilt = newRotationRecord({ oldRecord, activationTick: tick, nowMs, id: oldRecord.rotationTempId });
+    const { ok, record, error } = validateTempRecord(rebuilt);
+    if (!ok) throw new Error(`rotation record failed validation: ${error}`);
+    await doJson(tempRecordStub(env, record.id), '/put', { record });
+    await doJson(tempIndexStub(env, shardForTick(tick, shardWidth)), '/enqueue', {
+      activationTick: tick,
+      id: record.id,
+      referralId: record.referralId,
+    });
+    return { id: record.id, tick, created: false };
+  }
+  const { tick } = await doJson(grabStateStub(env), '/next-tick', {});
+  const built = newRotationRecord({ oldRecord, activationTick: tick, nowMs });
+  const { ok, record, error } = validateTempRecord(built);
+  if (!ok) throw new Error(`rotation record failed validation: ${error}`);
+  await doJson(tempRecordStub(env, oldRecord.id), '/rotate', { rotationTempId: record.id });
+  await doJson(tempRecordStub(env, record.id), '/put', { record });
+  await doJson(tempIndexStub(env, shardForTick(tick, shardWidth)), '/enqueue', {
+    activationTick: tick,
+    id: record.id,
+    referralId: record.referralId,
+  });
+  return { id: record.id, tick, created: true };
+}
+
+/**
  * Run ONE chunk of the grab from a grab state. Pure driver over
  * the DO bindings: pages the current shard's queue-remainder,
  * applies the chain check per record in tick-order batches, logs
@@ -1982,6 +2158,44 @@ async function runGrabChunk(env, state, opts = {}) {
     fromTick = startTick;
   }
 
+  // Rotation bound (FixNet temp rotation): the grab walks ticks
+  // up to state.maxTick ONLY — the highest tick that existed
+  // when the grab started (snapshotted by /start). Rotation
+  // temps created by THIS grab, and temps activated mid-grab,
+  // carry later ticks and wait for the next grab. When the
+  // cursor has walked through maxTick, the grab is done — the
+  // bound, not an empty page, proves exhaustion for this grab.
+  // A legacy state (maxTick null) walks unbounded, as before.
+  const maxTick = typeof state.maxTick === 'number' ? state.maxTick : null;
+  if (maxTick !== null && fromTick > maxTick) {
+    const nextState = {
+      ...state,
+      shard,
+      nextTick: state.nextTick,
+      tallies: { ...state.tallies },
+      updatedAtMs: Date.now(),
+      done: true,
+      capHit: false,
+      doneReason: 'exhausted',
+    };
+    return {
+      state: nextState,
+      chunk: {
+        shard,
+        startTick: fromTick,
+        endTick: fromTick - 1,
+        records: 0,
+        verified: 0,
+        shardExhausted: true,
+        capHit: false,
+      },
+      done: true,
+      doneReason: 'exhausted',
+      capHit: false,
+    };
+  }
+  const walkEnd = maxTick === null ? shardEnd : Math.min(shardEnd, maxTick);
+
   // Page the shard remainder [fromTick, shardEnd], collecting up
   // to chunkRecords entries. The shard remainder is exhausted
   // only when BOTH hold: the last page was short (nothing more
@@ -1992,10 +2206,10 @@ async function runGrabChunk(env, state, opts = {}) {
   const entries = [];
   let pageStart = fromTick;
   let shardExhausted = false;
-  while (entries.length < chunkRecords && pageStart <= shardEnd) {
+  while (entries.length < chunkRecords && pageStart <= walkEnd) {
     const page = await doJson(tempIndexStub(env, shard), '/queue-range', {
       startTick: pageStart,
-      endTick: shardEnd,
+      endTick: walkEnd,
       limit: GRAB_QUEUE_PAGE,
     });
     for (const e of page.entries) {
@@ -2018,7 +2232,7 @@ async function runGrabChunk(env, state, opts = {}) {
     entries.length = chunkRecords;
     truncated = true;
   }
-  if (pageStart > shardEnd) shardExhausted = true;
+  if (pageStart > walkEnd) shardExhausted = true;
   if (truncated) shardExhausted = false;
 
   const tallies = { ...state.tallies };
@@ -2078,7 +2292,10 @@ async function runGrabChunk(env, state, opts = {}) {
           // outcome log so the publish can say why, not just
           // what. The owner is the per-install id that activated
           // the temp — the SP grant lands on that install only.
+          // The record rides along so the results loop can read
+          // rotationTempId without a second /get.
           reason: typeof applied.reason === 'string' ? applied.reason : null,
+          record: applied.record,
           ownerUserId:
             applied.record && typeof applied.record.ownerUserId === 'string'
               ? applied.record.ownerUserId
@@ -2086,19 +2303,42 @@ async function runGrabChunk(env, state, opts = {}) {
         };
       }),
     );
-    for (const { entry, outcome, reason, ownerUserId } of results) {
+    for (const { entry, outcome, reason, record, ownerUserId } of results) {
       tallies.checked += 1;
       // The outcome is 'skip'; the tally key is 'skipped' —
       // tallies['skip'] would be NaN (and null after JSON).
       tallies[outcome === 'skip' ? 'skipped' : outcome] += 1;
       processed += 1;
+      // Rotation (FixNet temp rotation, design D2/D3): a
+      // verified temp yields its successor HERE, in the grab —
+      // on fresh 'verified' AND on 'skip' (crash recovery: a
+      // chunk that crashed before its /log-batch re-processes a
+      // verified record whose rotation may not exist yet).
+      // ensureRotation is idempotent — a rotationTempId that is
+      // already set is REUSED, never duplicated. Sequential,
+      // one record at a time: the tick allocation (/next-tick)
+      // must never race, and the fake test DO interleaves
+      // concurrent calls where the real DO serializes — the
+      // driver must be correct in both. Cost, stated: ~4 extra
+      // subrequests per verified record (next-tick, /rotate,
+      // /put, /enqueue) — the chunk sizing (GRAB_CHUNK_RECORDS)
+      // was measured without rotations and needs re-measuring
+      // at the step-6 edge check. The nextTemp rides the
+      // outcome entry so /log-batch logs it and the publish +
+      // client can follow the chain.
+      let nextTemp = null;
+      if (outcome === 'verified' || outcome === 'skip') {
+        const rotation = await ensureRotation(env, record, nowMs, shardWidth);
+        nextTemp = { id: rotation.id, tick: rotation.tick };
+      }
       // Every outcome rides /log-batch — including 'skip', which
       // /log-batch takes as marking-only (done:verified, no log
       // write): a skipped record was verified by an earlier grab,
       // or by a chunk that crashed before its /log-batch. The
       // referralId rides along so the marking never needs a
-      // storage read for it.
-      outcomes.push({ tick: entry.activationTick, id: entry.id, outcome, referralId: entry.referralId ?? null, day: grabDay, reason: reason ?? null });
+      // storage read for it. EXCEPTION: a skip carrying nextTemp
+      // DOES write a log entry (as 'verified') — see /log-batch.
+      outcomes.push({ tick: entry.activationTick, id: entry.id, outcome, referralId: entry.referralId ?? null, day: grabDay, reason: reason ?? null, nextTemp });
       // A refused genesis claim is worth a log line: a temp
       // claimed the root and was not the root tick. (It fires
       // here, on the outcome, not at resolution — an
@@ -2358,9 +2598,12 @@ async function handleGrabGet(request, env) {
  * the publish reads the rest by shard.
  *
  * Response: { ok, grabDay, shards, truncated, outcomes:
- * [{ tick, id, outcome, day, reason }] } — one entry per temp
+ * [{ tick, id, outcome, day, reason, next_temp }] } — one entry per temp
  * (latest outcome wins in the log), in tick order. day/reason
  * are null for entries logged before they were recorded.
+ * next_temp {id, tick} is the rotation temp the grab created for
+ * a verified temp (design D4), or null — the publish puts it on
+ * the verified status entry and the client rotates to it.
  */
 async function handleGrabOutcomes(request, env) {
   if (!authorized(request, env)) {
@@ -2390,7 +2633,14 @@ async function handleGrabOutcomes(request, env) {
     if (!res.ok || !Array.isArray(res.entries)) continue;
     for (const e of res.entries) {
       if (dayFilter && e.day !== dayFilter) continue;
-      outcomes.push(e);
+      outcomes.push({
+        tick: e.tick,
+        id: e.id,
+        outcome: e.outcome,
+        day: e.day,
+        reason: e.reason,
+        next_temp: e.nextTemp ?? null,
+      });
     }
   }
   outcomes.sort((a, b) => a.tick - b.tick);
@@ -2400,6 +2650,61 @@ async function handleGrabOutcomes(request, env) {
     shards: shards.length,
     truncated,
     outcomes,
+  });
+}
+
+/**
+ * POST /admin/rotate — backfill a rotation for an already-verified
+ * temp (FixNet temp rotation, design D3). The grab's chunk walk
+ * SKIPS done queue entries, so a temp verified before rotation
+ * existed (Genesis, verified 2026-11-17) never re-enters the walk
+ * — this one-time endpoint creates its rotation instead. Admin
+ * key only. Body { id }.
+ *
+ * Returns { ok, id, next_temp: { id, tick }, created }: created
+ * true when this call created the rotation, false when one
+ * already existed (idempotent — the existing rotation is
+ * returned). 400 when the temp exists but is not verified (only
+ * a verified temp yields a rotation; guests never verify), 404
+ * when no such temp exists.
+ *
+ * Body { id, shardWidth? }: shardWidth is the index width the
+ * next grab will walk (the /admin/grab test hook); it defaults
+ * to the production width. Production callers omit it.
+ */
+async function handleRotatePost(request, env) {
+  if (!authorized(request, env)) {
+    return errorResponse(401, 'unauthorized: missing or wrong x-lucid-ping-key');
+  }
+  let body = {};
+  try {
+    body = await request.json();
+  } catch {
+    return errorResponse(400, 'invalid JSON body');
+  }
+  const id = body.id;
+  if (typeof id !== 'string' || !id) {
+    return errorResponse(400, 'id must be a non-empty string');
+  }
+  const shardWidth =
+    typeof body.shardWidth === 'number' &&
+    Number.isInteger(body.shardWidth) &&
+    body.shardWidth >= 1
+      ? body.shardWidth
+      : GRAB_SHARD_WIDTH;
+  const got = await doJson(tempRecordStub(env, id), '/get');
+  if (!got.record) {
+    return errorResponse(404, 'no such temp');
+  }
+  if (got.record.verificationState !== 'verified') {
+    return errorResponse(400, 'temp is not verified');
+  }
+  const rotation = await ensureRotation(env, got.record, Date.now(), shardWidth);
+  return jsonResponse(200, {
+    ok: true,
+    id,
+    next_temp: { id: rotation.id, tick: rotation.tick },
+    created: rotation.created,
   });
 }
 
@@ -2632,6 +2937,7 @@ export default {
           'POST /admin/grab',
           'GET /admin/grab',
           'GET /admin/grab-outcomes',
+          'POST /admin/rotate',
           'POST /temp/activate',
         ],
         temp: {
@@ -2685,6 +2991,13 @@ export default {
 
     if (url.pathname === '/admin/grab-outcomes' && request.method === 'GET') {
       return handleGrabOutcomes(request, env);
+    }
+
+    // Rotation backfill (FixNet temp rotation, design D3 — the
+    // one-time endpoint for already-verified temps that never
+    // re-enter the grab walk). Admin key only; 0 neurons, 0 SP.
+    if (url.pathname === '/admin/rotate' && request.method === 'POST') {
+      return handleRotatePost(request, env);
     }
 
     // Per-install key registration (Fix 2 — the default ping

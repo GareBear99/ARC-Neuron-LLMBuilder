@@ -201,13 +201,26 @@ export function newGrabTallies() {
  * used — a state validated against the production width while
  * the driver ran a narrower one would reject every cursor past
  * shard 0. The width is fixed per grab; changing it mid-grab
- * is unsupported. */
-export function newGrabState(grabDay, nowMs = Date.now(), shardWidth = GRAB_SHARD_WIDTH) {
+ * is unsupported.
+ *
+ * maxTick (FixNet temp rotation): the highest activation tick
+ * that existed when the grab started, snapshotted by /start
+ * from the GrabState tick counter. The grab walks ticks up to
+ * maxTick ONLY — rotation temps created BY this grab carry
+ * later ticks and are walked by the NEXT grab, which is the
+ * design's cycle (T2 verifies on the next grab, not this one).
+ * Without the bound, each verified rotation would enqueue a
+ * new tick inside the shard remainder and the grab would never
+ * exhaust (every chunk's verifications extend the walk by one
+ * chunk). Null on a legacy state (pre-rotation) means
+ * unbounded — the old behaviour. */
+export function newGrabState(grabDay, nowMs = Date.now(), shardWidth = GRAB_SHARD_WIDTH, maxTick = null) {
   return {
     grabDay,
     shard: 0,
     nextTick: 1,
     shardWidth,
+    maxTick,
     tallies: newGrabTallies(),
     startedAtMs: nowMs,
     updatedAtMs: nowMs,
@@ -238,6 +251,15 @@ export function validateGrabState(state) {
   ) {
     return { ok: false, error: 'shardWidth must be a positive integer' };
   }
+  if (
+    state.maxTick !== undefined &&
+    state.maxTick !== null &&
+    (typeof state.maxTick !== 'number' ||
+      !Number.isInteger(state.maxTick) ||
+      state.maxTick < 0)
+  ) {
+    return { ok: false, error: 'maxTick must be a non-negative integer or null' };
+  }
   if (!state.tallies || typeof state.tallies !== 'object') {
     return { ok: false, error: 'tallies must be an object' };
   }
@@ -263,6 +285,7 @@ export function validateGrabState(state) {
       nextTick: state.nextTick,
       shardWidth:
         typeof state.shardWidth === 'number' ? state.shardWidth : GRAB_SHARD_WIDTH,
+      maxTick: typeof state.maxTick === 'number' ? state.maxTick : null,
       tallies: { ...state.tallies },
       startedAtMs: state.startedAtMs,
       updatedAtMs: state.updatedAtMs,
